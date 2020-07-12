@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
-import { push } from 'connected-react-router'
 
 import { showLoader, hideLoader } from "../../reducers/actions"
 import { selectTemplate } from "../../reducers/actions/templateActions"
@@ -28,8 +27,7 @@ function Home({ dispatch, loading, templates }) {
       </button>
       <button
         onClick={() => {
-          // getPushPathWrapper('designerStudio')
-          dispatch(push("/designerStudio"))
+          dispatch(getPushPathWrapper('designerStudio'))
         }}
       >
         Open studio

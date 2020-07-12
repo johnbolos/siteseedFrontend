@@ -5,7 +5,6 @@ import { Route, Link, Redirect, Switch } from 'react-router-dom'
 
 import routes from '../../routes'
 import GlobalLayoutWrapper from "../../layout/globalLayoutWrapper"
-import logo from './logo.svg';
 import './index.scss';
 
 class App extends Component {
