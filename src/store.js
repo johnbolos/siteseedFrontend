@@ -1,30 +1,31 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import thunk from 'redux-thunk'
-import { createBrowserHistory as createHistory } from 'history'
-import createRootReducer from './reducers'
-import { persistStore, persistReducer } from 'redux-persist'
+import { persistStore, persistReducer } from "redux-persist"
 import storage from 'redux-persist/lib/storage'
-
-export const history = createHistory()
+import {createHashHistory} from 'history'
+import rootReducer from './reducers'
+const createHistory = createHashHistory
+export const history =  createHistory()
 
 const initialState = {}
 const enhancers = []
 const middleware = [thunk, routerMiddleware(history)]
 
+if (process.env.NODE_ENV === 'development') {
+  const devToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__
+
+  if (typeof devToolsExtension === 'function') {
+    enhancers.push(devToolsExtension())
+  }
+}
+
+
 let persistConfig = {
   key: 'root',
   storage
 }
-const persistedReducer = persistReducer(persistConfig, createRootReducer(history))
-
-// if (process.env.NODE_ENV === 'development') {
-//   const devToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__
-
-//   if (typeof devToolsExtension === 'function') {
-//     enhancers.push(devToolsExtension())
-//   }
-// }
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const composedEnhancers = compose(
   applyMiddleware(...middleware),
@@ -33,7 +34,7 @@ const composedEnhancers = compose(
 
 export default () => {
   let store = createStore(
-    persistedReducer,
+    connectRouter(history)(persistedReducer),
     initialState,
     composedEnhancers
   )

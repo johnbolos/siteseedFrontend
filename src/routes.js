@@ -1,35 +1,32 @@
 import { lazy } from 'react'
 import _ from 'lodash'
 import { push } from 'connected-react-router'
-import { Path } from 'path-parser'
+import Path from 'path-parser'
 
 import Home from './containers/home'
-// import DesignerStudio from './containers/designerStudio'
+import DesignerStudio from './containers/designerStudio'
 // const Undercons = lazy(() => import('./containers/undercons'))
 
 const routes = [
   {
-    'path': '/',
+    'path': '/home',
     'name': 'Home Page',
     'icon': 'home',
     'key': 'home',
-    'navBarHidden': true,
+    'showNavBar': true,
     'homepage': true,
     'component': Home,
     'authority': []
   },
-  // {
-  //     'path': '/designerStudio',
-  //     'name': 'Designer Studio',
-  //     'icon': 'pencil',
-  //     'key': 'designerStudio',
-  //     'authority': [
-  //         'client'
-  //     ],
-  //     // 'navBarHidden': true,
-  //     // 'homepage': true,
-  //     'component': DesignerStudio
-  // },
+  {
+    'path': '/designerStudio',
+    'name': 'Designer Studio',
+    'icon': 'pencil',
+    'key': 'designerStudio',
+    'authority': [],
+    // 'homepage': true,
+    'component': DesignerStudio
+  },
   {
     'path': '/settings',
     'name': 'Settings',
@@ -87,10 +84,11 @@ export const getUrlPath = (keyString, params) => {
 
 export const getPushPathWrapper = (keyString, params) => {
 
-  let obj = getUrlObject(_.lowerCase(keyString))
+  let obj = getUrlObject(keyString)
   if (obj) {
     const path = new Path(obj.path)
 
+    console.log(obj, path.build(params))
     return push(path.build(params))
   }
 
