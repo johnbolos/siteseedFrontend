@@ -122,7 +122,14 @@ class DesignerStudio extends React.Component {
 							<div className='logo'>
 								<img src={logo} alt='logo'></img>
 							</div>
-							<div className='panel__devices'></div>
+							<div className='panel__devices'>
+								<select name='zoom' id='zoom'>
+									<option value='100'>100%</option>
+									<option value='75'>75%</option>
+									<option value='50'>50%</option>
+									<option value='25'>25%</option>
+								</select>
+							</div>
 							<div className='panel__basic-actions'></div>
 						</div>
 
@@ -130,11 +137,11 @@ class DesignerStudio extends React.Component {
 							<div className='left-pane'>
 								<img
 									src={addElem}
-									alt='logo'
+									alt='addElement'
 									onClick={this.drawerToggleClickHandler}
 								/>
-								<img src={components} alt='logo'></img>
-								<img src={layers} alt='logo'></img>
+								<img src={components} alt='Component'></img>
+								<img src={layers} alt='layers'></img>
 							</div>
 							<div id='blocks'>
 								{" "}
