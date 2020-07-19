@@ -1,11 +1,12 @@
 import React from "react"
 import { connect } from "react-redux"
+import { Debounce } from 'lodash-decorators/debounce'
 
 import "./index.scss"
 import { showLoader, hideLoader } from "../../reducers/actions"
 import _grapesEditor from "../../components/utils/grapesEditor"
 
-import { template1Html, template1Style } from "./dummie"
+import { template1Html, template1Style, layerData } from "./dummie"
 import { landingHtml, landingStyle } from "./templates/landing"
 import { landing2Html, landing2Style } from "./templates/landing2"
 // import {
@@ -36,7 +37,10 @@ class DesignerStudio extends React.Component {
     }
 
     componentDidMount() {
-        this.StartEditor()
+        // this.StartEditor()
+        setTimeout(() => {
+            this.temp()
+        }, 5000)
     }
 
     StartEditor = () => {
@@ -62,15 +66,81 @@ class DesignerStudio extends React.Component {
 
         _grapesEditor.init()
     }
+    elementDistanceToCursor(elem, mouse) { // get distance to element
+        var b = elem.getBoundingClientRect();
+        var dx = 0;
+        var dy = 0;
 
+        //Compute distance to elem in X
+        if (mouse.x < b.left)
+            dx = b.left - mouse.x;
+        else if (mouse.x > b.right)
+            dx = b.right - mouse.x;
+
+        //Compute distance to elem in Y
+        if (mouse.y < b.top)
+            dy = b.top - mouse.y;
+        else if (mouse.y > b.bottom)
+            dy = b.bottom - mouse.y;
+
+        return Math.floor(Math.sqrt(dx * dx + dy * dy));
+    }
+    closestElement = (mouse, wrapperSelector) => {
+        let closestElement = null
+        let minDis = 99999
+        let wrapper = document.getElementById(wrapperSelector)
+        HTMLCollection.prototype.every = Array.prototype.every
+        wrapper.children.every((el) => {
+            let dis = this.elementDistanceToCursor(el, mouse)
+            if (dis == 0) {
+                if (el.children.length == 0) {
+                    closestElement = el
+                    return false
+                }
+                closestElement = this.closestElement(mouse, el.id)
+                return false
+            }
+            if (dis < minDis) {
+                minDis = dis
+                closestElement = el
+            }
+            return true
+        })
+        return closestElement
+    }
+
+    @Debounce(500)
+    fun(mouse) {
+        console.log('mouse moved', mouse.pageX, mouse.pageY)
+        const el = this.closestElement({ x: mouse.pageX, y: mouse.pageY }, 'draggable')
+        console.log(el, 'is closest to mouse')
+    }
     temp = () => {
         console.log('temporary function')
-        // const { editor } = _grapesEditor
+        const { editor } = _grapesEditor
+        let wrapper = document.getElementsByClassName("body-container")
+
+        window.addEventListener('mousemove', mouse => {
+            this.fun(mouse)
+        });
         //============Change Css dynamically =================================
-        const frame = document.getElementsByClassName("gjs-frame")
-        const element = frame[0].contentWindow.document.getElementsByClassName("logo")
-        console.log(element)
-        element[0].style.backgroundColor = 'red'
+        // const collection = editor.getComponents();
+        // let styles = []
+        // let totalNodes = []
+        // const frame = document.getElementsByClassName("gjs-frame")
+        // const wrapper = frame[0].contentWindow.document.getElementById("wrapper").children
+        // console.log(wrapper[0])
+        // for (let i = 0; i < wrapper.length; i++) {
+        //         totalNodes.push(wrapper[i].tagName)
+        //         styles.push(this.cssObjects(wrapper[i]))
+        //   }
+        // HTMLCollection.prototype.forEach = Array.prototype.forEach
+        // wrapper.forEach(node => {
+        //     totalNodes.push(node.tagName)
+        //     styles.push(this.cssObjects(node))
+        // })
+        // console.log(totalNodes, styles, 'extracedddd')
+
     }
 
     render() {
@@ -99,7 +169,22 @@ class DesignerStudio extends React.Component {
                             width: "100%" /* backgroundColor: "red"  */,
                         }}
                     >
-                        <div id="grapesEditor"></div>
+                        {/* <div id="grapesEditor"></div> */}
+                        <div id={'draggable'}>
+                            {
+                                layerData.map((item, key) => {
+                                    if (item.children) {
+                                        return <>
+                                            <div key={key} id={key} style={{ backgroundColor: 'yellow', border: '1px solid' }}>{`${item.id}`}</div>
+                                            {item.children.map((elem, index) => {
+                                                return <div key={key + '-' + index} id={key + '-' + index} style={{ marginLeft: '5px', backgroundColor: 'blue', border: '0.5px solid' }}>{`${elem.id}`}</div>
+                                            })}
+                                        </>
+                                    }
+                                    return <div key={key} id={key}>{item.id}</div>
+                                })
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
