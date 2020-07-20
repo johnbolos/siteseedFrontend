@@ -1,12 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 //import grapesjs from "grapesjs";
+import { Debounce } from "lodash-decorators/debounce";
 
 import "./index.scss";
 //import GlobalLayoutWrapper from "../../components/layout/globalLayoutWrapper"
 //import { showLoader, hideLoader } from "../../reducers/actions";
 import _grapesEditor from "../../components/utils/grapesEditor";
-
+import { closestElement } from "../../components/utils/index";
 import { /* html, */ template1Html, template1Style } from "./dummie";
 import { landingHtml, landingStyle } from "./templates/landing";
 import { landing2Html, landing2Style } from "./templates/landing2";
@@ -40,9 +41,9 @@ class DesignerStudio extends React.Component {
 
 	componentDidMount() {
 		this.StartEditor();
-		/*    setTimeout(() => {
-          // console.log(_grapesEditor.getCode())
-        }, 5000) */
+		setTimeout(() => {
+			this.temp();
+		}, 5000);
 	}
 
 	StartEditor = () => {
@@ -70,8 +71,22 @@ class DesignerStudio extends React.Component {
 			components: tempHtml + tempStyle,
 		});
 	};
-
+	@Debounce(500)
+	fun(mouse) {
+		console.log("mouse moved", mouse.pageX, mouse.pageY);
+		const el = closestElement({ x: mouse.pageX, y: mouse.pageY }, "draggable");
+		console.log(el, "is closest to mouse");
+	}
 	temp = () => {
+		console.log("temporary function");
+		const { editor } = _grapesEditor;
+		let wrapper = document.getElementsByClassName("body-container");
+
+		window.addEventListener("mousemove", (mouse) => {
+			this.fun(mouse);
+		});
+	};
+	/* temp = () => {
 		console.log("temporary function");
 		// const { editor } = _grapesEditor
 		//============Change Css dynamically =================================
@@ -81,7 +96,7 @@ class DesignerStudio extends React.Component {
 		);
 		console.log(element);
 		element[0].style.backgroundColor = "red";
-	};
+	}; */
 
 	drawerToggleClickHandler = () => {
 		//adding custom attributes to components

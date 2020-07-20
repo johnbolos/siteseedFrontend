@@ -7,7 +7,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import App from './containers/app'
 
 import * as serviceWorker from './serviceWorker';
-
+window.$ = window.jQuery = require('jquery')
 const { store, persistor } = Store()
 const target = document.querySelector('#root')
 

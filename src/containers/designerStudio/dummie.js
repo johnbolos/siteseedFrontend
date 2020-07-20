@@ -1,3 +1,34 @@
+export const layerData = [
+  {
+    tagName: 'div',
+    id: 'main',
+    children: [
+      {
+        tagName: 'div',
+        id: 'heading',
+        innerHtml: 'Heading'
+      },
+      {
+        tagName: 'div',
+        id: 'caption',
+        innerHtml: 'Caption'
+      },
+    ]
+  },
+  {
+    tagName: 'div',
+    id: 'secondary',
+    children: [
+      {
+        tagName: 'a',
+        id: 'link',
+        innerHtml: 'Link'
+      }
+    ]
+  }
+]
+
+
 export const html = `<style>
     h1 {color:red;}
     p {color:blue;}
