@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import grapesjs from "grapesjs";
+//import grapesjs from "grapesjs";
 
 import "./index.scss";
 //import GlobalLayoutWrapper from "../../components/layout/globalLayoutWrapper"
-import { showLoader, hideLoader } from "../../reducers/actions";
+//import { showLoader, hideLoader } from "../../reducers/actions";
 import _grapesEditor from "../../components/utils/grapesEditor";
 
-import { html, template1Html, template1Style } from "./dummie";
+import { /* html, */ template1Html, template1Style } from "./dummie";
 import { landingHtml, landingStyle } from "./templates/landing";
 import { landing2Html, landing2Style } from "./templates/landing2";
 import {
@@ -46,7 +46,7 @@ class DesignerStudio extends React.Component {
 	}
 
 	StartEditor = () => {
-		const { html } = this.state;
+		//const { html } = this.state;
 		const { templateName } = this.props.templates;
 		let tempHtml, tempStyle;
 		switch (templateName) {
@@ -84,6 +84,16 @@ class DesignerStudio extends React.Component {
 	};
 
 	drawerToggleClickHandler = () => {
+		//adding custom attributes to components
+		/* console.log(
+			"selected ",
+			//	_grapesEditor.editor.getSelected().parent().getEl()
+			// .setAttributes({ "seed-id": "ss" })
+			// /getEl() //gives html of selected component
+			_grapesEditor.editor.getSelected().closest("div").parent().getEl()
+		); */
+		let selected = _grapesEditor.editor.getSelected();
+		console.log(selected.attributes);
 		this.setState({
 			drawerOpen: !this.state.drawerOpen,
 		});
@@ -104,7 +114,6 @@ class DesignerStudio extends React.Component {
 		} = this.props; */
 		return (
 			<div>
-				{backdrop}
 				<div
 					style={{
 						display: "flex",
@@ -122,14 +131,7 @@ class DesignerStudio extends React.Component {
 							<div className='logo'>
 								<img src={logo} alt='logo'></img>
 							</div>
-							<div className='panel__devices'>
-								<select name='zoom' id='zoom'>
-									<option value='100'>100%</option>
-									<option value='75'>75%</option>
-									<option value='50'>50%</option>
-									<option value='25'>25%</option>
-								</select>
-							</div>
+							<div className='panel__devices'></div>
 							<div className='panel__basic-actions'></div>
 						</div>
 
@@ -143,12 +145,8 @@ class DesignerStudio extends React.Component {
 								<img src={components} alt='Component'></img>
 								<img src={layers} alt='layers'></img>
 							</div>
-							<div id='blocks'>
-								{" "}
-								{this.state.drawerOpen && (
-									<SlideDrawer show={this.state.drawerOpen} />
-								)}
-							</div>
+							{/* toggle css display:none for blocks */}
+							<div id='blocks'></div>
 							<div id='grapesEditor'></div>
 							<div
 								id='style-manager'

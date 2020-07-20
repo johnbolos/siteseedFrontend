@@ -40,44 +40,6 @@ export default (editor, config) => {
 			el: ".panel__devices",
 			buttons: [
 				{
-					id: cmdDeviceDesktop,
-					command: cmdDeviceDesktop,
-					//className: "fa fa-desktop",
-					active: 1,
-					label: `<div class="tooltip"><img src=${desktop} alt="desktop" height=20px width=20px  ></img><span class="tooltiptext">Desktop</span>
-          </div>`,
-				},
-				{
-					id: cmdDeviceTablet,
-					command: cmdDeviceTablet,
-					//className: "fa fa-tablet",
-					label: `<div class="tooltip"><img src=${ipad} alt="erase" height=20px width=20px  ></img><span class="tooltiptext">Ipad</span>
-          </div>`,
-				},
-				{
-					id: cmdDeviceMobile,
-					command: cmdDeviceMobile,
-					//className: "fa fa-mobile",
-					label: `<div class="tooltip"><img src=${mobile} alt="erase" height=20px width=20px  ></img><span class="tooltiptext">Mobile</span>
-          </div>`,
-				},
-				/* {
-          //id: "zoom",
-          command: e => e.runCommand("manage-zoom", e),
-          label: `<select name="zoom" id="zoom">
-          <option value="100">100%</option>
-          <option value="75">75%</option>
-          <option value="50">50%</option>
-          <option value="25">25%</option>
-        </select>`,
-        }, */
-			],
-		},
-		{
-			id: "options",
-			el: ".panel__basic-actions",
-			buttons: [
-				{
 					id: "undo",
 					//className: "fa fa-undo",
 					command: (e) => e.runCommand("core:undo"),
@@ -92,7 +54,52 @@ export default (editor, config) => {
 					label: `<div class="tooltip"><img src=${redo} alt="erase" height=20px width=20px  ></img>
           <span class="tooltiptext">Redo</span>
         </div>`,
-				} /*  {
+				},
+				{
+					id: expt,
+					//className: "fa fa-code",
+					command: (e) => e.runCommand(expt),
+					label: `<div class="tooltip"><img src=${code} alt="erase" height=20px width=20px  ></img>
+          <span class="tooltiptext">Code</span>
+        </div>`,
+				},
+				{
+					id: cmdClear,
+					//className: "fa fa-trash",
+					label: `<div class="tooltip"><img src=${clean} alt="erase" height=20px width=20px  ></img><span class="tooltiptext">Erase</span>
+          </div>`,
+					command: (e) => e.runCommand(cmdClear),
+				},
+				{
+					id: cmdImport,
+					//className: "fa fa-download",
+					command: (e) => e.runCommand(cmdImport),
+					label: `<div class="tooltip"><img src=${download} alt="erase" height=20px width=20px  ></img>
+          <span class="tooltiptext">Download</span>
+        </div>`,
+				},
+			],
+		},
+		{
+			id: "options",
+			el: ".panel__basic-actions",
+			buttons: [
+				/* {
+					id: "undo",
+					//className: "fa fa-undo",
+					command: (e) => e.runCommand("core:undo"),
+					label: `<div class="tooltip"><img src=${undo} alt="erase" height=20px width=20px  ></img>
+          <span class="tooltiptext">Undo</span>
+        </div>`,
+				},
+				{
+					id: "redo",
+					//className: "fa fa-repeat",
+					command: (e) => e.runCommand("core:redo"),
+					label: `<div class="tooltip"><img src=${redo} alt="erase" height=20px width=20px  ></img>
+          <span class="tooltiptext">Redo</span>
+        </div>`,
+				}   {
           id: ful,
           command: ful,
           context: ful,
@@ -100,7 +107,7 @@ export default (editor, config) => {
           label: `<div class="tooltip">Full
           <span class="tooltiptext">FullScreen</span>
         </div>`,
-        }, */,
+        }, 
 
 				{
 					id: expt,
@@ -124,6 +131,13 @@ export default (editor, config) => {
 					label: `<div class="tooltip"><img src=${download} alt="erase" height=20px width=20px  ></img>
           <span class="tooltiptext">Download</span>
         </div>`,
+				},*/
+				{
+					id: cmdDeviceMobile,
+					command: cmdDeviceMobile,
+					//className: "fa fa-mobile",
+					label: `<div class="tooltip"><img src=${mobile} alt="erase" height=20px width=20px  ></img><span class="tooltiptext">Mobile</span>
+          </div>`,
 				},
 				{
 					id: prv,
