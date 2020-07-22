@@ -3,10 +3,10 @@ import { connectRouter, routerMiddleware } from "connected-react-router";
 import thunk from "redux-thunk";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { /* createHashHistory,  */ createBrowserHistory } from "history";
+import { createHashHistory, createBrowserHistory } from "history";
 import rootReducer from "./reducers";
-//const createHistory = createHashHistory;
-export const history = createBrowserHistory(); //createHistory()
+export const history = createHashHistory();
+// export const history = createBrowserHistory(); //createHistory()
 
 const initialState = {};
 const enhancers = [];

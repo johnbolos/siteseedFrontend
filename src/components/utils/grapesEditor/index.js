@@ -5,6 +5,7 @@ import exportPlugin from "grapesjs-plugin-export";
 import panels from "../../../containers/designerStudio/panels";
 import "grapesjs-preset-webpage";
 import $ from "jquery";
+import styleManager from "./styleManager";
 
 import "./index.scss";
 import { svg } from "../index";
@@ -437,20 +438,14 @@ const _grapesEditor = {
 			appendTo: ".panel__basic-actions",
 			defaults: [],
 		},
-		styleManager: {
-			appendTo: "#style-manager-container",
-			sectors: [],
-		},
-		selectorManager: {
-			appendTo: "#selectors-container",
-		},
-		blockManager: {
-			appendTo: "#blocks",
-		},
+		// blockManager: {
+		// 	appendTo: "#blocks",
+		// },
 	},
-	init: (config = {}) => {
+	init: (config = {}, cb) => {
 		let defaultConfig = _grapesEditor.config;
-		defaultConfig.styleManager.sectors = _grapesEditor.styleSectors;
+		if (defaultConfig.styleManager)
+			defaultConfig.styleManager.sectors = _grapesEditor.styleSectors;
 
 		if (config.plugins) {
 			config.plugins.push(defaultConfig.plugins);
@@ -487,6 +482,12 @@ const _grapesEditor = {
 				e.setDevice("Mobile portrait");
 			}
 		});
+		//init style manager
+		styleManager.init(config.styles);
+		if (cb) {
+			console.log("pppppppppppppppppp");
+		}
+		cb();
 	},
 	getCode: (options = { html: true, css: true }) => {
 		const { html, css } = options;

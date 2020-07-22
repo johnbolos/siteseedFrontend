@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-//import grapesjs from "grapesjs";
+//import grapesjs from "grapesjs"
 import { Debounce } from "lodash-decorators/debounce";
 
 import "./index.scss";
 //import GlobalLayoutWrapper from "../../components/layout/globalLayoutWrapper"
-//import { showLoader, hideLoader } from "../../reducers/actions";
+//import { showLoader, hideLoader } from "../../reducers/actions"
 import _grapesEditor from "../../components/utils/grapesEditor";
 import { closestElement } from "../../components/utils/index";
 import { /* html, */ template1Html, template1Style } from "./dummie";
@@ -31,13 +31,12 @@ const initialState = {
 class DesignerStudio extends React.Component {
 	state = initialState;
 
-	html = () => {
-		return `<div style="background-color: red;">
-        <br></br><a id='h1qert' href="http://google.com">Link13</a>
-        {/* <span data-gjs-stylable="false">Link13</span> */}
-        <h1 class='fo'>Link13</h1>
-    </div>`;
-	};
+	componentDidMount() {
+		this.apiRequest();
+		setTimeout(() => {
+			// this.temp()
+		}, 5000);
+	}
 
 	componentDidMount() {
 		this.StartEditor();
@@ -51,7 +50,6 @@ class DesignerStudio extends React.Component {
 	}
 
 	StartEditor = () => {
-		//const { html } = this.state;
 		const { templateName } = this.props.templates;
 		let tempHtml, tempStyle;
 		switch (templateName) {
@@ -70,10 +68,16 @@ class DesignerStudio extends React.Component {
 			default:
 				break;
 		}
-
-		_grapesEditor.init({
-			components: tempHtml + tempStyle,
-		});
+		_grapesEditor.init(
+			{
+				components: tempHtml,
+				styles: this.state.templateStyle,
+			},
+			() => {
+				const { templateStyle } = this.state;
+				console.log("callback for grapesjs init");
+			}
+		);
 	};
 	@Debounce(500)
 	fun(mouse) {
@@ -86,21 +90,21 @@ class DesignerStudio extends React.Component {
 		const { editor } = _grapesEditor;
 		let wrapper = document.getElementsByClassName("body-container");
 
-		window.addEventListener("mousemove", (mouse) => {
-			this.fun(mouse);
-		});
+		// window.addEventListener("mousemove", (mouse) => {
+		// 	this.fun(mouse)
+		// })
 	};
 	/* temp = () => {
-		console.log("temporary function");
+		console.log("temporary function")
 		// const { editor } = _grapesEditor
 		//============Change Css dynamically =================================
-		const frame = document.getElementsByClassName("gjs-frame");
+		const frame = document.getElementsByClassName("gjs-frame")
 		const element = frame[0].contentWindow.document.getElementsByClassName(
 			"logo"
-		);
-		console.log(element);
-		element[0].style.backgroundColor = "red";
-	}; */
+		)
+		console.log(element)
+		element[0].style.backgroundColor = "red"
+	} */
 
 	drawerToggleClickHandler = (e) => {
 		//adding custom attributes to components
