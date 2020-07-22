@@ -1,3 +1,15 @@
+export const componentData = {
+    styleOb : [
+        {
+            selector: '',
+            styles: {
+                'color': 'red',
+                'background-color': 'yellow'
+            }
+        }
+    ]
+}
+
 export const layerData = [
   {
     tagName: 'div',
@@ -28,10 +40,40 @@ export const layerData = [
   }
 ]
 
-
 export const html = `<style>
-    h1 {color:red;}
-    p {color:blue;}
+    
+.badge-link{
+  height:35px;
+  width:35px;
+  line-height:35px;
+  font-weight:700;
+  background-color:#fff;
+  color:#a290a5;
+  display:block;
+  border-radius:100%;
+  margin:0 10px;
+}
+@media (max-width: 768px){
+  .foot-form-cont{
+    width:400px;
+  }
+  .foot-form-title{
+    width:autopx;
+  }
+}
+.ds{
+  color:#fff;
+  justify-content:center;
+}
+@media (max-width: 480px){
+  .foot-lists{
+    display:none;
+  }
+}
+.as{
+  height:35px;
+  margin:0 10px;
+}
     </style>
     <p>Display some text when the checkbox is checked:</p>
     
@@ -530,10 +572,18 @@ export const template1Style = `
           width:autopx;
         }
       }
+      .ds{
+        color:#fff;
+        justify-content:center;
+      }
       @media (max-width: 480px){
         .foot-lists{
           display:none;
         }
+      }
+      .as{
+        height:35px;
+        margin:0 10px;
       }
     
     </style>`

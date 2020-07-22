@@ -3,6 +3,7 @@ import grapesjs from "grapesjs";
 import "grapesjs-blocks-basic";
 import exportPlugin from "grapesjs-plugin-export";
 import panels from "../../../containers/designerStudio/panels";
+import styleManager from './styleManager'
 //import webpage from "grapesjs-preset-webpage";
 
 import "./index.scss";
@@ -535,7 +536,7 @@ const _grapesEditor = {
 		height: "100vh",
 		storageManager: { type: "none" },
 		plugins: [
-			"gjs-blocks-basic",
+			// "gjs-blocks-basic",
 			// "gjs-preset-webpage",
 			(editor) => exportPlugin(editor, _grapesEditor.exportConfig),
 			navBar,
@@ -546,20 +547,13 @@ const _grapesEditor = {
 			appendTo: ".panel__basic-actions",
 			defaults: [],
 		},
-		styleManager: {
-			appendTo: "#style-manager-container",
-			sectors: [],
-		},
-		selectorManager: {
-			appendTo: "#selectors-container",
-		},
-		blockManager: {
-			appendTo: "#blocks",
-		},
+		// blockManager: {
+		// 	appendTo: "#blocks",
+		// },
 	},
-	init: (config = {}) => {
+	init: (config = {}, cb) => {
 		let defaultConfig = _grapesEditor.config;
-		defaultConfig.styleManager.sectors = _grapesEditor.styleSectors;
+		if (defaultConfig.styleManager) defaultConfig.styleManager.sectors = _grapesEditor.styleSectors;
 
 		if (config.plugins) {
 			config.plugins.push(defaultConfig.plugins);
@@ -568,16 +562,12 @@ const _grapesEditor = {
 		_grapesEditor.editor = grapesjs.init({ ...defaultConfig, ...config });
 		let editor = _grapesEditor.editor;
 		panels(editor, config);
-		// console.log("html ", editor.getHtml());
-		// console.log("selected ", editor.getSelected());
-		// console.log("config ", editor.getConfig());
-		// console.log("JS ", editor.getJs());
-
-		//fire for every change in the canvas
-		editor.on("component:update", (some) => {
-			// do something
-			console.log("component changed/updated/added", some);
-		});
+		//init style manager
+		styleManager.init(config.styles)
+		if (cb) {
+			console.log('pppppppppppppppppp')
+		}
+		cb()
 	},
 	getCode: (options = { html: true, css: true }) => {
 		const { html, css } = options;
