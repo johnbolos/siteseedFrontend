@@ -18,6 +18,7 @@ import {
 	layers,
 	comment,
 	tip,
+	question,
 } from "../designerStudio/panels/icons";
 
 const initialState = {
@@ -26,6 +27,7 @@ const initialState = {
 	layers: "none",
 	comment: "none",
 	tipMargin: "15px",
+	zoom: 100,
 };
 
 class DesignerStudio extends React.Component {
@@ -36,34 +38,34 @@ class DesignerStudio extends React.Component {
 		setTimeout(() => {
 			// this.temp()
 		}, 5000);
-    }
-    
-    apiRequest = () => {
-        return new Promise(resolve => {
-            const { templateName } = this.props.templates
-            let tempStyle
-            switch (templateName) {
-                case "template1":
-                    tempStyle = template1Style
-                    break
-                case "template2":
-                    tempStyle = landing2Style
-                    break
-                case "template3":
-                    tempStyle = landingStyle
-                    break
-                default:
-                    break
-            }
-            //convert this string to styleObject
-            
-            //Save the tring to state
-            this.setState({ templateStyle: tempStyle }, () => {
-                this.StartEditor()
-            })
-            return resolve()
-        })
-    }
+	}
+
+	apiRequest = () => {
+		return new Promise((resolve) => {
+			const { templateName } = this.props.templates;
+			let tempStyle;
+			switch (templateName) {
+				case "template1":
+					tempStyle = template1Style;
+					break;
+				case "template2":
+					tempStyle = landing2Style;
+					break;
+				case "template3":
+					tempStyle = landingStyle;
+					break;
+				default:
+					break;
+			}
+			//convert this string to styleObject
+
+			//Save the tring to state
+			this.setState({ templateStyle: tempStyle }, () => {
+				this.StartEditor();
+			});
+			return resolve();
+		});
+	};
 
 	// componentDidMount() {
 	// 	this.StartEditor();
@@ -75,7 +77,31 @@ class DesignerStudio extends React.Component {
 	reset() {
 		this.setState(initialState);
 	}
-
+	minus = () => {
+		this.setState(
+			{
+				zoom: this.state.zoom - 10,
+			},
+			() => {
+				const { editor } = _grapesEditor;
+				editor.Canvas.setZoom(this.state.zoom);
+			}
+		);
+	};
+	plus = () => {
+		this.setState(
+			{
+				zoom: this.state.zoom + 10,
+			},
+			() => {
+				const { editor } = _grapesEditor;
+				editor.Canvas.setZoom(this.state.zoom);
+			}
+		);
+	};
+	manageZoom = () => {
+		console.log("zoom clicked");
+	};
 	StartEditor = () => {
 		const { templateName } = this.props.templates;
 		let tempHtml, tempStyle;
@@ -239,6 +265,18 @@ class DesignerStudio extends React.Component {
 								<h4 className='add-element'>Add Comments</h4>
 							</div>
 							<div id='grapesEditor'></div>
+							<div id='zoom'>
+								<span class='minus' onClick={this.minus}>
+									-
+								</span>
+								<input type='text' value={this.state.zoom + "%"} />
+								<span class='plus' onClick={this.plus}>
+									+
+								</span>
+							</div>
+							<div id='question'>
+								<img src={question} alt='question-mark'></img>
+							</div>
 							<div
 								id='style-manager'
 								style={{

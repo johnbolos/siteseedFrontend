@@ -438,9 +438,9 @@ const _grapesEditor = {
 			appendTo: ".panel__basic-actions",
 			defaults: [],
 		},
-		// blockManager: {
-		// 	appendTo: "#blocks",
-		// },
+		blockManager: {
+			appendTo: "#blocks",
+		},
 	},
 	init: (config = {}, cb) => {
 		let defaultConfig = _grapesEditor.config;
@@ -468,11 +468,15 @@ const _grapesEditor = {
 			$("#grapesEditor").addClass("left-pane-preview");
 			$(".panel__top").addClass("hide-top");
 			$("#style-manager").addClass("hide-top");
+			$("#zoom").addClass("hide-top");
+			$("#question").addClass("hide-top");
 		});
-		editor.on("stop:preview", (arg) => {
+		editor.on("stop:preview", () => {
 			$("#grapesEditor").removeClass("left-pane-preview");
 			$(".panel__top").removeClass("hide-top");
 			$("#style-manager").removeClass("hide-top");
+			$("#zoom").removeClass("hide-top");
+			$("#question").removeClass("hide-top");
 		});
 		editor.Commands.add("set-device-mobile", (e) => {
 			let device = e.getDevice();
@@ -482,6 +486,8 @@ const _grapesEditor = {
 				e.setDevice("Mobile portrait");
 			}
 		});
+		//editor.Canvas.setZoom(100);
+		console.log(editor.Canvas.getZoom());
 		//init style manager
 		styleManager.init(config.styles);
 		if (cb) {

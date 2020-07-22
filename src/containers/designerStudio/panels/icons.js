@@ -14,6 +14,7 @@ import layers from "../../../assets/left-pane/layers.svg";
 import comment from "../../../assets/left-pane/Comment.svg";
 import rightArrow from "../../../assets/left-pane/right-arrow.svg";
 import tip from "../../../assets/tip.svg";
+import question from "../../../assets/question-mark.svg";
 
 export {
 	clean,
@@ -32,4 +33,5 @@ export {
 	comment,
 	tip,
 	rightArrow,
+	question,
 };
