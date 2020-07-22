@@ -558,18 +558,18 @@ svg {
     //margin-right: 10px;
     background: #006cff;
     color: #ffffff;
-    font-family: "Source Sans Pro";
-    text-decoration: none;
+    //font-family: "Source Sans Pro";
     font-style: normal;
     font-weight: 600;
-    line-height: 13px;
-    letter-spacing: 0.04em;
     font-size: 10px;
+    line-height: 13px;
+    //text-decoration: none;
     transition: all 0.3s;
     width: 84px;
     height: 28px;
-    text-align: center;
+    //text-align: center;
     border-radius: 5px;
+    letter-spacing: 0.04em;
 }
 
 button {
@@ -603,11 +603,6 @@ ul li {
     width: 100%;
     height: 95%;
 }
-
-/* #grapesEditor {
-  width: 100%;
-  height: 100vh;
-} */
 
 .hint {
     align-self: flex-end;

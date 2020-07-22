@@ -486,8 +486,6 @@ const _grapesEditor = {
 				e.setDevice("Mobile portrait");
 			}
 		});
-		//editor.Canvas.setZoom(100);
-		console.log(editor.Canvas.getZoom());
 		//init style manager
 		styleManager.init(config.styles);
 		if (cb) {
