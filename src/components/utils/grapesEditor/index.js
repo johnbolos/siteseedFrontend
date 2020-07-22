@@ -3,7 +3,7 @@ import grapesjs from "grapesjs";
 import "grapesjs-blocks-basic";
 import exportPlugin from "grapesjs-plugin-export";
 import panels from "../../../containers/designerStudio/panels";
-import "grapesjs-preset-webpage";
+// import "grapesjs-preset-webpage";
 import $ from "jquery";
 import styleManager from "./styleManager";
 

@@ -36,14 +36,41 @@ class DesignerStudio extends React.Component {
 		setTimeout(() => {
 			// this.temp()
 		}, 5000);
-	}
+    }
+    
+    apiRequest = () => {
+        return new Promise(resolve => {
+            const { templateName } = this.props.templates
+            let tempStyle
+            switch (templateName) {
+                case "template1":
+                    tempStyle = template1Style
+                    break
+                case "template2":
+                    tempStyle = landing2Style
+                    break
+                case "template3":
+                    tempStyle = landingStyle
+                    break
+                default:
+                    break
+            }
+            //convert this string to styleObject
+            
+            //Save the tring to state
+            this.setState({ templateStyle: tempStyle }, () => {
+                this.StartEditor()
+            })
+            return resolve()
+        })
+    }
 
-	componentDidMount() {
-		this.StartEditor();
-		/* setTimeout(() => {
-			this.temp();
-		}, 5000); */
-	}
+	// componentDidMount() {
+	// 	this.StartEditor();
+	// 	/* setTimeout(() => {
+	// 		this.temp();
+	// 	}, 5000); */
+	// }
 
 	reset() {
 		this.setState(initialState);
@@ -94,17 +121,6 @@ class DesignerStudio extends React.Component {
 		// 	this.fun(mouse)
 		// })
 	};
-	/* temp = () => {
-		console.log("temporary function")
-		// const { editor } = _grapesEditor
-		//============Change Css dynamically =================================
-		const frame = document.getElementsByClassName("gjs-frame")
-		const element = frame[0].contentWindow.document.getElementsByClassName(
-			"logo"
-		)
-		console.log(element)
-		element[0].style.backgroundColor = "red"
-	} */
 
 	drawerToggleClickHandler = (e) => {
 		//adding custom attributes to components
