@@ -11,6 +11,9 @@ import logo from "../../../assets/header/Logo.svg";
 import addElem from "../../../assets/left-pane/add-elements.svg";
 import components from "../../../assets/left-pane/component.svg";
 import layers from "../../../assets/left-pane/layers.svg";
+import comment from "../../../assets/left-pane/Comment.svg";
+import rightArrow from "../../../assets/left-pane/right-arrow.svg";
+import tip from "../../../assets/tip.svg";
 
 export {
 	clean,
@@ -26,4 +29,7 @@ export {
 	addElem,
 	components,
 	layers,
+	comment,
+	tip,
+	rightArrow,
 };

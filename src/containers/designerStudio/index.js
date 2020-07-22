@@ -16,20 +16,20 @@ import {
 	addElem,
 	components,
 	layers,
+	comment,
+	tip,
 } from "../designerStudio/panels/icons";
-import SlideDrawer from "./slideDrawer/slideDrawer";
-import Backdrop from "./slideDrawer/backdrop";
+
+const initialState = {
+	blocks: "none",
+	component: "none",
+	layers: "none",
+	comment: "none",
+	tipMargin: "15px",
+};
 
 class DesignerStudio extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			color: "blue",
-			clientCode: null,
-			drawerOpen: false,
-		};
-		// this.showDetails = this.showDetails.bind(this);
-	}
+	state = initialState;
 
 	html = () => {
 		return `<div style="background-color: red;">
@@ -41,9 +41,13 @@ class DesignerStudio extends React.Component {
 
 	componentDidMount() {
 		this.StartEditor();
-		setTimeout(() => {
+		/* setTimeout(() => {
 			this.temp();
-		}, 5000);
+		}, 5000); */
+	}
+
+	reset() {
+		this.setState(initialState);
 	}
 
 	StartEditor = () => {
@@ -98,7 +102,7 @@ class DesignerStudio extends React.Component {
 		element[0].style.backgroundColor = "red";
 	}; */
 
-	drawerToggleClickHandler = () => {
+	drawerToggleClickHandler = (e) => {
 		//adding custom attributes to components
 		/* console.log(
 			"selected ",
@@ -107,26 +111,14 @@ class DesignerStudio extends React.Component {
 			// /getEl() //gives html of selected component
 			_grapesEditor.editor.getSelected().closest("div").parent().getEl()
 		); */
-		let selected = _grapesEditor.editor.getSelected();
-		console.log(selected.attributes);
+		// let selected = _grapesEditor.editor.getSelected();
+		// console.log(selected.attributes);
+		this.reset();
 		this.setState({
-			drawerOpen: !this.state.drawerOpen,
-		});
-	};
-	backdropClickHandler = () => {
-		this.setState({
-			drawerOpen: false,
+			[e.target.name]: this.state[e.target.name] === "none" ? "block" : "none",
 		});
 	};
 	render() {
-		let backdrop;
-		if (this.state.drawerOpen) {
-			backdrop = <Backdrop close={this.backdropClickHandler} />;
-		}
-		/* const {
-			pageContext: { pageData },
-			loading,
-		} = this.props; */
 		return (
 			<div>
 				<div
@@ -155,13 +147,77 @@ class DesignerStudio extends React.Component {
 								<img
 									src={addElem}
 									alt='addElement'
+									name='blocks'
 									onClick={this.drawerToggleClickHandler}
 								/>
-								<img src={components} alt='Component'></img>
-								<img src={layers} alt='layers'></img>
+								<img
+									src={components}
+									alt='Component'
+									name='component'
+									onClick={this.drawerToggleClickHandler}></img>
+								<img
+									src={layers}
+									alt='layers'
+									name='layers'
+									onClick={this.drawerToggleClickHandler}></img>
+								<img
+									src={comment}
+									alt='commment'
+									name='comment'
+									onClick={this.drawerToggleClickHandler}></img>
 							</div>
-							{/* toggle css display:none for blocks */}
-							<div id='blocks'></div>
+							<img
+								src={tip}
+								alt='tip'
+								width='15px'
+								height='9px'
+								className='tip'
+								style={{
+									display: this.state.blocks,
+									marginTop: "15px",
+								}}></img>
+							<div id='blocks' style={{ display: this.state.blocks }}>
+								<h4 className='add-element'>Add Elements</h4>
+							</div>
+							<img
+								src={tip}
+								alt='tip'
+								width='15px'
+								height='9px'
+								className='tip'
+								style={{
+									display: this.state.component,
+									marginTop: "55px",
+								}}></img>
+							<div id='components' style={{ display: this.state.component }}>
+								<h4 className='add-element'>Add Components</h4>
+							</div>
+							<img
+								src={tip}
+								alt='tip'
+								width='15px'
+								height='9px'
+								className='tip'
+								style={{
+									display: this.state.layers,
+									marginTop: "94px",
+								}}></img>
+							<div id='layers' style={{ display: this.state.layers }}>
+								<h4 className='add-element'>Add Layers</h4>
+							</div>
+							<img
+								src={tip}
+								alt='tip'
+								width='15px'
+								height='9px'
+								className='tip'
+								style={{
+									display: this.state.comment,
+									marginTop: "135px",
+								}}></img>
+							<div id='comment' style={{ display: this.state.comment }}>
+								<h4 className='add-element'>Add Comments</h4>
+							</div>
 							<div id='grapesEditor'></div>
 							<div
 								id='style-manager'

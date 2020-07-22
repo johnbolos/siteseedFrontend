@@ -144,14 +144,14 @@ export default (editor, config) => {
 					context: prv,
 					command: (e) => e.runCommand(prv),
 					//className: "fa fa-eye",
-					label: `<div class="tooltip"><img src=${play} alt="erase" height=20px width=20px  ></img>
+					label: `<div class="tooltip"><img src=${play} alt="erase" height=24px width=24px  ></img>
           <span class="tooltiptext">Play</span>
         </div>`,
 				},
 				{
 					id: "publish",
 					//className: "fa fa-trash",
-					label: `<button type="button" class="publish">Publish</button>`,
+					label: `<button type="button" class="publish">Publish Now</button>`,
 					command: (e) => e.runCommand(cmdClear),
 				},
 			],

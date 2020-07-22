@@ -17,6 +17,7 @@
 		"grapesjs": "^0.16.18",
 		"grapesjs-blocks-basic": "^0.1.8",
 		"grapesjs-plugin-export": "^1.0.7",
+		"grapesjs-preset-webpage": "^0.1.11",
 		"jquery": "^3.5.1",
 		"jquery-nearest": "^1.4.0",
 		"lodash": "^4.17.19",
