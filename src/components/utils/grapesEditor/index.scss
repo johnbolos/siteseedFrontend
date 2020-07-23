@@ -636,10 +636,6 @@ ul li {
     background: #373737;
 }
 
-/* .gjs-block-label {
-    color: #ffffff
-} */
-
 .tip {
     margin-left: 35px;
     position: absolute;
@@ -729,4 +725,30 @@ input {
 
 #question>img {
     padding: 9.5px
+}
+
+//block manager
+.gjs-fonts::before {
+    color: #C4C4C4;
+    font-size: 3em;
+}
+
+.gjs-block-label {
+    color: #ffffff;
+    font-size: 9px;
+}
+
+.gjs-block {
+    width: 59px;
+    min-width: 59px;
+    padding: 0px;
+    min-height: 59px;
+    height: 59px;
+    border-radius: 5px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
+    justify-content: center;
+}
+
+.gjs-blocks-c {
+    justify-content: center;
 }

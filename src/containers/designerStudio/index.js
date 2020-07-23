@@ -266,11 +266,11 @@ class DesignerStudio extends React.Component {
 							</div>
 							<div id='grapesEditor'></div>
 							<div id='zoom'>
-								<span class='minus' onClick={this.minus}>
+								<span className='minus' onClick={this.minus}>
 									-
 								</span>
-								<input type='text' value={this.state.zoom + "%"} />
-								<span class='plus' onClick={this.plus}>
+								<input type='text' value={this.state.zoom + "%"} disabled />
+								<span className='plus' onClick={this.plus}>
 									+
 								</span>
 							</div>
