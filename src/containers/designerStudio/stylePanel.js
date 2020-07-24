@@ -8,13 +8,21 @@ import { template1Html, template1Style } from "./dummie"
 
 class StylePanel extends React.Component {
     state = {
-
+        showTagInput: false
     }
     componentDidMount() {
 
     }
+    toggleAddClass = (e) => {
+        e.stopPropagation()
+        this.setState({ showTagInput: !this.state.showTagInput })
+    }
+    setClass = (e) => {
+        console.log(e.target.value)
+    }
     getClass = (node) => node.className.split(' ')
     render() {
+        const { showTagInput } = this.state
         const { selected } = this.props
         return (
             <div className={'style-panel-container'}>
@@ -23,11 +31,11 @@ class StylePanel extends React.Component {
                 <div className={'classes-container'}>
                     <div className={'heading'}>Classes</div>
                     <div className={'input'}>
-                        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center' }}>
-                            <div className={'addBtn'}>
-                                <Icons.Plus className={'add-class'} style={{ width: '9px', height: '9px' }} />
+                        <div style={{ width: '90%', height: '100%', display: 'flex', alignItems: 'center' }}>
+                            <div className={'addBtn'} onClick={this.toggleAddClass}>
+                                <Icons.Plus className={'add-class-icon'} style={{ width: '9px', height: '9px' }} />
                             </div>
-                            {selected.node == null ? (
+                            {selected && selected.node == null ? (
                                 <div className={'defaultTxt'}>Select a Class or Tag</div>
                             ) : (
                                     <div className={'tags-container'}>
@@ -48,6 +56,12 @@ class StylePanel extends React.Component {
                         <div className={'dropdownBtn'}>
                             <Icons.Dropdown className={'dropDown'} style={{ width: '9px', height: '9px' }} />
                         </div>
+                        {
+                            showTagInput &&
+                            <div className={'tagInput-container'}>
+                                <input type="text" className={'add-class-input'} name={'tagInput'} onBlur={this.toggleAddClass}></input>
+                            </div>
+                        }
                     </div>
                 </div>
                 {/* Settings */}

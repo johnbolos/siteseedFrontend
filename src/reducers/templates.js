@@ -1,5 +1,5 @@
 const initialState = {
-  templateName: "",
+  templateName: "template1",
 }
 
 export default (state = initialState, action) => {

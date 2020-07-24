@@ -39,6 +39,7 @@
       padding: 5px 5px 5px 5px;
       display: flex;
       flex-direction: row;
+      flex-wrap: wrap;
       align-items: center;
       background: #272727;
       border: 1px solid #444444;
@@ -55,7 +56,7 @@
         border: 0.5px solid #444444;
         box-sizing: border-box;
         border-radius: 2px;
-        .add-class {
+        .add-class-icon {
           path {
             .theme-dark & {
               fill: map-get($dark, "icon1");
@@ -88,38 +89,44 @@
       .tags-container {
         display: flex;
         flex-wrap: wrap;
+        .tags {
+          background: #006cff;
+          border-radius: 2px;
+          padding: 4px 4px 4px 4px;
+          margin: 4px 4px 4px 4px;
+          min-width: fit-content;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .tagTxt {
+            color: #ffffff;
+            font-family: "Source Sans Pro";
+            font-style: normal;
+            font-weight: normal;
+            font-size: 9px;
+            line-height: 11px;
+            padding: 0px 5px 0px 5px;
+          }
+          .checkbox {
+            path {
+              .theme-dark & {
+                fill: map-get($dark, "icon2");
+              }
+            }
+          }
+          .cross {
+            path {
+              .theme-dark & {
+                fill: map-get($dark, "icon2");
+              }
+            }
+          }
+        }
       }
-      .tags {
-        background: #006cff;
-        border-radius: 2px;
-        padding: 4px 4px 4px 4px;
-        margin: 4px 4px 4px 4px;
-        min-width: fit-content;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .tagTxt {
-          color: #ffffff;
-          font-family: "Source Sans Pro";
-          font-style: normal;
-          font-weight: normal;
-          font-size: 9px;
-          line-height: 11px;
-          padding: 0px 5px 0px 5px;
-        }
-        .checkbox {
-          path {
-            .theme-dark & {
-              fill: map-get($dark, "icon2");
-            }
-          }
-        }
-        .cross {
-          path {
-            .theme-dark & {
-              fill: map-get($dark, "icon2");
-            }
-          }
+      .tagInput-container {
+        width: 100%;
+        .add-class-input {
+          width: 100%;
         }
       }
     }
