@@ -24,6 +24,7 @@ import slider from "grapesjs-lory-slider";
  */
 const _grapesEditor = {
 	editor: null,
+	styleManager,
 	exportConfig: {
 		addExportBtn: true,
 		btnLabel: "Export ZIP",
@@ -68,23 +69,23 @@ const _grapesEditor = {
 						{
 							title: "None",
 							value: "none",
-							name: svg("/assets/cross.svg", { width: "11px", height: "11px" }),
+							name: `${svg("/assets/cross.svg", { width: "11px", height: "11px" })}`,
 						},
 						{
 							title: "Left",
 							value: "left",
-							name: svg("/assets/floatLeft.svg", {
+							name: `${svg("/assets/floatLeft.svg",{
 								width: "20px",
 								height: "20px",
-							}),
+							})}`,
 						},
 						{
 							title: "Right",
 							value: "right",
-							name: svg("/assets/floatRight.svg", {
+							name: `${svg("/assets/floatRight.svg",{
 								width: "20px",
 								height: "20px",
-							}),
+							})}`,
 						},
 					],
 				},
@@ -337,25 +338,25 @@ const _grapesEditor = {
 					list: [
 						{
 							value: "row",
-							name: svg("/assets/icon.svg"),
+							name: `${svg("/assets/icon.svg")}`,
 							// className: 'icons-flex icon-dir-row',
 							title: "Row",
 						},
 						{
 							value: "row-reverse",
-							name: svg("/assets/icon.svg"),
+							name: `${svg("/assets/icon.svg")}`,
 							// className: 'icons-flex icon-dir-row-rev',
 							title: "Row reverse",
 						},
 						{
 							value: "column",
-							name: svg("/assets/icon.svg"),
+							name: `${svg("/assets/icon.svg")}`,
 							title: "Column",
 							// className: 'icons-flex icon-dir-col',
 						},
 						{
 							value: "column-reverse",
-							name: svg("/assets/icon.svg"),
+							name: `${svg("/assets/icon.svg")}`,
 							title: "Column reverse",
 							// className: 'icons-flex icon-dir-col-rev',
 						},
@@ -369,27 +370,27 @@ const _grapesEditor = {
 					list: [
 						{
 							value: "flex-start",
-							name: svg("/assets/icon.svg"),
+							name: `${svg("/assets/icon.svg")}`,
 							title: "Flex-Start",
 						},
 						{
 							value: "flex-end",
-							name: svg("/assets/icon.svg"),
+							name: `${svg("/assets/icon.svg")}`,
 							title: "Flex-End",
 						},
 						{
 							value: "space-between",
-							name: svg("/assets/icon.svg"),
+							name: `${svg("/assets/icon.svg")}`,
 							title: "Space-Between",
 						},
 						{
 							value: "space-around",
-							name: svg("/assets/icon.svg"),
+							name: `${svg("/assets/icon.svg")}`,
 							title: "Space-Around",
 						},
 						{
 							value: "center",
-							name: svg("/assets/icon.svg"),
+							name: `${svg("/assets/icon.svg")}`,
 							title: "Center",
 						},
 					],
@@ -402,22 +403,22 @@ const _grapesEditor = {
 					list: [
 						{
 							value: "flex-start",
-							name: svg("/assets/icon.svg"),
+							name: `${svg("/assets/icon.svg")}`,
 							title: "Flex-Start",
 						},
 						{
 							value: "flex-end",
-							name: svg("/assets/icon.svg"),
+							name: `${svg("/assets/icon.svg")}`,
 							title: "Flex-End",
 						},
 						{
 							value: "stretch",
-							name: svg("/assets/icon.svg"),
+							name: `${svg("/assets/icon.svg")}`,
 							title: "Stretch",
 						},
 						{
 							value: "center",
-							name: svg("/assets/icon.svg"),
+							name: `${svg("/assets/icon.svg")}`,
 							title: "Center",
 						},
 					],
@@ -450,7 +451,7 @@ const _grapesEditor = {
 			appendTo: "#blocks",
 		},
 	},
-	init: (config = {}, cb) => {
+	init: (config = {}, dispatch, cb) => {
 		let defaultConfig = _grapesEditor.config;
 		if (defaultConfig.styleManager)
 			defaultConfig.styleManager.sectors = _grapesEditor.styleSectors;
@@ -495,7 +496,7 @@ const _grapesEditor = {
 			}
 		});
 		//init style manager
-		styleManager.init(config.styles);
+		styleManager.init(config.styles, dispatch);
 		if (cb) {
 			console.log("pppppppppppppppppp");
 		}

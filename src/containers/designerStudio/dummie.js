@@ -100,7 +100,8 @@ export const html = `<style>
 
 export const template1Style = `
     <style>
-      * {
+      
+    * {
         box-sizing: border-box;
       }
       body {
@@ -698,7 +699,7 @@ export const template1Html = `
   <section class="am-sect">
     <div class="container-width">
       <div class="am-container">
-        <img onmousedown="return false" src="./img/phone-app.png" class="img-phone" />
+        <img onmousedown="return false" src="./img/phone-app.png" class="img-phone" id="asdf" />
         <div class="am-content">
           <div class="am-pre">ASSET MANAGER
             </div>
@@ -784,7 +785,7 @@ export const template1Html = `
         <div class="badge">
           <div class="badge-header">
           </div>
-          <img src="img/team1.jpg" class="badge-avatar" />
+          <img src="img/team1.jpg" class="as3d as2d badge-avatar" />
           <div class="badge-body">
             <div class="badge-name">Adam Smith
               </div>
