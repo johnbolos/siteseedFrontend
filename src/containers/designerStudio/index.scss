@@ -1,0 +1,130 @@
+@font-face {
+  font-family: "Source Sans Pro";
+  src: url("/assets/Fonts/SourceSansPro-Regular.ttf") format("truetype");
+}
+@import "../../assets/theme/editorTheme.scss";
+
+#grapesEditor {
+  flex: 1;
+}
+
+.style-panel-container {
+  height: 100%;
+  .theme-light & {
+    background-color: map-get($light, "background");
+  }
+  .theme-dark & {
+    background-color: map-get($dark, "background");
+  }
+
+  .classes-container {
+    height: 11%;
+    padding: 22px 20px 18px 20px;
+    font-family: "Source Sans Pro";
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 16px;
+    letter-spacing: 0.04em;
+
+    .heading {
+      .theme-light & {
+        color: map-get($light, "color");
+      }
+      .theme-dark & {
+        color: map-get($dark, "color");
+      }
+    }
+    .input {
+      padding: 5px 5px 5px 5px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      background: #272727;
+      border: 1px solid #444444;
+      box-sizing: border-box;
+      border-radius: 5px;
+
+      .addBtn {
+        display: flex;
+        // height: 20px;
+        // width: 20px;
+        height: fit-content;
+        padding: 4px 4px 4px 4px;
+        background: #444444;
+        border: 0.5px solid #444444;
+        box-sizing: border-box;
+        border-radius: 2px;
+        .dropDown {
+          path {
+            .theme-dark & {
+              fill: map-get($dark, "icon1");
+            }
+          }
+        }
+      }
+      .dropdownBtn {
+        margin: 5px;
+      }
+      .defaultTxt {
+        font-family: "Source Sans Pro";
+        font-style: normal;
+        font-weight: normal;
+        font-size: 11px;
+        line-height: 14px;
+        letter-spacing: 0.04em;
+        color: #ffffff;
+        margin-left: 10px;
+        display: flex;
+        align-items: center;
+      }
+      .tags-container {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .tags {
+        background: #006cff;
+        border-radius: 2px;
+        padding: 4px 4px 4px 4px;
+        margin: 4px 4px 4px 4px;
+        min-width: fit-content;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .tagTxt {
+          color: #ffffff;
+          font-family: "Source Sans Pro";
+          font-style: normal;
+          font-weight: normal;
+          font-size: 9px;
+          line-height: 11px;
+          padding: 0px 5px 0px 5px;
+        }
+        .checkbox {
+          path {
+            .theme-dark & {
+              fill: map-get($dark, "icon2");
+            }
+          }
+        }
+        .cross {
+          path {
+            .theme-dark & {
+              fill: map-get($dark, "icon2");
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// .pre {
+
+//     .theme-light & {
+//         color: #ffffff;
+//     }
+//     .theme-dark & {
+//         color: red;
+//     }
+// }

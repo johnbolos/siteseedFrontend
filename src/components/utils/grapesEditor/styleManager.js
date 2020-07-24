@@ -1,22 +1,24 @@
 import _ from 'lodash'
+import { setEditorStyleData } from '../../../reducers/actions/editorHistoryActions'
 
 const styleManager = {
-  defaultConfig: {
-
+  defaultConfig: {},
+  addEvents: (meta, options) => { //options = { pseudoClass: 'hover' }
+    customEvents.saveStyleInfo(meta, options)
   },
-  init: (styleStr) => {
+  init: (styleStr, dispatch) => {
     //create object
     const styleObj = styleManager.strToObj(styleStr)
     if (styleObj.error) {
       return styleObj
     }
     //save in redux=====================================================================
-    
+    dispatch(setEditorStyleData(styleObj.data.stylesObj))
     //==================================================================================
 
-    //add the style tag in dom
-    const frame = document.getElementsByClassName("gjs-frame")
+    let frame = document.getElementsByClassName("gjs-frame")
     const body = frame[0].contentWindow.document.getElementsByTagName('body')[0]
+    //add the style tag in dom
     let styleId = 'ss-style'
     let style = document.createElement("style")
     style.id = styleId
@@ -63,7 +65,8 @@ const styleManager = {
       _.each(declarations, (item) => {
         let declaration = item.split(':')
         if (item == '') return
-        styles[declaration[0]] = declaration[1]
+        if (declaration[0].trim() == '') return
+        styles[declaration[0].trim()] = declaration[1]
       })
       response.push({ selector, styles })
     })
@@ -125,68 +128,46 @@ const styleManager = {
       startIndex = index + searchStrLen;
     }
     return indices;
+  },
+  getSelectorStyles: (selector, styleObj) => {
+    let obj = selector.map((val) => {
+      return _.find(styleObj, (item) => {
+        if (item.selector) {
+          return item.selector.includes(val.trim())
+        }
+      })
+    })
+    return obj.filter(x => x !== undefined);
+  },
+  getSelectorStyleInfo: (selector, styleObj, options = {}) => {
+    const { pseudoClass } = options
+    let response = {
+      index: [],
+      styles: {}
+    }
+    response.index = selector.map((val) => {
+      return _.findIndex(styleObj, (item) => {
+        if (item.selector) {
+          return item.selector.includes(`${pseudoClass ? val + ':' + pseudoClass : val}`.trim())
+        }
+      })
+    })
+    response.index = response.index.filter(x => x !== -1);
+    response.index.forEach(val => {
+      response.styles = { ...response.styles, ...styleObj[val].styles }
+    })
+    return response
   }
+}
+
+const customEvents = {
+  saveStyleInfo: (meta, options) => {
+    const { e, node } = meta
+    const elem = e.target
+    let className = elem.className.split(' ')
+    const styleInfo = styleManager.getSelectorStyleInfo(className, node.props.styleObj, options)
+    node.setState({ selected: { node: elem, styleInfo } })
+  },
 }
 
 export default styleManager
-
-
-const html = `<style>
-    
-.badge-link{
-  height:35px;
-  width:35px;
-  line-height:35px;
-  font-weight:700;
-  background-color:#fff;
-  color:#a290a5;
-  display:block;
-  border-radius:100%;
-  margin:0 10px;
-}
-@media (max-width: 768px){
-  .foot-form-cont{
-    width:400px;
-  }
-  .foot-form-title{
-    width:autopx;
-  }
-}
-.ds{
-  color:#fff;
-  justify-content:center;
-}
-@media (max-width: 480px){
-  .foot-lists{
-    display:none;
-  }
-}
-.as{
-  height:35px;
-  margin:0 10px;
-}
-    </style>
-    <p>Display some text when the checkbox is checked:</p>
-    
-    <label for="myCheck">Checkbox:</label> 
-    <input type="checkbox" id="myCheck" onclick="myFunction()">
-    
-    <p id="text" style="display:none">Checkbox is CHECKED!</p>
-    
-    
-    <h1>This is a heading</h1>
-    <p>This is a paragraph.</p>
-    
-    <script>
-    function myFunction() {
-      var checkBox = document.getElementById("myCheck");
-      var text = document.getElementById("text");
-      if (checkBox.checked == true){
-        text.style.display = "block";
-      } else {
-         text.style.display = "none";
-      }
-    }
-    </script>`
-
-const x = ``

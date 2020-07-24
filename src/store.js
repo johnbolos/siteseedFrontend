@@ -23,13 +23,14 @@ if (process.env.NODE_ENV === "development") {
 let persistConfig = {
 	key: "root",
 	storage,
+	blacklist: ['editorHistory']
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const composedEnhancers = compose(applyMiddleware(...middleware), ...enhancers);
-
+export let store = null
 export default () => {
-	let store = createStore(
+	store = createStore(
 		connectRouter(history)(persistedReducer),
 		initialState,
 		composedEnhancers
