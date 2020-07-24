@@ -64,6 +64,9 @@
           }
         }
       }
+      .addBtn:hover {
+        cursor: pointer;
+      }
       .dropdownBtn {
         margin: 5px;
         .dropDown {
@@ -89,6 +92,9 @@
       .tags-container {
         display: flex;
         flex-wrap: wrap;
+        .hidden {
+          opacity: 0.5;
+        }
         .tags {
           background: #006cff;
           border-radius: 2px;
@@ -114,12 +120,18 @@
               }
             }
           }
+          .checkbox:hover {
+            cursor: pointer;
+          }
           .cross {
             path {
               .theme-dark & {
                 fill: map-get($dark, "icon2");
               }
             }
+          }
+          .cross:hover {
+            cursor: pointer;
           }
         }
       }

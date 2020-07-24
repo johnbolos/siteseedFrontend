@@ -138,8 +138,8 @@ class DesignerStudio extends React.Component {
                 console.log("callback for grapesjs init")
                 let frame = document.getElementsByClassName("gjs-frame")
                 let contentWindow = frame[0].contentWindow
-                contentWindow.addEventListener('mouseup', (e) => {
-                    _grapesEditor.styleManager.addEvents({ e, node: this })
+                contentWindow.addEventListener('mousedown', (e) => {
+                    _grapesEditor.styleManager.addEvents({ elem: e.target, node: this })
                     // _grapesEditor.styleManager.addEvents({ e, node: this }, { pseudoClass: 'hover' })
                     console.log(this.state.selected)
                 })
@@ -317,7 +317,7 @@ class DesignerStudio extends React.Component {
                                 {/* <button onClick={this.addStyleData}>Add Data</button> */}
                                 {/* <button onClick={() => { this.historyChange('undo') }}>Undo</button>
                                 <button onClick={() => { this.historyChange('redo') }}>Redo</button> */}
-                                <StylePanel selected={selected} />
+                                <StylePanel selected={selected} parentNode={this} />
 
                             </div>
                         </div>

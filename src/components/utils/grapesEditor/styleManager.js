@@ -160,10 +160,9 @@ const styleManager = {
   }
 }
 
-const customEvents = {
+export const customEvents = {
   saveStyleInfo: (meta, options) => {
-    const { e, node } = meta
-    const elem = e.target
+    const { elem, node } = meta
     let className = elem.className.split(' ')
     const styleInfo = styleManager.getSelectorStyleInfo(className, node.props.styleObj, options)
     node.setState({ selected: { node: elem, styleInfo } })
