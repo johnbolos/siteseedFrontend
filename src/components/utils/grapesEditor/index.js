@@ -9,7 +9,8 @@ import styleManager from "./styleManager";
 
 import "./index.scss";
 import { svg } from "../index";
-const navBar = (editor) => {
+import { layoutBlocks } from "../blocks/layout";
+/* const navBar = (editor) => {
 	editor.BlockManager.add("navbar", {
 		label: "Simple Block",
 		category: "Layout",
@@ -18,7 +19,7 @@ const navBar = (editor) => {
 		content: `<div class="my-block">This is a simple block</div>`,
 	});
 };
-
+ */
 const _grapesEditor = {
 	editor: null,
 	styleManager,
@@ -431,7 +432,7 @@ const _grapesEditor = {
 			"gjs-blocks-basic",
 			//"gjs-preset-webpage",
 			(editor) => exportPlugin(editor, _grapesEditor.exportConfig),
-			navBar,
+			layoutBlocks,
 		],
 		allowScripts: 1,
 		components: `<div style="display: flex; justify-content: center; align-items: center">This is the default Page</div>`,
@@ -439,9 +440,9 @@ const _grapesEditor = {
 			appendTo: ".panel__basic-actions",
 			defaults: [],
 		},
-		// blockManager: {
-		// 	appendTo: "#blocks",
-		// },
+		blockManager: {
+			appendTo: "#blocks",
+		},
 	},
 	init: (config = {}, dispatch, cb) => {
 		let defaultConfig = _grapesEditor.config;
@@ -469,11 +470,15 @@ const _grapesEditor = {
 			$("#grapesEditor").addClass("left-pane-preview");
 			$(".panel__top").addClass("hide-top");
 			$("#style-manager").addClass("hide-top");
+			$("#zoom").addClass("hide-top");
+			$("#question").addClass("hide-top");
 		});
-		editor.on("stop:preview", (arg) => {
+		editor.on("stop:preview", () => {
 			$("#grapesEditor").removeClass("left-pane-preview");
 			$(".panel__top").removeClass("hide-top");
 			$("#style-manager").removeClass("hide-top");
+			$("#zoom").removeClass("hide-top");
+			$("#question").removeClass("hide-top");
 		});
 		editor.Commands.add("set-device-mobile", (e) => {
 			let device = e.getDevice();

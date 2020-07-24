@@ -3,9 +3,7 @@ import { connect } from "react-redux"
 
 // import "./index.scss"
 import _grapesEditor from "../../components/utils/grapesEditor"
-// import Icons from './panels/icons'
 import Icons from '../../assets/Icons'
-// import {ReactComponent as ReactLogo} from '../../assets/right-pane/Plus.svg'
 import { template1Html, template1Style } from "./dummie"
 
 class StylePanel extends React.Component {
@@ -27,7 +25,7 @@ class StylePanel extends React.Component {
                     <div className={'input'}>
                         <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center' }}>
                             <div className={'addBtn'}>
-                                <Icons.Plus className={'plus'} style={{ width: '9px', height: '9px' }} />
+                                <Icons.Plus className={'add-class'} style={{ width: '9px', height: '9px' }} />
                             </div>
                             {selected.node == null ? (
                                 <div className={'defaultTxt'}>Select a Class or Tag</div>
