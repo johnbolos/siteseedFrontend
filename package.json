@@ -16,6 +16,7 @@
 		"connected-react-router": "^6.5.2",
 		"grapesjs": "^0.16.18",
 		"grapesjs-blocks-basic": "^0.1.8",
+		"grapesjs-lory-slider": "^0.1.5",
 		"grapesjs-plugin-export": "^1.0.7",
 		"grapesjs-preset-webpage": "^0.1.11",
 		"jquery": "^3.5.1",

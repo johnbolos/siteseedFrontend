@@ -10,6 +10,8 @@ import styleManager from "./styleManager";
 import "./index.scss";
 import { svg } from "../index";
 import { layoutBlocks } from "../blocks/layout";
+import { basicBlocks } from "../blocks/basic";
+import slider from "grapesjs-lory-slider";
 /* const navBar = (editor) => {
 	editor.BlockManager.add("navbar", {
 		label: "Simple Block",
@@ -432,7 +434,12 @@ const _grapesEditor = {
 			//"gjs-preset-webpage",
 			(editor) => exportPlugin(editor, _grapesEditor.exportConfig),
 			layoutBlocks,
+			basicBlocks,
+			slider,
 		],
+		pluginsOpts: {
+			"grapesjs-lory-slider": { sliderBlock: { category: "Basic" } },
+		},
 		allowScripts: 1,
 		components: `<div style="display: flex; justify-content: center; align-items: center">This is the default Page</div>`,
 		panels: {
