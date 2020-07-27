@@ -18,6 +18,7 @@ import {ReactComponent as Dropdown} from "./right-pane/Dropdown.svg";
 import {ReactComponent as Plus} from "./right-pane/Plus.svg";
 import {ReactComponent as Cross} from "./right-pane/Cross.svg";
 import {ReactComponent as Checkbox} from "./right-pane/Checkbox.svg";
+import {ReactComponent as CheckboxUnchecked} from "./right-pane/CheckboxUnchecked.svg";
 
 export default {
 	Clean,
@@ -39,5 +40,6 @@ export default {
 	Dropdown,
 	Plus,
 	Checkbox,
+	CheckboxUnchecked,
 	Cross
 }

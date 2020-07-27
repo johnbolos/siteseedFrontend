@@ -352,7 +352,7 @@ class DesignerStudio extends React.Component {
 								{/* <button onClick={this.addStyleData}>Add Data</button> */}
 								{/* <button onClick={() => { this.historyChange('undo') }}>Undo</button>
                                 <button onClick={() => { this.historyChange('redo') }}>Redo</button> */}
-								<StylePanel selected={selected} />
+								<StylePanel selected={selected} parentNode={this} />
 							</div>
 						</div>
 					</div>
