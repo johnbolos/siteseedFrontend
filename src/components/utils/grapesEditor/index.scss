@@ -460,16 +460,20 @@ svg {
     position: initial;
     justify-content: space-between;
     height: 5%;
+    border: 1px solid #444444;
 }
 
 .logo {
     background: $primaryColor;
     width: 40px;
     height: 40px;
+    border-right: 1px solid #444444;
 }
 
 .panel__basic-actions {
     position: initial;
+    display: flex;
+    align-items: center;
 }
 
 .gjs-pn-panel {
@@ -485,7 +489,7 @@ svg {
 
 .panel__top>.panel__devices {
     position: initial;
-    margin-left: 0%;
+    margin-left: 9%;
     display: flex;
 }
 
@@ -506,7 +510,7 @@ svg {
 .tooltip .tooltiptext {
     visibility: hidden;
     width: 100px;
-    background-color: #1f3b52;
+    background-color: #272727;
     color: #fff;
     text-align: center;
     border-radius: 6px;
@@ -526,7 +530,7 @@ svg {
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: transparent transparent black transparent;
+    border-color: transparent transparent #272727 transparent;
 }
 
 .tooltip:hover .tooltiptext {
@@ -609,8 +613,8 @@ ul li {
 }
 
 .left-pane>img {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     margin: 10px;
 }
 
@@ -662,8 +666,8 @@ ul li {
 //zoom bar
 #zoom {
     position: absolute;
-    left: 38.36%;
-    right: 29.36%;
+    left: 38%;
+    //right: 29.36%;
     bottom: 0%;
     z-index: 1;
     margin-bottom: 10px;
@@ -681,22 +685,22 @@ span {
 .plus {
     width: 26px;
     height: 26px;
-    color: #C0C0C0;
+    color: #c0c0c0;
     font-size: 11px;
     background: #272727;
     border-radius: 5px;
     box-sizing: border-box;
-    padding: 4px 8px;
+    padding: 6px;
     border: 1px solid #444444;
     display: inline-block;
     vertical-align: middle;
     //text-align: center;
-    margin: 0px 6px
+    margin: 0px 6px;
 }
 
 input {
     background: #272727;
-    color: #FFFFFF;
+    color: #ffffff;
     height: 26px;
     width: 45px;
     text-align: center;
@@ -711,25 +715,23 @@ input {
     position: absolute;
     width: 36px;
     height: 36px;
-    left: 81.36%;
-    right: 29.36%;
+    left: 77.36%;
     bottom: 0%;
     z-index: 1;
-    background-color: #2A62FF;
+    background-color: #2a62ff;
     box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.05);
     border-radius: 50%;
-    margin-bottom: 10px;
     text-align: center;
     margin-bottom: 20px;
 }
 
 #question>img {
-    padding: 9.5px
+    padding: 9.5px;
 }
 
 //block manager
 .gjs-fonts::before {
-    color: #C4C4C4;
+    color: #c4c4c4;
     font-size: 3em;
 }
 
@@ -745,8 +747,22 @@ input {
     min-height: 59px;
     height: 59px;
     border-radius: 5px;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
+    //  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
     justify-content: center;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+}
+
+.gjs-block:hover {
+    background-color: #444444;
+    box-shadow: none;
+}
+
+.gjs-pn-btn>.tooltip>img:hover,
+.left-pane>img:hover {
+    background-color: #444444;
+    border-radius: 5px;
 }
 
 .gjs-blocks-c {

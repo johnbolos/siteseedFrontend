@@ -69,12 +69,15 @@ const _grapesEditor = {
 						{
 							title: "None",
 							value: "none",
-							name: `${svg("/assets/cross.svg", { width: "11px", height: "11px" })}`,
+							name: `${svg("/assets/cross.svg", {
+								width: "11px",
+								height: "11px",
+							})}`,
 						},
 						{
 							title: "Left",
 							value: "left",
-							name: `${svg("/assets/floatLeft.svg",{
+							name: `${svg("/assets/floatLeft.svg", {
 								width: "20px",
 								height: "20px",
 							})}`,
@@ -82,7 +85,7 @@ const _grapesEditor = {
 						{
 							title: "Right",
 							value: "right",
-							name: `${svg("/assets/floatRight.svg",{
+							name: `${svg("/assets/floatRight.svg", {
 								width: "20px",
 								height: "20px",
 							})}`,
@@ -431,12 +434,12 @@ const _grapesEditor = {
 		height: "100vh",
 		storageManager: { type: "none" },
 		plugins: [
-			"gjs-blocks-basic",
+			//"gjs-blocks-basic",
 			//"gjs-preset-webpage",
 			(editor) => exportPlugin(editor, _grapesEditor.exportConfig),
 			layoutBlocks,
 			basicBlocks,
-			slider,
+			//slider,
 		],
 		pluginsOpts: {
 			"grapesjs-lory-slider": { sliderBlock: { category: "Basic" } },
@@ -488,12 +491,14 @@ const _grapesEditor = {
 			$("#question").removeClass("hide-top");
 		});
 		editor.Commands.add("set-device-mobile", (e) => {
-			let device = e.getDevice();
-			if (device === "Mobile portrait") {
-				e.setDevice("Desktop");
-			} else {
-				e.setDevice("Mobile portrait");
-			}
+			e.setDevice("Mobile portrait");
+		});
+		editor.Commands.add("set-device-desktop", (e) => {
+			e.setDevice("Desktop");
+		});
+		editor.DeviceManager.add("tablet", "900px");
+		editor.Commands.add("set-device-tablet", {
+			run: (editor) => editor.setDevice("tablet"),
 		});
 		//init style manager
 		styleManager.init(config.styles, dispatch);

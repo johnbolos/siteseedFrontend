@@ -43,7 +43,7 @@ export default (editor, config) => {
 					id: "undo",
 					//className: "fa fa-undo",
 					command: (e) => e.runCommand("core:undo"),
-					label: `<div class="tooltip"><img src=${undo} alt="erase" height=20px width=20px  ></img>
+					label: `<div class="tooltip"><img  src=${undo} alt="erase" height=22px width=22px  ></img>
           <span class="tooltiptext">Undo</span>
         </div>`,
 				},
@@ -51,7 +51,7 @@ export default (editor, config) => {
 					id: "redo",
 					//className: "fa fa-repeat",
 					command: (e) => e.runCommand("core:redo"),
-					label: `<div class="tooltip"><img src=${redo} alt="erase" height=20px width=20px  ></img>
+					label: `<div class="tooltip"><img src=${redo} alt="erase" height=22px width=22px  ></img>
           <span class="tooltiptext">Redo</span>
         </div>`,
 				},
@@ -59,14 +59,14 @@ export default (editor, config) => {
 					id: expt,
 					//className: "fa fa-code",
 					command: (e) => e.runCommand(expt),
-					label: `<div class="tooltip"><img src=${code} alt="erase" height=20px width=20px  ></img>
+					label: `<div class="tooltip"><img src=${code} alt="erase" height=22px width=22px  ></img>
           <span class="tooltiptext">Code</span>
         </div>`,
 				},
 				{
 					id: cmdClear,
 					//className: "fa fa-trash",
-					label: `<div class="tooltip"><img src=${clean} alt="erase" height=20px width=20px  ></img><span class="tooltiptext">Erase</span>
+					label: `<div class="tooltip"><img src=${clean} alt="erase" height=22px width=22px  ></img><span class="tooltiptext">Erase</span>
           </div>`,
 					command: (e) => e.runCommand(cmdClear),
 				},
@@ -74,7 +74,7 @@ export default (editor, config) => {
 					id: cmdImport,
 					//className: "fa fa-download",
 					command: (e) => e.runCommand(cmdImport),
-					label: `<div class="tooltip"><img src=${download} alt="erase" height=20px width=20px  ></img>
+					label: `<div class="tooltip"><img src=${download} alt="erase" height=22px width=22px  ></img>
           <span class="tooltiptext">Download</span>
         </div>`,
 				},
@@ -88,7 +88,7 @@ export default (editor, config) => {
 					id: "undo",
 					//className: "fa fa-undo",
 					command: (e) => e.runCommand("core:undo"),
-					label: `<div class="tooltip"><img src=${undo} alt="erase" height=20px width=20px  ></img>
+					label: `<div class="tooltip"><img src=${undo} alt="erase" height=22px width=22px  ></img>
           <span class="tooltiptext">Undo</span>
         </div>`,
 				},
@@ -96,7 +96,7 @@ export default (editor, config) => {
 					id: "redo",
 					//className: "fa fa-repeat",
 					command: (e) => e.runCommand("core:redo"),
-					label: `<div class="tooltip"><img src=${redo} alt="erase" height=20px width=20px  ></img>
+					label: `<div class="tooltip"><img src=${redo} alt="erase" height=22px width=22px  ></img>
           <span class="tooltiptext">Redo</span>
         </div>`,
 				}   {
@@ -113,14 +113,14 @@ export default (editor, config) => {
 					id: expt,
 					//className: "fa fa-code",
 					command: (e) => e.runCommand(expt),
-					label: `<div class="tooltip"><img src=${code} alt="erase" height=20px width=20px  ></img>
+					label: `<div class="tooltip"><img src=${code} alt="erase" height=22px width=22px  ></img>
           <span class="tooltiptext">Code</span>
         </div>`,
 				},
 				{
 					id: cmdClear,
 					//className: "fa fa-trash",
-					label: `<div class="tooltip"><img src=${clean} alt="erase" height=20px width=20px  ></img><span class="tooltiptext">Erase</span>
+					label: `<div class="tooltip"><img src=${clean} alt="erase" height=22px width=22px  ></img><span class="tooltiptext">Erase</span>
           </div>`,
 					command: (e) => e.runCommand(cmdClear),
 				},
@@ -128,17 +128,17 @@ export default (editor, config) => {
 					id: cmdImport,
 					//className: "fa fa-download",
 					command: (e) => e.runCommand(cmdImport),
-					label: `<div class="tooltip"><img src=${download} alt="erase" height=20px width=20px  ></img>
+					label: `<div class="tooltip"><img src=${download} alt="erase" height=22px width=22px  ></img>
           <span class="tooltiptext">Download</span>
         </div>`,
 				},*/
-				{
+				/* {
 					id: cmdDeviceMobile,
 					command: cmdDeviceMobile,
 					//className: "fa fa-mobile",
-					label: `<div class="tooltip"><img src=${mobile} alt="erase" height=20px width=20px  ></img><span class="tooltiptext">Mobile</span>
+					label: `<div class="tooltip"><img src=${mobile} alt="erase" height=22px width=22px  ></img><span class="tooltiptext">Mobile</span>
           </div>`,
-				},
+				}, */
 				{
 					id: prv,
 					context: prv,
@@ -177,11 +177,4 @@ export default (editor, config) => {
 				openSmBtn && openSmBtn.set("active", 1);
 			}
 		});
-
-	//manage zoom
-	commands.add("manage-zoom", (editor, e) => {
-		//editor.Css.clear()
-		console.log(editor, e);
-		//alert("Zoom selected ")
-	});
 };
