@@ -5,7 +5,7 @@ import { Debounce } from "lodash-decorators/debounce"
 
 import "./index.scss"
 import _grapesEditor from "../../components/utils/grapesEditor"
-import StylePanel from './stylePanel'
+import StylePanel from './stylePanel/index'
 import { undo, redo } from "../../reducers/actions/editorHistoryActions"
 import { closestElement } from "../../components/utils/index"
 import { /* html, */ template1Html, template1Style } from "./dummie"
@@ -41,7 +41,7 @@ class DesignerStudio extends React.Component {
     componentDidMount() {
         this.apiRequest()
         setTimeout(() => {
-            // this.temp()
+            this.temp()
         }, 5000)
     }
 
@@ -155,8 +155,12 @@ class DesignerStudio extends React.Component {
     temp = () => {
         console.log("temporary function")
         const { editor } = _grapesEditor
-        let wrapper = document.getElementsByClassName("body-container")
-
+        const rte = editor.RichTextEditor
+        rte.add('bold', {
+            icon: '<i class="icon-SS-Checkbox"></i>',
+            attributes: {title: 'Bold'},
+            result: rte => rte.exec('bold')
+          });
         // window.addEventListener("mousemove", (mouse) => {
         // 	this.fun(mouse)
         // })

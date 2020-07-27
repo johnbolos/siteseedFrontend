@@ -19,6 +19,7 @@ import {ReactComponent as Plus} from "./right-pane/Plus.svg";
 import {ReactComponent as Cross} from "./right-pane/Cross.svg";
 import {ReactComponent as Checkbox} from "./right-pane/Checkbox.svg";
 import {ReactComponent as CheckboxUnchecked} from "./right-pane/CheckboxUnchecked.svg";
+import {ReactComponent as Tick} from "./right-pane/tick.svg";
 
 export default {
 	Clean,
@@ -41,5 +42,6 @@ export default {
 	Plus,
 	Checkbox,
 	CheckboxUnchecked,
-	Cross
+	Cross,
+	Tick,
 }
