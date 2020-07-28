@@ -5,6 +5,7 @@ import _ from 'lodash'
 import "./index.scss"
 import _grapesEditor from "../../../components/utils/grapesEditor"
 import ClassManager from './classManager'
+// import StyleManager from './styleManager'
 
 class StylePanel extends React.Component {
     constructor(props) {
@@ -24,7 +25,7 @@ class StylePanel extends React.Component {
                 {/* Settings */}
 
                 {/* styles */}
-                
+                {/* <StyleManager /> */}
             </div>
         )
     }

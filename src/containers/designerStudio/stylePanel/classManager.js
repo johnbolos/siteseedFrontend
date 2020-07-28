@@ -48,7 +48,7 @@ class List extends React.Component {
         const { selected } = this.state
         const { items } = this.props
         return (
-            <div ref={this.listRef} className={'list-container' || this.props.className} style={{ width: `${document.querySelector(".style-panel-container .classes-container .heading").clientWidth - 20}px` }}>
+            <div ref={this.listRef} className={'list-container' || this.props.className} style={{ width: `${document.querySelector(".style-panel-container .classes-container .heading").clientWidth}px` }}>
                 {items.map((item, key) => {
                     return <div
                         key={key}

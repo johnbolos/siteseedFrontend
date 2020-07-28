@@ -3,14 +3,17 @@
   height: 100%;
   .theme-light & {
     background-color: map-get($light, "background");
+    color: map-get($light, "color");
   }
   .theme-dark & {
     background-color: map-get($dark, "background");
+    color: map-get($dark, "color");
   }
 
   .classes-container {
-    height: 11%;
+    // height: 11%;
     padding: 22px 20px 18px 20px;
+    border-bottom: 1px solid #444444;
     font-family: "Source Sans Pro";
     font-style: normal;
     font-weight: bold;
@@ -26,7 +29,7 @@
         color: map-get($dark, "color");
       }
     }
-    
+
     .input {
       padding: 5px 5px 5px 5px;
       display: flex;
@@ -194,6 +197,26 @@
       font-size: 9px;
       line-height: 11px;
       color: #ffffff;
+    }
+  }
+
+  .style-manager-container {
+    padding: 12px 20px 0px 20px;
+    .category-label {
+      display: flex;
+      width: 100%;
+      padding: 12px 0px 12px 0px;
+      justify-content: space-between;
+      align-items: center;
+      font-family: "Source Sans Pro";
+      font-style: normal;
+      font-weight: 600;
+      font-size: 13px;
+      line-height: 16px;
+      color: #ffffff;
+    }
+    .children-container {
+      padding: 12px 0px 12px 0px;
     }
   }
 }

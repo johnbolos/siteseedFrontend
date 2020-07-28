@@ -12,7 +12,7 @@ import {ReactComponent as AddElem} from "./left-pane/add-elements.svg";
 import {ReactComponent as Components} from "./left-pane/component.svg";
 import {ReactComponent as Layers} from "./left-pane/layers.svg";
 import {ReactComponent as Comment} from "./left-pane/Comment.svg";
-import {ReactComponent as RightArrow} from "./left-pane/right-arrow.svg";
+import {ReactComponent as RightArrowSkeleton} from "./left-pane/right-arrow.svg";
 import {ReactComponent as Tip} from "./tip.svg";
 import {ReactComponent as Dropdown} from "./right-pane/Dropdown.svg";
 import {ReactComponent as Plus} from "./right-pane/Plus.svg";
@@ -20,6 +20,7 @@ import {ReactComponent as Cross} from "./right-pane/Cross.svg";
 import {ReactComponent as Checkbox} from "./right-pane/Checkbox.svg";
 import {ReactComponent as CheckboxUnchecked} from "./right-pane/CheckboxUnchecked.svg";
 import {ReactComponent as Tick} from "./right-pane/tick.svg";
+import {ReactComponent as RightArrow} from "./right-pane/rightArrow.svg";
 
 export default {
 	Clean,
@@ -37,11 +38,12 @@ export default {
 	Layers,
 	Comment,
 	Tip,
-	RightArrow,
+	RightArrowSkeleton,
 	Dropdown,
 	Plus,
 	Checkbox,
 	CheckboxUnchecked,
 	Cross,
 	Tick,
+	RightArrow
 }
