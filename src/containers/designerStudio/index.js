@@ -1,7 +1,7 @@
-import React from "react"
-import { connect } from "react-redux"
+import React from "react";
+import { connect } from "react-redux";
 //import grapesjs from "grapesjs"
-import { Debounce } from "lodash-decorators/debounce"
+import { Debounce } from "lodash-decorators/debounce";
 
 import "./index.scss"
 import _grapesEditor from "../../components/utils/grapesEditor"
@@ -18,8 +18,11 @@ import {
     layers,
     comment,
     tip,
-	question,
-} from "../designerStudio/panels/icons"
+    question,
+    minus,
+    plus,
+    mobile,
+} from "../designerStudio/panels/icons";
 
 const initialState = {
     blocks: "none",
@@ -27,16 +30,16 @@ const initialState = {
     layers: "none",
     comment: "none",
     tipMargin: "15px",
-	zoom: 100,
+    zoom: 100,
     key: 0,
-    selected :{
+    selected: {
         node: null,
-        styleInfo: {}
-    }
-}
+        styleInfo: {},
+    },
+};
 
 class DesignerStudio extends React.Component {
-    state = initialState
+    state = initialState;
 
     componentDidMount() {
         this.apiRequest()
@@ -46,31 +49,31 @@ class DesignerStudio extends React.Component {
     }
 
     apiRequest = () => {
-        return new Promise(resolve => {
-            const { templateName } = this.props.templates
-            let tempStyle
+        return new Promise((resolve) => {
+            const { templateName } = this.props.templates;
+            let tempStyle;
             switch (templateName) {
                 case "template1":
-                    tempStyle = template1Style
-                    break
+                    tempStyle = template1Style;
+                    break;
                 case "template2":
-                    tempStyle = landing2Style
-                    break
+                    tempStyle = landing2Style;
+                    break;
                 case "template3":
-                    tempStyle = landingStyle
-                    break
+                    tempStyle = landingStyle;
+                    break;
                 default:
-                    break
+                    break;
             }
             //convert this string to styleObject
 
             //Save the tring to state
             this.setState({ templateStyle: tempStyle }, () => {
-                this.StartEditor()
-            })
-            return resolve()
-        })
-    }
+                this.StartEditor();
+            });
+            return resolve();
+        });
+    };
 
     // componentDidMount() {
     // 	this.StartEditor()
@@ -80,33 +83,30 @@ class DesignerStudio extends React.Component {
     // }
 
     reset() {
-        this.setState(initialState)
+        this.setState(initialState);
     }
-	minus = () => {
-		this.setState(
-			{
-				zoom: this.state.zoom - 10,
-			},
-			() => {
-				const { editor } = _grapesEditor;
-				editor.Canvas.setZoom(this.state.zoom);
-			}
-		);
-	};
-	plus = () => {
-		this.setState(
-			{
-				zoom: this.state.zoom + 10,
-			},
-			() => {
-				const { editor } = _grapesEditor;
-				editor.Canvas.setZoom(this.state.zoom);
-			}
-		);
-	};
-	manageZoom = () => {
-		console.log("zoom clicked");
-	};
+    minus = () => {
+        this.setState(
+            {
+                zoom: this.state.zoom - 10,
+            },
+            () => {
+                const { editor } = _grapesEditor;
+                editor.Canvas.setZoom(this.state.zoom);
+            }
+        );
+    };
+    plus = () => {
+        this.setState(
+            {
+                zoom: this.state.zoom + 10,
+            },
+            () => {
+                const { editor } = _grapesEditor;
+                editor.Canvas.setZoom(this.state.zoom);
+            }
+        );
+    };
 
     StartEditor = () => {
         const { dispatch } = this.props
@@ -158,9 +158,9 @@ class DesignerStudio extends React.Component {
         const rte = editor.RichTextEditor
         rte.add('bold', {
             icon: '<i class="icon-SS-Checkbox"></i>',
-            attributes: {title: 'Bold'},
+            attributes: { title: 'Bold' },
             result: rte => rte.exec('bold')
-          });
+        });
         // window.addEventListener("mousemove", (mouse) => {
         // 	this.fun(mouse)
         // })
@@ -176,29 +176,45 @@ class DesignerStudio extends React.Component {
 		) */
         // let selected = _grapesEditor.editor.getSelected()
         // console.log(selected.attributes)
-        this.reset()
+        this.reset();
         this.setState({
             [e.target.name]: this.state[e.target.name] === "none" ? "block" : "none",
-        })
-    }
+        });
+    };
     addStyleData = () => {
-        const { dispatch } = this.props
+        const { dispatch } = this.props;
         this.setState({ key: this.state.key + 1 }, () => {
-            dispatch({ type: 'SET_STYLE_OBJECT', value: this.state.key })
-        })
-    }
+            dispatch({ type: "SET_STYLE_OBJECT", value: this.state.key });
+        });
+    };
     historyChange = (type) => {
-        const { dispatch } = this.props
-        if (type == 'undo') {
-            dispatch(undo())
+        const { dispatch } = this.props;
+        if (type == "undo") {
+            dispatch(undo());
         } else {
-            dispatch(redo())
+            dispatch(redo());
         }
-    }
+    };
+    changeDevice = (e) => {
+        const { editor } = _grapesEditor;
+        switch (e.target.value) {
+            case "tablet":
+                editor.runCommand("set-device-tablet");
+                break;
+            case "mobile":
+                editor.runCommand("set-device-mobile");
+                break;
+            case "desktop":
+                editor.runCommand("set-device-desktop");
+                break;
+            default:
+                break;
+        }
+    };
     render() {
-        const { selected } = this.state
+        const { selected } = this.state;
         return (
-            <div className={'theme-dark'}>
+            <div className={"theme-dark"}>
                 <div
                     style={{
                         display: "flex",
@@ -217,32 +233,57 @@ class DesignerStudio extends React.Component {
                                 <img src={logo} alt='logo'></img>
                             </div>
                             <div className='panel__devices'></div>
-                            <div className='panel__basic-actions'></div>
+                            <div className='panel__basic-actions'>
+                                <div className='tooltip'>
+                                    <select
+                                        name='device'
+                                        id='device'
+                                        onChange={this.changeDevice}>
+                                        <option value='desktop'>Desktop</option>
+                                        <option value='tablet'>Tablet</option>
+                                        <option value='mobile' label='mobile'>
+                                            <img
+                                                src={mobile}
+                                                alt='erase'
+                                                height='22px'
+                                                width='22px'
+                                            />
+                                        </option>
+                                    </select>
+                                    <span className='tooltiptext'>Device</span>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className='body-container'>
+                        <div className='body-container' style={{ height: `${window.innerHeight - 40}px` }}>
                             <div className='left-pane'>
-                                <img
-                                    src={addElem}
-                                    alt='addElement'
-                                    name='blocks'
-                                    onClick={this.drawerToggleClickHandler}
-                                />
-                                <img
-                                    src={components}
-                                    alt='Component'
-                                    name='component'
-                                    onClick={this.drawerToggleClickHandler}></img>
-                                <img
-                                    src={layers}
-                                    alt='layers'
-                                    name='layers'
-                                    onClick={this.drawerToggleClickHandler}></img>
-                                <img
-                                    src={comment}
-                                    alt='commment'
-                                    name='comment'
-                                    onClick={this.drawerToggleClickHandler}></img>
+                                <div>
+                                    <img
+                                        src={addElem}
+                                        alt='addElement'
+                                        name='blocks'
+                                        onClick={this.drawerToggleClickHandler}
+                                    />
+                                </div>
+                                <div>
+                                    <img
+                                        src={components}
+                                        alt='Component'
+                                        name='component'
+                                        onClick={this.drawerToggleClickHandler}></img>
+                                </div>
+                                <div>
+                                    <img
+                                        src={layers}
+                                        alt='layers'
+                                        name='layers'
+                                        onClick={this.drawerToggleClickHandler}></img></div>
+                                <div>
+                                    <img
+                                        src={comment}
+                                        alt='commment'
+                                        name='comment'
+                                        onClick={this.drawerToggleClickHandler}></img></div>
                             </div>
                             <img
                                 src={tip}
@@ -297,18 +338,18 @@ class DesignerStudio extends React.Component {
                                 <h4 className='add-element'>Add Comments</h4>
                             </div>
                             <div id='grapesEditor'></div>
-							<div id='zoom'>
-								<span className='minus' onClick={this.minus}>
-									-
-								</span>
-								<input type='text' value={this.state.zoom + "%"} disabled />
-								<span className='plus' onClick={this.plus}>
-									+
-								</span>
-							</div>
-							<div id='question'>
-								<img src={question} alt='question-mark'></img>
-							</div>
+                            <div id='zoom'>
+                                <span className='minus' onClick={this.minus}>
+                                    <img src={minus} alt='minus'></img>
+                                </span>
+                                <input type='text' value={this.state.zoom + "%"} disabled />
+                                <span className='plus' onClick={this.plus}>
+                                    <img src={plus} alt='plus'></img>
+                                </span>
+                            </div>
+                            <div id='question'>
+                                <img src={question} alt='question-mark'></img>
+                            </div>
                             <div
                                 id='style-manager'
                                 style={{
@@ -322,13 +363,12 @@ class DesignerStudio extends React.Component {
                                 {/* <button onClick={() => { this.historyChange('undo') }}>Undo</button>
                                 <button onClick={() => { this.historyChange('redo') }}>Redo</button> */}
                                 <StylePanel selected={selected} parentNode={this} />
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 
@@ -336,12 +376,12 @@ const mapStateToProps = ({ global, layout, templates, editorHistory }) => {
     return {
         loading: global.loading,
         templates,
-        styleObj: editorHistory.present.styleObj
-    }
-}
+        styleObj: editorHistory.present.styleObj,
+    };
+};
 
 const mapDispatchToProps = (dispatch) => {
-    return { dispatch }
-}
+    return { dispatch };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(DesignerStudio)
+export default connect(mapStateToProps, mapDispatchToProps)(DesignerStudio);

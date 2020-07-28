@@ -1,6 +1,6 @@
 import "grapesjs/dist/css/grapes.min.css";
 import grapesjs from "grapesjs";
-import "grapesjs-blocks-basic";
+// import "grapesjs-blocks-basic";
 import exportPlugin from "grapesjs-plugin-export";
 import panels from "../../../containers/designerStudio/panels";
 // import "grapesjs-preset-webpage";
@@ -10,6 +10,8 @@ import styleManager from "./styleManager";
 import "./index.scss";
 import { svg } from "../index";
 import { layoutBlocks } from "../blocks/layout";
+import { basicBlocks } from "../blocks/basic";
+import slider from "grapesjs-lory-slider";
 /* const navBar = (editor) => {
 	editor.BlockManager.add("navbar", {
 		label: "Simple Block",
@@ -67,12 +69,15 @@ const _grapesEditor = {
 						{
 							title: "None",
 							value: "none",
-							name: `${svg("/assets/cross.svg", { width: "11px", height: "11px" })}`,
+							name: `${svg("/assets/cross.svg", {
+								width: "11px",
+								height: "11px",
+							})}`,
 						},
 						{
 							title: "Left",
 							value: "left",
-							name: `${svg("/assets/floatLeft.svg",{
+							name: `${svg("/assets/floatLeft.svg", {
 								width: "20px",
 								height: "20px",
 							})}`,
@@ -80,7 +85,7 @@ const _grapesEditor = {
 						{
 							title: "Right",
 							value: "right",
-							name: `${svg("/assets/floatRight.svg",{
+							name: `${svg("/assets/floatRight.svg", {
 								width: "20px",
 								height: "20px",
 							})}`,
@@ -426,14 +431,19 @@ const _grapesEditor = {
 	],
 	config: {
 		container: "#grapesEditor",
-		height: "100vh",
+		height: "auto",
 		storageManager: { type: "none" },
 		plugins: [
-			"gjs-blocks-basic",
+			//"gjs-blocks-basic",
 			//"gjs-preset-webpage",
 			(editor) => exportPlugin(editor, _grapesEditor.exportConfig),
 			layoutBlocks,
+			basicBlocks,
+			//slider,
 		],
+		pluginsOpts: {
+			"grapesjs-lory-slider": { sliderBlock: { category: "Basic" } },
+		},
 		allowScripts: 1,
 		components: `<div style="display: flex; justify-content: center; align-items: center">This is the default Page</div>`,
 		panels: {
@@ -481,12 +491,14 @@ const _grapesEditor = {
 			$("#question").removeClass("hide-top");
 		});
 		editor.Commands.add("set-device-mobile", (e) => {
-			let device = e.getDevice();
-			if (device === "Mobile portrait") {
-				e.setDevice("Desktop");
-			} else {
-				e.setDevice("Mobile portrait");
-			}
+			e.setDevice("Mobile portrait");
+		});
+		editor.Commands.add("set-device-desktop", (e) => {
+			e.setDevice("Desktop");
+		});
+		editor.DeviceManager.add("tablet", "900px");
+		editor.Commands.add("set-device-tablet", {
+			run: (editor) => editor.setDevice("tablet"),
 		});
 		//init style manager
 		styleManager.init(config.styles, dispatch);

@@ -110,6 +110,7 @@ export const layoutBlocks = (editor) => {
 		label: `<img src=${column4} alt=column4 />
         <div>4 Columns</div>`,
 		category: "Layout",
+		droppable: "Text",
 		//activate: true,
 		//select: true,
 		content: `<div class="gjs-row">

@@ -15,6 +15,8 @@ import comment from "../../../assets/left-pane/Comment.svg";
 import rightArrow from "../../../assets/left-pane/right-arrow.svg";
 import tip from "../../../assets/tip.svg";
 import question from "../../../assets/question-mark.svg";
+import minus from "../../../assets/Minus_Bold.svg";
+import plus from "../../../assets/Plus_Bold.svg";
 
 export {
 	clean,
@@ -34,4 +36,6 @@ export {
 	tip,
 	rightArrow,
 	question,
+	minus,
+	plus,
 };
