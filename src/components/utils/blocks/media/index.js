@@ -17,6 +17,6 @@ export const media = (editor) => {
 		label: `<img class='siteseed-link 'src=${link} alt=label />
         <div>Link</div>`,
 		category: "Media",
-		content: ``,
+		content: `<a href=''>Link</a>`,
 	});
 };

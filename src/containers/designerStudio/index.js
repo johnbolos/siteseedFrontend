@@ -22,7 +22,10 @@ import {
 	minus,
 	plus,
 	mobile,
+	desktop,
+	ipad,
 } from "../designerStudio/panels/icons";
+import $ from "jquery";
 
 const initialState = {
 	blocks: "none",
@@ -188,24 +191,12 @@ class DesignerStudio extends React.Component {
 			dispatch(redo());
 		}
 	};
-	changeDevice = (e) => {
-		const { editor } = _grapesEditor;
-		switch (e.target.value) {
-			case "tablet":
-				editor.runCommand("set-device-tablet");
-				break;
-			case "mobile":
-				editor.runCommand("set-device-mobile");
-				break;
-			case "desktop":
-				editor.runCommand("set-device-desktop");
-				break;
-			default:
-				break;
-		}
+	changeDevice = () => {
+		$("#device").toggleClass("hide-top");
 	};
 	render() {
 		const { selected } = this.state;
+		const { editor } = _grapesEditor;
 		return (
 			<div className={"theme-dark"}>
 				<div
@@ -228,22 +219,30 @@ class DesignerStudio extends React.Component {
 							<div className='panel__devices'></div>
 							<div className='panel__basic-actions'>
 								<div className='tooltip'>
-									<select
-										name='device'
-										id='device'
-										onChange={this.changeDevice}>
-										<option value='desktop'>Desktop</option>
-										<option value='tablet'>&#xf10a; Tablet</option>
-										<option value='mobile' label='mobile'>
-											<img
-												src={mobile}
-												alt='erase'
-												height='22px'
-												width='22px'
-											/>
-										</option>
-									</select>
+									<div>
+										<img
+											src={mobile}
+											alt='erase'
+											height='22px'
+											width='22px'
+											onClick={this.changeDevice}
+										/>
+									</div>
 									<span className='tooltiptext'>Device</span>
+								</div>
+								<div id='device' className='hide-top'>
+									<div onClick={() => editor.runCommand("set-device-desktop")}>
+										<img src={desktop} alt='Desktop' />
+										Desktop
+									</div>
+									<div onClick={() => editor.runCommand("set-device-tablet")}>
+										<img src={ipad} alt='Tablet' />
+										Tablet
+									</div>
+									<div onClick={() => editor.runCommand("set-device-mobile")}>
+										<img src={mobile} alt='Mobile' />
+										Mobile
+									</div>
 								</div>
 							</div>
 						</div>
@@ -252,30 +251,35 @@ class DesignerStudio extends React.Component {
 							className='body-container'
 							style={{ height: `${window.innerHeight - 40}px` }}>
 							<div className='left-pane'>
-								<img
-									src={addElem}
-									alt='addElement'
-									name='blocks'
-									onClick={this.drawerToggleClickHandler}
-								/>
-
-								<img
-									src={components}
-									alt='Component'
-									name='component'
-									onClick={this.drawerToggleClickHandler}></img>
-
-								<img
-									src={layers}
-									alt='layers'
-									name='layers'
-									onClick={this.drawerToggleClickHandler}></img>
-
-								<img
-									src={comment}
-									alt='commment'
-									name='comment'
-									onClick={this.drawerToggleClickHandler}></img>
+								<div>
+									<img
+										src={addElem}
+										alt='addElement'
+										name='blocks'
+										onClick={this.drawerToggleClickHandler}
+									/>
+								</div>
+								<div>
+									<img
+										src={components}
+										alt='Component'
+										name='component'
+										onClick={this.drawerToggleClickHandler}></img>
+								</div>
+								<div>
+									<img
+										src={layers}
+										alt='layers'
+										name='layers'
+										onClick={this.drawerToggleClickHandler}></img>
+								</div>
+								<div>
+									<img
+										src={comment}
+										alt='commment'
+										name='comment'
+										onClick={this.drawerToggleClickHandler}></img>
+								</div>
 							</div>
 							<img
 								src={tip}

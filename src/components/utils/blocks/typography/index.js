@@ -13,17 +13,11 @@ export const typography = (editor) => {
 		category: "Typography",
 		content: `<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus placeat accusantium unde doloribus.</p>`,
 	});
-	editor.BlockManager.add("text-link", {
-		label: `<img src=${textLink} alt=text-link />
-        <div>Text Link</div>`,
-		category: "Typography",
-		content: `<a href='/'>link</a>`,
-	});
 	editor.BlockManager.add("text-block", {
 		label: `<img src=${text} alt=text-block />
         <div>Text Block</div>`,
 		category: "Typography",
-		content: `<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus placeat accusantium unde doloribus.</div>`,
+		content: `<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus placeat accusantium unde doloribus. Text block inside of div</div>`,
 	});
 	editor.BlockManager.add("block-quote", {
 		label: `<img src=${quote} alt=block-quote />

@@ -612,10 +612,10 @@ ul li {
   align-self: flex-end;
 }
 
-.left-pane>img {
+.left-pane>div>img {
   width: 22px;
   height: 22px;
-  margin: 10px;
+  margin: 2px 0px 0px 2px;
 }
 
 .add-element {
@@ -765,6 +765,7 @@ span {
   box-shadow: none;
 }
 
+.tooltip>div,
 .gjs-pn-btn>.tooltip>div {
   width: 28px;
   height: 28px;
@@ -773,6 +774,7 @@ span {
   align-items: center;
 }
 
+.tooltip>div:hover,
 .gjs-pn-btn>.tooltip>div:hover {
   background-color: #444444;
   border-radius: 5px;
@@ -786,18 +788,18 @@ span {
 .left-pane>div:hover {
   background-color: #444444;
   border-radius: 5px;
-  width: 28px;
-  height: 28px;
-  margin: 10px 6px 10px 6px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  //width: 28px;
+  //height: 28px;
+  //margin: 10px 6px 10px 6px;
+  //display: flex;
+  //justify-content: center;
+  //align-items: center;
 }
 
 .left-pane>div {
   width: 28px;
   height: 28px;
-  margin: 10px 6px 10px 6px;
+  margin: 5px 6px;
   display: flex;
   justify-content: center;
 }
@@ -806,8 +808,6 @@ span {
   padding: 5px;
 }
 
-/*     align-items: center;
-    } */
 .gjs-blocks-c {
   justify-content: flex-start;
   padding-left: 8%;
@@ -815,4 +815,31 @@ span {
 
 .gjs-pn-commands {
   box-shadow: none;
+}
+
+#device {
+  right: 7%;
+  width: 110px;
+  height: 120px;
+  position: absolute;
+  z-index: 1;
+  color: #ffffff;
+  background-color: #272727;
+  top: 40px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 5px;
+
+  div {
+    padding: 5px;
+    justify-content: space-evenly;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    border: 1px solid #444444;
+    border-radius: 5px;
+    margin: 1px 10px;
+  }
 }

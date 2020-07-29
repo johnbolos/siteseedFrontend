@@ -1,13 +1,4 @@
-import {
-	button,
-	tooltip,
-	label,
-	slider,
-	quote,
-	upload,
-	search,
-	map,
-} from "./icons";
+import { button, tooltip, label, upload, search, map } from "./icons";
 
 export const basicBlocks = (editor) => {
 	editor.BlockManager.add("button", {
@@ -34,25 +25,6 @@ export const basicBlocks = (editor) => {
           }
            </style>
         `,
-	});
-	editor.BlockManager.add("quote", {
-		label: `<img src=${quote} alt=quote />
-        <div>Quote</div>`,
-		category: "Basic",
-		content: `<blockquote class="quote">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore ipsum dolor sit
-	  </blockquote>
-      <style>
-      .quote{
-        color:#777;
-        font-weight:300;
-        padding:10px;
-        box-shadow:-5px 0 0 0 #ccc;
-        font-style:italic;
-        margin:20px 30px;
-      }
-       </style>
-      `,
 	});
 	editor.BlockManager.add("upload", {
 		label: `<img src=${upload} alt=upload />

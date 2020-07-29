@@ -13,7 +13,8 @@ import { layoutBlocks } from "../blocks/layout";
 import { basicBlocks } from "../blocks/basic";
 import { typography } from "../blocks/typography";
 import { media } from "../blocks/media";
-import slider from "../blocks/basic/slider";
+import { slider } from "../blocks/basic/icons";
+import "grapesjs-lory-slider";
 
 const _grapesEditor = {
 	editor: null,
@@ -424,7 +425,7 @@ const _grapesEditor = {
 	],
 	config: {
 		container: "#grapesEditor",
-		height: "auto",
+		height: "100%",
 		storageManager: { type: "none" },
 		plugins: [
 			//"gjs-blocks-basic",
@@ -432,10 +433,20 @@ const _grapesEditor = {
 			(editor) => exportPlugin(editor, _grapesEditor.exportConfig),
 			layoutBlocks,
 			basicBlocks,
-			slider,
+
 			typography,
 			media,
+			"grapesjs-lory-slider",
 		],
+		pluginsOpts: {
+			"grapesjs-lory-slider": {
+				sliderBlock: {
+					label: `<img src=${slider} alt=slider />
+					<div>Slider</div>`,
+					category: "Basic",
+				},
+			},
+		},
 		allowScripts: 1,
 		components: `<div style="display: flex; justify-content: center; align-items: center">This is the default Page</div>`,
 		panels: {
