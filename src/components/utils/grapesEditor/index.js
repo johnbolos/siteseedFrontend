@@ -1,6 +1,6 @@
 import "grapesjs/dist/css/grapes.min.css";
 import grapesjs from "grapesjs";
-import "grapesjs-blocks-basic";
+// import "grapesjs-blocks-basic";
 import exportPlugin from "grapesjs-plugin-export";
 import panels from "../../../containers/designerStudio/panels";
 // import "grapesjs-preset-webpage";
@@ -424,7 +424,7 @@ const _grapesEditor = {
 	],
 	config: {
 		container: "#grapesEditor",
-		height: "100vh",
+		height: "auto",
 		storageManager: { type: "none" },
 		plugins: [
 			//"gjs-blocks-basic",

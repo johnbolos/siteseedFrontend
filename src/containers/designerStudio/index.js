@@ -5,7 +5,7 @@ import { Debounce } from "lodash-decorators/debounce";
 
 import "./index.scss";
 import _grapesEditor from "../../components/utils/grapesEditor";
-import StylePanel from "./stylePanel";
+import StylePanel from "./stylePanel/index";
 import { undo, redo } from "../../reducers/actions/editorHistoryActions";
 import { closestElement } from "../../components/utils/index";
 import { /* html, */ template1Html, template1Style } from "./dummie";
@@ -44,7 +44,7 @@ class DesignerStudio extends React.Component {
 	componentDidMount() {
 		this.apiRequest();
 		setTimeout(() => {
-			// this.temp()
+			this.temp();
 		}, 5000);
 	}
 
@@ -124,15 +124,15 @@ class DesignerStudio extends React.Component {
 		_grapesEditor.init(
 			{
 				components: tempHtml,
-				styles: tempStyle,
+				styles: this.state.templateStyle,
 			},
 			dispatch,
 			() => {
 				console.log("callback for grapesjs init");
 				let frame = document.getElementsByClassName("gjs-frame");
 				let contentWindow = frame[0].contentWindow;
-				contentWindow.addEventListener("mouseup", (e) => {
-					_grapesEditor.styleManager.addEvents({ e, node: this });
+				contentWindow.addEventListener("mousedown", (e) => {
+					_grapesEditor.styleManager.addEvents({ elem: e.target, node: this });
 					// _grapesEditor.styleManager.addEvents({ e, node: this }, { pseudoClass: 'hover' })
 					console.log(this.state.selected);
 				});
@@ -148,8 +148,12 @@ class DesignerStudio extends React.Component {
 	temp = () => {
 		console.log("temporary function");
 		const { editor } = _grapesEditor;
-		let wrapper = document.getElementsByClassName("body-container");
-
+		const rte = editor.RichTextEditor;
+		rte.add("bold", {
+			icon: '<i class="icon-SS-Checkbox"></i>',
+			attributes: { title: "Bold" },
+			result: (rte) => rte.exec("bold"),
+		});
 		// window.addEventListener("mousemove", (mouse) => {
 		// 	this.fun(mouse)
 		// })
@@ -244,7 +248,9 @@ class DesignerStudio extends React.Component {
 							</div>
 						</div>
 
-						<div className='body-container'>
+						<div
+							className='body-container'
+							style={{ height: `${window.innerHeight - 40}px` }}>
 							<div className='left-pane'>
 								<img
 									src={addElem}
@@ -252,16 +258,19 @@ class DesignerStudio extends React.Component {
 									name='blocks'
 									onClick={this.drawerToggleClickHandler}
 								/>
+
 								<img
 									src={components}
 									alt='Component'
 									name='component'
 									onClick={this.drawerToggleClickHandler}></img>
+
 								<img
 									src={layers}
 									alt='layers'
 									name='layers'
 									onClick={this.drawerToggleClickHandler}></img>
+
 								<img
 									src={comment}
 									alt='commment'

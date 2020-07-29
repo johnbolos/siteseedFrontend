@@ -186,16 +186,23 @@ const styleManager = {
 };
 
 export const customEvents = {
-	saveStyleInfo: (meta, options) => {
-		const { e, node } = meta;
-		let elem = e.target;
-		/* 	let className = elem.className.split(" ");
+	saveStyleInfo: (meta, options, cb = () => {}) => {
+		//options = { pseudoClass: 'hover' }
+		const { elem, node } = meta;
+		console.log(elem.className, typeof elem.className, "ssssssssss");
+		if (typeof elem.className == "object") {
+			return;
+		}
+		let className = elem.className.split(" ");
 		const styleInfo = styleManager.getSelectorStyleInfo(
 			className,
 			node.props.styleObj,
 			options
-		); */
-		//node.setState({ selected: { node: elem, styleInfo } });
+		);
+		console.log(className, styleInfo, elem, node, "internal");
+		node.setState({ selected: { node: elem, styleInfo } }, () => {
+			cb();
+		});
 	},
 };
 

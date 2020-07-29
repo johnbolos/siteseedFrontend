@@ -697,6 +697,9 @@ export const template1Html = `
     </div>
   </section>
   <section class="am-sect">
+  <svg width="10" id="svg" height="8" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.7625 4.99708L1.68344 3.0948L0.5 4.38782L3.81656 7.4224L9.5 1.73896L8.26104 0.5L3.7625 4.99708Z" fill="#C0C0C0"></path>
+            </svg>
     <div class="container-width">
       <div class="am-container">
         <img onmousedown="return false" src="./img/phone-app.png" class="img-phone" id="asdf" />

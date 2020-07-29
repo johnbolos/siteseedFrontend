@@ -1,0 +1,48 @@
+@import "../../../assets/theme/editorTheme.scss";
+.list-container {
+  position: absolute;
+  padding: 15px 10px 15px 10px;
+  background: #1b1b1b;
+  border-radius: 5px;
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+  color: #c0c0c0;
+  .listItem {
+    background: transparent;
+    padding: 5px 24px 4px 24px;
+    border: 1px solid transparent;
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }
+  .listItem:hover {
+    background: #272727;
+    padding: 5px 24px 4px 24px;
+    border: 1px solid #444444;
+    box-sizing: border-box;
+    border-radius: 5px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }
+  .listItemSelected {
+    background: #272727;
+    border: 1px solid #444444;
+    box-sizing: border-box;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 5px 7.5px 4px 7.5px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }
+  .tick {
+    margin: 0px 7.5px 0px 0px;
+    path {
+      .theme-dark & {
+        fill: map-get($dark, "icon1");
+      }
+    }
+  }
+}
