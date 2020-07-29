@@ -11,17 +11,10 @@ import "./index.scss";
 import { svg } from "../index";
 import { layoutBlocks } from "../blocks/layout";
 import { basicBlocks } from "../blocks/basic";
-import slider from "grapesjs-lory-slider";
-/* const navBar = (editor) => {
-	editor.BlockManager.add("navbar", {
-		label: "Simple Block",
-		category: "Layout",
-		//activate: true,
-		//select: true,
-		content: `<div class="my-block">This is a simple block</div>`,
-	});
-};
- */
+import { typography } from "../blocks/typography";
+import { media } from "../blocks/media";
+import slider from "../blocks/basic/slider";
+
 const _grapesEditor = {
 	editor: null,
 	styleManager,
@@ -439,11 +432,10 @@ const _grapesEditor = {
 			(editor) => exportPlugin(editor, _grapesEditor.exportConfig),
 			layoutBlocks,
 			basicBlocks,
-			//slider,
+			slider,
+			typography,
+			media,
 		],
-		pluginsOpts: {
-			"grapesjs-lory-slider": { sliderBlock: { category: "Basic" } },
-		},
 		allowScripts: 1,
 		components: `<div style="display: flex; justify-content: center; align-items: center">This is the default Page</div>`,
 		panels: {
@@ -466,12 +458,8 @@ const _grapesEditor = {
 		_grapesEditor.editor = grapesjs.init({ ...defaultConfig, ...config });
 		let editor = _grapesEditor.editor;
 		panels(editor, config);
-		// console.log("html ", editor.getHtml());
-		// console.log("selected ", editor.getSelected());
-		// console.log("config ", editor.getConfig());
-		// console.log("JS ", editor.getJs());
 
-		//fire for every change in the canvas
+		//fires for every change in the canvas
 		// editor.on("component:update", (some) => {
 		// 	// do something
 		// 	console.log("component changed/updated/added", some);

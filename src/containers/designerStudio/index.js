@@ -75,13 +75,6 @@ class DesignerStudio extends React.Component {
 		});
 	};
 
-	// componentDidMount() {
-	// 	this.StartEditor()
-	// 	/* setTimeout(() => {
-	// 		this.temp()
-	// 	}, 5000) */
-	// }
-
 	reset() {
 		this.setState(initialState);
 	}
@@ -236,7 +229,7 @@ class DesignerStudio extends React.Component {
 										id='device'
 										onChange={this.changeDevice}>
 										<option value='desktop'>Desktop</option>
-										<option value='tablet'>Tablet</option>
+										<option value='tablet'>&#xf10a; Tablet</option>
 										<option value='mobile' label='mobile'>
 											<img
 												src={mobile}

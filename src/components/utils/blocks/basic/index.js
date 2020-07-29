@@ -8,7 +8,6 @@ import {
 	search,
 	map,
 } from "./icons";
-import sliderplug from "grapesjs-lory-slider";
 
 export const basicBlocks = (editor) => {
 	editor.BlockManager.add("button", {
@@ -36,19 +35,13 @@ export const basicBlocks = (editor) => {
            </style>
         `,
 	});
-	editor.BlockManager.add("slider", {
-		label: `<img src=${slider} alt=slider />
-        <div>Slider</div>`,
-		category: "Basic",
-		content: `${sliderplug}`,
-	});
 	editor.BlockManager.add("quote", {
 		label: `<img src=${quote} alt=quote />
         <div>Quote</div>`,
 		category: "Basic",
 		content: `<blockquote class="quote">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore ipsum dolor sit
-      </blockquote>
+	  </blockquote>
       <style>
       .quote{
         color:#777;
