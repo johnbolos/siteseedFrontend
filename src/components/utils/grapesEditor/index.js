@@ -1,6 +1,6 @@
 import "grapesjs/dist/css/grapes.min.css";
 import grapesjs from "grapesjs";
-// import "grapesjs-blocks-basic";
+//import "grapesjs-blocks-basic";
 import exportPlugin from "grapesjs-plugin-export";
 import panels from "../../../containers/designerStudio/panels";
 // import "grapesjs-preset-webpage";
@@ -9,9 +9,10 @@ import styleManager from "./styleManager";
 
 import "./index.scss";
 import { svg } from "../index";
-import { layoutBlocks } from "../blocks/layout";
+import layoutBlocks from "../blocks/layout";
 import { basicBlocks } from "../blocks/basic";
 import { typography } from "../blocks/typography";
+import { formBlocks } from "../blocks/forms";
 import { media } from "../blocks/media";
 import { slider } from "../blocks/basic/icons";
 import "grapesjs-lory-slider";
@@ -433,10 +434,10 @@ const _grapesEditor = {
 			(editor) => exportPlugin(editor, _grapesEditor.exportConfig),
 			layoutBlocks,
 			basicBlocks,
-
 			typography,
 			media,
 			"grapesjs-lory-slider",
+			formBlocks,
 		],
 		pluginsOpts: {
 			"grapesjs-lory-slider": {
@@ -445,6 +446,10 @@ const _grapesEditor = {
 					<div>Slider</div>`,
 					category: "Basic",
 				},
+			},
+			"gjs-blocks-basic": {
+				blocks: ["column1", "column2", "column3", "column3-7"],
+				category: "Layout",
 			},
 		},
 		allowScripts: 1,
@@ -455,6 +460,16 @@ const _grapesEditor = {
 		},
 		blockManager: {
 			appendTo: "#blocks",
+		},
+		canvas: {
+			styles: [
+				"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css",
+			],
+			scripts: [
+				"https://code.jquery.com/jquery-3.3.1.slim.min.js",
+				"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js",
+				"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js",
+			],
 		},
 	},
 	init: (config = {}, dispatch, cb) => {
@@ -550,67 +565,3 @@ const _grapesEditor = {
 };
 
 export default _grapesEditor;
-
-/* class apiReference {
-	blockConfig = {
-		label: `<div>
-                    <img src="https://picsum.photos/70/70"/>
-                    <div class="my-label-block">Label block</div>
-                </div>`,
-		content: '<div class="my-block" id="h1qert">This is a simple block</div>',
-		category: "extra",
-		attributes: {
-			class: "customBlock",
-		},
-		render: ({ model, className }) => `<div class="${className}__my-wrap">
-                Before label
-                ${model.get("label")}
-                After label
-            </div>`,
-
-		// content: html
-	};
-	editorConfig = {
-		container: "#grapesEditor",
-		height: "100%",
-		storageManager: { type: "none" },
-		plugins: ["gjs-blocks-basic"],
-		allowScripts: 1,
-		components: `<div style="display: flex; justify-content: center; align-items: center">This is the default Page</div>`,
-		// panels: {
-		//   defaults: []
-		// },
-		blockManager: {
-			appendTo: "#blocks",
-		},
-		// styleManager: {
-		//   sectors: [{
-		//     name: 'Dimension',
-		//     buildProps: ['height', 'min-height', 'width', 'min-height']
-		//   }, {
-		//     name: 'Extra',
-		//     buildProps: ['background-color', 'box-shadow']
-		//   }]
-		// }
-	};
-	exportCommand = {
-		// editor.runCommand('gjs-export-zip')
-	};
-	addBlock = {
-		// _grapesEditor.addBlock('my-first-block', {
-		//     label: 'Simple Block',
-		//     // content: '<div class="my-block" id="h1qert">This is a simple block</div>',
-		//     content: html,
-		//     category: 'extra',
-		//     attributes: {
-		//         class: 'custom-block'
-		//     },
-		//     render: ({ model, className }) => (`<div class="${className}__my-wrap" style="display: flex; justify-content: space-between; align-items: center; flex-direction: column; height: 100%;">
-		//             <div>Before label</div>
-		//             <div>${model.get('label')}</div>
-		//             <div>After label</div>
-		//         </div>`
-		//     ),
-		// })
-	};
-} */

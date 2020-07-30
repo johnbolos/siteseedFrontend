@@ -447,10 +447,22 @@ svg {
   // margin-top: 5px;
   //margin-bottom: 5px;
   margin: 5px 0px 5px 45px;
-  overflow: hidden;
+  overflow: scroll;
   background-color: #373737;
   color: #ffffff;
   border-radius: 5px;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+#blocks::-webkit-scrollbar,
+#components::-webkit-scrollbar,
+#comment::-webkit-scrollbar,
+#layers::-webkit-scrollbar {
+  display: none;
 }
 
 .panel__top {
