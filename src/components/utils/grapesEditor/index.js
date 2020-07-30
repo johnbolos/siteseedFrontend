@@ -447,10 +447,6 @@ const _grapesEditor = {
 					category: "Basic",
 				},
 			},
-			"gjs-blocks-basic": {
-				blocks: ["column1", "column2", "column3", "column3-7"],
-				category: "Layout",
-			},
 		},
 		allowScripts: 1,
 		components: `<div style="display: flex; justify-content: center; align-items: center">This is the default Page</div>`,
