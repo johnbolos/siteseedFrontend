@@ -42,6 +42,10 @@ export const typography = (editor) => {
 		label: `<img src=${richtext} alt=rich-text />
         <div>Rich Text</div>`,
 		category: "Typography",
-		content: `<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus placeat accusantium unde doloribus.</div>`,
+		content: `<h1>A Nice heading</h1>
+					<p>A paragraph with dummy content Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore ipsum dolor sit</p>
+				<h4> Sub heading</h4>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore ipsum dolor sit</p>
+		`,
 	});
 };

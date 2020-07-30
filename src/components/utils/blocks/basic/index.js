@@ -5,19 +5,21 @@ export const basicBlocks = (editor) => {
 		label: `<img src=${button} alt=column />
         <div>Button</div>`,
 		category: "Basic",
-		content: `<button class="button">Send</button>`,
+		content: `<button class="btn btn-danger">Send</button>`,
 	});
 	editor.BlockManager.add("tooltip", {
 		label: `<img src=${tooltip} alt=tooltip />
         <div>Tooltips</div>`,
 		category: "Basic",
-		content: `<div class="gjs-row">`,
+		content: `<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-html="true" title="edit this content">
+		Tooltip button element
+	  </button>`,
 	});
 	editor.BlockManager.add("label", {
 		label: `<img src=${label} alt=label />
         <div>Label</div>`,
 		category: "Basic",
-		content: `<label class="label">Label</label>
+		content: `<label for="">Label</label>
         <style>
         .label{
             width:100%;
@@ -30,7 +32,7 @@ export const basicBlocks = (editor) => {
 		label: `<img src=${upload} alt=upload />
         <div>Upload</div>`,
 		category: "Basic",
-		content: `<div class="gjs-row"></div>`,
+		content: `<input type="file">`,
 	});
 	editor.BlockManager.add("search", {
 		label: `<img src=${search} alt=search />
@@ -41,7 +43,6 @@ export const basicBlocks = (editor) => {
 	  </form>
 		<style>
 		input[type=text] {
-			float: right;
 			padding: 6px;
 			margin-top: 8px;
 			margin-right: 16px;

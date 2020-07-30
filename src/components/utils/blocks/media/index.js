@@ -11,7 +11,9 @@ export const media = (editor) => {
 		label: `<img src=${youtube} alt=label />
         <div>Youtube</div>`,
 		category: "Media",
-		content: ``,
+		content: `<iframe width="200px" height="200px"
+		src="https://www.youtube.com/embed/tgbNymZ7vqY">
+		</iframe>`,
 	});
 	editor.BlockManager.add("link", {
 		label: `<img class='siteseed-link 'src=${link} alt=label />
