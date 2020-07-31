@@ -144,7 +144,7 @@ export default (editor, config) => {
 					context: prv,
 					command: (e) => e.runCommand(prv),
 					//className: "fa fa-eye",
-					label: `<div class="tooltip"><img src=${play} alt="erase" height=24px width=24px  ></img>
+					label: `<div class="tooltip"><div><img src=${play} alt="erase" height=24px width=24px  ></img></div>
           <span class="tooltiptext">Play</span>
         </div>`,
 				},

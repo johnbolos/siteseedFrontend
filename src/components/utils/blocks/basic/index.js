@@ -1,33 +1,25 @@
-import {
-	button,
-	tooltip,
-	label,
-	slider,
-	quote,
-	upload,
-	search,
-	map,
-} from "./icons";
-import sliderplug from "grapesjs-lory-slider";
+import { button, tooltip, label, upload, search, map } from "./icons";
 
 export const basicBlocks = (editor) => {
 	editor.BlockManager.add("button", {
 		label: `<img src=${button} alt=column />
         <div>Button</div>`,
 		category: "Basic",
-		content: `<button class="button">Send</button>`,
+		content: `<button class="btn btn-danger">Send</button>`,
 	});
 	editor.BlockManager.add("tooltip", {
 		label: `<img src=${tooltip} alt=tooltip />
         <div>Tooltips</div>`,
 		category: "Basic",
-		content: `<div class="gjs-row">`,
+		content: `<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-html="true" title="edit this content">
+		Tooltip button element
+	  </button>`,
 	});
 	editor.BlockManager.add("label", {
 		label: `<img src=${label} alt=label />
         <div>Label</div>`,
 		category: "Basic",
-		content: `<label class="label">Label</label>
+		content: `<label for="">Label</label>
         <style>
         .label{
             width:100%;
@@ -36,36 +28,11 @@ export const basicBlocks = (editor) => {
            </style>
         `,
 	});
-	editor.BlockManager.add("slider", {
-		label: `<img src=${slider} alt=slider />
-        <div>Slider</div>`,
-		category: "Basic",
-		content: `${sliderplug}`,
-	});
-	editor.BlockManager.add("quote", {
-		label: `<img src=${quote} alt=quote />
-        <div>Quote</div>`,
-		category: "Basic",
-		content: `<blockquote class="quote">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore ipsum dolor sit
-      </blockquote>
-      <style>
-      .quote{
-        color:#777;
-        font-weight:300;
-        padding:10px;
-        box-shadow:-5px 0 0 0 #ccc;
-        font-style:italic;
-        margin:20px 30px;
-      }
-       </style>
-      `,
-	});
 	editor.BlockManager.add("upload", {
 		label: `<img src=${upload} alt=upload />
         <div>Upload</div>`,
 		category: "Basic",
-		content: `<div class="gjs-row"></div>`,
+		content: `<input type="file">`,
 	});
 	editor.BlockManager.add("search", {
 		label: `<img src=${search} alt=search />
@@ -76,7 +43,6 @@ export const basicBlocks = (editor) => {
 	  </form>
 		<style>
 		input[type=text] {
-			float: right;
 			padding: 6px;
 			margin-top: 8px;
 			margin-right: 16px;
