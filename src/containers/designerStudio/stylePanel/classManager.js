@@ -6,6 +6,7 @@ import _ from 'lodash'
 import _grapesEditor from "../../../components/utils/grapesEditor"
 // import { Select } from '../../../components/ui/editor'
 import { undo, redo, setEditorStyleData } from "../../../reducers/actions/editorHistoryActions"
+import { setPseudoClass } from "../../../reducers/actions/editor"
 import { customEvents } from '../../../components/utils/grapesEditor/styleManager'
 import Icons from '../../../assets/Icons'
 
@@ -127,8 +128,9 @@ class ClassManager extends React.Component {
 
     }
     pseudoClassChange = (val) => {
-        const { selected, editorNode } = this.props
+        const { selected, editorNode, dispatch } = this.props
         this.setState({ pseudoClass: val, selectPseudoClass: false }, () => {
+            dispatch(setPseudoClass(val.toLowerCase()))
             if (selected && selected.node == null) return
             if (val == 'Active') {
                 customEvents.saveStyleInfo({ elem: selected.node, node: editorNode })
@@ -192,7 +194,7 @@ class ClassManager extends React.Component {
                     />
 
                 }
-                <div className={'selectorInfo'}>Selected: {selected.node && (selected.node.tagName + '#' + selected.node.id)}</div>
+                <div className={'selectorInfo'}>{selected.node && ('Selected: ' + selected.node.tagName + '#' + selected.node.id)}</div>
             </div>
         )
     }

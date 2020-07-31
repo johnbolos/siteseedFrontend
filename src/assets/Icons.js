@@ -21,29 +21,21 @@ import {ReactComponent as Checkbox} from "./right-pane/Checkbox.svg";
 import {ReactComponent as CheckboxUnchecked} from "./right-pane/CheckboxUnchecked.svg";
 import {ReactComponent as Tick} from "./right-pane/tick.svg";
 import {ReactComponent as RightArrow} from "./right-pane/rightArrow.svg";
+import {ReactComponent as Up} from "./right-pane/up.svg";
+import {ReactComponent as AlignLeft} from "./right-pane/alignLeft.svg";
+import {ReactComponent as AlignRight} from "./right-pane/alignRight.svg";
+import {ReactComponent as Theme} from "./right-pane/theme.svg";
 
 export default {
-	Clean,
-	Code,
-	Desktop,
-	Download,
-	Ipad,
-	Mobile,
-	Redo,
-	Undo,
-	Play,
-	Logo,
-	AddElem,
-	Components,
-	Layers,
-	Comment,
-	Tip,
-	RightArrowSkeleton,
 	Dropdown,
 	Plus,
 	Checkbox,
 	CheckboxUnchecked,
 	Cross,
 	Tick,
-	RightArrow
+	RightArrow,
+	Up,
+	AlignLeft,
+	AlignRight,
+	Theme,
 }
