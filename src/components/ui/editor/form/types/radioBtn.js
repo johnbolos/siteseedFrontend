@@ -14,14 +14,22 @@ class RadioBtn extends React.Component {
     componentDidUpdate(prevProps) {
         if (prevProps.meta.value != this.props.meta.value) {
             this.setState({ value: this.props.meta.value })
+            console.log(this.props.meta.value, prevProps.meta.value, 'did radio')
         }
     }
     handleClick = (item) => {
+        const { meta: { onChange }, globalOnChange } = this.props
         if (typeof (item) === 'string') {
-            this.setState({ value: item })
+            this.setState({ value: item }, () => {
+                onChange && onChange(item)
+                globalOnChange(item)
+            })
             return
         }
-        this.setState({ value: item.value })
+        this.setState({ value: item.value }, () => {
+            onChange && onChange(item.value)
+            globalOnChange(item.value)
+        })
     }
     render() {
         const {
@@ -32,7 +40,7 @@ class RadioBtn extends React.Component {
                 // rules,
                 // multiple,
             },
-            // globalOnChange //complete form specific change
+            globalOnChange //complete form specific change
         } = this.props
         const { value, height } = this.state
         return (

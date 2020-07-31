@@ -1,9 +1,12 @@
 import React from "react"
 import { connect } from "react-redux"
 import _ from 'lodash'
+import shortid from 'shortid'
 
 import "./index.scss"
+import { setEditorStyleData, setStyleStr } from "../../../reducers/actions/editorHistoryActions";
 import _grapesEditor from "../../../components/utils/grapesEditor"
+import { customEvents } from '../../../components/utils/grapesEditor/styleManager'
 import Icons from '../../../assets/Icons'
 import { CreateForm } from '../../../components/ui/editor'
 
@@ -15,19 +18,87 @@ class StyleManager extends React.Component {
 
     }
     componentDidMount() {
-        
+        console.log(shortid.generate())
     }
     componentDidUpdate(prevProps) {
         console.log(this.props.selected, 'selected chane did')
-        if (prevProps.selected != this.props.selected) {
-            this.forceUpdate()
+        // if (prevProps.selected != this.props.selected) {
+        //     this.forceUpdate()
+        // }
+    }
+    globalOnChange = (item, formData) => {
+        const { selected, editorNode, pseudoClass, styleObj, dispatch } = this.props
+        console.log(item, formData, 'globalOnchange')
+        if (!selected.node) {
+            return
         }
+        let className = selected.node.className.split(' ')
+        let uniqueClass = _.find(className, (item) => {
+            return item.includes('ss-')
+        })
+        if (!uniqueClass) {
+            // do something
+            uniqueClass = `ss-${shortid.generate()}`
+            let editor = _grapesEditor.editor
+            let componentModel = editor.getSelected()
+            componentModel.addClass(uniqueClass)
+        }
+        let uniqueClassIndex = styleObj.length
+        selected.styleInfo.index.forEach(val => {
+            if (styleObj[val].selector == (pseudoClass == 'active' ? uniqueClass : `${uniqueClass}:${pseudoClass}`)) {
+                uniqueClassIndex = val
+            }
+        })
+
+        let requiredStyleObj = _.cloneDeep(styleObj[uniqueClassIndex]) || {}
+        requiredStyleObj.selector = (pseudoClass == 'active' ? uniqueClass : `${uniqueClass}:${pseudoClass}`)
+        if (requiredStyleObj.styles) {
+            requiredStyleObj.styles = {
+                ...requiredStyleObj.styles,
+                [item.key]: item.value
+            }
+        } else {
+            requiredStyleObj.styles = {
+                [item.key]: item.value
+            }
+        }
+        // if item.key == shapeDivider, etc then do something else
+
+        //========================================================
+        let cssString = ''
+        _.forEach(requiredStyleObj.styles, (val, key) => {
+            cssString += `
+            ${key}:${val};`
+        })
+        cssString = `.${requiredStyleObj.selector} {${cssString}
+        }`
+        //get style string from redux
+        let str = _.clone(this.props.styleStr)
+        let data = _grapesEditor.styleManager.extractBlock(`.${requiredStyleObj.selector}`, str)
+        if (data.customCode != '') {
+            str = data.str
+        }
+        str = str.replace('</style>', `${cssString} </style>`)
+        styleObj[uniqueClassIndex] = requiredStyleObj
+        // update style tag and redux history
+        dispatch(setEditorStyleData(styleObj));
+        dispatch(setStyleStr(str, { update: true }))
+        // console.log(str, data.customCode, styleObj[uniqueClassIndex], uniqueClassIndex, 'final to be saved in redux')
+
+        //set selected
+        if (pseudoClass == 'Active') {
+            customEvents.saveStyleInfo({ elem: selected.node, node: editorNode })
+            return
+        }
+        customEvents.saveStyleInfo({ elem: selected.node, node: editorNode }, { pseudoClass: pseudoClass })
+
+
     }
     createCategories = (data) => {
         const { opened } = this.state
         const toggleOpen = (key) => {
             if (opened == key) {
-                this.setState({ opened: -1 }, console.log(opened, 'dsad'))
+                this.setState({ opened: -1 })
                 return
             }
             this.setState({ opened: key })
@@ -53,7 +124,6 @@ class StyleManager extends React.Component {
     render() {
         const { } = this.state
         const { selected, editorNode, pseudoClass } = this.props
-        console.log(pseudoClass, selected.node && getComputedStyle(selected.node, pseudoClass).float)
         const generalFormFields = [
             {
                 label: () => { return <div>Alignment</div> }, //optional; Type: String || () => {}
@@ -247,14 +317,18 @@ class StyleManager extends React.Component {
         const categories = [
             {
                 label: 'General',
-                children: (<CreateForm fields={generalFormFields} globalOnChange={(item, data) => { }} />),
+                children: (<CreateForm fields={generalFormFields} globalOnChange={this.globalOnChange} getFormData={(fn) => {
+                    this.getFormDataGeneral = fn
+                }} />),
                 // render: () => {
                 //     return <div className={'category-label'}>General Custom</div>
                 // }
             },
             {
                 label: 'Dimension',
-                children: (<CreateForm fields={dimensionFormFields} globalOnChange={(item, data) => { }} />),
+                children: (<CreateForm fields={dimensionFormFields} globalOnChange={this.globalOnChange} getFormData={(fn) => {
+                    this.getFormDataDimension = fn
+                }} />),
             },
             // {
             //     label: 'Typography',
@@ -274,6 +348,7 @@ const mapStateToProps = ({ global, layout, editor, templates, editorHistory }) =
         loading: global.loading,
         templates,
         styleObj: editorHistory.present.styleObj,
+        styleStr: editorHistory.present.style,
         pseudoClass: editor.pseudoClass
     }
 }

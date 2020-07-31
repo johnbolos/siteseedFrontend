@@ -50,6 +50,13 @@ class Select extends React.Component {
         }
         return value
     }
+    onChange = (e) => {
+        const { meta: { onChange }, globalOnChange } = this.props
+        this.setState({ value: e.target.value }, () => {
+            onChange && onChange(this.state.value)
+            globalOnChange(this.state.value)
+        })
+    }
     render() {
         const {
             meta: {
@@ -61,12 +68,12 @@ class Select extends React.Component {
                 // rules,
                 // multiple,
             },
-            // globalOnChange //complete form specific change
+            globalOnChange //complete form specific change
         } = this.props
         const { value, unitValue } = this.state
         return (
             <div className={'integer-container'}>
-                <input type="number" name="int" value={value} placeholder={(value == '') ? 'auto' : (isNaN(value) ? value : '')} onChange={(e) => { console.log(e, e.target.value, 'logging imput') }} />
+                <input type="number" name="int" value={value} placeholder={(value == '') ? 'auto' : (isNaN(value) ? value : '')} onChange={this.onChange} />
                 {
                     unit &&
                     <div className={'unit-select'}>

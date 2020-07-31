@@ -1,6 +1,7 @@
 const initialState = {
     styleObj: [],
-    html: ''
+    html: '',
+    style: ''
 }
 
 export default (state = initialState, action) => {
@@ -11,7 +12,13 @@ export default (state = initialState, action) => {
                 ...state,
                 styleObj: action.value
             }
-            
+
+        case 'SET_STYLE_DATA':
+            return {
+                ...state,
+                style: action.value
+            }
+
         case 'SET_HTML_DATA':
             return {
                 ...state,

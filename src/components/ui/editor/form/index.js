@@ -11,7 +11,10 @@ class CreateForm extends React.Component {
         formData: {}
     }
     componentDidMount() {
-
+        this.props.getFormData(this.getFormData.bind(this))
+    }
+    getFormData = () => {
+        return this.state.formData
     }
     componentDidUpdate(prevProps) {
         // console.log('selected chane createForm did')
@@ -26,7 +29,7 @@ class CreateForm extends React.Component {
         let { formData } = this.state
         formData[item.key] = item.value
         this.setState({ formData }, () => {
-            globalOnChange(item, formData)
+            globalOnChange && globalOnChange(item, formData)
         })
 
     }

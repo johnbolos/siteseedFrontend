@@ -18,7 +18,6 @@ class Select extends React.Component {
         window.addEventListener('click', this.onClickOutsideHandler);
     }
     componentDidUpdate(prevProps) {
-        console.log('did', this.props.meta.value)
         if (prevProps.meta.value != this.props.meta.value ) {
             this.setState({ value: this.props.meta.value })
         }
@@ -32,7 +31,10 @@ class Select extends React.Component {
         }
     }
     select = (item, key) => {
+        const { meta: { onChange }, globalOnChange } = this.props
         this.setState({ value: item.value ? item.value : item, optionKey: key }, () => {
+            onChange && onChange(this.state.value)
+            globalOnChange(this.state.value)
         })
     }
     _onBlur = (e) => { this.setState({ open: false }) }
@@ -42,7 +44,6 @@ class Select extends React.Component {
         
             return item == value || item.value == value
         })
-        console.log(match, 'diddd')
         if (match) {
             if (typeof (match.label) == 'function') {
                 return match.label()
@@ -60,7 +61,7 @@ class Select extends React.Component {
                 // rules,
                 // multiple,
             },
-            // globalOnChange //complete form specific change
+            globalOnChange //complete form specific change
         } = this.props
         const { value, open, optionKey } = this.state
         return (

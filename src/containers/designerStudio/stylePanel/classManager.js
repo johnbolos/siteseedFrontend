@@ -22,15 +22,12 @@ class List extends React.Component {
     }
     componentDidMount() {
         window.addEventListener('click', this.onClickOutsideHandler);
-        console.log(document.querySelector(".style-panel-container .classes-container .input").clientWidth, 'immer width')
     }
     componentWillUnmount() {
         window.removeEventListener('click', this.onClickOutsideHandler);
     }
     onClickOutsideHandler(event) {
-        console.log('workenig')
         if (!this.listRef.current.contains(event.target) && this.state.open == true) {
-            console.log(this.state.open)
             this._onBlur()
         } else {
             this.setState({ open: true })
@@ -38,7 +35,7 @@ class List extends React.Component {
     }
     select = (item) => {
         this.setState({ selected: item.label ? item.value : item }, () => {
-            console.log(this.state.selected)
+            console.log(this.state.selected, 'pseudo class change')
             setTimeout(() => {
                 this.props.onChange && this.props.onChange(this.state.selected)
             }, 10);
@@ -81,8 +78,9 @@ class ClassManager extends React.Component {
     }
     componentDidUpdate(prevProps) {
         if (prevProps.selected.node != this.props.selected.node) {
-            console.log('node chage')
-            this.setState({ pseudoClass: 'Active' })
+            this.setState({ pseudoClass: 'Active' }, () => {
+                this.props.dispatch(setPseudoClass('active'))
+            })
         }
     }
     getClass = (node) => node.className.split(' ')
@@ -95,31 +93,40 @@ class ClassManager extends React.Component {
     }
     toggleClass = (val, key) => {
         const { selected, editorNode } = this.props
-        if (!val.includes('@hidden')) {
-            val = `${val}@hidden`
+        let editor = _grapesEditor.editor
+        let componentModel = editor.getSelected()
+        componentModel.removeClass(val)
+        if (!val.includes('_hidden')) {
+            val = `${val}_hidden`
         } else {
-            val = val.replace('@hidden', '')
+            val = val.replace('_hidden', '')
         }
-        console.log(val)
-        let arr = selected.node.className.split(' ')
-        arr[key] = `${val}`
-        selected.node.className = arr.join(' ')
+        // let arr = selected.node.className.split(' ')
+        // arr[key] = `${val}`
+        // selected.node.className = arr.join(' ')
+        componentModel.addClass(val)
         this.updateHtml()
         this.forceUpdate()
     }
     addClass = (e) => {
         const { selected } = this.props
         if (e.key != 'Enter') return;
-        console.log(e.target.value)
-        selected.node.className += ` ${e.target.value}`
+        // selected.node.className += ` ${e.target.value}`
+        let editor = _grapesEditor.editor
+        let componentModel = editor.getSelected()
+        componentModel.addClass(e.target.value)
         this.toggleAddClass()
         this.updateHtml()
     }
     deleteClass = (val, key) => {
         const { selected } = this.props
-        let arr = selected.node.className.split(' ')
-        arr[key] = ''
-        selected.node.className = arr.join(' ')
+        // let arr = selected.node.className.split(' ')
+        // arr[key] = ''
+        // selected.node.className = arr.join(' ')
+        let editor = _grapesEditor.editor
+        let componentModel = editor.getSelected()
+        componentModel.removeClass(val)
+
         this.updateHtml()
         this.forceUpdate()
     }
@@ -155,7 +162,7 @@ class ClassManager extends React.Component {
                         ) : (
                                 <div className={'tags-container'}>
                                     {this.getClass(selected.node).map((item, key) => {
-                                        let hidden = item.includes('@hidden')
+                                        let hidden = item.includes('_hidden')
                                         if (item.includes('gjs') || item.trim() == '') {
                                             return null
                                         }
@@ -165,7 +172,7 @@ class ClassManager extends React.Component {
                                             ) : (
                                                     <Icons.Checkbox className={'checkbox'} onClick={(e) => { this.toggleClass(item, key) }} style={{ width: '9px', height: '9px' }} />
                                                 )}
-                                            <div className={'tagTxt'}>{hidden ? item.replace('@hidden', '') : item}</div>
+                                            <div className={'tagTxt'}>{hidden ? item.replace('_hidden', '') : item}</div>
                                             <Icons.Plus className={'cross'} onClick={(e) => { this.deleteClass(item, key) }} style={{ width: '9px', height: '9px', transform: 'rotate(-45deg)' }} />
                                         </div>
                                     })}

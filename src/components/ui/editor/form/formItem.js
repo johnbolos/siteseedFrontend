@@ -24,13 +24,13 @@ class FormItem extends React.Component {
         }
         switch (meta.type) {
             case 'radioBtn':
-                this.setState({ type: <RadioBtn meta={meta} onChange={this.onChange} /> })
+                this.setState({ type: <RadioBtn meta={meta} globalOnChange={this.onChange} /> })
                 break;
             case 'select':
-                this.setState({ type: <Select meta={meta} onChange={this.onChange} /> })
+                this.setState({ type: <Select meta={meta} globalOnChange={this.onChange} /> })
                 break;
             case 'integer':
-                this.setState({ type: <Integer meta={meta} onChange={this.onChange} /> })
+                this.setState({ type: <Integer meta={meta} globalOnChange={this.onChange} /> })
                 break;
             case 'password':
                 this.setState({ type: null })
@@ -44,13 +44,13 @@ class FormItem extends React.Component {
         if (prevProps.meta != this.props.meta) {
             switch (meta.type) {
                 case 'radioBtn':
-                    this.setState({ type: <RadioBtn meta={meta} onChange={this.onChange} /> })
+                    this.setState({ type: <RadioBtn meta={meta} globalOnChange={this.onChange} /> })
                     break;
                 case 'select':
-                    this.setState({ type: <Select meta={meta} onChange={this.onChange} /> })
+                    this.setState({ type: <Select meta={meta} globalOnChange={this.onChange} /> })
                     break;
                 case 'integer':
-                    this.setState({ type: <Integer meta={meta} onChange={this.onChange} /> })
+                    this.setState({ type: <Integer meta={meta} globalOnChange={this.onChange} /> })
                     break;
                 case 'password':
                     this.setState({ type: null })
@@ -65,6 +65,7 @@ class FormItem extends React.Component {
     }
     onChange = (value) => {
         const { meta, globalOnChange } = this.props
+        // console.log('globalOnChange called in formItem')
         globalOnChange({ key: meta.key, value })
     }
     render() {

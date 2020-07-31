@@ -38,6 +38,7 @@
 		"redux-thunk": "^2.3.0",
 		"redux-undo": "^1.0.1",
 		"sass-loader": "^9.0.2",
+		"shortid": "^2.2.15",
 		"webpackbar": "^4.0.0"
 	},
 	"eslintConfig": {
