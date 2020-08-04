@@ -9,6 +9,8 @@ import {
 	undo,
 	play,
 	logo,
+	share,
+	viewMode,
 } from "./icons";
 
 const cmdImport = "gjs-open-import-webpage",
@@ -56,11 +58,11 @@ export default (editor, config) => {
         </div>`,
 				},
 				{
-					id: expt,
+					//id: expt,
 					//className: "fa fa-code",
 					command: (e) => e.runCommand(expt),
 					label: `<div class="tooltip"><div><img src=${code} alt="erase" height=22px width=22px  ></img></<div>
-          <span class="tooltiptext">Code</span>
+          <span class="tooltiptext" style="left: -65%">View Code</span>
         </div>`,
 				},
 				{
@@ -75,7 +77,14 @@ export default (editor, config) => {
 					//className: "fa fa-download",
 					command: (e) => e.runCommand(cmdImport),
 					label: `<div class="tooltip"><div><img src=${download} alt="erase" height=22px width=22px  ></img></div>
-          <span class="tooltiptext">Download</span>
+          <span class="tooltiptext" style="left: -65%">Download</span>
+        </div>`,
+				},
+				{
+					id: "view-mode",
+					//className: "fa fa-download",
+					label: `<div class="tooltip"><div><img src=${viewMode} alt="erase" height=22px width=22px  ></img></div>
+          <span class="tooltiptext" >View</span>
         </div>`,
 				},
 			],
@@ -84,68 +93,22 @@ export default (editor, config) => {
 			id: "options",
 			el: ".panel__basic-actions",
 			buttons: [
-				/* {
-					id: "undo",
-					//className: "fa fa-undo",
-					command: (e) => e.runCommand("core:undo"),
-					label: `<div class="tooltip"><img src=${undo} alt="erase" height=22px width=22px  ></img>
-          <span class="tooltiptext">Undo</span>
+				{
+					id: "share",
+					//context: prv,
+					//command: (e) => e.runCommand(prv),
+					//className: "fa fa-eye",
+					label: `<div class="tooltip"><div><img src=${share} alt="erase" height=24px width=24px  ></img></div>
+          <span class="tooltiptext">Share</span>
         </div>`,
 				},
 				{
-					id: "redo",
-					//className: "fa fa-repeat",
-					command: (e) => e.runCommand("core:redo"),
-					label: `<div class="tooltip"><img src=${redo} alt="erase" height=22px width=22px  ></img>
-          <span class="tooltiptext">Redo</span>
-        </div>`,
-				}   {
-          id: ful,
-          command: ful,
-          context: ful,
-          //className: "fa fa-arrows-alt",
-          label: `<div class="tooltip">Full
-          <span class="tooltiptext">FullScreen</span>
-        </div>`,
-        }, 
-
-				{
-					id: expt,
-					//className: "fa fa-code",
-					command: (e) => e.runCommand(expt),
-					label: `<div class="tooltip"><img src=${code} alt="erase" height=22px width=22px  ></img>
-          <span class="tooltiptext">Code</span>
-        </div>`,
-				},
-				{
-					id: cmdClear,
-					//className: "fa fa-trash",
-					label: `<div class="tooltip"><img src=${clean} alt="erase" height=22px width=22px  ></img><span class="tooltiptext">Erase</span>
-          </div>`,
-					command: (e) => e.runCommand(cmdClear),
-				},
-				{
-					id: cmdImport,
-					//className: "fa fa-download",
-					command: (e) => e.runCommand(cmdImport),
-					label: `<div class="tooltip"><img src=${download} alt="erase" height=22px width=22px  ></img>
-          <span class="tooltiptext">Download</span>
-        </div>`,
-				},*/
-				/* {
-					id: cmdDeviceMobile,
-					command: cmdDeviceMobile,
-					//className: "fa fa-mobile",
-					label: `<div class="tooltip"><img src=${mobile} alt="erase" height=22px width=22px  ></img><span class="tooltiptext">Mobile</span>
-          </div>`,
-				}, */
-				{
-					id: prv,
+					//id: prv,
 					context: prv,
 					command: (e) => e.runCommand(prv),
 					//className: "fa fa-eye",
 					label: `<div class="tooltip"><div><img src=${play} alt="erase" height=24px width=24px  ></img></div>
-          <span class="tooltiptext">Play</span>
+          <span class="tooltiptext">Preview</span>
         </div>`,
 				},
 				{

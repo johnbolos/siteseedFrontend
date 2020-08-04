@@ -4,6 +4,9 @@ import desktop from "../../../assets/header/Desktop.svg";
 import download from "../../../assets/header/Download.svg";
 import ipad from "../../../assets/header/Ipad.svg";
 import mobile from "../../../assets/header/Mobile.svg";
+import bell from "../../../assets/header/BellNotification.svg";
+import share from "../../../assets/header/Share.svg";
+import viewMode from "../../../assets/header/ViewMode.svg";
 import redo from "../../../assets/header/Redo.svg";
 import undo from "../../../assets/header/Undo.svg";
 import play from "../../../assets/header/Play.svg";
@@ -38,4 +41,7 @@ export {
 	question,
 	minus,
 	plus,
+	bell,
+	share,
+	viewMode,
 };
