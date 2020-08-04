@@ -137,9 +137,9 @@ class DesignerStudio extends React.Component {
 				let frame = document.getElementsByClassName("gjs-frame");
 				let contentWindow = frame[0].contentWindow;
 				contentWindow.addEventListener("mousedown", (e) => {
-					_grapesEditor.styleManager.addEvents({ elem: e.target, node: this });
+					_grapesEditor.styleManager.addEvents({ elem: e.target, node: this }, { pseudoClass: this.props.pseudoClass });
 					// _grapesEditor.styleManager.addEvents({ e, node: this }, { pseudoClass: 'hover' })
-					console.log(this.state.selected);
+					console.log(this.state.selected, 'custom canvas mouse click event')
 				});
 			}
 		);
@@ -382,11 +382,12 @@ class DesignerStudio extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ global, layout, templates, editorHistory }) => {
+const mapStateToProps = ({ global, layout, editor, templates, editorHistory }) => {
 	return {
 		loading: global.loading,
 		templates,
 		styleObj: editorHistory.present.styleObj,
+		pseudoClass: editor.pseudoClass
 	};
 };
 

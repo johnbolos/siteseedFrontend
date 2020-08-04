@@ -5,7 +5,8 @@ import _ from 'lodash'
 import "./index.scss"
 import _grapesEditor from "../../../components/utils/grapesEditor"
 import ClassManager from './classManager'
-// import StyleManager from './styleManager'
+import StyleManager from './styleManager'
+import ViewMode from './viewMode'
 
 class StylePanel extends React.Component {
     constructor(props) {
@@ -20,12 +21,18 @@ class StylePanel extends React.Component {
         return (
             <div className={'style-panel-container'}>
                 {/* <pre className={'pre'} style={{ whiteSpace: 'break-spaces' }}>{JSON.stringify(selected.styleInfo)}</pre> */}
-                {/* classes */}
-                <ClassManager selected={selected} editorNode={parentNode} />
-                {/* Settings */}
+                <div>
+                    {/* classes */}
+                    <ClassManager selected={selected} editorNode={parentNode} />
+                    {/* Settings */}
 
-                {/* styles */}
-                {/* <StyleManager /> */}
+                    {/* styles */}
+                    <StyleManager selected={selected} editorNode={parentNode} />
+
+                </div>
+                {/* View Mode */}
+                <ViewMode selected={selected} editorNode={parentNode} />
+
             </div>
         )
     }

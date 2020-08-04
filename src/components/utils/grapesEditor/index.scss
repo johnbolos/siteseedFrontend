@@ -827,7 +827,12 @@ span {
   align-items: center;
 }
 
-.left-pane>div:hover {
+.left-pane > div > img {
+  width: 22px;
+  height: 22px;
+}
+
+.left-pane > div:hover {
   background-color: #444444;
   border-radius: 5px;
   //width: 28px;

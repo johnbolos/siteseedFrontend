@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { setEditorStyleData } from "../../../reducers/actions/editorHistoryActions";
+import { setEditorStyleData, setStyleStr } from "../../../reducers/actions/editorHistoryActions";
 
 const styleManager = {
 	defaultConfig: {},
@@ -15,6 +15,7 @@ const styleManager = {
 		}
 		//save in redux=====================================================================
 		dispatch(setEditorStyleData(styleObj.data.stylesObj));
+		dispatch(setStyleStr(styleStr))
 		//==================================================================================
 
 		let frame = document.getElementsByClassName("gjs-frame");
@@ -123,7 +124,7 @@ const styleManager = {
 			}
 		});
 		customStyleIndices.forEach((item, key) => {
-			let subStr = str.substring(item.start, item.end);
+			let subStr = str.substring(item.start, item.end+1);
 			response.customCode += "\n" + subStr;
 			str = str.replace(subStr, "");
 			if (customStyleIndices[key + 1]) {
@@ -163,7 +164,10 @@ const styleManager = {
 		return obj.filter((x) => x !== undefined);
 	},
 	getSelectorStyleInfo: (selector, styleObj, options = {}) => {
-		const { pseudoClass } = options;
+		let { pseudoClass } = options;
+		if (pseudoClass == 'active') {
+			pseudoClass = null
+		}
 		let response = {
 			index: [],
 			styles: {},
@@ -189,7 +193,6 @@ export const customEvents = {
 	saveStyleInfo: (meta, options, cb = () => {}) => {
 		//options = { pseudoClass: 'hover' }
 		const { elem, node } = meta;
-		console.log(elem.className, typeof elem.className, "ssssssssss");
 		if (typeof elem.className == "object") {
 			return;
 		}
@@ -199,7 +202,6 @@ export const customEvents = {
 			node.props.styleObj,
 			options
 		);
-		console.log(className, styleInfo, elem, node, "internal");
 		node.setState({ selected: { node: elem, styleInfo } }, () => {
 			cb();
 		});
