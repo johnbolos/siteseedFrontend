@@ -314,6 +314,17 @@ class StyleManager extends React.Component {
                 width: '48%',
             },
         ]
+        const typographyFormFields = [
+            {
+                label: 'Width',
+                key: 'width',
+                type: 'integer',
+                value: (selected.styleInfo.styles && selected.styleInfo.styles.width) || selected.node && getComputedStyle(selected.node, 'active').width,
+                defaultUnit: 'px',
+                unit: ['px', '%'],
+                width: '48%',
+            },
+        ]
         const categories = [
             {
                 label: 'General',
@@ -330,10 +341,12 @@ class StyleManager extends React.Component {
                     this.getFormDataDimension = fn
                 }} />),
             },
-            // {
-            //     label: 'Typography',
-            //     children: (<div>Child</div>),
-            // },
+            {
+                label: 'Typography',
+                children: (<CreateForm fields={typographyFormFields} globalOnChange={this.globalOnChange} getFormData={(fn) => {
+                    this.getFormDataDimension = fn
+                }} />),
+            },
         ]
         return (
             <div className={'style-manager-container'}>
