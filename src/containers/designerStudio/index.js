@@ -24,6 +24,7 @@ import {
 	mobile,
 	desktop,
 	ipad,
+	bell,
 } from "../designerStudio/panels/icons";
 import $ from "jquery";
 
@@ -78,8 +79,9 @@ class DesignerStudio extends React.Component {
 		});
 	};
 
-	reset() {
+	reset(elem) {
 		this.setState(initialState);
+		elem.next().toggleClass("hide-top");
 	}
 	minus = () => {
 		this.setState(
@@ -172,10 +174,16 @@ class DesignerStudio extends React.Component {
 		) */
 		// let selected = _grapesEditor.editor.getSelected()
 		// console.log(selected.attributes)
-		this.reset();
-		this.setState({
-			[e.target.name]: this.state[e.target.name] === "none" ? "block" : "none",
-		});
+		let elem = $(`[name='${e.target.name}']`);
+		//elem.next().toggleClass("hide-top");
+		this.reset(elem);
+		this.setState(
+			{
+				[e.target.name]:
+					this.state[e.target.name] === "none" ? "block" : "none",
+			}
+			//() => elem.next().toggleClass("hide-top")
+		);
 	};
 	addStyleData = () => {
 		const { dispatch } = this.props;
@@ -193,6 +201,7 @@ class DesignerStudio extends React.Component {
 	};
 	changeDevice = () => {
 		$("#device").toggleClass("hide-top");
+		$(".device-text").toggleClass("hide-top");
 	};
 	render() {
 		const { selected } = this.state;
@@ -218,29 +227,51 @@ class DesignerStudio extends React.Component {
 							</div>
 							<div className='panel__devices'></div>
 							<div className='panel__basic-actions'>
-								<div className='tooltip'>
-									<div>
-										<img
-											src={mobile}
-											alt='erase'
-											height='22px'
-											width='22px'
-											onClick={this.changeDevice}
-										/>
+								<span className='gjs-pn-btn'>
+									<div className='tooltip'>
+										<div>
+											<img
+												src={bell}
+												alt='notification'
+												height='22px'
+												width='22px'
+											/>
+										</div>
+										<span className='tooltiptext' style={{ left: "-85%" }}>
+											Notification
+										</span>
 									</div>
-									<span className='tooltiptext'>Device</span>
-								</div>
+								</span>
+								<span className='gjs-pn-btn'>
+									<div className='tooltip'>
+										<div>
+											<img
+												src={mobile}
+												alt='erase'
+												height='22px'
+												width='22px'
+												onClick={this.changeDevice}
+											/>
+										</div>
+										<span className='tooltiptext device-text'>Device</span>
+									</div>
+								</span>
 								<div id='device' className='hide-top'>
 									<div onClick={() => editor.runCommand("set-device-desktop")}>
-										<img src={desktop} alt='Desktop' />
+										<img
+											src={desktop}
+											alt='Desktop'
+											width='20px'
+											height='20px'
+										/>
 										Desktop
 									</div>
 									<div onClick={() => editor.runCommand("set-device-tablet")}>
-										<img src={ipad} alt='Tablet' />
+										<img src={ipad} alt='Tablet' width='20px' height='20px' />
 										Tablet
 									</div>
 									<div onClick={() => editor.runCommand("set-device-mobile")}>
-										<img src={mobile} alt='Mobile' />
+										<img src={mobile} alt='Mobile' width='20px' height='20px' />
 										Mobile
 									</div>
 								</div>
@@ -251,34 +282,30 @@ class DesignerStudio extends React.Component {
 							className='body-container'
 							style={{ height: `${window.innerHeight - 40}px` }}>
 							<div className='left-pane'>
-								<div>
+								<div className='tooltip-left'>
 									<img
 										src={addElem}
 										alt='addElement'
 										name='blocks'
 										onClick={this.drawerToggleClickHandler}
 									/>
+									<span className='tooltiptext-left'>Add Elements</span>
 								</div>
-								<div>
+								<div className='tooltip-left'>
 									<img
 										src={components}
 										alt='Component'
 										name='component'
 										onClick={this.drawerToggleClickHandler}></img>
+									<span className='tooltiptext-left'>Add Components</span>
 								</div>
-								<div>
+								<div className='tooltip-left'>
 									<img
 										src={layers}
 										alt='layers'
 										name='layers'
 										onClick={this.drawerToggleClickHandler}></img>
-								</div>
-								<div>
-									<img
-										src={comment}
-										alt='commment'
-										name='comment'
-										onClick={this.drawerToggleClickHandler}></img>
+									<span className='tooltiptext-left'>Add Layers</span>
 								</div>
 							</div>
 							<img
@@ -319,19 +346,6 @@ class DesignerStudio extends React.Component {
 								}}></img>
 							<div id='layers' style={{ display: this.state.layers }}>
 								<h4 className='add-element'>Add Layers</h4>
-							</div>
-							<img
-								src={tip}
-								alt='tip'
-								width='15px'
-								height='9px'
-								className='tip'
-								style={{
-									display: this.state.comment,
-									marginTop: "135px",
-								}}></img>
-							<div id='comment' style={{ display: this.state.comment }}>
-								<h4 className='add-element'>Add Comments</h4>
 							</div>
 							<div id='grapesEditor'></div>
 							<div id='zoom'>
