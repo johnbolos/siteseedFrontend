@@ -124,7 +124,7 @@ const styleManager = {
 			}
 		});
 		customStyleIndices.forEach((item, key) => {
-			let subStr = str.substring(item.start, item.end+1);
+			let subStr = str.substring(item.start, item.end + 1);
 			response.customCode += "\n" + subStr;
 			str = str.replace(subStr, "");
 			if (customStyleIndices[key + 1]) {
@@ -134,6 +134,56 @@ const styleManager = {
 		});
 		response.str = str;
 		return response;
+	},
+	importFontsBlock: (name, type = 'google') => {
+		let frame = document.getElementsByClassName("gjs-frame");
+		const grapesDocument = frame[0].contentWindow.document;
+		let styleTag = grapesDocument.getElementById('ss-style-assets')
+		if (!styleTag) {
+			let styleId = 'ss-style-assets'
+			styleTag = grapesDocument.createElement('style')
+			styleTag.id = styleId
+			let body = grapesDocument.getElementsByTagName(
+				"body"
+			)[0];
+			body.insertBefore(styleTag, body.firstChild);
+		}
+		let str = styleTag.innerHTML, findPhrase = ''
+		if (type == 'google') {
+			findPhrase = 'https://fonts.googleapis.com/css2?'
+		}
+		let indices = styleManager.getIndicesOf(findPhrase, str)
+		if (indices.length == 0) {
+			// not present yet
+			str = `\n\t@import url("${'https://fonts.googleapis.com/css2?display=swap'}");\n` + str	//14
+			indices.push(15)
+		}
+		str = [str.slice(0, ((indices[0] + findPhrase.length))), `family=${name}&`, str.slice((indices[0] + findPhrase.length))].join('') 	// -6 due to family
+		console.log(str)
+		styleTag.innerHTML = str
+	},
+	removeFontsBlock: (name, type = 'google') => {
+		let frame = document.getElementsByClassName("gjs-frame");
+		const grapesDocument = frame[0].contentWindow.document;
+		const styleTag = grapesDocument.getElementById('ss-style-assets')
+		if (!styleTag) {
+			return
+		}
+		let str = styleTag.innerHTML, findPhrase = ''
+		if (type == 'google') {
+			findPhrase = 'https://fonts.googleapis.com/css2?family'
+		}
+		let indices = styleManager.getIndicesOf(findPhrase, str)
+		if (indices.length == 0) {
+			// not present yet
+			return
+		}
+		if (type == 'google') {
+			findPhrase = `family=${name}&`
+			str = str.replace(findPhrase, '')
+		}
+		console.log(str)
+		styleTag.innerHTML = str
 	},
 	getIndicesOf: (searchStr, str, caseSensitive) => {
 		var searchStrLen = searchStr.length;
@@ -190,7 +240,7 @@ const styleManager = {
 };
 
 export const customEvents = {
-	saveStyleInfo: (meta, options, cb = () => {}) => {
+	saveStyleInfo: (meta, options, cb = () => { }) => {
 		//options = { pseudoClass: 'hover' }
 		const { elem, node } = meta;
 		if (typeof elem.className == "object") {

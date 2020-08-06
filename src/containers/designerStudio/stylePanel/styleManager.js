@@ -316,13 +316,109 @@ class StyleManager extends React.Component {
         ]
         const typographyFormFields = [
             {
-                label: 'Width',
-                key: 'width',
-                type: 'integer',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles.width) || selected.node && getComputedStyle(selected.node, 'active').width,
-                defaultUnit: 'px',
-                unit: ['px', '%'],
-                width: '48%',
+                label: 'Font', //optional; Type: String || () => {}
+                key: 'font-family',
+                type: 'select',
+                value: (selected.styleInfo.styles && selected.styleInfo.styles['font-family']) || selected.node && getComputedStyle(selected.node, 'active')['font-family'],
+                width: '100%',
+                labelClass: 'custom-label',
+                onChange: (value, item, pastValue) => {
+                    console.log('custom onchange', item)
+                    if (!item.url) {
+                        _grapesEditor.styleManager.removeFontsBlock(pastValue)
+                        _grapesEditor.styleManager.importFontsBlock(value)
+                    }
+                },
+                options: [
+                    {
+                        label: 'Abel',
+                        value: 'Abel',
+                    },
+                    {
+                        label: 'Allerta',
+                        value: 'Allerta',
+                    },
+                    {
+                        label: 'Amarnth',
+                        value: 'Amarnth',
+                    },
+                    {
+                        label: 'Amatic SC',
+                        value: 'Amatic+SC',
+                    },
+                    {
+                        label: 'Anton',
+                        value: 'Anton',
+                    },
+                    // {    //not found
+                    //     label: 'Arial',
+                    //     value: 'Arial',
+                    // },
+                    {
+                        label: 'Arimo',
+                        value: 'Arimo',
+                    },
+                    {
+                        label: 'Arvo',
+                        value: 'Arvo',
+                    },
+                    {
+                        label: 'Asap',
+                        value: 'Asap',
+                    },
+                    // {    //not found
+                    //     label: 'Bahnschrift',
+                    //     value: 'Bahnschrift',
+                    // },
+                    {
+                        label: 'Bitter',
+                        value: 'Bitter',
+                    },
+                    {
+                        label: 'Black Ops One',
+                        value: 'Black+Ops+One',
+                    },
+                    {
+                        label: 'Bree Serif',
+                        value: 'Bree+Serif',
+                    },
+                    {
+                        label: 'Cabin',
+                        value: 'Cabin',
+                    },
+                    {
+                        label: 'Cabin Condensed',
+                        value: 'Cabin+Condensed',
+                    },
+                    // {    //not found
+                    //     label: 'Calibri',
+                    //     value: 'Calibri',
+                    // },
+                    {
+                        label: 'Calligraffitti',
+                        value: 'Calligraffitti',
+                    },
+                    // {    //not found
+                    //     label: 'Cambria',
+                    //     value: 'Cambria',
+                    // },
+                    // {    //not found
+                    //     label: 'Candara',
+                    //     value: 'Candara',
+                    // },
+                    {
+                        label: 'Cantarell',
+                        value: 'Cantarell',
+                    },
+                    {
+                        label: 'Cardo',
+                        value: 'Cardo',
+                    },
+                    {
+                        label: 'Changa One',
+                        value: 'Changa+One',
+                    },
+                ],
             },
         ]
         const categories = [

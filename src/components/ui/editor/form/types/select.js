@@ -32,9 +32,9 @@ class Select extends React.Component {
     }
     select = (item, key) => {
         const { meta: { onChange }, globalOnChange } = this.props
+        onChange && onChange(item.value ? item.value : item, item, this.state.value)
         this.setState({ value: item.value ? item.value : item, optionKey: key }, () => {
-            onChange && onChange(this.state.value)
-            globalOnChange(this.state.value)
+            globalOnChange(this.state.value, item)
         })
     }
     _onBlur = (e) => { this.setState({ open: false }) }

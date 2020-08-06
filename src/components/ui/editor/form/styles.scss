@@ -73,6 +73,8 @@
           position: absolute;
           z-index: 5;
           padding: 15px 10px 15px 10px;
+          max-height: 45%;
+          overflow-y: auto;
           background: #1b1b1b;
           border-radius: 5px;
           font-family: "Source Sans Pro";

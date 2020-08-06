@@ -63,10 +63,10 @@ class FormItem extends React.Component {
     componentWillUnmount() {
         // this.props.onUmmount(this.props.meta.key)
     }
-    onChange = (value) => {
+    onChange = (value, option = null) => {
         const { meta, globalOnChange } = this.props
         // console.log('globalOnChange called in formItem')
-        globalOnChange({ key: meta.key, value })
+        globalOnChange({ key: meta.key, value }, option)
     }
     render() {
         const {
