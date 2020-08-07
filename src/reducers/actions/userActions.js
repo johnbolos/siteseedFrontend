@@ -7,7 +7,6 @@ const login = data => {
 
     Request.login(data)
       .then((data) => {
-        console.log(data)
         dispatch(hideLoader())
       })
   }

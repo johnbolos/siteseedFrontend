@@ -150,16 +150,15 @@ const styleManager = {
 		}
 		let str = styleTag.innerHTML, findPhrase = ''
 		if (type == 'google') {
-			findPhrase = 'https://fonts.googleapis.com/css2?'
+			findPhrase = 'https://fonts.googleapis.com/css?'
 		}
 		let indices = styleManager.getIndicesOf(findPhrase, str)
 		if (indices.length == 0) {
 			// not present yet
-			str = `\n\t@import url("${'https://fonts.googleapis.com/css2?display=swap'}");\n` + str	//14
+			str = `\n\t@import url("${'https://fonts.googleapis.com/css?display=swap'}");\n` + str	//14
 			indices.push(15)
 		}
-		str = [str.slice(0, ((indices[0] + findPhrase.length))), `family=${name}&`, str.slice((indices[0] + findPhrase.length))].join('') 	// -6 due to family
-		console.log(str)
+		str = [str.slice(0, ((indices[0] + findPhrase.length))), `family=${name}:100,200,300,400,500,600,700,800,900&`, str.slice((indices[0] + findPhrase.length))].join('') 	// -6 due to family
 		styleTag.innerHTML = str
 	},
 	removeFontsBlock: (name, type = 'google') => {
@@ -171,7 +170,7 @@ const styleManager = {
 		}
 		let str = styleTag.innerHTML, findPhrase = ''
 		if (type == 'google') {
-			findPhrase = 'https://fonts.googleapis.com/css2?family'
+			findPhrase = 'https://fonts.googleapis.com/css?family'
 		}
 		let indices = styleManager.getIndicesOf(findPhrase, str)
 		if (indices.length == 0) {
@@ -179,10 +178,9 @@ const styleManager = {
 			return
 		}
 		if (type == 'google') {
-			findPhrase = `family=${name}&`
+			findPhrase = `family=${name}:100,200,300,400,500,600,700,800,900&`
 			str = str.replace(findPhrase, '')
 		}
-		console.log(str)
 		styleTag.innerHTML = str
 	},
 	getIndicesOf: (searchStr, str, caseSensitive) => {
@@ -225,9 +223,10 @@ const styleManager = {
 		response.index = selector.map((val) => {
 			return _.findIndex(styleObj, (item) => {
 				if (item.selector) {
-					return item.selector.includes(
-						`${pseudoClass ? val + ":" + pseudoClass : val}`.trim()
-					);
+					// return item.selector.includes(
+					// 	`${pseudoClass ? val + ":" + pseudoClass : val}`.trim()
+					// );
+					return item.selector == `${pseudoClass ? val + ":" + pseudoClass : val}`.trim()
 				}
 			});
 		});
@@ -246,6 +245,7 @@ export const customEvents = {
 		if (typeof elem.className == "object") {
 			return;
 		}
+		console.log(node.props.styleObj)
 		let className = elem.className.split(" ");
 		const styleInfo = styleManager.getSelectorStyleInfo(
 			className,

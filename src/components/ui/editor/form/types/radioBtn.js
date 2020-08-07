@@ -14,7 +14,6 @@ class RadioBtn extends React.Component {
     componentDidUpdate(prevProps) {
         if (prevProps.meta.value != this.props.meta.value) {
             this.setState({ value: this.props.meta.value })
-            console.log(this.props.meta.value, prevProps.meta.value, 'did radio')
         }
     }
     handleClick = (item) => {

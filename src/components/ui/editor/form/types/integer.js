@@ -9,9 +9,11 @@ class Select extends React.Component {
     }
     state = {
         value: '',
+        unitValue: this.props.meta.defaultUnit || ''
     }
     componentDidMount() {
         this.initValue()
+        this.setState({ unitValue: this.props.meta.defaultUnit || ''})
     }
     initValue = () => {
         let { meta: { value, unit } } = this.props
@@ -21,8 +23,9 @@ class Select extends React.Component {
             return
         }
         unit.forEach((item) => {
-            if (value.includes(item)) {
+            if (value && value.includes(item)) {
                 defaultUnit = item
+                this.setState({ unitValue: defaultUnit })
             }
         })
         this.setState({ value: value.replace(defaultUnit, '') })
@@ -50,11 +53,11 @@ class Select extends React.Component {
         }
         return value
     }
-    onChange = (e) => {
+    onChange = (value) => {
         const { meta: { onChange }, globalOnChange } = this.props
-        this.setState({ value: e.target.value }, () => {
-            onChange && onChange(this.state.value)
-            globalOnChange(this.state.value)
+        this.setState({ value: value }, () => {
+            onChange && onChange(`${this.state.value}${this.state.unitValue}`)
+            globalOnChange(`${this.state.value}${this.state.unitValue}`)
         })
     }
     render() {
@@ -73,11 +76,11 @@ class Select extends React.Component {
         const { value, unitValue } = this.state
         return (
             <div className={'integer-container'}>
-                <input type="number" name="int" value={value} placeholder={(value == '') ? 'auto' : (isNaN(value) ? value : '')} onChange={this.onChange} />
+                <input type="number" name="int" value={value} placeholder={(value == '') ? 'auto' : (isNaN(value) ? value : '')} onChange={(e) => { this.onChange(e.target.value) }} />
                 {
                     unit &&
                     <div className={'unit-select'}>
-                        <select type={'select'} value={unitValue} onChange={(e) => { console.log(e.target.value, 'sselect') }} >
+                        <select type={'select'} value={unitValue} onChange={(e) => { this.setState({ unitValue: e.target.value }, () => { this.onChange(this.state.value) }) }} >
                             {
                                 unit.map(val => (
                                     <option value={val}> {val} </option>
@@ -86,9 +89,19 @@ class Select extends React.Component {
                         </select>
                     </div>
                 }
+                {
+                    (!unit && defaultUnit) &&
+                    <div className={'unit-select'}>
+                        <select type={'select'} value={unitValue} >
+                            {
+                                <option value={defaultUnit}> {defaultUnit} </option>
+                            }
+                        </select>
+                    </div>
+                }
                 <div className={'step'}>
-                    <Icons.Up className={'set-down'} style={{ width: '6.75px', height: '3.38px', marginBottom: '5.28px' }} onClick={() => { this.setState({ value: value + (step || 1) }) }} />
-                    <Icons.Dropdown className={'set-up'} style={{ width: '6.75px', height: '3.38px' }} onClick={() => { this.setState({ value: value - (step || 1) }) }} />
+                    <Icons.Up className={'set-down'} style={{ width: '6.75px', height: '3.38px', marginBottom: '5.28px' }} onClick={() => { this.onChange((isNaN(parseInt(value)) ? 0 : parseInt(value)) + (step || 1)) }} />
+                    <Icons.Dropdown className={'set-up'} style={{ width: '6.75px', height: '3.38px' }} onClick={() => { this.onChange((isNaN(parseInt(value)) ? 0 : parseInt(value)) - (step || 1)) }} />
                 </div>
             </div>
         )

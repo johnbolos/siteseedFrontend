@@ -4,7 +4,6 @@ import './styles.scss'
 
 class GlobalLayoutWrapper extends React.Component {
     componentDidMount() {
-        console.log(this.props.pageData)
     }
     render() {
         const { Component } = this.props

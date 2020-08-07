@@ -21,7 +21,7 @@ class StylePanel extends React.Component {
         return (
             <div className={'style-panel-container'}>
                 {/* <pre className={'pre'} style={{ whiteSpace: 'break-spaces' }}>{JSON.stringify(selected.styleInfo)}</pre> */}
-                <div>
+                <div className={'styles-container'}>
                     {/* classes */}
                     <ClassManager selected={selected} editorNode={parentNode} />
                     {/* Settings */}

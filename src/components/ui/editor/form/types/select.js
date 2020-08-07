@@ -67,14 +67,14 @@ class Select extends React.Component {
         return (
             <div ref={this.listRef} className={'select-container'}>
                 <div className={'input'} onClick={() => { this.setState({ open: !this.state.open }) }}>
-                    <div>{this.showLabel(value)}</div>
+                    <div style={{ display: 'flex' }}>{this.showLabel(value)}</div>
                     <Icons.Dropdown className={'down-arrow'} style={{ width: '6.75px', height: '3.38px' }} />
                 </div>
                 {
                     open &&
                     <div
                         className={'list-container'}
-                        style={{ width: `${document.querySelector('.style-panel-container .select-container > .input').clientWidth}px` }}
+                        style={{ width: `${this.listRef.current.clientWidth}px`, maxHeight: `${document.querySelector('#root').clientHeight - (this.listRef.current.offsetTop + 10)}px` }}
                     >
                         {options.map((item, key) => {
                             let child = null

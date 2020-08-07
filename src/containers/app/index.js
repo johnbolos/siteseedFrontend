@@ -18,7 +18,6 @@ class App extends Component {
 		};
 	}
 	componentDidMount() {
-		console.log("asasasasas", routes);
 	}
 	render() {
 		const { user } = this.state;

@@ -430,7 +430,6 @@ const _grapesEditor = {
         const { editor } = _grapesEditor
         let html = `${editor.getHtml()}`
         const startIndex = html.search(start)
-        console.log(startIndex)
         const endIndex = html.search(end) + end.length
         if (startIndex == -1 || endIndex == -1) return { error: true, message: tag ? `Please add '${tag}' tag, to export correctly` : `Please add '${start + "' and '" + end}' identifer, to export correctly` }
         let header = html.substring(startIndex, endIndex)
