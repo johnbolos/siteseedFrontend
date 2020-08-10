@@ -35,7 +35,6 @@ class List extends React.Component {
     }
     select = (item) => {
         this.setState({ selected: item.label ? item.value : item }, () => {
-            console.log(this.state.selected, 'pseudo class change')
             setTimeout(() => {
                 this.props.onChange && this.props.onChange(this.state.selected)
             }, 10);

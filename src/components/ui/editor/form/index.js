@@ -24,12 +24,12 @@ class CreateForm extends React.Component {
         delete formData[key]
         this.setState({ formData })
     }
-    onChange = (item) => {  //item = { key: '', value: '' }
+    onChange = (item, option) => {  //item = { key: '', value: '' }
         const { globalOnChange } = this.props
         let { formData } = this.state
         formData[item.key] = item.value
         this.setState({ formData }, () => {
-            globalOnChange && globalOnChange(item, formData)
+            globalOnChange && globalOnChange(item, formData, option)
         })
 
     }

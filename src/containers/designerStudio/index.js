@@ -30,11 +30,21 @@ class DesignerStudio extends React.Component {
 	state = initialState;
 
 	componentDidMount() {
+		window.addEventListener("scroll", this.handleScroll, true);
 		this.apiRequest();
 		setTimeout(() => {
 			this.temp();
 		}, 5000);
 	}
+	handleScroll = (e) => {
+		if (e.target.classList.contains("on-scrollbar") === false) {
+			e.target.classList.add("on-scrollbar");
+			//wait
+			setTimeout(() => {
+				e.target.classList.remove("on-scrollbar");
+			}, 1000);
+		}
+	};
 
 	apiRequest = () => {
 		return new Promise((resolve) => {
@@ -122,7 +132,6 @@ class DesignerStudio extends React.Component {
 						{ pseudoClass: this.props.pseudoClass }
 					);
 					// _grapesEditor.styleManager.addEvents({ e, node: this }, { pseudoClass: 'hover' })
-					console.log(this.state.selected, "custom canvas mouse click event");
 				});
 			}
 		);
@@ -216,8 +225,6 @@ class DesignerStudio extends React.Component {
 								id='style-manager'
 								style={{
 									width: "18%",
-									overflowY: "overlay",
-									// overflowX: "hidden",
 									display: "flex",
 									flexDirection: "column",
 								}}>

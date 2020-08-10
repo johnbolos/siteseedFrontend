@@ -513,7 +513,6 @@ const _grapesEditor = {
 		//init style manager
 		styleManager.init(config.styles, dispatch);
 		if (cb) {
-			console.log("pppppppppppppppppp");
 			cb();
 		}
 	},
@@ -533,7 +532,6 @@ const _grapesEditor = {
 		const { editor } = _grapesEditor;
 		let html = `${editor.getHtml()}`;
 		const startIndex = html.search(start);
-		console.log(startIndex);
 		const endIndex = html.search(end) + end.length;
 		if (startIndex === -1 || endIndex === -1)
 			return {

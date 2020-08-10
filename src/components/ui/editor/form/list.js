@@ -18,15 +18,12 @@ class Select extends React.Component {
     }
     componentDidMount() {
         window.addEventListener('click', this.onClickOutsideHandler);
-        console.log(document.querySelector(".style-panel-container .classes-container .input").clientWidth, 'immer width')
     }
     componentWillUnmount() {
         window.removeEventListener('click', this.onClickOutsideHandler);
     }
     onClickOutsideHandler(event) {
-        console.log('workenig')
         if (!this.listRef.current.contains(event.target) && this.state.open == true) {
-            console.log(this.state.open)
             this._onBlur()
         } else {
             this.setState({ open: true })
@@ -34,7 +31,6 @@ class Select extends React.Component {
     }
     select = (item) => {
         this.setState({ selected: item.label ? item.value : item }, () => {
-            console.log(this.state.selected)
             setTimeout(() => {
                 this.props.onChange && this.props.onChange(this.state.selected)
             }, 10);

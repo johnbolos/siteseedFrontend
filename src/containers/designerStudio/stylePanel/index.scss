@@ -4,6 +4,10 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  > .styles-container {
+    flex: 1;
+    overflow: overlay;
+  }
   .theme-light & {
     background-color: map-get($light, "background");
     color: map-get($light, "color");
@@ -68,6 +72,7 @@
       }
       .dropdownBtn {
         margin: 5px;
+        width: 0%;
         .dropDown {
           path {
             .theme-dark & {

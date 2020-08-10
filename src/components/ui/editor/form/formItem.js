@@ -63,10 +63,9 @@ class FormItem extends React.Component {
     componentWillUnmount() {
         // this.props.onUmmount(this.props.meta.key)
     }
-    onChange = (value) => {
+    onChange = (value, option = null) => {
         const { meta, globalOnChange } = this.props
-        // console.log('globalOnChange called in formItem')
-        globalOnChange({ key: meta.key, value })
+        globalOnChange({ key: meta.key, value }, option)
     }
     render() {
         const {
@@ -82,9 +81,9 @@ class FormItem extends React.Component {
                 style={
                     meta.containerStyle
                         || meta.inline ?
-                        { display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: meta.width ? meta.width : 'auto' }
+                        { display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: meta.width ? meta.width : '100%' }
                         :
-                        { width: meta.width ? meta.width : 'auto' }
+                        { width: meta.width ? meta.width : '100%' }
                 }
             >
                 {
