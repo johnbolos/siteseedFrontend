@@ -514,7 +514,7 @@ const _grapesEditor = {
 		styleManager.init(config.styles, dispatch);
 		if (cb) {
 			console.log("pppppppppppppppppp");
-			cb()
+			cb();
 		}
 	},
 	getCode: (options = { html: true, css: true }) => {
@@ -541,8 +541,8 @@ const _grapesEditor = {
 				message: tag
 					? `Please add '${tag}' tag, to export correctly`
 					: `Please add '${
-					start + "' and '" + end
-					}' identifer, to export correctly`,
+							start + "' and '" + end
+					  }' identifer, to export correctly`,
 			};
 		let header = html.substring(startIndex, endIndex);
 		return {
