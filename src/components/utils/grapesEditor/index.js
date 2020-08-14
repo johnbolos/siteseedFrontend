@@ -428,6 +428,7 @@ const _grapesEditor = {
 		container: "#grapesEditor",
 		height: "100%",
 		storageManager: { type: "none" },
+		// dragMode: 'absolute',
 		plugins: [
 			//"gjs-blocks-basic",
 			//"gjs-preset-webpage",

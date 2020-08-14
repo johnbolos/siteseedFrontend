@@ -3,7 +3,7 @@ import _ from 'lodash'
 
 import Icons from '../../../../../assets/Icons'
 
-class Select extends React.Component {
+class Integer extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -40,24 +40,12 @@ class Select extends React.Component {
     //         this.setState({ value: this.props.meta.value })
     //     }
     // }
-    showLabel = (value) => {
-        const { meta: { options } } = this.props
-        const match = _.find(options, (item) => {
-            return item == value || item.value == value
-        })
-        if (match) {
-            if (typeof (match.label) == 'function') {
-                return match.label()
-            }
-            return match.label
-        }
-        return value
-    }
     onChange = (value) => {
         const { meta: { onChange }, globalOnChange } = this.props
         this.setState({ value: value }, () => {
+            console.log(this.state.value)
             onChange && onChange(`${this.state.value}${this.state.unitValue}`)
-            globalOnChange(`${this.state.value}${this.state.unitValue}`)
+            globalOnChange && globalOnChange(`${this.state.value}${this.state.unitValue}`)
         })
     }
     render() {
@@ -67,6 +55,7 @@ class Select extends React.Component {
                 defaultUnit,
                 unit,
                 step,
+                disabled,
                 onChange, //form item specific change
                 // rules,
                 // multiple,
@@ -76,7 +65,7 @@ class Select extends React.Component {
         const { value, unitValue } = this.state
         return (
             <div className={'integer-container'}>
-                <input type="number" name="int" value={value} placeholder={(value == '') ? 'auto' : (isNaN(value) ? value : '')} onChange={(e) => { this.onChange(e.target.value) }} />
+                <input type="number" name="int" value={disabled ? '' : value} placeholder={(value == '' || disabled) ? 'auto' : (isNaN(value) ? value : '')} onChange={(e) => { this.onChange(e.target.value) }} />
                 {
                     unit &&
                     <div className={'unit-select'}>
@@ -109,4 +98,4 @@ class Select extends React.Component {
 }
 
 
-export default Select
+export default Integer

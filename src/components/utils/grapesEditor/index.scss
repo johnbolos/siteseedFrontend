@@ -467,13 +467,13 @@ svg {
 }
 
 .panel__top {
-	padding: 0;
-	width: 100%;
-	display: flex;
-	position: initial;
-	justify-content: space-between;
-	height: 5%;
-	border: 1px solid #444444;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  position: initial;
+  justify-content: space-between;
+  height: 5%;
+  border-bottom: 1px solid #444444;
 }
 
 .gjs-pn-btn.gjs-pn-active {
@@ -610,12 +610,13 @@ button {
 }
 
 .left-pane {
-	width: 40px;
-	// height: 100vh;
-	display: flex;
-	flex-direction: column;
-	background-color: $primaryColor;
-	align-items: center;
+  width: 40px;
+  // height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $primaryColor;
+  align-items: center;
+  border-right: 1px solid #444444;
 }
 
 .body-container {
@@ -643,14 +644,15 @@ button {
 	margin-left: 15px;
 }
 
-.gjs-block-category > .gjs-title {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	color: #ffffff;
-	font-weight: 600;
-	background-color: #373737;
-	border-bottom: none;
+.gjs-block-category>.gjs-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #ffffff;
+  font-weight: 600;
+  background-color: #373737;
+  border-bottom: none;
+  padding: 9px 20px 9px 20px;
 }
 
 .gjs-block-category.gjs-open {
@@ -743,17 +745,18 @@ button {
 }
 
 #question {
-	position: absolute;
-	width: 36px;
-	height: 36px;
-	left: 77.36%;
-	bottom: 0%;
-	z-index: 1;
-	background-color: #2a62ff;
-	box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.05);
-	border-radius: 50%;
-	text-align: center;
-	margin-bottom: 20px;
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  // left: 77.36%;
+  right: 266px;
+  bottom: 0%;
+  z-index: 1;
+  background-color: #2a62ff;
+  box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 #question > img {

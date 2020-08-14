@@ -3,6 +3,9 @@ import React from "react"
 import RadioBtn from './types/radioBtn'
 import Select from './types/select'
 import Integer from './types/integer'
+import Slider from "./types/slider/slider";
+import PickerField from "./types/pickerField";
+import Composite from "./types/composite";
 
 class FormItem extends React.Component {
     constructor(props) {
@@ -22,6 +25,15 @@ class FormItem extends React.Component {
         } else {
             this.setState({ label: label })
         }
+        this.initType(meta)
+    }
+    componentDidUpdate(prevProps) {
+        const { meta } = this.props
+        if (prevProps.meta != this.props.meta) {
+            this.initType(meta)
+        }
+    }
+    initType = (meta) => {
         switch (meta.type) {
             case 'radioBtn':
                 this.setState({ type: <RadioBtn meta={meta} globalOnChange={this.onChange} /> })
@@ -32,6 +44,15 @@ class FormItem extends React.Component {
             case 'integer':
                 this.setState({ type: <Integer meta={meta} globalOnChange={this.onChange} /> })
                 break;
+            case 'slider':
+                this.setState({ type: <Slider meta={meta} globalOnChange={this.onChange} /> })
+                break;
+            case 'picker':
+                this.setState({ type: <PickerField meta={meta} globalOnChange={this.onChange} /> })
+                break;
+            case 'composite':
+                this.setState({ type: <Composite meta={meta} globalOnChange={this.onChange} /> })
+                break;
             case 'password':
                 this.setState({ type: null })
                 break;
@@ -39,32 +60,12 @@ class FormItem extends React.Component {
                 this.setState({ type: null })
         }
     }
-    componentDidUpdate(prevProps) {
-        const { meta } = this.props
-        if (prevProps.meta != this.props.meta) {
-            switch (meta.type) {
-                case 'radioBtn':
-                    this.setState({ type: <RadioBtn meta={meta} globalOnChange={this.onChange} /> })
-                    break;
-                case 'select':
-                    this.setState({ type: <Select meta={meta} globalOnChange={this.onChange} /> })
-                    break;
-                case 'integer':
-                    this.setState({ type: <Integer meta={meta} globalOnChange={this.onChange} /> })
-                    break;
-                case 'password':
-                    this.setState({ type: null })
-                    break;
-                default:
-                    this.setState({ type: null })
-            }
-        }
-    }
     componentWillUnmount() {
         // this.props.onUmmount(this.props.meta.key)
     }
     onChange = (value, option = null) => {
         const { meta, globalOnChange } = this.props
+        console.log({ key: meta.key, value }, 'checkinngg')
         globalOnChange({ key: meta.key, value }, option)
     }
     render() {
@@ -81,14 +82,14 @@ class FormItem extends React.Component {
                 style={
                     meta.containerStyle
                         || meta.inline ?
-                        { display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: meta.width ? meta.width : '100%' }
+                        { display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '4px', paddingBottom: '6px', alignItems: 'center', width: meta.width ? meta.width : '100%' }
                         :
                         { width: meta.width ? meta.width : '100%' }
                 }
             >
                 {
                     meta.label &&
-                    <div className={`${'label-class ' + (meta.labelClass ? meta.labelClass : '')}`} style={meta.labelStyle || {}}>
+                    <div className={`${'label-class ' + (meta.labelClass ? meta.labelClass : '')}`} style={meta.labelStyle || meta.inline ? { paddingTop: '0px' } : {}}>
                         {label}
                     </div>
                 }
@@ -98,7 +99,7 @@ class FormItem extends React.Component {
                     ) : (
                             <div
                                 className={`${'field-class ' + (meta.fieldClass ? meta.fieldClass : '')}`}
-                                style={meta.fieldStyle || meta.inline ? { width: '50%' } : {}}>
+                                style={meta.fieldStyle || meta.inline ? { width: '50%', marginLeft: '10px' } : {}}>
                                 {type}
                             </div>
                         )
