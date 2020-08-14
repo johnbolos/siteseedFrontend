@@ -28,6 +28,12 @@ export default (state = initialState, action) => {
 				...state,
 				currentPage: action.payload.newPageIndex,
 			};
+		case "EDIT_PAGE_TITLE":
+			let index = action.payload.pageIndex;
+			let stateCopy = state;
+			//newState.currentPage = pageIndex;
+			stateCopy.pages[index].name = action.payload.pageName;
+			return stateCopy;
 		default:
 			return state;
 	}

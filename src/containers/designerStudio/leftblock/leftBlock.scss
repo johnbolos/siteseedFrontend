@@ -1,84 +1,86 @@
 .react-tabs__tab {
-    padding: 0px;
-    border: none;
-    color: #c0c0c0;
-    font-weight: normal;
-    //margin: 10px -5px;
-    //font-size: 16px;
-    text-align: center;
-    line-height: 21px;
-    margin-left: 20px;
+	padding: 0px;
+	border: none;
+	color: #c0c0c0;
+	font-weight: normal;
+	//margin: 10px -5px;
+	//font-size: 16px;
+	text-align: center;
+	line-height: 21px;
+	margin-left: 20px;
 }
 
 .react-tabs__tab--selected {
-    background-color: inherit;
-    border: none;
-    color: inherit;
-    font-weight: 600;
+	background-color: inherit;
+	border: none;
+	color: inherit;
+	font-weight: 600;
 }
 
 .react-tabs__tab-list {
-    border-bottom: 1px solid #444444;
-    margin: 0px
+	border-bottom: 1px solid #444444;
+	margin: 0px;
 }
 
-.react-tabs__tab-panel>div {
-    border-bottom: 1px solid #444444;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
+.react-tabs__tab-panel > div {
+	border-bottom: 1px solid #444444;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
 }
 
-.react-tabs__tab-panel>div>div {
-    width: 30px;
-    height: 30px;
+.react-tabs__tab-panel > div > div {
+	width: 30px;
+	height: 30px;
 
-    display: flex;
-    background-color: #2B2B2B;
-    justify-content: center;
-    border-radius: 5px;
+	display: flex;
+	background-color: #2b2b2b;
+	justify-content: center;
+	border-radius: 5px;
 }
 
 .react-tabs__tab-panel {
-    input {
-        margin: 10px;
-        background-color: #2B2B2B;
-        border: none;
-        height: 30px;
-        padding: 0px 0px 0px 24px;
-        width: 180px;
-        color: #ffffff;
-        border-radius: 5px;
-    }
+	input {
+		margin: 10px;
+		background-color: #2b2b2b;
+		border: none;
+		height: 30px;
+		padding: 0px 0px 0px 24px;
+		width: 180px;
+		color: #ffffff;
+		border-radius: 5px;
+	}
 
-    /* input:focus {
-        border: none
-    } */
+	ul {
+		padding-left: 20px;
+	}
 
+	ul li {
+		float: none;
+		cursor: pointer;
+		display: flex;
+		justify-content: space-between;
+		margin-right: 10px;
+		padding-left: 10px;
 
-    ul {
-        padding-left: 28px;
-    }
+		div {
+			display: flex;
+			align-items: center;
+			//margin-right: 26px;
 
-    ul li {
-        float: none;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
+			img {
+				margin: 2px 9px 2px 0px;
+			}
+		}
+	}
 
-        div {
-            display: flex;
-            align-items: center;
-            margin-right: 26px;
+	.search-icon {
+		position: absolute;
+		margin-left: 14px;
+	}
+}
 
-            img {
-                margin: 2px 9px 2px 0px;
-            }
-        }
-    }
-
-    .search-icon {
-        position: absolute;
-        margin-left: 14px;
-    }
+.pages:hover {
+	background-color: #444444;
+	border-radius: 5px;
 }

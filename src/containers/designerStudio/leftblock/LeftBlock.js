@@ -36,7 +36,7 @@ class LeftBlock extends Component {
 		elem.next().toggleClass("hide-top");
 	}
 	render() {
-		const { pageReducer } = this.props;
+		//const { pageReducer } = this.props;
 		//console.log("pageReducer in leftBlock", pageReducer);
 		return (
 			<>
@@ -124,19 +124,4 @@ class LeftBlock extends Component {
 	}
 }
 
-const mapStateToProps = ({ pageReducer }) => {
-	return {
-		pageReducer,
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		createNewPage: (name, components, style) =>
-			dispatch(createPage(name, components, style)),
-		saveCurrentChanges: (pageIndex, pageObj) =>
-			dispatch(saveChanges(pageIndex, pageObj)),
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LeftBlock);
+export default LeftBlock;

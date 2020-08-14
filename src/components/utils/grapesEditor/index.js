@@ -512,6 +512,9 @@ const _grapesEditor = {
 		editor.Commands.add("set-device-tablet", {
 			run: (editor) => editor.setDevice("tablet"),
 		});
+		editor.on("modal:open", () => {
+			console.log("modal opened");
+		});
 		//init style manager
 		styleManager.init(config.styles, dispatch);
 		if (cb) {
