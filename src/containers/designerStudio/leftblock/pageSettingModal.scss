@@ -17,6 +17,7 @@
 	position: absolute;
 	width: 500px;
 	//height: 883px;
+	outline: none;
 	top: 40px;
 	bottom: 40px;
 	border: 1px solid #444444;
@@ -64,6 +65,7 @@
 			height: 30px;
 			color: #ffffff;
 			border-radius: 5px;
+			padding: 12px 10px;
 		}
 		textarea {
 			resize: none;
@@ -137,7 +139,15 @@
 	}
 }
 #upload-btn {
-	border-top: none;
+	padding-left: 10px;
+    border-top: none;
+    display: flex;
+    flex-direction: column;
+	justify-content: space-between;
+	
+	.helper-text {
+		margin-top: 7px;
+	}
 }
 .upload-btn {
 	width: 76px;
