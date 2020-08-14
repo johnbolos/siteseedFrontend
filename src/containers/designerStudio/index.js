@@ -53,7 +53,7 @@ class DesignerStudio extends React.Component {
 		}, 5000);
 	}
 	handleScroll = (e) => {
-		if (e.target.classList.contains("on-scrollbar") === false) {
+		if (e.target.classList && e.target.classList.contains("on-scrollbar") === false) {
 			e.target.classList.add("on-scrollbar");
 			//wait
 			setTimeout(() => {
@@ -372,7 +372,7 @@ class DesignerStudio extends React.Component {
 							<div
 								id='style-manager'
 								style={{
-									width: "18%",
+									width: "270px",
 									display: "flex",
 									flexDirection: "column",
 								}}>

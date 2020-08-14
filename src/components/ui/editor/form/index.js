@@ -11,7 +11,7 @@ class CreateForm extends React.Component {
         formData: {}
     }
     componentDidMount() {
-        this.props.getFormData(this.getFormData.bind(this))
+        this.props.getFormData && this.props.getFormData(this.getFormData.bind(this))
     }
     getFormData = () => {
         return this.state.formData
@@ -44,6 +44,12 @@ class CreateForm extends React.Component {
             <div className={className || 'form-container'}>
                 {
                     fields.map((item, key) => {
+                        if (item.hidden) {
+                            return null
+                        }
+                        if (item.type == 'divider') {
+                            return <div style={{ width: '100%', height: '0px', borderBottom: '1px solid #444444', marginTop: '14px', marginBottom: '16px' }}></div>
+                        }
                         return <FormItem meta={item} key={key} globalOnChange={this.onChange} onUmmount={this.unMount} />
                     })
                 }

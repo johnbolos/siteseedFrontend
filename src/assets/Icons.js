@@ -41,6 +41,13 @@ import { ReactComponent as FAlignStart } from "./right-pane/fAlignStart.svg";
 import { ReactComponent as FAlignEnd } from "./right-pane/fAlignEnd.svg";
 import { ReactComponent as FAlignStretch } from "./right-pane/fAlignStretch.svg";
 import { ReactComponent as FAlignCenter } from "./right-pane/fAlignCenter.svg";
+import { ReactComponent as FDirRow } from "./right-pane/fDirRow.svg";
+import { ReactComponent as FDirRowRev } from "./right-pane/fDirRowReverse.svg";
+import { ReactComponent as FDirCol } from "./right-pane/fDirColumn.svg";
+import { ReactComponent as FDirColRev } from "./right-pane/fDirColumnReverse.svg";
+import { ReactComponent as LineHeight } from "./right-pane/lineHeight.svg";
+import { ReactComponent as LetterSpacing } from "./right-pane/letterSpacing.svg";
+import { ReactComponent as BorderRadius } from "./right-pane/borderRadius.svg";
 
 export default {
 	Dropdown,
@@ -70,4 +77,11 @@ export default {
 	FAlignEnd,
 	FAlignStretch,
 	FAlignCenter,
+	FDirRow,
+	FDirRowRev,
+	FDirCol,
+	FDirColRev,
+	LineHeight,
+	LetterSpacing,
+	BorderRadius,
 }
