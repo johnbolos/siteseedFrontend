@@ -473,7 +473,7 @@ svg {
   position: initial;
   justify-content: space-between;
   height: 5%;
-  border: 1px solid #444444;
+  border-bottom: 1px solid #444444;
 }
 
 .gjs-pn-btn.gjs-pn-active {
@@ -616,6 +616,7 @@ button {
   flex-direction: column;
   background-color: $primaryColor;
   align-items: center;
+  border-right: 1px solid #444444;
 }
 
 .body-container {
@@ -652,6 +653,7 @@ button {
   font-weight: 600;
   background-color: #373737;
   border-bottom: none;
+  padding: 9px 20px 9px 20px;
 }
 
 .gjs-block-category.gjs-open {
@@ -747,7 +749,8 @@ button {
   position: absolute;
   width: 36px;
   height: 36px;
-  left: 77.36%;
+  // left: 77.36%;
+  right: 266px;
   bottom: 0%;
   z-index: 1;
   background-color: #2a62ff;

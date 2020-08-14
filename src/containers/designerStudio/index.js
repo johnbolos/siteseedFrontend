@@ -224,7 +224,7 @@ class DesignerStudio extends React.Component {
 							<div
 								id='style-manager'
 								style={{
-									width: "270px",
+									width: "240px",
 									display: "flex",
 									flexDirection: "column",
 								}}>
