@@ -74,6 +74,7 @@
         .list-container {
           position: absolute;
           z-index: 5;
+          top: 110%;
           padding: 15px 10px 15px 10px;
           // max-height: 45%;
           overflow-y: auto;
@@ -315,6 +316,10 @@
           border-radius: 5px;
           padding: 5px;
           margin: 5px;
+
+          .list-container {
+            padding: 10px 5px 10px 5px;
+          }
         }
       }
     }
@@ -323,7 +328,7 @@
 
 .chrome-picker {
   position: absolute;
-  top: 0;
+  top: 100%;
   left: 0;
   z-index: 5;
   font-family: "Source Sans Pro" !important;
@@ -331,6 +336,7 @@
   font-weight: normal;
   font-size: 13px;
   line-height: 16px;
+  width: 100% !important;
   // background-color: #1e1e1e !important;
   // input, span {
   //   color: #ffffff !important;

@@ -625,7 +625,7 @@ class StyleManager extends React.Component {
                     return <div className={'line-height'}>
                         <Icons.LineHeight style={{ width: '12px', height: '12px' }} />
                         <input type={'number'} value={parseInt(value)} onChange={(e) => {
-                            value && globalOnChange(`${e.target.value}${unit}`)
+                            value && globalOnChange(`${e.target.value}px`)
                         }} />
                     </div>
                 }
@@ -648,7 +648,7 @@ class StyleManager extends React.Component {
                     return <div className={'letter-spacing'}>
                         <Icons.LetterSpacing style={{ width: '18px', height: '18px' }} />
                         <input type={'number'} value={parseInt(value)} onChange={(e) => {
-                            value && globalOnChange(`${e.target.value}${unit}`)
+                            (value != '' || value != null) && globalOnChange(`${e.target.value}px`)
                         }} />
                     </div>
                 }
@@ -1100,7 +1100,7 @@ class StyleManager extends React.Component {
                 key: 'transition-property',
                 type: 'select', //required
                 value: (selected.styleInfo.styles && selected.styleInfo.styles['transition-property']) || selected.node && (getComputedStyle(selected.node, pseudoClass)['transition-property']),
-                width: '48%',
+                width: '63%',
                 options: [
                     {
                         label: 'All',
@@ -1139,7 +1139,7 @@ class StyleManager extends React.Component {
                 value: (selected.styleInfo.styles && selected.styleInfo.styles['transition-duration']) || selected.node && getComputedStyle(selected.node, pseudoClass)['transition-duration'],
                 defaultUnit: 's',
                 unit: ['s', 'ms'],
-                width: '48%',
+                width: '33%',
             },
             {
                 label: 'Easing',

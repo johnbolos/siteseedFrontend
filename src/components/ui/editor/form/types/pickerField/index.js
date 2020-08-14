@@ -113,7 +113,7 @@ class PickerField extends React.Component {
 
                 />
                 <input type="number" className={'alpha'} name="int"
-                    value={(alphaValue == '') ? '100' : alphaValue}
+                    value={(alphaValue == '') ? '100' : parseFloat(alphaValue).toFixed(0)}
                     onKeyPress={(e) => {
                         if (e.key === 'Enter') {
                             this.onChange(e.target.value, 'alphaValue')

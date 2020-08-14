@@ -1,4 +1,5 @@
 import "grapesjs/dist/css/grapes.min.css";
+import _ from 'lodash'
 import grapesjs from "grapesjs";
 //import "grapesjs-blocks-basic";
 import exportPlugin from "grapesjs-plugin-export";
@@ -540,8 +541,8 @@ const _grapesEditor = {
 				message: tag
 					? `Please add '${tag}' tag, to export correctly`
 					: `Please add '${
-							start + "' and '" + end
-					  }' identifer, to export correctly`,
+					start + "' and '" + end
+					}' identifer, to export correctly`,
 			};
 		let header = html.substring(startIndex, endIndex);
 		return {

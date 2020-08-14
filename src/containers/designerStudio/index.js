@@ -1,4 +1,5 @@
 import React from "react";
+import _ from 'lodash'
 import { connect } from "react-redux";
 //import grapesjs from "grapesjs"
 import { Debounce } from "lodash-decorators/debounce";
@@ -132,6 +133,17 @@ class DesignerStudio extends React.Component {
 						{ pseudoClass: this.props.pseudoClass }
 					);
 					// _grapesEditor.styleManager.addEvents({ e, node: this }, { pseudoClass: 'hover' })
+					setTimeout(() => {
+						//close all blocks
+						let categories = _grapesEditor.editor.BlockManager.getCategories();
+						categories.each(category => {
+							category.set('open', false).on('change:open', opened => {
+								opened.get('open') && categories.each(category => {
+									category !== opened && category.set('open', false)
+								})
+							})
+						})
+					}, 1000)
 				});
 			}
 		);
@@ -157,12 +169,12 @@ class DesignerStudio extends React.Component {
 	temp = () => {
 		console.log("temporary function");
 		const { editor } = _grapesEditor;
-		const rte = editor.RichTextEditor;
-		rte.add("bold", {
-			icon: '<i class="icon-SS-Checkbox"></i>',
-			attributes: { title: "Bold" },
-			result: (rte) => rte.exec("bold"),
-		});
+		// const rte = editor.RichTextEditor;
+		// rte.add("bold", {
+		// 	icon: '<i class="icon-SS-Checkbox"></i>',
+		// 	attributes: { title: "Bold" },
+		// 	result: (rte) => rte.exec("bold"),
+		// });
 	};
 
 	addStyleData = () => {
