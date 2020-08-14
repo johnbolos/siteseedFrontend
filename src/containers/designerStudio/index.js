@@ -133,17 +133,6 @@ class DesignerStudio extends React.Component {
 						{ pseudoClass: this.props.pseudoClass }
 					);
 					// _grapesEditor.styleManager.addEvents({ e, node: this }, { pseudoClass: 'hover' })
-					setTimeout(() => {
-						//close all blocks
-						let categories = _grapesEditor.editor.BlockManager.getCategories();
-						categories.each(category => {
-							category.set('open', false).on('change:open', opened => {
-								opened.get('open') && categories.each(category => {
-									category !== opened && category.set('open', false)
-								})
-							})
-						})
-					}, 1000)
 				});
 			}
 		);
@@ -175,6 +164,17 @@ class DesignerStudio extends React.Component {
 		// 	attributes: { title: "Bold" },
 		// 	result: (rte) => rte.exec("bold"),
 		// });
+
+
+		// //close all blocks
+		let categories = _grapesEditor.editor.BlockManager.getCategories();
+		categories.each(category => {
+			category.set('open', false).on('change:open', opened => {
+				opened.get('open') && categories.each(category => {
+					category !== opened && category.set('open', false)
+				})
+			})
+		})
 	};
 
 	addStyleData = () => {
