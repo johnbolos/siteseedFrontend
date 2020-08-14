@@ -7,33 +7,17 @@ import "./index.scss";
 import _grapesEditor from "../../components/utils/grapesEditor";
 import StylePanel from "./stylePanel/index";
 import { undo, redo } from "../../reducers/actions/editorHistoryActions";
+import { saveChanges } from "../../reducers/actions/pageActions";
 import { closestElement } from "../../components/utils/index";
 import { /* html, */ template1Html, template1Style } from "./dummie";
 import { landingHtml, landingStyle } from "./templates/landing";
 import { landing2Html, landing2Style } from "./templates/landing2";
-import {
-	logo,
-	addElem,
-	components,
-	layers,
-	comment,
-	tip,
-	question,
-	minus,
-	plus,
-	mobile,
-	desktop,
-	ipad,
-	bell,
-} from "../designerStudio/panels/icons";
+import { question, minus, plus } from "../designerStudio/panels/icons";
 import $ from "jquery";
+import LeftBlock from "./leftblock/LeftBlock";
+import TopPanel from "./toppanel/TopPanel";
 
 const initialState = {
-	blocks: "none",
-	component: "none",
-	layers: "none",
-	comment: "none",
-	tipMargin: "15px",
 	zoom: 100,
 	key: 0,
 	selected: {
@@ -46,7 +30,7 @@ class DesignerStudio extends React.Component {
 	state = initialState;
 
 	componentDidMount() {
-		window.addEventListener('scroll', this.handleScroll, true);
+		window.addEventListener("scroll", this.handleScroll, true);
 		this.apiRequest();
 		setTimeout(() => {
 			this.temp();
@@ -58,9 +42,9 @@ class DesignerStudio extends React.Component {
 			//wait
 			setTimeout(() => {
 				e.target.classList.remove("on-scrollbar");
-			}, 1000)
+			}, 1000);
 		}
-	}
+	};
 
 	apiRequest = () => {
 		return new Promise((resolve) => {
@@ -89,10 +73,6 @@ class DesignerStudio extends React.Component {
 		});
 	};
 
-	reset(elem) {
-		this.setState(initialState);
-		elem.next().toggleClass("hide-top");
-	}
 	minus = () => {
 		this.setState(
 			{
@@ -138,7 +118,7 @@ class DesignerStudio extends React.Component {
 		}
 		_grapesEditor.init(
 			{
-				components: tempHtml,
+				components: tempHtml + tempStyle,
 				styles: this.state.templateStyle,
 			},
 			dispatch,
@@ -147,11 +127,26 @@ class DesignerStudio extends React.Component {
 				let frame = document.getElementsByClassName("gjs-frame");
 				let contentWindow = frame[0].contentWindow;
 				contentWindow.addEventListener("mousedown", (e) => {
-					_grapesEditor.styleManager.addEvents({ elem: e.target, node: this }, { pseudoClass: this.props.pseudoClass });
+					_grapesEditor.styleManager.addEvents(
+						{ elem: e.target, node: this },
+						{ pseudoClass: this.props.pseudoClass }
+					);
 					// _grapesEditor.styleManager.addEvents({ e, node: this }, { pseudoClass: 'hover' })
 				});
 			}
 		);
+		const { editor } = _grapesEditor;
+		editor.on("storage:start", () => {
+			let { currentPage, pages } = this.props.pageReducer;
+			let components = JSON.parse(JSON.stringify(editor.getComponents()));
+			let style = JSON.parse(JSON.stringify(editor.getStyle()));
+			console.log(pages);
+			this.props.saveCurrentChanges(currentPage, {
+				name: pages[currentPage].name,
+				components,
+				style,
+			});
+		});
 	};
 	@Debounce(500)
 	fun(mouse) {
@@ -168,32 +163,8 @@ class DesignerStudio extends React.Component {
 			attributes: { title: "Bold" },
 			result: (rte) => rte.exec("bold"),
 		});
-		// window.addEventListener("mousemove", (mouse) => {
-		// 	this.fun(mouse)
-		// })
 	};
-	drawerToggleClickHandler = (e) => {
-		//adding custom attributes to components
-		/* console.log(
-			"selected ",
-			//	_grapesEditor.editor.getSelected().parent().getEl()
-			// .setAttributes({ "seed-id": "ss" })
-			// /getEl() //gives html of selected component
-			_grapesEditor.editor.getSelected().closest("div").parent().getEl()
-		) */
-		// let selected = _grapesEditor.editor.getSelected()
-		// console.log(selected.attributes)
-		let elem = $(`[name='${e.target.name}']`);
-		//elem.next().toggleClass("hide-top");
-		this.reset(elem);
-		this.setState(
-			{
-				[e.target.name]:
-					this.state[e.target.name] === "none" ? "block" : "none",
-			}
-			//() => elem.next().toggleClass("hide-top")
-		);
-	};
+
 	addStyleData = () => {
 		const { dispatch } = this.props;
 		this.setState({ key: this.state.key + 1 }, () => {
@@ -214,7 +185,6 @@ class DesignerStudio extends React.Component {
 	};
 	render() {
 		const { selected } = this.state;
-		const { editor } = _grapesEditor;
 		return (
 			<div className={"theme-dark"}>
 				<div
@@ -231,131 +201,13 @@ class DesignerStudio extends React.Component {
 							width: "100%" /* backgroundColor: "red"  */,
 						}}>
 						<div className='panel__top'>
-							<div className='logo'>
-								<img src={logo} alt='logo'></img>
-							</div>
-							<div className='panel__devices'></div>
-							<div className='panel__basic-actions'>
-								<span className='gjs-pn-btn'>
-									<div className='tooltip'>
-										<div>
-											<img
-												src={bell}
-												alt='notification'
-												height='22px'
-												width='22px'
-											/>
-										</div>
-										<span className='tooltiptext' style={{ left: "-85%" }}>
-											Notification
-										</span>
-									</div>
-								</span>
-								<span className='gjs-pn-btn'>
-									<div className='tooltip'>
-										<div>
-											<img
-												src={mobile}
-												alt='erase'
-												height='22px'
-												width='22px'
-												onClick={this.changeDevice}
-											/>
-										</div>
-										<span className='tooltiptext device-text'>Device</span>
-									</div>
-								</span>
-								<div id='device' className='hide-top'>
-									<div onClick={() => editor.runCommand("set-device-desktop")}>
-										<img
-											src={desktop}
-											alt='Desktop'
-											width='20px'
-											height='20px'
-										/>
-										Desktop
-									</div>
-									<div onClick={() => editor.runCommand("set-device-tablet")}>
-										<img src={ipad} alt='Tablet' width='20px' height='20px' />
-										Tablet
-									</div>
-									<div onClick={() => editor.runCommand("set-device-mobile")}>
-										<img src={mobile} alt='Mobile' width='20px' height='20px' />
-										Mobile
-									</div>
-								</div>
-							</div>
+							<TopPanel />
 						</div>
 
 						<div
 							className='body-container'
 							style={{ height: `${window.innerHeight - 40}px` }}>
-							<div className='left-pane'>
-								<div className='tooltip-left'>
-									<img
-										src={addElem}
-										alt='addElement'
-										name='blocks'
-										onClick={this.drawerToggleClickHandler}
-									/>
-									<span className='tooltiptext-left'>Add Elements</span>
-								</div>
-								<div className='tooltip-left'>
-									<img
-										src={components}
-										alt='Component'
-										name='component'
-										onClick={this.drawerToggleClickHandler}></img>
-									<span className='tooltiptext-left'>Add Components</span>
-								</div>
-								<div className='tooltip-left'>
-									<img
-										src={layers}
-										alt='layers'
-										name='layers'
-										onClick={this.drawerToggleClickHandler}></img>
-									<span className='tooltiptext-left'>Add Layers</span>
-								</div>
-							</div>
-							<img
-								src={tip}
-								alt='tip'
-								width='15px'
-								height='9px'
-								className='tip'
-								style={{
-									display: this.state.blocks,
-									marginTop: "15px",
-								}}></img>
-							<div id='blocks' style={{ display: this.state.blocks }}>
-								<h4 className='add-element'>Add Elements</h4>
-							</div>
-							<img
-								src={tip}
-								alt='tip'
-								width='15px'
-								height='9px'
-								className='tip'
-								style={{
-									display: this.state.component,
-									marginTop: "55px",
-								}}></img>
-							<div id='components' style={{ display: this.state.component }}>
-								<h4 className='add-element'>Add Components</h4>
-							</div>
-							<img
-								src={tip}
-								alt='tip'
-								width='15px'
-								height='9px'
-								className='tip'
-								style={{
-									display: this.state.layers,
-									marginTop: "94px",
-								}}></img>
-							<div id='layers' style={{ display: this.state.layers }}>
-								<h4 className='add-element'>Add Layers</h4>
-							</div>
+							<LeftBlock />
 							<div id='grapesEditor'></div>
 							<div id='zoom'>
 								<span className='minus' onClick={this.minus}>
@@ -389,17 +241,29 @@ class DesignerStudio extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ global, layout, editor, templates, editorHistory }) => {
+const mapStateToProps = ({
+	global,
+	layout,
+	editor,
+	templates,
+	editorHistory,
+	pageReducer,
+}) => {
 	return {
 		loading: global.loading,
 		templates,
 		styleObj: editorHistory.present.styleObj,
-		pseudoClass: editor.pseudoClass
+		pseudoClass: editor.pseudoClass,
+		pageReducer,
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
-	return { dispatch };
+	return {
+		dispatch,
+		saveCurrentChanges: (pageIndex, pageObj) =>
+			dispatch(saveChanges(pageIndex, pageObj)),
+	};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DesignerStudio);
