@@ -2,22 +2,37 @@ import React, { Component } from "react";
 import { addPage, page, show, setting, search } from "./icons";
 import _grapesEditor from "../../../components/utils/grapesEditor";
 import { connect } from "react-redux";
-import { changePage, createPage } from "../../../reducers/actions/pageActions";
+import {
+	changePage,
+	createPage,
+	editPageSetting,
+} from "../../../reducers/actions/pageActions";
+import PageSettingModal from "./PageSettingModal";
+import $ from "jquery";
 
 class PageManager extends Component {
 	state = {
-		initComponents: [],
-		initStyles: [],
+		modalIsOpen: false,
+		pageSetting: {},
+		editPageIndex: null,
 	};
+	//const [modalIsOpen, setIsOpen] = React.useState(false);
+	//const [pageSetting, setPageSetting] = React.useState({});
 
-	createPage = () => {
+	createPage = (title) => {
 		//creating new page
 		//new page should be blank
-		const { editor } = _grapesEditor;
-		let components = JSON.parse(JSON.stringify(editor.getComponents()));
-		let style = JSON.parse(JSON.stringify(editor.getStyle()));
+		//const { editor } = _grapesEditor;
+		//new page from a template
+		/* let components = JSON.parse(JSON.stringify(editor.getComponents()));
+		let style = JSON.parse(JSON.stringify(editor.getStyle())); */
+
+		//blank new page
+		let components = "";
+		let style = "";
+
 		console.log(this.props.pageReducer);
-		this.props.createNewPage("newPAge", components, style);
+		this.props.createNewPage(title, components, style);
 	};
 	changeTemplate = async (index) => {
 		const { editor } = _grapesEditor;
@@ -29,7 +44,41 @@ class PageManager extends Component {
 		editor.setComponents(pageReducer.pages[index].components);
 		editor.setStyle(pageReducer.pages[index].style);
 	};
+	closeModal = () => {
+		this.setState({
+			modalIsOpen: false,
+		});
+	};
 
+	openSettings = async (index) => {
+		this.setState(
+			{
+				pageSetting: this.props.pageReducer.pages[index],
+				editPageIndex: index,
+			},
+			() => {
+				this.setState({
+					modalIsOpen: true,
+				});
+			}
+		);
+	};
+	editPageRequest = (pageName) => {
+		this.props.editPage(this.state.editPageIndex, pageName);
+	};
+	componentDidMount = () => {
+		/* let parent = document.getElementById("react-tabs-3");
+		let lis = parent.getElementsByClassName("pages");
+		for (let i = 0; i < lis.length; i++) {
+			lis[i].addEventListener("click", function () {
+				let current = document.getElementsByClassName("active");
+				console.log("current active ", current[0].classList);
+
+				//current[0].className = current[0].className.replace(" active", "");
+				this.className += " active";
+			});
+		} */
+	};
 	render() {
 		const { pageReducer } = this.props;
 		return (
@@ -37,25 +86,50 @@ class PageManager extends Component {
 				<div>
 					<img src={search} alt='search' className='search-icon' />
 					<input type='text' placeholder='Search' />
-					<div onClick={this.createPage}>
+					<div
+						onClick={() =>
+							this.setState({
+								pageSetting: {},
+								modalIsOpen: true,
+							})
+						}>
 						<img src={addPage} alt='add-page' />
 					</div>
 				</div>
 				<ul>
 					{pageReducer.pages &&
 						pageReducer.pages.map((pageElem, index) => (
-							<li key={index}>
+							<li key={index} className='pages'>
 								<div onClick={() => this.changeTemplate(index)}>
 									<img src={page} alt='page' className='page' />
 									{pageElem.name}
 								</div>
 								<div>
-									<img className='setting' src={setting} alt='setting' />
+									<img
+										className='setting'
+										src={setting}
+										alt='setting'
+										onClick={() => this.openSettings(index)}
+									/>
 									<img src={show} alt='show' />
 								</div>
 							</li>
 						))}
 				</ul>
+				<PageSettingModal
+					isOpen={this.state.modalIsOpen}
+					onRequestClose={() =>
+						this.setState({
+							modalIsOpen: false,
+						})
+					}
+					closeModal={this.closeModal}
+					className='Modal'
+					overlayClassName='Overlay'
+					createPage={this.createPage}
+					pageSetting={this.state.pageSetting}
+					sendEditPageReq={this.editPageRequest}
+				/>
 			</>
 		);
 	}
@@ -73,6 +147,7 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(changePage(currentPageIndex, newPageIndex)),
 		createNewPage: (name, components, style) =>
 			dispatch(createPage(name, components, style)),
+		editPage: (index, pageName) => dispatch(editPageSetting(index, pageName)),
 	};
 };
 

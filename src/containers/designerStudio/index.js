@@ -30,7 +30,7 @@ class DesignerStudio extends React.Component {
 	state = initialState;
 
 	componentDidMount() {
-		window.addEventListener("scroll", this.handleScroll, true);
+		//window.addEventListener("scroll", this.handleScroll, true);
 		this.apiRequest();
 		setTimeout(() => {
 			this.temp();

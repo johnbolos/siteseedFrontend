@@ -11,6 +11,12 @@ export const saveChanges = (pageIndex, pageObj) => (dispatch) => {
 		payload: { pageIndex, pageObj },
 	});
 };
+export const editPageSetting = (pageIndex, pageName) => (dispatch) => {
+	dispatch({
+		type: "EDIT_PAGE_TITLE",
+		payload: { pageIndex, pageName },
+	});
+};
 
 export const changePage = (currentPageIndex, newPageIndex) => (dispatch) => {
 	return dispatch({
