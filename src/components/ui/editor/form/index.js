@@ -17,7 +17,6 @@ class CreateForm extends React.Component {
         return this.state.formData
     }
     componentDidUpdate(prevProps) {
-        // console.log('selected chane createForm did')
     }
     unMount = (key) => {
         let { formData } = this.state
@@ -48,7 +47,7 @@ class CreateForm extends React.Component {
                             return null
                         }
                         if (item.type == 'divider') {
-                            return <div style={{ width: '100%', height: '0px', borderBottom: '1px solid #444444', marginTop: '14px', marginBottom: '16px' }}></div>
+                            return <div style={{ width: '150%', height: '0px', borderBottom: '1px solid #444444', marginTop: '14px', marginBottom: '16px', marginRight: '-20px', marginLeft: '-20px' }}></div>
                         }
                         return <FormItem meta={item} key={key} globalOnChange={this.onChange} onUmmount={this.unMount} />
                     })

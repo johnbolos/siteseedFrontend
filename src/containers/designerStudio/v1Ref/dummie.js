@@ -489,6 +489,7 @@ export const template1Style = `
       }
       .badge-desc{
         font-size:0.85rem;
+        white-space: normal;
         line-height:20px;
       }
       .badge-avatar{

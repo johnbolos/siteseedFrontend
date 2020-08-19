@@ -165,7 +165,9 @@ class DesignerStudio extends React.Component {
 		// 	result: (rte) => rte.exec("bold"),
 		// });
 
-
+		const sm = editor.StyleManager;
+		sm.getConfig().clearProperties = 1;
+		sm.render();
 		// //close all blocks
 		let categories = _grapesEditor.editor.BlockManager.getCategories();
 		categories.each(category => {

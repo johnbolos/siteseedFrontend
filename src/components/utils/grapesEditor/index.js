@@ -430,6 +430,9 @@ const _grapesEditor = {
 		height: "100%",
 		storageManager: { type: "none" },
 		// dragMode: 'absolute',
+		parser: {
+			parserCss: (css, editor) => [],
+		},
 		plugins: [
 			//"gjs-blocks-basic",
 			//"gjs-preset-webpage",

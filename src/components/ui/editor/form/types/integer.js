@@ -13,7 +13,7 @@ class Integer extends React.Component {
     }
     componentDidMount() {
         this.initValue()
-        this.setState({ unitValue: this.props.meta.defaultUnit || ''})
+        this.setState({ unitValue: this.props.meta.defaultUnit || '' })
     }
     initValue = () => {
         let { meta: { value, unit } } = this.props
@@ -43,7 +43,6 @@ class Integer extends React.Component {
     onChange = (value) => {
         const { meta: { onChange }, globalOnChange } = this.props
         this.setState({ value: value }, () => {
-            console.log(this.state.value)
             onChange && onChange(`${this.state.value}${this.state.unitValue}`)
             globalOnChange && globalOnChange(`${this.state.value}${this.state.unitValue}`)
         })
@@ -64,8 +63,14 @@ class Integer extends React.Component {
         } = this.props
         const { value, unitValue } = this.state
         return (
-            <div className={'integer-container'}>
-                <input type="number" name="int" value={disabled ? '' : value} placeholder={(value == '' || disabled) ? 'auto' : (isNaN(value) ? value : '')} onChange={(e) => { this.onChange(e.target.value) }} />
+            <div className={'integer-container'} style={disabled ? { pointerEvents: 'none' } : {}}>
+                <input type="number" name="int"
+                    value={disabled ? '' : value}
+                    disabled={disabled}
+                    placeholder={(value == '' || disabled) ? 'Auto' : (isNaN(value) ? _.startCase(value) : '')}
+                    onChange={(e) => { this.onChange(e.target.value) }}
+                    style={disabled ? { background: 'rgba(59, 59, 59, 0.3)', paddingRight: unit || defaultUnit ? '25px' : '15px' } : { paddingRight: unit || defaultUnit ? '25px' : '15px' }}
+                />
                 {
                     unit &&
                     <div className={'unit-select'}>

@@ -74,7 +74,7 @@
         .list-container {
           position: absolute;
           z-index: 5;
-          top: 110%;
+          // top: 110%;
           padding: 15px 10px 15px 10px;
           // max-height: 45%;
           overflow-y: auto;
@@ -132,6 +132,10 @@
         }
       }
 
+
+      .integer-container:has(.unit-select) {
+        background-color: red;
+      }
       .integer-container {
         height: 30px;
         position: relative;
@@ -151,8 +155,9 @@
           background-color: transparent;
           outline: none;
           border: none;
-          margin-right: 6px;
+          margin-right: 2px;
         }
+
         input[type="number"] {
           -moz-appearance: textfield;
           outline: none;
@@ -161,7 +166,7 @@
           border: 1px solid #444444;
           box-sizing: border-box;
           border-radius: 5px;
-          padding: 7px 0px 7px 7px;
+          padding: 7px 15px 7px 7px;
           color: #ffffff;
           font-family: "Source Sans Pro";
           font-style: normal;
@@ -170,6 +175,7 @@
           line-height: 16px;
           height: 30px;
         }
+
         .step {
           position: absolute;
           top: 0;
@@ -197,8 +203,16 @@
           align-items: center;
           height: 100%;
           flex-direction: column;
+
+          &input[type="number"] {
+            padding-right: 30px;
+          }
           select {
-            color: #5e5e5e;
+            color: #ffffff;
+
+            option {
+              color: #5e5e5e;
+            }
           }
         }
       }
@@ -258,10 +272,10 @@
           background-color: transparent;
           outline: none;
           border: none;
-          margin-right: 6px;
+          margin-right: 2px;
         }
 
-        input {
+        > input {
           -moz-appearance: textfield;
           outline: none;
           // width: 100%;
@@ -281,11 +295,11 @@
         }
         .value {
           display: flex;
-          width: 60%;
+          width: 65%;
         }
         .alpha {
           display: flex;
-          width: 30%;
+          width: 25%;
           border-left: 1px solid #444444;
         }
         .unit-select {

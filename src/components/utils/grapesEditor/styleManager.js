@@ -245,7 +245,6 @@ export const customEvents = {
 		if (typeof elem.className == "object") {
 			return;
 		}
-		console.log(node.props.styleObj)
 		let className = elem.className.split(" ");
 		const styleInfo = styleManager.getSelectorStyleInfo(
 			className,

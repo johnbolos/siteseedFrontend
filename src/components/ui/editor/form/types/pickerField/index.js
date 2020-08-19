@@ -11,6 +11,7 @@ class PickerField extends React.Component {
     constructor(props) {
         super(props);
         this.PickerRef = React.createRef()
+        this.unitRef = React.createRef()
         this.onClickOutsideHandler = this.onClickOutsideHandler.bind(this)
     }
     state = {
@@ -22,10 +23,12 @@ class PickerField extends React.Component {
             g: '255',
             b: '255',
             a: '1',
-        }
+        },
+        unitWidth: 0
     }
     componentDidMount() {
         this.initValue(this.props.meta.value)
+        this.setState({ unitWidth: document.querySelector('.unit-select > select') && document.querySelector('.unit-select > select').clientWidth })
         window.addEventListener('mousedown', this.onClickOutsideHandler);
     }
     onClickOutsideHandler(event) {
@@ -35,6 +38,7 @@ class PickerField extends React.Component {
     }
     componentDidUpdate(prevProps) {
         if ((prevProps.meta.value != this.props.meta.value)) {
+            this.setState({ unitWidth: document.querySelector('.unit-select > select') && document.querySelector('.unit-select > select').clientWidth })
             this.initValue(this.props.meta.value)
         }
     }
@@ -61,17 +65,14 @@ class PickerField extends React.Component {
     onChange = (val, key) => {
         const { meta: { onChange }, globalOnChange } = this.props
         const { value, alphaValue } = this.state
-        console.log(value, val)
         this.setState({ [key]: val }, () => {
             let rgb = convert.hex.rgb(this.state.value)
             let updatedVal = `rgba(${rgb.join(',')}, ${alphaValue / 100})`
             onchange && onChange(updatedVal)
-            console.log(convert.hex.rgb(this.state.value), this.state.value, rgb, val, 'new', updatedVal)
             globalOnChange && globalOnChange(updatedVal)
         })
     }
     handlePickerChange = (color) => {
-        console.log(color)
         this.setState({ alphaValue: color.rgb.a * 100, rgb: color.rgb }, () => {
             this.onChange(color.hex, 'value')
         })
@@ -92,7 +93,6 @@ class PickerField extends React.Component {
                 <div className={'preview-color'} onClick={() => { this.setState({ openPicker: true }) }} style={{ background: value }}></div>
                 {
                     openPicker && <div onBlur={() => {
-                        console.log('blurring')
                     }}>
                         <ChromePicker
                             color={this.state.rgb}
@@ -107,23 +107,33 @@ class PickerField extends React.Component {
                             this.onChange(e.target.value, 'value')
                         }
                     }}
-                    onBlur={(e) => { this.onChange(e.target.value, 'value') }}
-                    onChange={(e) => { this.setState({ value: e.target.value }) }}
+                    onBlur={(e) => {
+                        if (e.target.value != this.state.value) {
+                            this.onChange(e.target.value, 'value')
+                        }
+                    }}
+                    // onChange={(e) => { this.setState({ value: e.target.value }) }}
                     value={(value == '') ? '#006CFF' : value}
 
                 />
                 <input type="number" className={'alpha'} name="int"
                     value={(alphaValue == '') ? '100' : parseFloat(alphaValue).toFixed(0)}
+                    style={{ textAlign: 'end', paddingRight: this.state.unitWidth }}
                     onKeyPress={(e) => {
                         if (e.key === 'Enter') {
                             this.onChange(e.target.value, 'alphaValue')
                         }
                     }}
-                    onBlur={(e) => { this.onChange(e.target.value, 'alphaValue') }}
-                    onChange={(e) => { this.setState({ alphaValue: e.target.value }) }}
+                    onBlur={(e) => {
+
+                        if (e.target.value != this.state.alphaValue) {
+                            this.onChange(e.target.value, 'alphaValue')
+                        }
+                    }}
+                // onChange={(e) => { this.setState({ alphaValue: e.target.value }) }}
                 />
                 {
-                    <div className={'unit-select'}>
+                    <div className={'unit-select'} ref={this.unitRef}>
                         <select type={'select'} value={'%'} >
                             {
                                 <option value={'%'}> {'%'} </option>

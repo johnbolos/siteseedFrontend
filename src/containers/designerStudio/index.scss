@@ -59,9 +59,10 @@
 
 .gjs-rte-actionbar {
   background-color: red;
+  display: none !important;
 }
 
-// .gjs-toolbar { display: none }
+.gjs-toolbar { display: none }
 
 .on-scrollbar::-webkit-scrollbar {
   width: 6px;
@@ -87,7 +88,7 @@
 
 
 *::-webkit-scrollbar {
-  width: 6px;
+  width: 0px;
   // height: 120px;
 }
 

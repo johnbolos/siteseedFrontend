@@ -48,6 +48,9 @@ import { ReactComponent as FDirColRev } from "./right-pane/fDirColumnReverse.svg
 import { ReactComponent as LineHeight } from "./right-pane/lineHeight.svg";
 import { ReactComponent as LetterSpacing } from "./right-pane/letterSpacing.svg";
 import { ReactComponent as BorderRadius } from "./right-pane/borderRadius.svg";
+import { ReactComponent as BackgroundImage } from "./right-pane/backgroundImage.svg";
+import { ReactComponent as BackgroundColor } from "./right-pane/backgroundColor.svg";
+import { ReactComponent as BackgroundGradient } from "./right-pane/backgroundGradient.svg";
 
 export default {
 	Dropdown,
@@ -84,4 +87,7 @@ export default {
 	LineHeight,
 	LetterSpacing,
 	BorderRadius,
+	BackgroundImage,
+	BackgroundColor,
+	BackgroundGradient,
 }

@@ -275,6 +275,32 @@
         align-items: center;
       }
     }
+    
+    .background-type-shift-btn {
+      height: 30px;
+      background: #272727;
+      border: 1px solid #444444;
+      box-sizing: border-box;
+      border-radius: 5px;
+      padding: 2px;
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+      .selected {
+        background: #444444;
+        // border-radius: 3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
+      }
+      .inactive {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
     .line-height,
     .letter-spacing {
       background: #272727;
@@ -458,7 +484,7 @@
           background-color: transparent;
           outline: none;
           border: none;
-          margin-right: 6px;
+          margin-right: 2px;
         }
         input[type="number"] {
           -moz-appearance: textfield;
@@ -468,7 +494,7 @@
           border: 1px solid #444444;
           box-sizing: border-box;
           border-radius: 5px;
-          padding: 7px 0px 7px 7px;
+          padding: 7px 30px 7px 7px;
           color: #ffffff;
           font-family: "Source Sans Pro";
           font-style: normal;
@@ -505,7 +531,11 @@
           height: 100%;
           flex-direction: column;
           select {
-            color: #5e5e5e;
+            color: #ffffff;
+
+            option {
+              color: #5e5e5e;
+            }
           }
         }
       }

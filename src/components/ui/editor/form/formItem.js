@@ -65,7 +65,6 @@ class FormItem extends React.Component {
     }
     onChange = (value, option = null) => {
         const { meta, globalOnChange } = this.props
-        console.log({ key: meta.key, value }, 'checkinngg')
         globalOnChange({ key: meta.key, value }, option)
     }
     render() {

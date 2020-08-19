@@ -18,7 +18,8 @@ class Select extends React.Component {
         window.addEventListener('click', this.onClickOutsideHandler);
     }
     componentDidUpdate(prevProps) {
-        if (prevProps.meta.value != this.props.meta.value ) {
+        console.log(`${document.querySelector('#root').clientHeight - ((document.querySelector('.select-container') && document.querySelector('.select-container').getBoundingClientRect().top) || 0)}px`, `${document.querySelector('#root').clientHeight}px`, `${((document.querySelector('.select-container') && document.querySelector('.select-container').getBoundingClientRect().top) || 0)}px`)
+        if (prevProps.meta.value != this.props.meta.value) {
             this.setState({ value: this.props.meta.value })
         }
     }
@@ -33,7 +34,7 @@ class Select extends React.Component {
     select = (item, key) => {
         const { meta: { onChange }, globalOnChange } = this.props
         onChange && onChange(item.value ? item.value : item, item, this.state.value)
-        this.setState({ value: item.value ? item.value : item, optionKey: key }, () => {
+        this.setState({ value: item.value ? item.value : item, optionKey: key, open: false }, () => {
             globalOnChange(this.state.value, item)
         })
     }
@@ -41,7 +42,7 @@ class Select extends React.Component {
     showLabel = (value) => {
         const { meta: { options } } = this.props
         const match = _.find(options, (item) => {
-        
+
             return item == value || item.value == value
         })
         if (match) {
@@ -74,7 +75,12 @@ class Select extends React.Component {
                     open &&
                     <div
                         className={'list-container'}
-                        style={{ width: `${this.listRef.current.clientWidth}px`, maxHeight: `${document.querySelector('#root').clientHeight - (this.listRef.current.offsetTop + 10)}px` }}
+                        style={{
+                            width: `${this.listRef.current.clientWidth}px`,
+                            // maxHeight: `${(document.querySelector('.styles-container').clientHeight) / 4}px`,
+                            top: (document.querySelector('.styles-container').clientHeight - (document.querySelector('.select-container').getBoundingClientRect().bottom) > (document.querySelector('.styles-container').clientHeight) / 4) ? '110%' : '',
+                            bottom: (document.querySelector('.styles-container').clientHeight - (document.querySelector('.select-container').getBoundingClientRect().bottom) > (document.querySelector('.styles-container').clientHeight) / 4) ? '' : '110%'
+                        }}
                     >
                         {options.map((item, key) => {
                             let child = null

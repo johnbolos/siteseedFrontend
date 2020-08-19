@@ -1,5 +1,5 @@
 import React from "react"
-import _ from 'lodash'
+import _, { isArray } from 'lodash'
 import $ from 'jquery'
 
 import Icons from '../../../../../../assets/Icons'
@@ -26,7 +26,6 @@ class Composite extends React.Component {
         // const { defaultUnit } = meta
     }
     onChange = (val, key, action = '') => {
-        console.log('onChange running')
         const { meta, globalOnChange } = this.props
         let { value, children, times } = meta
         let array = []
@@ -60,7 +59,6 @@ class Composite extends React.Component {
             }
         })
         resp = resp.substring(0, resp.length - 1)
-        console.log(resp, 'onchangeeeee')
         globalOnChange && globalOnChange(resp)
     }
     render() {
@@ -77,10 +75,8 @@ class Composite extends React.Component {
         } = this.props
         const { valArr } = this.state
         let childrens = []
-        console.log(this.props.meta, children, 'ggggggggggggggggg')
-        if (value) {
+        if (value && typeof(value) == 'string') {
             value = value.split(/,(?![^(]*\))/) // convertign to property array
-            console.log(value, times, 'assasassasasasasas')
             if (children) {
                 for (let i = 0; i < times; i++) {
                     if (value[i] == undefined) {
@@ -88,9 +84,16 @@ class Composite extends React.Component {
                     } else if (value[i].trim() == '') {
                         continue;
                     }
-                    console.log(value, 'assasassasasasasass')
                     childrens.push(<div className={'composite-elements'}>
                         {children(value[i] != 'none' ? value[i] : null, i, this.onChange)}
+                    </div>)
+                }
+            }
+        } else if (value && isArray(value)) {
+            if (children) {
+                for (let i = 0; i < times; i++) {
+                    childrens.push(<div className={'composite-elements'}>
+                        {children(value[i], i, onChange || this.onChange)}
                     </div>)
                 }
             }

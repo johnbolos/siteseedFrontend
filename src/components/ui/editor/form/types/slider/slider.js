@@ -29,9 +29,7 @@ class Slider extends React.Component {
         const { defaultUnit } = meta
         //unit
         if (defaultUnit || defaultUnit == '') {
-            this.setState({ unitValue: defaultUnit }, () => {
-                console.log(this.state.unitValue, 'slider initvalue', defaultUnit, meta.unit)
-            })
+            this.setState({ unitValue: defaultUnit })
         }
         if (meta.unit) {
             let val = _.find(meta.unit, (val) => value.includes(val))
@@ -99,7 +97,7 @@ class Slider extends React.Component {
                 <input type="range" ref={this.sliderRef} className={'slider'} min={min ? `${min}` : "0"} max={max ? `${max}` : "100"} value={value} onChange={(e) => { this.onChange(e.target.value) }} />
                 <div className={'value'}>
                     {
-                        integerEdit && <Integer meta={{ defaultUnit: defaultUnit, value: value, onChange: (value) => { this.onChange(value) } }} />
+                        integerEdit && <Integer meta={{ defaultUnit: defaultUnit, value: `${value}`, onChange: (value) => { this.onChange(value) } }} />
                     }
                     {
                         !integerEdit && <div>{value + ' ' + unitValue}</div>

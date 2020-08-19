@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
 import _ from 'lodash'
 import shortid from 'shortid'
@@ -26,7 +26,8 @@ class StyleManager extends React.Component {
         },
         integratedBorderRadius: true,
         boxShadowRep: 0,
-        textShadowRep: 0
+        textShadowRep: 0,
+        backgroundRep: 0,
     }
     componentDidMount() {
     }
@@ -35,7 +36,8 @@ class StyleManager extends React.Component {
         if (prevProps.selected != this.props.selected) {
             // this.forceUpdate()
             this.extractTransform()
-            console.log(this.props.selected.node && getComputedStyle(this.props.selected.node).marginLeft)
+            console.log('something', 'value did update')
+            this.handlechange('backgroundRep', this.extractBackgroundProperty().length)
             this.handlechange('boxShadowRep', (selected.node && getComputedStyle(selected.node, pseudoClass)['box-shadow'] || 'none').split(/,(?![^(]*\))/).length)
             this.handlechange('textShadowRep', (selected.node && getComputedStyle(selected.node, pseudoClass)['text-shadow'] || 'none').split(/,(?![^(]*\))/).length)
         }
@@ -44,10 +46,8 @@ class StyleManager extends React.Component {
         const { selected, editorNode, pseudoClass, styleObj, dispatch } = this.props
         const { transformValue } = this.state
         let item = _.clone(obj)
-        console.log(item, 'globalOnChane')
         if (new RegExp(/X|Y|Z/).test(item.key)) {
             transformValue[`${this.state.transformKey}${item.key}`] = item.value
-            console.log(transformValue, item, 'global change')
             item.key = 'transform'
             this.setState({ transformValue })
             item.value = ''
@@ -79,7 +79,7 @@ class StyleManager extends React.Component {
             uniqueClass = `ss-${shortid.generate()}`
             let editor = _grapesEditor.editor
             let componentModel = editor.getSelected()
-            componentModel.addClass(uniqueClass)
+            componentModel && componentModel.addClass(uniqueClass)
         }
         let uniqueClassIndex = styleObj.length
         selected.styleInfo.index.forEach(val => {
@@ -154,7 +154,7 @@ class StyleManager extends React.Component {
         return data.map((item, key) => {
             return (<div key={key}>
                 <div onClick={() => { toggleOpen(key) }}>{item.render ? item.render() : label(item, key)}</div>
-                {opened == key && <div className={item.childerClass || 'category-children'} style={opened == key ? { borderBottom: '1px solid #444444', paddingBottom: '6px' } : {}}>{item.children}</div>}
+                {opened == key && <div className={item.childerClass || 'category-children'}>{item.children}</div>}
             </div>)
         })
     }
@@ -174,6 +174,162 @@ class StyleManager extends React.Component {
             })
             this.setState({ transformValue: resp })
         }
+    }
+    extractBackgroundProperty = () => {
+        const { selected, pseudoClass } = this.props
+        const { } = this.state
+        let value = []
+        let backgroundImage = (selected.node && getComputedStyle(selected.node, pseudoClass)['background-image']) || 'none',
+            backgroundColor = (selected.node && getComputedStyle(selected.node, pseudoClass)['background-color']) || null,
+            backgroundBlendMode = (selected.node && getComputedStyle(selected.node, pseudoClass)['background-blend-mode']) || 'normal',
+            backgroundRepeat = (selected.node && getComputedStyle(selected.node, pseudoClass)['background-repeat']) || 'repeat',
+            backgroundPosition = (selected.node && getComputedStyle(selected.node, pseudoClass)['background-position']) || '0% 0%',
+            backgroundAttachment = (selected.node && getComputedStyle(selected.node, pseudoClass)['background-attachment']) || 'scroll',
+            backgroundSize = (selected.node && getComputedStyle(selected.node, pseudoClass)['background-size']) || 'auto'
+
+        let split = (string) => {
+            var token = /((?:[^"']|".*?"|'.*?')*?)([(,)]|$)/g;
+            return (function recurse() {
+                for (var array = []; ;) {
+                    var result = token.exec(string);
+                    if (result[2] == '(') {
+                        array.push(result[1].trim() + '(' + recurse().join(',') + ')');
+                        result = token.exec(string);
+                    } else array.push(result[1].trim());
+                    if (result[2] != ',') return array
+                }
+            })()
+        }
+        if (backgroundColor) { value.push({ type: 'color', color: backgroundColor }) }
+
+        backgroundImage = split(backgroundImage)
+        backgroundRepeat = backgroundRepeat.split(',')
+        backgroundBlendMode = backgroundBlendMode.split(',')
+        backgroundPosition = backgroundPosition.split(',')
+        backgroundAttachment = backgroundAttachment.split(',')
+        backgroundSize = backgroundSize.split(',')
+
+        _.each(backgroundImage, (image, key) => {
+            if (image != 'none') {
+                let imageDetails = {
+                    image: image.trim(),
+                    blendMode: backgroundBlendMode[key].trim(),
+                    repeat: backgroundRepeat[key].trim(),
+                    position: backgroundPosition[key].trim(),
+                    attachment: backgroundAttachment[key].trim(),
+                    size: backgroundSize[key].trim(),
+                    type: image.trim().includes('url') ? 'image' : 'gradient'
+                }
+                value.push(imageDetails)
+            }
+        })
+        return value
+    }
+    backgroundCompositeField({ value, key, onChange, globalOnChange }) {
+        // const { backgroundKey } = this.state
+        const [state, setState] = useState({ backgroundKey: 'image' })
+        let { backgroundKey } = state
+        useEffect((prevValue) => {
+            setState({ ...state, backgroundKey: value.type })
+        }, [value])
+
+        if (value != null) {
+            // value = value.trim().split(/ (?![^(]*\))/)
+            // color = value[0]
+            // hOffset = value[1]
+            // vOffset = value[2]
+            // blur = value[3]
+            // spread = value[4]
+        }
+        let handleOnChange = (item, action = '') => {
+            switch (item.key) {
+                case 'image':
+                    break;
+                case 'color':
+                    // globalOnChange({
+                    //     key: 'background-color',
+                    //     value: item.value
+                    // })
+                    break;
+                case 'gradient':
+                    break;
+                default:
+                    break;
+            }
+            // let resp = `${extractValue(hOffset)}px ${extractValue(vOffset)}px ${extractValue(blur)}px ${extractValue(spread)}px ${color} ${type}`
+            // onChange(resp, key, action)
+        }
+        const extractValue = (data) => {
+            let unit = data.replace(/[0-9]|\./gi, '')
+            return data.replace(unit, '')
+        }
+        let switcher = [
+            {
+                type: 'custom',
+                inline: true,
+                render: (value) => {
+                    return <div className={'background-type-shift-btn'}>
+                        <div className={backgroundKey == 'image' ? 'selected' : 'inactive'} style={{ borderRadius: backgroundKey == 'image' ? '4px 0px 0px 4px' : '0px' }}
+                            onClick={() => {
+                                setState({ ...state, backgroundKey: 'image' })
+                            }}
+                        >
+                            <Icons.BackgroundImage style={{ width: '20px', height: '20px' }} />
+                        </div>
+                        <div className={backgroundKey == 'color' ? 'selected' : 'inactive'}
+                            onClick={() => {
+                                setState({ ...state, backgroundKey: 'color' })
+                            }}
+                        >
+                            <Icons.BackgroundColor style={{ width: '12px', height: '12px' }} />
+                        </div>
+                        <div className={backgroundKey == 'gradient' ? 'selected' : 'inactive'} style={{ borderRadius: backgroundKey == 'gradient' ? '0px 4px 4px 0px' : '0px' }}
+                            onClick={() => {
+                                // ================================================================
+                                // delete color field is this was earlier colr type and add gradient defaults
+                                // ================================================================
+                                setState({ ...state, backgroundKey: 'gradient' })
+                            }}
+                        >
+                            <Icons.BackgroundGradient style={{ width: '12px', height: '12px' }} />
+                        </div>
+                    </div>
+                }
+            }
+        ]
+        let imageFields = []
+        let colorFields = [
+            {
+                key: 'color',
+                type: 'picker',
+                value: value.color
+            }
+        ]
+        let gradientFields = []
+        let fields = []
+        switch (backgroundKey) {
+            case 'image':
+                fields = [...switcher, ...imageFields]
+                break;
+            case 'color':
+                fields = [...switcher, ...colorFields]
+                break;
+            case 'gradient':
+                fields = [...switcher, ...gradientFields]
+                break;
+            default:
+                break;
+        }
+        return (<div>
+            {/* {`${hOffset} ${vOffset} ${blur} ${spread} ${color} ${type}`} */}
+            <div className={'composite-cross'}>
+                <Icons.Plus onClick={() => {
+                    handleOnChange({}, 'delete')
+                    this.setState({ backgroundRep: this.state.backgroundRep - 1 })
+                }} style={{ width: '12px', height: '12px', transform: 'rotateZ(45deg)' }} />
+            </div>
+            <CreateForm fields={fields} globalOnChange={handleOnChange} />
+        </div>)
     }
     handlechange = (key, value) => {
         this.setState({ [key]: value })
@@ -226,7 +382,7 @@ class StyleManager extends React.Component {
                 label: 'Display',
                 key: 'display',
                 type: 'select',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles.display) || selected.node && getComputedStyle(selected.node, pseudoClass).display,
+                value: (selected.styleInfo.styles && selected.styleInfo.styles.display) || selected.node && getComputedStyle(selected.node, pseudoClass).display || 'Auto',
                 width: '48%',
                 options: [
                     {
@@ -255,7 +411,7 @@ class StyleManager extends React.Component {
                 label: 'Position',
                 key: 'position',
                 type: 'select',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles.position) || selected.node && getComputedStyle(selected.node, pseudoClass).position,
+                value: (selected.styleInfo.styles && selected.styleInfo.styles.position) || selected.node && getComputedStyle(selected.node, pseudoClass).position || 'Auto',
                 width: '48%',
                 options: [
                     {
@@ -332,6 +488,9 @@ class StyleManager extends React.Component {
                 unit: ['px', '%'],
                 width: '48%',
             },
+            {
+                type: 'divider'
+            },
         ]
         const dimensionFormFields = [
             {
@@ -389,7 +548,6 @@ class StyleManager extends React.Component {
                     }
                     let handleOnChange = (val, key) => {    //val: 20px, key: 'margin.top'
                         key = key.split('.')
-                        console.log(val, key, 'asasasasas')
                         let evaluatedValue = key[0] == 'margin' ? _.clone(margin) : _.clone(padding)
                         evaluatedValue[key[1]] = val
                         this.globalOnChange({
@@ -443,13 +601,16 @@ class StyleManager extends React.Component {
                     </div>
                 }
             },
+            {
+                type: 'divider'
+            },
         ]
         const typographyFormFields = [
             {
                 label: 'Font', //optional; Type: String || () => {}
                 key: 'font-family',
                 type: 'select',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['font-family']) || selected.node && getComputedStyle(selected.node, pseudoClass)['font-family'],
+                value: _.startCase((selected.styleInfo.styles && selected.styleInfo.styles['font-family']) || selected.node && getComputedStyle(selected.node, pseudoClass)['font-family']) || 'Auto',
                 width: '100%',
                 // labelClass: 'custom-label',
                 onChange: (value, item, pastValue) => {
@@ -553,7 +714,7 @@ class StyleManager extends React.Component {
                 label: 'Weight', //optional; Type: String || () => {}
                 key: 'font-weight',
                 type: 'select',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['font-weight']) || selected.node && getComputedStyle(selected.node, pseudoClass)['font-weight'],
+                value: (selected.styleInfo.styles && selected.styleInfo.styles['font-weight']) || selected.node && getComputedStyle(selected.node, pseudoClass)['font-weight'] || 'Auto',
                 width: '68%',
                 // labelClass: 'custom-label',
                 options: [
@@ -599,7 +760,7 @@ class StyleManager extends React.Component {
                 label: 'Size', //optional; Type: String || () => {}
                 key: 'font-size',
                 type: 'integer',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['font-size']) || selected.node && getComputedStyle(selected.node, pseudoClass)['font-size'],
+                value: (selected.styleInfo.styles && selected.styleInfo.styles['font-size']) || selected.node && getComputedStyle(selected.node, pseudoClass)['font-size'] || '0',
                 defaultUnit: 'px',
                 unit: ['px'],
                 width: '28%',
@@ -705,9 +866,7 @@ class StyleManager extends React.Component {
                         <div className={'composite-label custom-label'}>
                             Text Shadow
                             <Icons.Plus onClick={() => {
-                                this.setState({ textShadowRep: this.state.textShadowRep + 1 }, () => {
-                                    console.log(this.state.textShadowRep)
-                                })
+                                this.setState({ textShadowRep: this.state.textShadowRep + 1 })
                             }} style={{ width: '12px', height: '12px' }} />
                         </div>
                     )
@@ -792,15 +951,18 @@ class StyleManager extends React.Component {
                         <CreateForm fields={fields} globalOnChange={handleOnChange} />
                     </div>
                 }
-            }
+            },
+            {
+                type: 'divider'
+            },
         ]
-        const decorationFormFields = [
+        const decorationsFormFields = [
             {
                 label: 'Opacity',
                 key: 'opacity',
                 labelClass: 'custom-label',
                 type: 'slider',
-                value: (((selected.styleInfo.styles && selected.styleInfo.styles.opacity) || selected.node && getComputedStyle(selected.node, pseudoClass).opacity) * 100),
+                value: ((((selected.styleInfo.styles && selected.styleInfo.styles.opacity) || selected.node && getComputedStyle(selected.node, pseudoClass).opacity) || 0) * 100),
                 defaultUnit: '%',
                 integerEdit: true,
                 // width: '48%',
@@ -817,12 +979,11 @@ class StyleManager extends React.Component {
                 inline: true,
                 render: (value, globalOnChange) => {
                     const { integratedBorderRadius } = this.state
-                    let unit = 'px'
+                    let unit = '%'
                     if (value) {
                         if (value.split(' ').length > 1) {
                             //multiple disable this field to be done =======================
                             integratedBorderRadius && this.setState({ integratedBorderRadius: false })
-                            console.log('manytime')
                         } else {
                             //single
                             // !integratedBorderRadius && this.setState({ integratedBorderRadius: true })
@@ -833,9 +994,8 @@ class StyleManager extends React.Component {
 
                     return <>
                         <div className={'border-radius-integer'}>
-                            <Integer meta={{ defaultUnit: 'px', value: value, disabled: !integratedBorderRadius }} globalOnChange={(val) => {
-                                console.log(val, `${val} ${val} ${val} ${val}`)
-                                globalOnChange(`${val} ${val} ${val} ${val}`)
+                            <Integer meta={{ defaultUnit: '%', value: value, disabled: !integratedBorderRadius }} globalOnChange={(val) => {
+                                globalOnChange(`${val}`)
                             }} />
                             <div className={'independent-border-radius-btn'} onClick={() => { this.setState({ integratedBorderRadius: !integratedBorderRadius }) }}>
                                 <Icons.BorderRadius style={{ width: '12px', height: '12px' }} />
@@ -874,7 +1034,6 @@ class StyleManager extends React.Component {
                                 bottomR: value[2],
                                 bottomL: value[3],
                             }
-                            console.log('manytime')
                         } else {
                             border = {
                                 topL: value,
@@ -886,10 +1045,20 @@ class StyleManager extends React.Component {
                     }
                     let handleOnChange = (val, key) => {
                         border[key] = val
-                        this.globalOnChange({
-                            key: 'border-radius',
-                            value: `${border.topL} ${border.topR} ${border.bottomR} ${border.bottomL}`
-                        })
+                        if (border.topL == border.topR &&
+                            border.topL == border.bottomR &&
+                            border.topL == border.bottomL) {
+                                console.log('not difference why,,', `${border.topL} ${border.topR} ${border.bottomR} ${border.bottomL}`)
+                            this.globalOnChange({
+                                key: 'border-radius',
+                                value: `${border.topL}`
+                            })
+                        } else {
+                            this.globalOnChange({
+                                key: 'border-radius',
+                                value: `${border.topL} ${border.topR} ${border.bottomR} ${border.bottomL}`
+                            })
+                        }
                     }
                     let inputFunc = (val, key) => {
                         let unit = 'px'
@@ -929,7 +1098,7 @@ class StyleManager extends React.Component {
                 label: 'Style',
                 key: 'border-style',
                 type: 'select', //required
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['border-style']) || selected.node && (getComputedStyle(selected.node, pseudoClass)['border-style']),
+                value: (selected.styleInfo.styles && selected.styleInfo.styles['border-style']) || selected.node && (getComputedStyle(selected.node, pseudoClass)['border-style']) || 'solid',
                 width: '48%',
                 options: [  //optional type: Array of string, Array of objects
                     {
@@ -958,9 +1127,7 @@ class StyleManager extends React.Component {
                         <div className={'composite-label custom-label'}>
                             Box Shadow
                             <Icons.Plus onClick={() => {
-                                this.setState({ boxShadowRep: this.state.boxShadowRep + 1 }, () => {
-                                    console.log(this.state.boxShadowRep)
-                                })
+                                this.setState({ boxShadowRep: this.state.boxShadowRep + 1 })
                             }} style={{ width: '12px', height: '12px' }} />
                         </div>
                     )
@@ -1055,7 +1222,7 @@ class StyleManager extends React.Component {
                             label: 'Shadow Type',
                             key: 'type',
                             type: 'select', //required
-                            value: type,
+                            value: type || 'Outside',
                             width: '48%',
                             options: [  //optional type: Array of string, Array of objects
                                 {
@@ -1085,7 +1252,29 @@ class StyleManager extends React.Component {
                         <CreateForm fields={fields} globalOnChange={handleOnChange} />
                     </div>
                 }
-            }
+            },
+            {
+                type: 'divider'
+            },
+            // {
+            //     label: () => {
+            //         return (
+            //             <div className={'composite-label custom-label'}>
+            //                 Background
+            //                 <Icons.Plus onClick={() => {
+            //                     this.setState({ backgroundRep: this.state.backgroundRep + 1 })
+            //                 }} style={{ width: '12px', height: '12px' }} />
+            //             </div>
+            //         )
+            //     },
+            //     key: 'background',
+            //     type: 'composite',
+            //     times: this.state.backgroundRep,
+            //     value: this.extractBackgroundProperty(),
+            //     children: (value, key, onChange) => {
+            //         return <this.backgroundCompositeField {...{ value, key, onChange, globalOnChange: this.globalOnChange }} />
+            //     }
+            // }
         ]
         const extraFormFields = [
             {
@@ -1099,7 +1288,7 @@ class StyleManager extends React.Component {
                 label: 'Property',
                 key: 'transition-property',
                 type: 'select', //required
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['transition-property']) || selected.node && (getComputedStyle(selected.node, pseudoClass)['transition-property']),
+                value: (selected.styleInfo.styles && selected.styleInfo.styles['transition-property']) || selected.node && (getComputedStyle(selected.node, pseudoClass)['transition-property']) || 'Auto',
                 width: '63%',
                 options: [
                     {
@@ -1145,7 +1334,7 @@ class StyleManager extends React.Component {
                 label: 'Easing',
                 key: 'transition-timing-function',
                 type: 'select',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['transition-timing-function']) || selected.node && getComputedStyle(selected.node, pseudoClass)['transition-timing-function'],
+                value: (selected.styleInfo.styles && selected.styleInfo.styles['transition-timing-function']) || selected.node && getComputedStyle(selected.node, pseudoClass)['transition-timing-function'] || 'Auto',
                 options: [
                     {
                         label: 'Linear',
@@ -1231,31 +1420,13 @@ class StyleManager extends React.Component {
                 min: this.state.transformKey == 'rotate' ? -180 : -10,
                 max: this.state.transformKey == 'rotate' ? 180 : 10,
             },
-            // {
-            //     label: 'Opacity',
-            //     key: 'opacity',
-            //     type: 'slider',
-            //     value: (((selected.styleInfo.styles && selected.styleInfo.styles.opacity) || selected.node && getComputedStyle(selected.node, pseudoClass).opacity) * 100),
-            //     defaultUnit: '%',
-            //     integerEdit: true,
-            //     // width: '48%',
-            // },
-            // {
-            //     label: 'Opacity',
-            //     key: 'opacity',
-            //     type: 'slider',
-            //     value: (((selected.styleInfo.styles && selected.styleInfo.styles.opacity) || selected.node && getComputedStyle(selected.node, pseudoClass).opacity) * 100),
-            //     defaultUnit: '%',
-            //     integerEdit: true,
-            //     // width: '48%',
-            // },
         ]
         const flexFormFields = [
             {
                 label: 'Container',
                 key: 'display',
                 type: 'select',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['display']) || selected.node && getComputedStyle(selected.node, pseudoClass)['display'],
+                value: (selected.styleInfo.styles && selected.styleInfo.styles['display']) || selected.node && getComputedStyle(selected.node, pseudoClass)['display'] || 'Auto',
                 options: [
                     {
                         label: 'Disable',
@@ -1390,6 +1561,9 @@ class StyleManager extends React.Component {
                 unit: ['px'],
                 width: '48%',
             },
+            {
+                type: 'divider'
+            },
         ]
         const extraFieldRotate = [
             ...extraFormFields,
@@ -1409,8 +1583,15 @@ class StyleManager extends React.Component {
                 inline: true,
                 min: this.state.transformKey == 'rotate' ? -180 : -10,
                 max: this.state.transformKey == 'rotate' ? 180 : 10,
+            },
+            {
+                type: 'divider'
             }]
-        const extraFieldScale = [...extraFormFields]
+        const extraFieldScale = [
+            ...extraFormFields,
+            {
+                type: 'divider'
+            }]
 
         const categories = [
             {
@@ -1435,9 +1616,9 @@ class StyleManager extends React.Component {
                 }} />),
             },
             {
-                label: 'Decoration',
-                children: (<CreateForm fields={decorationFormFields} globalOnChange={this.globalOnChange} getFormData={(fn) => {
-                    this.getFormDataDecoration = fn
+                label: 'Decorations',
+                children: (<CreateForm fields={decorationsFormFields} globalOnChange={this.globalOnChange} getFormData={(fn) => {
+                    this.getFormDataDecorations = fn
                 }} />),
             },
             {

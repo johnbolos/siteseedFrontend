@@ -37,7 +37,6 @@ class LeftBlock extends Component {
 	}
 	render() {
 		//const { pageReducer } = this.props;
-		//console.log("pageReducer in leftBlock", pageReducer);
 		return (
 			<>
 				<div className='left-pane'>
