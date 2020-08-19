@@ -1048,7 +1048,6 @@ class StyleManager extends React.Component {
                         if (border.topL == border.topR &&
                             border.topL == border.bottomR &&
                             border.topL == border.bottomL) {
-                                console.log('not difference why,,', `${border.topL} ${border.topR} ${border.bottomR} ${border.bottomL}`)
                             this.globalOnChange({
                                 key: 'border-radius',
                                 value: `${border.topL}`

@@ -13,6 +13,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import PageManager from "./PageManager";
 import "react-tabs/style/react-tabs.css";
 import "./leftBlock.scss";
+import _grapesEditor from "../../../components/utils/grapesEditor";
 
 const initialState = {
 	blocks: "none",
@@ -33,7 +34,19 @@ class LeftBlock extends Component {
 	};
 	reset(elem) {
 		this.setState(initialState);
-		elem.next().toggleClass("hide-top");
+		// elem.next().toggleClass("hide-top");
+	}
+	componentDidMount() {
+		setTimeout(() => {
+			let { editor } = _grapesEditor;
+			const gjsWindow = document.getElementsByClassName('gjs-frame')[0].contentWindow
+			gjsWindow.addEventListener('mousedown', () => {
+				this.reset();
+			})
+			editor.on("component:update", () => {
+				this.reset();
+			});
+		}, 500);
 	}
 	render() {
 		//const { pageReducer } = this.props;
