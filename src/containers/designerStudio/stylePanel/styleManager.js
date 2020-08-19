@@ -230,7 +230,8 @@ class StyleManager extends React.Component {
         const [state, setState] = useState({ backgroundKey: 'image' })
         let { backgroundKey } = state
         useEffect((prevValue) => {
-            setState({ ...state, backgroundKey: value.type })
+            console.log(value, 'priniting value')
+            if (value) setState({ ...state, backgroundKey: value.type })
         }, [value])
 
         if (value != null) {
@@ -246,10 +247,10 @@ class StyleManager extends React.Component {
                 case 'image':
                     break;
                 case 'color':
-                    // globalOnChange({
-                    //     key: 'background-color',
-                    //     value: item.value
-                    // })
+                    globalOnChange({
+                        key: 'background-color',
+                        value: item.value
+                    })
                     break;
                 case 'gradient':
                     break;
@@ -302,10 +303,16 @@ class StyleManager extends React.Component {
             {
                 key: 'color',
                 type: 'picker',
-                value: value.color
+                value: value && value.color
             }
         ]
-        let gradientFields = []
+        let gradientFields = [
+            {
+                key: 'gradient',
+                type: 'gradient',
+                value: value && value.image
+            }
+        ]
         let fields = []
         switch (backgroundKey) {
             case 'image':
@@ -592,11 +599,11 @@ class StyleManager extends React.Component {
                                 </div>
                             </div>
                             <div className={'margin-bottom-div'}>
-                                {inputFunc(margin.bottom, 'margin-bottom')}
+                                {inputFunc(margin.bottom, 'margin.bottom')}
                             </div>
                         </div>
                         <div className={'margin-right-div'}>
-                            {inputFunc(margin.right, 'margin-right')}
+                            {inputFunc(margin.right, 'margin.right')}
                         </div>
                     </div>
                 }
@@ -1252,9 +1259,6 @@ class StyleManager extends React.Component {
                     </div>
                 }
             },
-            {
-                type: 'divider'
-            },
             // {
             //     label: () => {
             //         return (
@@ -1273,7 +1277,10 @@ class StyleManager extends React.Component {
             //     children: (value, key, onChange) => {
             //         return <this.backgroundCompositeField {...{ value, key, onChange, globalOnChange: this.globalOnChange }} />
             //     }
-            // }
+            // },
+            {
+                type: 'divider'
+            },
         ]
         const extraFormFields = [
             {

@@ -6,6 +6,7 @@ import Integer from './types/integer'
 import Slider from "./types/slider/slider";
 import PickerField from "./types/pickerField";
 import Composite from "./types/composite";
+import Gradient from "./types/gradient";
 
 class FormItem extends React.Component {
     constructor(props) {
@@ -52,6 +53,9 @@ class FormItem extends React.Component {
                 break;
             case 'composite':
                 this.setState({ type: <Composite meta={meta} globalOnChange={this.onChange} /> })
+                break;
+            case 'gradient':
+                this.setState({ type: <Gradient meta={meta} globalOnChange={this.onChange} /> })
                 break;
             case 'password':
                 this.setState({ type: null })
