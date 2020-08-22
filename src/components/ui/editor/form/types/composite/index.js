@@ -44,7 +44,7 @@ class Composite extends React.Component {
 
         array[key] = val
 
-        if (action == 'delete') {
+        if (action == 'delete' && array.length == 1) {
             // delete element at key index
             array.splice(key, 1)
         }
@@ -52,7 +52,8 @@ class Composite extends React.Component {
         _.each(array, (data) => {
             if (data) {
                 if (data == 'none') {
-                    resp += '0px 0px 0px 0px #000000' + ','
+                    resp += 'none,'
+                    // resp += '0px 0px 0px 0px #000000' + ','
                 } else {
                     resp += data + ','
                 }

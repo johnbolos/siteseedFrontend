@@ -36,11 +36,25 @@ class StyleManager extends React.Component {
         if (prevProps.selected != this.props.selected) {
             // this.forceUpdate()
             this.extractTransform()
-            console.log('something', 'value did update')
-            this.handlechange('backgroundRep', this.extractBackgroundProperty().length)
-            this.handlechange('boxShadowRep', (selected.node && getComputedStyle(selected.node, pseudoClass)['box-shadow'] || 'none').split(/,(?![^(]*\))/).length)
-            this.handlechange('textShadowRep', (selected.node && getComputedStyle(selected.node, pseudoClass)['text-shadow'] || 'none').split(/,(?![^(]*\))/).length)
+            // this.setCompositeRep()
         }
+    }
+    setCompositeRep = () => {
+        const { selected, pseudoClass } = this.props
+        const { boxShadowRep, textShadowRep, backgroundRep } = this.state
+
+        let value = null
+
+        value = this.extractBackgroundProperty()
+        // console.log(value, value.length >= 1, value[0].color !== 'rgba(0, 0, 0, 0)', 'chicking backgourn')
+        this.handlechange('backgroundRep', ((value[0].color !== 'rgba(0, 0, 0, 0)') || value.length > 1) ? value.length : 0)
+
+        value = (selected.node && getComputedStyle(selected.node, pseudoClass)['box-shadow'] || 'none').split(/,(?![^(]*\))/)
+        // console.log((value[0] !== 'none'), value, 'chicking backgourn box')
+        this.handlechange('boxShadowRep', (value[0] !== 'none') ? value.length : 0)
+
+        value = (selected.node && getComputedStyle(selected.node, pseudoClass)['text-shadow'] || 'none').split(/,(?![^(]*\))/)
+        this.handlechange('textShadowRep', (value[0] !== 'none') ? value.length : 0)
     }
     globalOnChange = (obj, formData) => {
         const { selected, editorNode, pseudoClass, styleObj, dispatch } = this.props
@@ -127,8 +141,10 @@ class StyleManager extends React.Component {
             customEvents.saveStyleInfo({ elem: selected.node, node: editorNode })
             return
         }
-        customEvents.saveStyleInfo({ elem: selected.node, node: editorNode }, { pseudoClass: pseudoClass })
-
+        customEvents.saveStyleInfo({ elem: selected.node, node: editorNode }, { pseudoClass: pseudoClass }, () => {
+            // this.setCompositeRep()
+            // this.state.globalOnchangeCallBack && this.state.globalOnchangeCallBack()
+        })
 
     }
     createCategories = (data) => {
@@ -230,7 +246,6 @@ class StyleManager extends React.Component {
         const [state, setState] = useState({ backgroundKey: 'image' })
         let { backgroundKey } = state
         useEffect((prevValue) => {
-            console.log(value, 'priniting value')
             if (value) setState({ ...state, backgroundKey: value.type })
         }, [value])
 
@@ -568,7 +583,8 @@ class StyleManager extends React.Component {
                             unit = val.replace(/[0-9]|\./gi, '')
                             val = val.replace(unit, '')
                         }
-                        return <input type={'number'} value={val || 0} onChange={(e) => { handleOnChange(`${e.target.value}${unit}`, key) }} />
+                        let handleFocus = (event) => event.target.select()
+                        return <input onFocus={handleFocus} type={'number'} value={val || 0} onChange={(e) => { handleOnChange(`${e.target.value}${unit}`, key) }} />
                     }
                     // extract margin and padding values
                     return <div className={'margin-padding'}>
@@ -790,9 +806,10 @@ class StyleManager extends React.Component {
                         unit = value.replace(/[0-9]|./gi, '')
                         if (unit == 'normal') unit = 'px'
                     }
+                    let handleFocus = (event) => event.target.select()
                     return <div className={'line-height'}>
                         <Icons.LineHeight style={{ width: '12px', height: '12px' }} />
-                        <input type={'number'} value={parseInt(value)} onChange={(e) => {
+                        <input onFocus={handleFocus} type={'number'} value={parseInt(value)} onChange={(e) => {
                             value && globalOnChange(`${e.target.value}px`)
                         }} />
                     </div>
@@ -813,9 +830,10 @@ class StyleManager extends React.Component {
                             value = 0
                         }
                     }
+                    let handleFocus = (event) => event.target.select()
                     return <div className={'letter-spacing'}>
                         <Icons.LetterSpacing style={{ width: '18px', height: '18px' }} />
-                        <input type={'number'} value={parseInt(value)} onChange={(e) => {
+                        <input onFocus={handleFocus} type={'number'} value={parseInt(value)} onChange={(e) => {
                             (value != '' || value != null) && globalOnChange(`${e.target.value}px`)
                         }} />
                     </div>
@@ -867,98 +885,107 @@ class StyleManager extends React.Component {
                     },
                 ],
             },
-            {
-                label: () => {
-                    return (
-                        <div className={'composite-label custom-label'}>
-                            Text Shadow
-                            <Icons.Plus onClick={() => {
-                                this.setState({ textShadowRep: this.state.textShadowRep + 1 })
-                            }} style={{ width: '12px', height: '12px' }} />
-                        </div>
-                    )
-                },
-                key: 'text-shadow',
-                type: 'composite',
-                times: this.state.textShadowRep,
-                value: selected.node && getComputedStyle(selected.node, pseudoClass)['text-shadow'],
-                children: (value, key, onChange) => {
-                    let hOffset = '0px',
-                        vOffset = '0px',
-                        blur = '0px',
-                        color = '#FFFFFF'
-                    if (value != null) {
-                        // meane value was 'none'
+            // {
+            //     label: () => {
+            //         return (
+            //             <div className={'composite-label custom-label'}>
+            //                 Text Shadow
+            //                 <Icons.Plus onClick={() => {
+            //                     this.setState({ textShadowRep: this.state.textShadowRep + 1 })
+            //                 }} style={{ width: '12px', height: '12px' }} />
+            //             </div>
+            //         )
+            //     },
+            //     key: 'text-shadow',
+            //     type: 'composite',
+            //     times: this.state.textShadowRep,
+            //     value: selected.node && getComputedStyle(selected.node, pseudoClass)['text-shadow'],
+            //     children: (value, key, onChange) => {
+            //         let hOffset = '0px',
+            //             vOffset = '0px',
+            //             blur = '0px',
+            //             color = '#FFFFFF'
+            //         if (value != null) {
+            //             // meane value was 'none'
 
-                        value = value.trim().split(/ (?![^(]*\))/)
-                        color = value[0]
-                        hOffset = value[1]
-                        vOffset = value[2]
-                        blur = value[3]
-                    }
-                    let handleOnChange = (item, action = '') => {
-                        switch (item.key) {
-                            case 'hOffset':
-                                hOffset = extractValue(item.value)
-                                break;
-                            case 'vOffset':
-                                vOffset = extractValue(item.value)
-                                break;
-                            case 'blur':
-                                blur = extractValue(item.value)
-                                break;
-                            case 'color':
-                                color = item.value
-                                break;
-                            default:
-                                break;
-                        }
-                        let resp = `${extractValue(hOffset)}px ${extractValue(vOffset)}px ${extractValue(blur)}px ${color}`
-                        onChange(resp, key, action)
-                    }
-                    const extractValue = (data) => {
-                        let unit = data.replace(/[0-9]|\./gi, '')
-                        return data.replace(unit, '')
-                    }
-                    const fields = [
-                        {
-                            label: 'Blur',
-                            key: 'blur',
-                            type: 'integer',
-                            value: extractValue(blur),
-                            width: '30.3%',
-                        },
-                        {
-                            label: 'X',
-                            key: 'hOffset',
-                            type: 'integer',
-                            value: extractValue(hOffset),
-                            width: '30.3%',
-                        },
-                        {
-                            label: 'Y',
-                            key: 'vOffset',
-                            type: 'integer',
-                            value: extractValue(vOffset),
-                            width: '30.3%',
-                        },
-                        {
-                            key: 'color',
-                            type: 'picker',
-                            value: color,
-                        },
-                    ]
-                    return <div>
-                        <div className={'composite-cross'}>
-                            <Icons.Plus onClick={() => {
-                                handleOnChange({}, 'delete')
-                                this.setState({ boxShadowRep: this.state.boxShadowRep - 1 })
-                            }} style={{ width: '12px', height: '12px', transform: 'rotateZ(45deg)' }} />
-                        </div>
-                        <CreateForm fields={fields} globalOnChange={handleOnChange} />
-                    </div>
-                }
-            },
+            //             value = value.trim().split(/ (?![^(]*\))/)
+            //             color = value[0]
+            //             hOffset = value[1]
+            //             vOffset = value[2]
+            //             blur = value[3]
+            //         }
+            //         let handleOnChange = (item, action = '') => {
+            //             switch (item.key) {
+            //                 case 'hOffset':
+            //                     if (item.value === '' || item.value === '-') {
+            //                         return
+            //                     }
+            //                     hOffset = extractValue(item.value)
+            //                     break;
+            //                 case 'vOffset':
+            //                     if (item.value === '' || item.value === '-') {
+            //                         return
+            //                     }
+            //                     vOffset = extractValue(item.value)
+            //                     break;
+            //                 case 'blur':
+            //                     if (item.value === '' || item.value === '-') {
+            //                         return
+            //                     }
+            //                     blur = extractValue(item.value)
+            //                     break;
+            //                 case 'color':
+            //                     color = item.value
+            //                     break;
+            //                 default:
+            //                     break;
+            //             }
+            //             let resp = `${extractValue(hOffset)}px ${extractValue(vOffset)}px ${extractValue(blur)}px ${color}`
+            //             onChange(resp, key, action)
+            //         }
+            //         const extractValue = (data) => {
+            //             let unit = data.replace(/[0-9]|\./gi, '')
+            //             return data.replace(unit, '')
+            //         }
+            //         const fields = [
+            //             {
+            //                 label: 'Blur',
+            //                 key: 'blur',
+            //                 type: 'integer',
+            //                 value: extractValue(blur),
+            //                 width: '30.3%',
+            //             },
+            //             {
+            //                 label: 'X',
+            //                 key: 'hOffset',
+            //                 type: 'integer',
+            //                 value: extractValue(hOffset),
+            //                 width: '30.3%',
+            //             },
+            //             {
+            //                 label: 'Y',
+            //                 key: 'vOffset',
+            //                 type: 'integer',
+            //                 value: extractValue(vOffset),
+            //                 width: '30.3%',
+            //             },
+            //             {
+            //                 key: 'color',
+            //                 type: 'picker',
+            //                 value: color,
+            //             },
+            //         ]
+            //         return <div>
+            //             <div className={'composite-cross'}>
+            //                 <Icons.Plus onClick={() => {
+            //                     handleOnChange({}, 'delete')
+            //                     this.setState({ textShadowRep: this.state.textShadowRep - 1 })
+            //                 }} style={{ width: '12px', height: '12px', transform: 'rotateZ(45deg)' }} />
+            //             </div>
+            //             <CreateForm fields={fields} globalOnChange={handleOnChange} />
+            //         </div>
+            //     }
+            // },
             {
                 type: 'divider'
             },
@@ -1004,7 +1031,7 @@ class StyleManager extends React.Component {
                             <Integer meta={{ defaultUnit: '%', value: value, disabled: !integratedBorderRadius }} globalOnChange={(val) => {
                                 globalOnChange(`${val}`)
                             }} />
-                            <div className={'independent-border-radius-btn'} onClick={() => { this.setState({ integratedBorderRadius: !integratedBorderRadius }) }}>
+                            <div className={integratedBorderRadius ? 'independent-border-radius-btn' : 'independent-border-radius-btn-selected'} onClick={() => { this.setState({ integratedBorderRadius: !integratedBorderRadius }) }}>
                                 <Icons.BorderRadius style={{ width: '12px', height: '12px' }} />
                             </div>
                         </div>
@@ -1072,7 +1099,8 @@ class StyleManager extends React.Component {
                             unit = val.replace(/[0-9]|\./gi, '')
                             val = val.replace(unit, '')
                         }
-                        return <input style={key == 'topL' ? {} : { borderLeft: '1px solid #444444' }} className={'border-radius-input'} type={'number'} value={val || 0} onChange={(e) => { handleOnChange(`${e.target.value}${unit}`, key) }} />
+                        let handleFocus = (event) => event.target.select()
+                        return <input onFocus={handleFocus} style={key == 'topL' ? {} : { borderLeft: '1px solid #444444' }} className={'border-radius-input'} type={'number'} value={val || 0} onChange={(e) => { handleOnChange(`${e.target.value}${unit}`, key) }} />
                     }
                     return <div className={'border-radius-independent-container'}>
                         {inputFunc(border.topL, 'topL')}
@@ -1127,138 +1155,171 @@ class StyleManager extends React.Component {
                 type: 'picker',
                 value: (selected.styleInfo.styles && selected.styleInfo.styles['border-color']) || selected.node && getComputedStyle(selected.node, pseudoClass)['border-color'],
             },
-            {
-                label: () => {
-                    return (
-                        <div className={'composite-label custom-label'}>
-                            Box Shadow
-                            <Icons.Plus onClick={() => {
-                                this.setState({ boxShadowRep: this.state.boxShadowRep + 1 })
-                            }} style={{ width: '12px', height: '12px' }} />
-                        </div>
-                    )
-                },
-                key: 'box-shadow',
-                type: 'composite',
-                times: this.state.boxShadowRep,
-                value: selected.node && getComputedStyle(selected.node, pseudoClass)['box-shadow'],
-                children: (value, key, onChange) => {
-                    let hOffset = '0px',
-                        vOffset = '0px',
-                        blur = '0px',
-                        spread = '0px',
-                        color = '#000000',
-                        type = ' '   // ' ' || 'inset' select
-                    if (value != null) {
-                        // meane value was 'none'
+            // {
+            //     label: () => {
+            //         return (
+            //             <div className={'composite-label custom-label'}>
+            //                 Box Shadow
+            //                 <Icons.Plus onClick={() => {
+            //                     // this.globalOnChange({ key: 'box-shadow', value: '0px 0px 0px 0px #000000' })
 
-                        // remove inset if present
-                        if (value.includes('inset')) {
-                            type = 'inset'
-                            value = value.replace('inset', '')
-                        }
+            //                     // this.setState({
+            //                     //     globalOnchangeCallBack: () => {
+            //                     //     }
+            //                     // })
+            //                     this.setState({ boxShadowRep: this.state.boxShadowRep + 1 })
+            //                     // this.setState({ boxShadowRep: this.state.boxShadowRep + 1 })
+            //                 }} style={{ width: '12px', height: '12px' }} />
+            //             </div>
+            //         )
+            //     },
+            //     key: 'box-shadow',
+            //     type: 'composite',
+            //     times: this.state.boxShadowRep,
+            //     value: selected.node && getComputedStyle(selected.node, pseudoClass)['box-shadow'],
+            //     children: (value, key, onChange) => {
+            //         console.log(value)
+            //         let hOffset = '0px',
+            //             vOffset = '0px',
+            //             blur = '0px',
+            //             spread = '0px',
+            //             color = '#00000000',
+            //             type = ' '   // ' ' || 'inset' select
+            //         if (value != null) {
+            //             // meane value was 'none'
 
-                        value = value.trim().split(/ (?![^(]*\))/)
-                        color = value[0]
-                        hOffset = value[1]
-                        vOffset = value[2]
-                        blur = value[3]
-                        spread = value[4]
-                    }
-                    let handleOnChange = (item, action = '') => {
-                        switch (item.key) {
-                            case 'hOffset':
-                                hOffset = extractValue(item.value)
-                                break;
-                            case 'vOffset':
-                                vOffset = extractValue(item.value)
-                                break;
-                            case 'blur':
-                                blur = extractValue(item.value)
-                                break;
-                            case 'spread':
-                                spread = extractValue(item.value)
-                                break;
-                            case 'color':
-                                color = item.value
-                                break;
-                            case 'type':
-                                type = item.value
-                                break;
-                            default:
-                                break;
-                        }
-                        let resp = `${extractValue(hOffset)}px ${extractValue(vOffset)}px ${extractValue(blur)}px ${extractValue(spread)}px ${color} ${type}`
-                        onChange(resp, key, action)
-                    }
-                    const extractValue = (data) => {
-                        let unit = data.replace(/[0-9]|\./gi, '')
-                        return data.replace(unit, '')
-                    }
-                    const fields = [
-                        {
-                            label: 'Blur',
-                            key: 'blur',
-                            type: 'integer',
-                            value: extractValue(blur),
-                            width: '30.3%',
-                        },
-                        {
-                            label: 'X',
-                            key: 'hOffset',
-                            type: 'integer',
-                            value: extractValue(hOffset),
-                            width: '30.3%',
-                        },
-                        {
-                            label: 'Y',
-                            key: 'vOffset',
-                            type: 'integer',
-                            value: extractValue(vOffset),
-                            width: '30.3%',
-                        },
-                        {
-                            label: 'Spread',
-                            key: 'spread',
-                            type: 'integer',
-                            value: extractValue(spread),
-                            width: '48%',
-                        },
-                        {
-                            label: 'Shadow Type',
-                            key: 'type',
-                            type: 'select', //required
-                            value: type || 'Outside',
-                            width: '48%',
-                            options: [  //optional type: Array of string, Array of objects
-                                {
-                                    label: 'Outside',
-                                    value: ' '
-                                },
-                                {
-                                    label: 'Inside',
-                                    value: 'inset'
-                                },
-                            ],
-                        },
-                        {
-                            key: 'color',
-                            type: 'picker',
-                            value: color,
-                        },
-                    ]
-                    return <div>
-                        {/* {`${hOffset} ${vOffset} ${blur} ${spread} ${color} ${type}`} */}
-                        <div className={'composite-cross'}>
-                            <Icons.Plus onClick={() => {
-                                handleOnChange({}, 'delete')
-                                this.setState({ boxShadowRep: this.state.boxShadowRep - 1 })
-                            }} style={{ width: '12px', height: '12px', transform: 'rotateZ(45deg)' }} />
-                        </div>
-                        <CreateForm fields={fields} globalOnChange={handleOnChange} />
-                    </div>
-                }
-            },
+            //             // remove inset if present
+            //             if (value.includes('inset')) {
+            //                 type = 'inset'
+            //                 value = value.replace('inset', '')
+            //             }
+
+            //             value = value.trim().split(/ (?![^(]*\))/)
+            //             color = value[0]
+            //             hOffset = value[1]
+            //             vOffset = value[2]
+            //             blur = value[3]
+            //             spread = value[4]
+            //         }
+            //         let handleOnChange = (item, action = '') => {
+            //             if (action = 'delete' && item === 'none') {
+            //                 onChange('none', key, action)
+            //                 return
+            //             }
+            //             switch (item.key) {
+            //                 case 'hOffset':
+            //                     if (item.value === '' || item.value === '-') {
+            //                         return
+            //                     }
+            //                     hOffset = extractValue(item.value)
+            //                     break;
+            //                 case 'vOffset':
+            //                     if (item.value === '' || item.value === '-') {
+            //                         return
+            //                     }
+            //                     vOffset = extractValue(item.value)
+            //                     break;
+            //                 case 'blur':
+            //                     if (item.value === '' || item.value === '-') {
+            //                         return
+            //                     }
+            //                     blur = extractValue(item.value)
+            //                     break;
+            //                 case 'spread':
+            //                     if (item.value === '' || item.value === '-') {
+            //                         return
+            //                     }
+            //                     spread = extractValue(item.value)
+            //                     break;
+            //                 case 'color':
+            //                     color = item.value
+            //                     break;
+            //                 case 'type':
+            //                     type = item.value
+            //                     break;
+            //                 default:
+            //                     break;
+            //             }
+            //             let resp = `${extractValue(hOffset)}px ${extractValue(vOffset)}px ${extractValue(blur)}px ${extractValue(spread)}px ${color} ${type}`
+            //             console.log(resp, key, action)
+            //             onChange(resp, key, action)
+            //         }
+            //         const extractValue = (data) => {
+            //             let unit = data.replace(/[0-9]|\./gi, '')
+            //             return data.replace(unit, '')
+            //         }
+            //         const fields = [
+            //             {
+            //                 label: 'Blur',
+            //                 key: 'blur',
+            //                 type: 'integer',
+            //                 value: extractValue(blur),
+            //                 width: '30.3%',
+            //             },
+            //             {
+            //                 label: 'X',
+            //                 key: 'hOffset',
+            //                 type: 'integer',
+            //                 value: extractValue(hOffset),
+            //                 width: '30.3%',
+            //             },
+            //             {
+            //                 label: 'Y',
+            //                 key: 'vOffset',
+            //                 type: 'integer',
+            //                 value: extractValue(vOffset),
+            //                 width: '30.3%',
+            //             },
+            //             {
+            //                 label: 'Spread',
+            //                 key: 'spread',
+            //                 type: 'integer',
+            //                 value: extractValue(spread),
+            //                 width: '48%',
+            //             },
+            //             {
+            //                 label: 'Shadow Type',
+            //                 key: 'type',
+            //                 type: 'select', //required
+            //                 value: type || 'Outside',
+            //                 width: '48%',
+            //                 options: [  //optional type: Array of string, Array of objects
+            //                     {
+            //                         label: 'Outside',
+            //                         value: ' '
+            //                     },
+            //                     {
+            //                         label: 'Inside',
+            //                         value: 'inset'
+            //                     },
+            //                 ],
+            //             },
+            //             {
+            //                 key: 'color',
+            //                 type: 'picker',
+            //                 value: color,
+            //             },
+            //         ]
+            //         return <div>
+            //             {/* {`${hOffset} ${vOffset} ${blur} ${spread} ${color} ${type}`} */}
+            //             <div className={'composite-cross'}>
+            //                 <Icons.Plus onClick={() => {
+            //                     if (this.state.boxShadowRep - 1 == 0) {
+            //                         handleOnChange('none', 'delete')
+            //                     } else {
+            //                         handleOnChange({}, 'delete')
+            //                     }
+            //                     this.setState({
+            //                         globalOnchangeCallBack: () => {
+            //                             this.setState({ boxShadowRep: this.state.boxShadowRep - 1, globalOnchangeCallBack: null })
+            //                         }
+            //                     })
+            //                 }} style={{ width: '12px', height: '12px', transform: 'rotateZ(45deg)' }} />
+            //             </div>
+            //             <CreateForm fields={fields} globalOnChange={handleOnChange} />
+            //         </div>
+            //     }
+            // },
             // {
             //     label: () => {
             //         return (
@@ -1404,7 +1465,7 @@ class StyleManager extends React.Component {
                 value: (this.state.transformValue)[`${this.state.transformKey}X`],
                 defaultUnit: this.state.transformKey == 'rotate' ? 'deg' : '',
                 pointerCenter: true,
-                integerEdit: true,
+                integerEdit: false,
                 inline: true,
                 min: this.state.transformKey == 'rotate' ? -180 : -10,
                 max: this.state.transformKey == 'rotate' ? 180 : 10,
@@ -1421,7 +1482,7 @@ class StyleManager extends React.Component {
                 value: (this.state.transformValue)[`${this.state.transformKey}Y`],
                 defaultUnit: this.state.transformKey == 'rotate' ? 'deg' : '',
                 pointerCenter: true,
-                integerEdit: true,
+                integerEdit: false,
                 inline: true,
                 min: this.state.transformKey == 'rotate' ? -180 : -10,
                 max: this.state.transformKey == 'rotate' ? 180 : 10,
@@ -1585,7 +1646,7 @@ class StyleManager extends React.Component {
                 value: (this.state.transformValue)[`${this.state.transformKey}Z`],
                 defaultUnit: this.state.transformKey == 'rotate' ? 'deg' : '',
                 pointerCenter: true,
-                integerEdit: true,
+                integerEdit: false,
                 inline: true,
                 min: this.state.transformKey == 'rotate' ? -180 : -10,
                 max: this.state.transformKey == 'rotate' ? 180 : 10,

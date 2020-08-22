@@ -59,6 +59,10 @@ class PickerField extends React.Component {
             value.pop()
             value = '#' + convert.rgb.hex(value)
         }
+        if (value[0].includes('#')) {
+            if (value[0].length == 9)
+                alphaValue = value[0].substring(7, 9) || 0
+        }
         let rgb = [...convert.hex.rgb(value), alphaValue / 100]
         this.setState({ value, alphaValue, rgb: { r: rgb[0], g: rgb[1], b: rgb[2], a: alphaValue / 100 } })
     }
@@ -77,6 +81,7 @@ class PickerField extends React.Component {
             this.onChange(color.hex, 'value')
         })
     }
+    handleFocus = (event) => event.target.select();
     render() {
         const {
             meta: {
@@ -102,6 +107,7 @@ class PickerField extends React.Component {
                     </div>
                 }
                 <input type={'text'} className={'value'}
+                    onFocus={this.handleFocus}
                     onKeyPress={(e) => {
                         if (e.key === 'Enter') {
                             this.onChange(e.target.value, 'value')
@@ -117,8 +123,15 @@ class PickerField extends React.Component {
 
                 />
                 <input type="number" className={'alpha'} name="int"
-                    value={(alphaValue == '') ? '100' : parseFloat(alphaValue).toFixed(0)}
-                    style={{ textAlign: 'end', paddingRight: this.state.unitWidth }}
+                    onFocus={this.handleFocus}
+                    value={(alphaValue === '') ? '100' : parseFloat(alphaValue).toFixed(0)}
+
+                    style={{ textAlign: 'end', paddingRight: this.state.unitWidth + 7 }}
+                    // onChange={(e) => {
+                    //     let val = e.target.value
+                    //     if (e.target.value == '') val = 0
+                    //     this.onChange(val, 'alphaValue')
+                    // }}
                     onKeyPress={(e) => {
                         if (e.key === 'Enter') {
                             this.onChange(e.target.value, 'alphaValue')
@@ -130,7 +143,7 @@ class PickerField extends React.Component {
                             this.onChange(e.target.value, 'alphaValue')
                         }
                     }}
-                // onChange={(e) => { this.setState({ alphaValue: e.target.value }) }}
+                    onChange={(e) => { this.setState({ alphaValue: e.target.value }) }}
                 />
                 {
                     <div className={'unit-select'} ref={this.unitRef}>

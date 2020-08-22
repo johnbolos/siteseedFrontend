@@ -18,7 +18,6 @@ class Select extends React.Component {
         window.addEventListener('click', this.onClickOutsideHandler);
     }
     componentDidUpdate(prevProps) {
-        console.log(`${document.querySelector('#root').clientHeight - ((document.querySelector('.select-container') && document.querySelector('.select-container').getBoundingClientRect().top) || 0)}px`, `${document.querySelector('#root').clientHeight}px`, `${((document.querySelector('.select-container') && document.querySelector('.select-container').getBoundingClientRect().top) || 0)}px`)
         if (prevProps.meta.value != this.props.meta.value) {
             this.setState({ value: this.props.meta.value })
         }

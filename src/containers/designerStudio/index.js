@@ -141,7 +141,7 @@ class DesignerStudio extends React.Component {
 			let { currentPage, pages } = this.props.pageReducer;
 			let components = JSON.parse(JSON.stringify(editor.getComponents()));
 			let style = JSON.parse(JSON.stringify(editor.getStyle()));
-			console.log(pages);
+			// console.log(pages);
 			this.props.saveCurrentChanges(currentPage, {
 				name: pages[currentPage].name,
 				components,
@@ -151,9 +151,9 @@ class DesignerStudio extends React.Component {
 	};
 	@Debounce(500)
 	fun(mouse) {
-		console.log("mouse moved", mouse.pageX, mouse.pageY);
+		// console.log("mouse moved", mouse.pageX, mouse.pageY);
 		const el = closestElement({ x: mouse.pageX, y: mouse.pageY }, "draggable");
-		console.log(el, "is closest to mouse");
+		// console.log(el, "is closest to mouse");
 	}
 	temp = () => {
 		console.log("temporary function");

@@ -226,10 +226,10 @@ export const template1Style = `
         font-weight:100;
         overflow:hidden;
       }
-      .card:hover{
-        margin-top:-5px;
-        box-shadow:0 20px 30px 0 rgba(0, 0, 0, 0.2);
-      }
+      // .card:hover{
+      //   margin-top:-5px;
+      //   box-shadow:0 20px 30px 0 rgba(0, 0, 0, 0.2);
+      // }
       .card-header{
         height:155px;
         background-image:url("//placehold.it/350x250/78c5d6/fff/image1.jpg");

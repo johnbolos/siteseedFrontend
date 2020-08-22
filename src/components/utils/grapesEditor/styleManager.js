@@ -18,26 +18,58 @@ const styleManager = {
 		dispatch(setStyleStr(styleStr))
 		//==================================================================================
 
+		// let frame = document.getElementsByClassName("gjs-frame");
+		// const body = frame[0].contentWindow.document.getElementsByTagName(
+		// 	"body"
+		// )[0];
+		// //add the style tag in dom
+		// let styleId = "ss-style";
+		// let style = document.createElement("style");
+		// style.id = styleId;
+		// style.innerHTML = styleObj.data.filteredStr;
+		// body.insertBefore(style, body.firstChild);
+		// if (
+		// 	styleObj.data &&
+		// 	styleObj.data.stylesObj[0] &&
+		// 	styleObj.data.stylesObj[0].custom
+		// ) {
+		// 	let style = document.createElement("style");
+		// 	style.id = "ss-customStyles";
+		// 	style.innerHTML = styleObj.data.stylesObj[0].styles;
+		// 	body.insertBefore(style, body.firstChild);
+		// }
+
 		let frame = document.getElementsByClassName("gjs-frame");
-		const body = frame[0].contentWindow.document.getElementsByTagName(
+		const grapesDocument = frame[0].contentWindow.document;
+		let body = grapesDocument.getElementsByTagName(
 			"body"
-		)[0];
-		//add the style tag in dom
-		let styleId = "ss-style";
-		let style = document.createElement("style");
-		style.id = styleId;
-		style.innerHTML = styleObj.data.filteredStr;
-		body.insertBefore(style, body.firstChild);
-		if (
-			styleObj.data &&
-			styleObj.data.stylesObj[0] &&
-			styleObj.data.stylesObj[0].custom
-		) {
-			let style = document.createElement("style");
-			style.id = "ss-customStyles";
-			style.innerHTML = styleObj.data.stylesObj[0].styles;
-			body.insertBefore(style, body.firstChild);
-		}
+		);
+		frame[0].contentWindow.addEventListener('DOMNodeInserted', function (evt) {
+			if (evt.target.className == 'gjs-css-rules') {
+				// const gjsCssRules = frame[0].contentWindow.document.querySelector(
+				// 	".gjs-css-rules"
+				// );
+				const gjsCssRules = evt.target
+				//add the style tag in dom
+				let styleId = "ss-style";
+				let style = document.createElement("style");
+				style.id = styleId;
+				style.innerHTML = styleObj.data.filteredStr;
+				gjsCssRules.appendChild(style)
+				// body.insertBefore(style, body.firstChild);
+				if (
+					styleObj.data &&
+					styleObj.data.stylesObj[0] &&
+					styleObj.data.stylesObj[0].custom
+				) {
+					let style = document.createElement("style");
+					style.id = "ss-customStyles";
+					style.innerHTML = styleObj.data.stylesObj[0].styles;
+					gjsCssRules.appendChild(style)
+					// body.insertBefore(style, body.firstChild);
+				}
+			}
+		}, false);
 	},
 	strToObj: (str) => {
 		//does not support media queries

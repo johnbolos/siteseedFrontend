@@ -47,6 +47,7 @@ class Integer extends React.Component {
             globalOnChange && globalOnChange(`${this.state.value}${this.state.unitValue}`)
         })
     }
+    handleFocus = (event) => event.target.select();
     render() {
         const {
             meta: {
@@ -66,9 +67,12 @@ class Integer extends React.Component {
             <div className={'integer-container'} style={disabled ? { pointerEvents: 'none' } : {}}>
                 <input type="number" name="int"
                     value={disabled ? '' : value}
+                    onFocus={this.handleFocus}
                     disabled={disabled}
                     placeholder={(value == '' || disabled) ? 'Auto' : (isNaN(value) ? _.startCase(value) : '')}
-                    onChange={(e) => { this.onChange(e.target.value) }}
+                    onChange={(e) => {
+                        this.onChange(e.target.value)
+                    }}
                     style={disabled ? { background: 'rgba(59, 59, 59, 0.3)', paddingRight: unit || defaultUnit ? '25px' : '15px' } : { paddingRight: unit || defaultUnit ? '25px' : '15px' }}
                 />
                 {

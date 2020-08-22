@@ -39,6 +39,7 @@
     letter-spacing: 0.04em;
 
     .heading {
+      margin-bottom: 6px;
       .theme-light & {
         color: map-get($light, "color");
       }
@@ -541,6 +542,20 @@
       }
     }
     .independent-border-radius-btn {
+      cursor: pointer;
+      background: transparent;
+      border: 1px solid #444444;
+      box-sizing: border-box;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 30px;
+      width: 30px;
+      margin-left: 10px;
+      padding: 9px;
+    }
+    .independent-border-radius-btn-selected, .independent-border-radius-btn:hover {
       cursor: pointer;
       background: #444444;
       border: 1px solid #444444;
