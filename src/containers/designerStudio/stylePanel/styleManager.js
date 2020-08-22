@@ -26,6 +26,7 @@ class StyleManager extends React.Component {
         },
         integratedBorderRadius: true,
         boxShadowRep: 0,
+        boxShadowValue: this.props.selected.node && getComputedStyle(this.props.selected.node, this.props.pseudoClass)['box-shadow'],
         textShadowRep: 0,
         backgroundRep: 0,
     }
@@ -36,7 +37,12 @@ class StyleManager extends React.Component {
         if (prevProps.selected != this.props.selected) {
             // this.forceUpdate()
             this.extractTransform()
-            // this.setCompositeRep()
+        }
+        if (this.props.selected && (prevProps.selected.node != this.props.selected.node)) {
+            this.setState({ boxShadowValue: selected.node && getComputedStyle(selected.node, pseudoClass)['box-shadow'] }, () => {
+                this.setCompositeRep()
+
+            })
         }
     }
     setCompositeRep = () => {
@@ -60,6 +66,7 @@ class StyleManager extends React.Component {
         const { selected, editorNode, pseudoClass, styleObj, dispatch } = this.props
         const { transformValue } = this.state
         let item = _.clone(obj)
+        console.log(item, 'globalOnChange')
         if (new RegExp(/X|Y|Z/).test(item.key)) {
             transformValue[`${this.state.transformKey}${item.key}`] = item.value
             item.key = 'transform'
@@ -143,7 +150,7 @@ class StyleManager extends React.Component {
         }
         customEvents.saveStyleInfo({ elem: selected.node, node: editorNode }, { pseudoClass: pseudoClass }, () => {
             // this.setCompositeRep()
-            // this.state.globalOnchangeCallBack && this.state.globalOnchangeCallBack()
+            this.state.globalOnchangeCallBack && this.state.globalOnchangeCallBack()
         })
 
     }
@@ -352,6 +359,204 @@ class StyleManager extends React.Component {
             </div>
             <CreateForm fields={fields} globalOnChange={handleOnChange} />
         </div>)
+    }
+    boxShadowCompositeField({ value, position: key, onChange, boxShadowRep, updateRep, globalOnChange }) {
+        const [state, setState] = useState({
+            hOffset: '0px',
+            vOffset: '0px',
+            blur: '0px',
+            spread: '0px',
+            color: '#00000000',
+            type: ' '
+        })
+        let { hOffset, vOffset, blur, spread, color, type } = state
+        useEffect(() => {
+            if (value != null) {
+                // meane value was 'none'
+                // remove inset if present
+                let newValue = value
+                if (newValue.includes('inset')) {
+                    setState({
+                        ...state,
+                        type: 'inset'
+                    })
+                    newValue = newValue.replace('inset', '')
+                }
+                newValue = newValue.trim().split(/ (?![^(]*\))/)
+                setState({
+                    ...state,
+                    color: newValue[0],
+                    hOffset: newValue[1],
+                    vOffset: newValue[2],
+                    blur: newValue[3],
+                    spread: newValue[4]
+                })
+            }
+        }, [])
+        
+        useEffect(() => {
+            console.log(value, 'show value composite')
+            if (value != null) {
+                // meane value was 'none'
+                // remove inset if present
+                let newValue = value
+                if (newValue.includes('inset')) {
+                    setState({
+                        ...state,
+                        type: 'inset'
+                    })
+                    newValue = newValue.replace('inset', '')
+                }
+                newValue = newValue.trim().split(/ (?![^(]*\))/)
+                setState({
+                    ...state,
+                    color: newValue[0],
+                    hOffset: newValue[1],
+                    vOffset: newValue[2],
+                    blur: newValue[3],
+                    spread: newValue[4]
+                })
+            }
+        }, [value])
+        let handleOnChange = (item, action = '') => {
+            console.log(item, action, item, action === 'delete', item === 'none')
+            if (action === 'delete' && item === 'none') {
+                onChange('none', key, action)
+                return
+            }
+            let val = null
+            switch (item.key) {
+                case 'hOffset':
+                    if (item.value === '' || item.value === '-') {
+                        return
+                    }
+                    val = extractValue(item.value)
+                    // setState({ ...state, [item.key]: extractValue(item.value) })
+                    // hOffset = extractValue(item.value)
+                    break;
+                case 'vOffset':
+                    if (item.value === '' || item.value === '-') {
+                        return
+                    }
+                    val = extractValue(item.value)
+                    // setState({ ...state, [item.key]: extractValue(item.value) })
+                    // vOffset = extractValue(item.value)
+                    break;
+                case 'blur':
+                    if (item.value === '' || item.value === '-') {
+                        return
+                    }
+                    val = extractValue(item.value)
+                    // setState({ ...state, [item.key]: extractValue(item.value) })
+                    // blur = extractValue(item.value)
+                    break;
+                case 'spread':
+                    if (item.value === '' || item.value === '-') {
+                        return
+                    }
+                    val = extractValue(item.value)
+                    // setState({ ...state, [item.key]: extractValue(item.value) })
+                    // spread = extractValue(item.value)
+                    break;
+                case 'color':
+                    if (item.value === '' || item.value === '-') {
+                        return
+                    }
+                    val = item.value
+                    // setState({ ...state, [item.key]: item.value })
+                    // color = item.value
+                    break;
+                case 'type':
+                    val = item.value
+                    // setState({ ...state, [item.key]: item.value })
+                    // type = item.value
+                    break;
+                default:
+                    break;
+            }
+            if (val || action === 'delete') {
+                setState({ ...state, [item.key]: val })
+                console.log(state, key, action, 'onChange')
+                let resp = `${extractValue(item.key == 'hOffset' ? val : hOffset)}px ${extractValue(item.key == 'vOffset' ? val : vOffset)}px ${extractValue(item.key == 'blur' ? val : blur)}px ${extractValue(item.key == 'spread' ? val : spread)}px ${item.key == 'color' ? val : color} ${item.key == 'type' ? val : type}`
+                onChange(resp, key, action)
+            }
+        }
+        const extractValue = (data) => {
+            let unit = data.replace(/[0-9]|\.|-/gi, '')
+            return data.replace(unit, '')
+        }
+        const fields = [
+            {
+                label: 'Blur',
+                key: 'blur',
+                type: 'integer',
+                value: extractValue(blur),
+                width: '30.3%',
+            },
+            {
+                label: 'X',
+                key: 'hOffset',
+                type: 'integer',
+                value: extractValue(hOffset),
+                width: '30.3%',
+            },
+            {
+                label: 'Y',
+                key: 'vOffset',
+                type: 'integer',
+                value: extractValue(vOffset),
+                width: '30.3%',
+            },
+            {
+                label: 'Spread',
+                key: 'spread',
+                type: 'integer',
+                value: extractValue(spread),
+                width: '48%',
+            },
+            {
+                label: 'Shadow Type',
+                key: 'type',
+                type: 'select', //required
+                value: type || 'Outside',
+                width: '48%',
+                options: [  //optional type: Array of string, Array of objects
+                    {
+                        label: 'Outside',
+                        value: ' '
+                    },
+                    {
+                        label: 'Inside',
+                        value: 'inset'
+                    },
+                ],
+            },
+            {
+                key: 'color',
+                type: 'picker',
+                value: color,
+            },
+        ]
+        return <div>
+            {/* {`${hOffset} ${vOffset} ${blur} ${spread} ${color} ${type}`} */}
+            <div className={'composite-cross'}>
+                <Icons.Plus onClick={() => {
+                    if (boxShadowRep - 1 == 0) {
+                        handleOnChange('none', 'delete')
+                    } else {
+                        handleOnChange({}, 'delete')
+                    }
+                    updateRep('globalOnchangeCallBack', () => {
+                        updateRep('boxShadowRep', boxShadowRep - 1)
+                        updateRep('globalOnchangeCallBack', null)
+                    })
+
+                    // updateRep('boxShadowRep', boxShadowRep - 1)
+                    // this.setState({ boxShadowRep: this.state.boxShadowRep - 1, globalOnchangeCallBack: null })
+                }} style={{ width: '12px', height: '12px', transform: 'rotateZ(45deg)' }} />
+            </div>
+            <CreateForm fields={fields} globalOnChange={handleOnChange} />
+        </div>
     }
     handlechange = (key, value) => {
         this.setState({ [key]: value })
@@ -1155,171 +1360,32 @@ class StyleManager extends React.Component {
                 type: 'picker',
                 value: (selected.styleInfo.styles && selected.styleInfo.styles['border-color']) || selected.node && getComputedStyle(selected.node, pseudoClass)['border-color'],
             },
-            // {
-            //     label: () => {
-            //         return (
-            //             <div className={'composite-label custom-label'}>
-            //                 Box Shadow
-            //                 <Icons.Plus onClick={() => {
-            //                     // this.globalOnChange({ key: 'box-shadow', value: '0px 0px 0px 0px #000000' })
+            {
+                label: () => {
+                    return (
+                        <div className={'composite-label custom-label'}>
+                            Box Shadow
+                            <Icons.Plus onClick={() => {
+                                // this.globalOnChange({ key: 'box-shadow', value: '0px 0px 0px 0px #000000' })
 
-            //                     // this.setState({
-            //                     //     globalOnchangeCallBack: () => {
-            //                     //     }
-            //                     // })
-            //                     this.setState({ boxShadowRep: this.state.boxShadowRep + 1 })
-            //                     // this.setState({ boxShadowRep: this.state.boxShadowRep + 1 })
-            //                 }} style={{ width: '12px', height: '12px' }} />
-            //             </div>
-            //         )
-            //     },
-            //     key: 'box-shadow',
-            //     type: 'composite',
-            //     times: this.state.boxShadowRep,
-            //     value: selected.node && getComputedStyle(selected.node, pseudoClass)['box-shadow'],
-            //     children: (value, key, onChange) => {
-            //         console.log(value)
-            //         let hOffset = '0px',
-            //             vOffset = '0px',
-            //             blur = '0px',
-            //             spread = '0px',
-            //             color = '#00000000',
-            //             type = ' '   // ' ' || 'inset' select
-            //         if (value != null) {
-            //             // meane value was 'none'
-
-            //             // remove inset if present
-            //             if (value.includes('inset')) {
-            //                 type = 'inset'
-            //                 value = value.replace('inset', '')
-            //             }
-
-            //             value = value.trim().split(/ (?![^(]*\))/)
-            //             color = value[0]
-            //             hOffset = value[1]
-            //             vOffset = value[2]
-            //             blur = value[3]
-            //             spread = value[4]
-            //         }
-            //         let handleOnChange = (item, action = '') => {
-            //             if (action = 'delete' && item === 'none') {
-            //                 onChange('none', key, action)
-            //                 return
-            //             }
-            //             switch (item.key) {
-            //                 case 'hOffset':
-            //                     if (item.value === '' || item.value === '-') {
-            //                         return
-            //                     }
-            //                     hOffset = extractValue(item.value)
-            //                     break;
-            //                 case 'vOffset':
-            //                     if (item.value === '' || item.value === '-') {
-            //                         return
-            //                     }
-            //                     vOffset = extractValue(item.value)
-            //                     break;
-            //                 case 'blur':
-            //                     if (item.value === '' || item.value === '-') {
-            //                         return
-            //                     }
-            //                     blur = extractValue(item.value)
-            //                     break;
-            //                 case 'spread':
-            //                     if (item.value === '' || item.value === '-') {
-            //                         return
-            //                     }
-            //                     spread = extractValue(item.value)
-            //                     break;
-            //                 case 'color':
-            //                     color = item.value
-            //                     break;
-            //                 case 'type':
-            //                     type = item.value
-            //                     break;
-            //                 default:
-            //                     break;
-            //             }
-            //             let resp = `${extractValue(hOffset)}px ${extractValue(vOffset)}px ${extractValue(blur)}px ${extractValue(spread)}px ${color} ${type}`
-            //             console.log(resp, key, action)
-            //             onChange(resp, key, action)
-            //         }
-            //         const extractValue = (data) => {
-            //             let unit = data.replace(/[0-9]|\./gi, '')
-            //             return data.replace(unit, '')
-            //         }
-            //         const fields = [
-            //             {
-            //                 label: 'Blur',
-            //                 key: 'blur',
-            //                 type: 'integer',
-            //                 value: extractValue(blur),
-            //                 width: '30.3%',
-            //             },
-            //             {
-            //                 label: 'X',
-            //                 key: 'hOffset',
-            //                 type: 'integer',
-            //                 value: extractValue(hOffset),
-            //                 width: '30.3%',
-            //             },
-            //             {
-            //                 label: 'Y',
-            //                 key: 'vOffset',
-            //                 type: 'integer',
-            //                 value: extractValue(vOffset),
-            //                 width: '30.3%',
-            //             },
-            //             {
-            //                 label: 'Spread',
-            //                 key: 'spread',
-            //                 type: 'integer',
-            //                 value: extractValue(spread),
-            //                 width: '48%',
-            //             },
-            //             {
-            //                 label: 'Shadow Type',
-            //                 key: 'type',
-            //                 type: 'select', //required
-            //                 value: type || 'Outside',
-            //                 width: '48%',
-            //                 options: [  //optional type: Array of string, Array of objects
-            //                     {
-            //                         label: 'Outside',
-            //                         value: ' '
-            //                     },
-            //                     {
-            //                         label: 'Inside',
-            //                         value: 'inset'
-            //                     },
-            //                 ],
-            //             },
-            //             {
-            //                 key: 'color',
-            //                 type: 'picker',
-            //                 value: color,
-            //             },
-            //         ]
-            //         return <div>
-            //             {/* {`${hOffset} ${vOffset} ${blur} ${spread} ${color} ${type}`} */}
-            //             <div className={'composite-cross'}>
-            //                 <Icons.Plus onClick={() => {
-            //                     if (this.state.boxShadowRep - 1 == 0) {
-            //                         handleOnChange('none', 'delete')
-            //                     } else {
-            //                         handleOnChange({}, 'delete')
-            //                     }
-            //                     this.setState({
-            //                         globalOnchangeCallBack: () => {
-            //                             this.setState({ boxShadowRep: this.state.boxShadowRep - 1, globalOnchangeCallBack: null })
-            //                         }
-            //                     })
-            //                 }} style={{ width: '12px', height: '12px', transform: 'rotateZ(45deg)' }} />
-            //             </div>
-            //             <CreateForm fields={fields} globalOnChange={handleOnChange} />
-            //         </div>
-            //     }
-            // },
+                                // this.setState({
+                                //     globalOnchangeCallBack: () => {
+                                //     }
+                                // })
+                                this.setState({ boxShadowRep: this.state.boxShadowRep + 1 })
+                                // this.setState({ boxShadowRep: this.state.boxShadowRep + 1 })
+                            }} style={{ width: '12px', height: '12px' }} />
+                        </div>
+                    )
+                },
+                key: 'box-shadow',
+                type: 'composite',
+                times: this.state.boxShadowRep,
+                value: this.state.boxShadowValue,
+                children: (value, key, onChange) => {
+                    return <this.boxShadowCompositeField {...{ value, position: key, onChange, global: this.globalOnChange, boxShadowRep: this.state.boxShadowRep, updateRep: this.handlechange }} />
+                }
+            },
             // {
             //     label: () => {
             //         return (

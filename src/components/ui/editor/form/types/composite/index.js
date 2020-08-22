@@ -1,3 +1,4 @@
+
 import React from "react"
 import _, { isArray } from 'lodash'
 import $ from 'jquery'
@@ -11,49 +12,57 @@ class Composite extends React.Component {
         this.sliderRef = React.createRef()
     }
     state = {
-        valArr: []
+        valArr: [],
+        value: this.props.meta.value
     }
     componentDidMount() {
         // this.initValue(this.props.meta.value)
     }
     componentDidUpdate(prevProps) {
         if (prevProps.meta.value != this.props.meta.value) {
-            // this.initValue(this.props.meta.value)
+            this.initValue(this.props.meta.value)
         }
     }
     initValue = (value) => {
-        // const { meta } = this.props
-        // const { defaultUnit } = meta
+        this.setState({ value: value })
     }
     onChange = (val, key, action = '') => {
         const { meta, globalOnChange } = this.props
-        let { value, children, times } = meta
-        let array = []
+        let { children, times } = meta
+        let { value, valArr } = this.state
+        let array = valArr
 
-        value = value.split(/,(?![^(]*\))/) // convertign to property array
-        if (children) {
-            for (let i = 0; i < times; i++) {
-                if (value[i] == undefined) {
-                    value[i] = 'none'
-                } else if (value[i].trim() == '') {
-                    continue;
-                }
-                array.push(value[i])
-            }
-        }
+        // value = value.split(/,(?![^(]*\))/) // convertign to property array
+        // if (children) {
+        //     for (let i = 0; i < times; i++) {
+        //         if (value[i] == undefined) {
+        //             value[i] = 'none'
+        //         } else if (value[i].trim() == '') {
+        //             continue;
+        //         }
+        //         array.push(value[i])
+        //     }
+        // }
+
+
 
         array[key] = val
 
-        if (action == 'delete' && array.length == 1) {
+        if (action == 'delete' && val != 'none') {
             // delete element at key index
             array.splice(key, 1)
         }
+        this.setState({valArr: array})
+        console.log(array, key, 'composite onchnge')
         let resp = ''
         _.each(array, (data) => {
             if (data) {
                 if (data == 'none') {
-                    resp += 'none,'
-                    // resp += '0px 0px 0px 0px #000000' + ','
+                    if (action == 'delete' && val != 'none') {
+                        resp += '0px 0px 0px 0px #000000' + ','
+                    } else {
+                        resp += 'none,'
+                    }
                 } else {
                     resp += data + ','
                 }
@@ -65,7 +74,7 @@ class Composite extends React.Component {
     render() {
         let {
             meta: {
-                value,
+                // value,
                 children,
                 times,
                 onChange, //form item specific change
@@ -74,9 +83,9 @@ class Composite extends React.Component {
             },
             globalOnChange //complete form specific change
         } = this.props
-        const { valArr } = this.state
+        let { valArr, value } = this.state
         let childrens = []
-        if (value && typeof(value) == 'string') {
+        if (value && typeof (value) == 'string') {
             value = value.split(/,(?![^(]*\))/) // convertign to property array
             if (children) {
                 for (let i = 0; i < times; i++) {
