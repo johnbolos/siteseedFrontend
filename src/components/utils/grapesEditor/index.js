@@ -1,5 +1,5 @@
 import "grapesjs/dist/css/grapes.min.css";
-import _ from 'lodash'
+import _ from "lodash";
 import grapesjs from "grapesjs";
 //import "grapesjs-blocks-basic";
 import exportPlugin from "grapesjs-plugin-export";
@@ -518,6 +518,10 @@ const _grapesEditor = {
 		editor.on("modal:open", () => {
 			console.log("modal opened");
 		});
+		editor.on("component:image:add", () => {
+			console.log("image dropped");
+			editor.runCommand("open-assets");
+		});
 		//init style manager
 		styleManager.init(config.styles, dispatch);
 		if (cb) {
@@ -547,8 +551,8 @@ const _grapesEditor = {
 				message: tag
 					? `Please add '${tag}' tag, to export correctly`
 					: `Please add '${
-					start + "' and '" + end
-					}' identifer, to export correctly`,
+							start + "' and '" + end
+					  }' identifer, to export correctly`,
 			};
 		let header = html.substring(startIndex, endIndex);
 		return {

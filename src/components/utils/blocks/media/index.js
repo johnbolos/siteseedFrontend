@@ -5,6 +5,10 @@ export const media = (editor) => {
 		label: `<img src=${image} alt=label />
         <div>Image</div>`,
 		category: "Media",
+		command: (e) =>
+			e.runCommand("open-assets", {
+				target: editor.getSelected(),
+			}),
 		content: `<img></img>`,
 	});
 	editor.BlockManager.add("youtube", {
