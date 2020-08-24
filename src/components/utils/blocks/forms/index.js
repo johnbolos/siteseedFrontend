@@ -15,28 +15,67 @@ export const formBlocks = (editor) => {
         <div>Form Block</div>`,
 		category: "Forms",
 		content: `<form>
-    <div class="form-group">
-      <label for="email">Email address</label>
-      <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
-      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-    </div>
-    <div class="form-group">
-      <label for="name">Name</label>
-      <input type="text" class="form-control" id="name">
-    </div>
-    <div class="form-group form-check">
-      <input type="checkbox" class="form-check-input" id="exampleCheck1">
-      <label class="form-check-label" for="exampleCheck1">I agree, to receiving updates on my email.</label>
-    </div>
-    <button type="submit" class="btn btn-primary">Subscribe</button>
-  </form>`,
+    <label for="fname">First Name</label>
+    <input type="text" id="fname" name="firstname" placeholder="Your name..">
+
+    <label for="lname">Last Name</label>
+    <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+
+    <label for="country">Country</label>
+    <select id="country" name="country">
+      <option value="australia">Australia</option>
+      <option value="canada">Canada</option>
+      <option value="usa">USA</option>
+    </select>
+  
+    <input type="submit" value="Submit">
+  </form>
+  <style>
+  input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  input[type=submit] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  input[type=submit]:hover {
+    background-color: #45a049;
+  }
+  </style>
+  `,
 	});
 
 	editor.BlockManager.add("input-block", {
 		label: `<img src=${inputIcon} alt=inputblock />
               <div>Input</div>`,
 		category: "Forms",
-		content: `<input type="text" class="form-control" id="" >`,
+		content: `<input type="text" class="form-control" id="" >
+    <style>
+    input[type=text], select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    </style>
+    `,
 	});
 
 	editor.BlockManager.add("textarea-block", {
@@ -46,7 +85,21 @@ export const formBlocks = (editor) => {
 		content: ` <div class="form-group">
     <label for="exampleFormControlTextarea1">Example textarea</label>
     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-  </div>`,
+  </div>
+  
+  <style>
+  textarea {
+    width: 100%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+  }</style>
+  
+  `,
 	});
 	editor.BlockManager.add("select-block", {
 		label: `<img src=${selectIcon} alt=selectblock />
@@ -61,23 +114,75 @@ export const formBlocks = (editor) => {
       <option>4</option>
       <option>5</option>
     </select>
-  </div>`,
+  </div>
+  <style>
+  select {
+    width: 100%;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+  }
+  </style>
+  `,
 	});
 	editor.BlockManager.add("dropdown-block", {
 		label: `<img src=${dropdown} alt=dropdownblock />
               <div>Dropdown</div>`,
 		category: "Forms",
 		content: `<div class="dropdown">
-    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Dropdown link
-    </a>
-  
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-      <a class="dropdown-item" href="#">Action</a>
-      <a class="dropdown-item" href="#">Another action</a>
-      <a class="dropdown-item" href="#">Something else here</a>
+    <button class="dropbtn">Dropdown</button>
+    <div class="dropdown-content">
+    <a href="#">Link 1</a>
+    <a href="#">Link 2</a>
+    <a href="#">Link 3</a>
     </div>
-  </div>`,
+  </div>
+  
+  
+  <style>
+.dropbtn {
+  background-color: #d983a6;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #d983a6;
+}
+</style>
+  
+  `,
 	});
 	editor.BlockManager.add("checkbox-block", {
 		label: `<img src=${checkbox} alt=checkboxblock />
@@ -103,7 +208,19 @@ export const formBlocks = (editor) => {
 		label: `<img src=${toggle} alt=toggleblock />
               <div>Toggle</div>`,
 		category: "Forms",
-		content: `<style>
+		content: `
+    <label class="switch" onclick="checkToggle(this)">
+    <input type="checkbox" id="checkbox" >
+    <span class="slider round"></span>
+  </label>
+
+    <script>
+function checkToggle(checkbox) {
+  $("#checkbox").attr('checked', function(_, attr){ return !attr});
+  
+}
+</script>
+    <style>
     .switch {
       position: relative;
       display: inline-block;
@@ -164,15 +281,8 @@ export const formBlocks = (editor) => {
       border-radius: 50%;
     }
     </style>
-    <label class="switch">
-  <input type="checkbox" id="checkbox">
-  <span class="slider round"></span>
-</label>
-<script>
-$("#checkbox").click(function(){
-  console.log("handler for for click sclicked")
-})
-</script>
+   
+
 
     `,
 	});
