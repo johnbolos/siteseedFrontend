@@ -27,6 +27,7 @@ class StyleManager extends React.Component {
         integratedBorderRadius: true,
         boxShadowRep: 0,
         boxShadowValue: this.props.selected.node && getComputedStyle(this.props.selected.node, this.props.pseudoClass)['box-shadow'],
+        textShadowValue: this.props.selected.node && getComputedStyle(this.props.selected.node, this.props.pseudoClass)['text-shadow'],
         textShadowRep: 0,
         backgroundRep: 0,
     }
@@ -39,7 +40,10 @@ class StyleManager extends React.Component {
             this.extractTransform()
         }
         if (this.props.selected && (prevProps.selected.node != this.props.selected.node)) {
-            this.setState({ boxShadowValue: selected.node && getComputedStyle(selected.node, pseudoClass)['box-shadow'] }, () => {
+            this.setState({
+                boxShadowValue: selected.node && getComputedStyle(selected.node, pseudoClass)['box-shadow'],
+                textShadowValue: selected.node && getComputedStyle(selected.node, pseudoClass)['text-shadow']
+            }, () => {
                 this.setCompositeRep()
 
             })
@@ -150,6 +154,9 @@ class StyleManager extends React.Component {
         }
         customEvents.saveStyleInfo({ elem: selected.node, node: editorNode }, { pseudoClass: pseudoClass }, () => {
             // this.setCompositeRep()
+            if (item.key === 'text-shadow') {
+                this.setState({ textShadowValue: selected.node && getComputedStyle(selected.node, pseudoClass)['text-shadow'] })
+            }
             this.state.globalOnchangeCallBack && this.state.globalOnchangeCallBack()
         })
 
@@ -360,6 +367,150 @@ class StyleManager extends React.Component {
             <CreateForm fields={fields} globalOnChange={handleOnChange} />
         </div>)
     }
+    textShadowCompositeField({ value, position: key, onChange, textShadowRep, updateRep, globalOnChange }) {
+        const [state, setState] = useState({
+            hOffset: '0px',
+            vOffset: '0px',
+            blur: '0px',
+            color: '#FFFFFF00',
+        })
+        let { hOffset, vOffset, blur, color } = state
+        useEffect(() => {
+            if (value != null) {
+                // meane value was 'none'
+                // remove inset if present
+                let newValue = value
+                newValue = newValue.trim().split(/ (?![^(]*\))/)
+                setState({
+                    ...state,
+                    color: newValue[0],
+                    hOffset: newValue[1],
+                    vOffset: newValue[2],
+                    blur: newValue[3]
+                })
+                let resp = `${extractValue(newValue[1])}px ${extractValue(newValue[2])}px ${extractValue(newValue[3])}px ${newValue[0]}`
+                onChange(resp, key, 'setArray')
+            }
+        }, [])
+
+        useEffect(() => {
+            console.log(value, 'show value composite')
+            if (value != null) {
+                // meane value was 'none'
+                // remove inset if present
+                let newValue = value
+                newValue = newValue.trim().split(/ (?![^(]*\))/)
+                setState({
+                    ...state,
+                    color: newValue[0],
+                    hOffset: newValue[1],
+                    vOffset: newValue[2],
+                    blur: newValue[3],
+                })
+                let resp = `${extractValue(newValue[1])}px ${extractValue(newValue[2])}px ${extractValue(newValue[3])}px ${newValue[0]}`
+                onChange(resp, key, 'setArray')
+            }
+        }, [value])
+        let handleOnChange = (item, action = '') => {
+            console.log(item, action, item, action === 'delete', item === 'none')
+            if (action === 'delete' && item === 'none') {
+                onChange('none', key, action)
+                return
+            }
+            let val = null
+            switch (item.key) {
+                case 'hOffset':
+                    if (item.value === '' || item.value === '-') {
+                        return
+                    }
+                    val = extractValue(item.value)
+                    // setState({ ...state, [item.key]: extractValue(item.value) })
+                    // hOffset = extractValue(item.value)
+                    break;
+                case 'vOffset':
+                    if (item.value === '' || item.value === '-') {
+                        return
+                    }
+                    val = extractValue(item.value)
+                    // setState({ ...state, [item.key]: extractValue(item.value) })
+                    // vOffset = extractValue(item.value)
+                    break;
+                case 'blur':
+                    if (item.value === '' || item.value === '-') {
+                        return
+                    }
+                    val = extractValue(item.value)
+                    // setState({ ...state, [item.key]: extractValue(item.value) })
+                    // blur = extractValue(item.value)
+                    break;
+                case 'color':
+                    if (item.value === '' || item.value === '-') {
+                        return
+                    }
+                    val = item.value
+                    // setState({ ...state, [item.key]: item.value })
+                    // color = item.value
+                    break;
+                default:
+                    break;
+            }
+            if (val || action === 'delete') {
+                setState({ ...state, [item.key]: val })
+                console.log(state, key, action, 'onChange')
+                let resp = `${extractValue(item.key == 'hOffset' ? val : hOffset)}px ${extractValue(item.key == 'vOffset' ? val : vOffset)}px ${extractValue(item.key == 'blur' ? val : blur)}px ${item.key == 'color' ? val : color}`
+                onChange(resp, key, action)
+            }
+        }
+        const extractValue = (data) => {
+            let unit = data.replace(/[0-9]|\.|-/gi, '')
+            return data.replace(unit, '')
+        }
+        const fields = [
+            {
+                label: 'Blur',
+                key: 'blur',
+                type: 'integer',
+                value: extractValue(blur),
+                width: '30.3%',
+            },
+            {
+                label: 'X',
+                key: 'hOffset',
+                type: 'integer',
+                value: extractValue(hOffset),
+                width: '30.3%',
+            },
+            {
+                label: 'Y',
+                key: 'vOffset',
+                type: 'integer',
+                value: extractValue(vOffset),
+                width: '30.3%',
+            },
+            {
+                key: 'color',
+                type: 'picker',
+                value: color,
+            },
+        ]
+        return <div>
+            {/* {`${hOffset} ${vOffset} ${blur} ${spread} ${color} ${type}`} */}
+            <div className={'composite-cross'}>
+                <Icons.Plus onClick={() => {
+                    if (textShadowRep - 1 == 0) {
+                        handleOnChange('none', 'delete')
+                    } else {
+                        handleOnChange({}, 'delete')
+                    }
+                    updateRep('globalOnchangeCallBack', () => {
+                        updateRep('textShadowRep', textShadowRep - 1)
+                        updateRep('globalOnchangeCallBack', null)
+                    })
+                }} style={{ width: '12px', height: '12px', transform: 'rotateZ(45deg)' }} />
+            </div>
+            <CreateForm fields={fields} globalOnChange={handleOnChange} />
+        </div>
+    }
     boxShadowCompositeField({ value, position: key, onChange, boxShadowRep, updateRep, globalOnChange }) {
         const [state, setState] = useState({
             hOffset: '0px',
@@ -375,12 +526,14 @@ class StyleManager extends React.Component {
                 // meane value was 'none'
                 // remove inset if present
                 let newValue = value
+                let inside = false
                 if (newValue.includes('inset')) {
                     setState({
                         ...state,
                         type: 'inset'
                     })
                     newValue = newValue.replace('inset', '')
+                    inside = true
                 }
                 newValue = newValue.trim().split(/ (?![^(]*\))/)
                 setState({
@@ -391,21 +544,25 @@ class StyleManager extends React.Component {
                     blur: newValue[3],
                     spread: newValue[4]
                 })
+                let resp = `${extractValue(newValue[1])}px ${extractValue(newValue[2])}px ${extractValue(newValue[3])}px  ${extractValue(newValue[4])}px ${newValue[0]} ${inside? 'inset' : ' '}`
+                onChange(resp, key, 'setArray')
             }
         }, [])
-        
+
         useEffect(() => {
             console.log(value, 'show value composite')
             if (value != null) {
                 // meane value was 'none'
                 // remove inset if present
                 let newValue = value
+                let inside = false
                 if (newValue.includes('inset')) {
                     setState({
                         ...state,
                         type: 'inset'
                     })
                     newValue = newValue.replace('inset', '')
+                    inside = true
                 }
                 newValue = newValue.trim().split(/ (?![^(]*\))/)
                 setState({
@@ -416,6 +573,8 @@ class StyleManager extends React.Component {
                     blur: newValue[3],
                     spread: newValue[4]
                 })
+                let resp = `${extractValue(newValue[1])}px ${extractValue(newValue[2])}px ${extractValue(newValue[3])}px  ${extractValue(newValue[4])}px ${newValue[0]} ${inside? 'inset' : ' '}`
+                onChange(resp, key, 'setArray')
             }
         }, [value])
         let handleOnChange = (item, action = '') => {
@@ -1089,6 +1248,25 @@ class StyleManager extends React.Component {
                         value: 'justify'
                     },
                 ],
+            },
+            {
+                label: () => {
+                    return (
+                        <div className={'composite-label custom-label'}>
+                            Text Shadow
+                            <Icons.Plus onClick={() => {
+                                this.setState({ textShadowRep: this.state.textShadowRep + 1 })
+                            }} style={{ width: '12px', height: '12px' }} />
+                        </div>
+                    )
+                },
+                key: 'text-shadow',
+                type: 'composite',
+                times: this.state.textShadowRep,
+                value: this.state.textShadowValue,
+                children: (value, key, onChange) => {
+                    return <this.textShadowCompositeField {...{ value, position: key, onChange, global: this.globalOnChange, textShadowRep: this.state.textShadowRep, updateRep: this.handlechange }} />
+                }
             },
             // {
             //     label: () => {

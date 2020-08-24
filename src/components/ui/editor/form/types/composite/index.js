@@ -31,7 +31,11 @@ class Composite extends React.Component {
         let { children, times } = meta
         let { value, valArr } = this.state
         let array = valArr
-
+        if (action === 'setArray') {
+            array[key] = val
+            this.setState({ valArr: array })
+            return 
+        }
         // value = value.split(/,(?![^(]*\))/) // convertign to property array
         // if (children) {
         //     for (let i = 0; i < times; i++) {
@@ -85,6 +89,7 @@ class Composite extends React.Component {
         } = this.props
         let { valArr, value } = this.state
         let childrens = []
+        console.log('rerendering', valArr, value)
         if (value && typeof (value) == 'string') {
             value = value.split(/,(?![^(]*\))/) // convertign to property array
             if (children) {

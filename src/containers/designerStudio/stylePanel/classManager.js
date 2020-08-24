@@ -85,7 +85,9 @@ class ClassManager extends React.Component {
     getClass = (node) => node.className.split(' ')
     toggleAddClass = () => {
         this.setState({ showTagInput: !this.state.showTagInput }, () => {
-            if (this.state.showTagInput) {
+            console.log('falinggg', this.state.showTagInput)
+            if (this.state.showTagInput && this.state.showTagInput) {
+                
                 this.addClassInput.current.focus();
             }
         })
@@ -185,7 +187,7 @@ class ClassManager extends React.Component {
                     {
                         showTagInput &&
                         <div className={'tagInput-container'}>
-                            <input type="text" ref={this.addClassInput} className={'add-class-input'} name={'tagInput'} onKeyDown={this.addClass} onBlur={this.toggleAddClass}></input>
+                            <input type="text" ref={this.addClassInput} className={'add-class-input'} name={'tagInput'} onKeyDown={this.addClass} onBlur={!this.state.showTagInput && this.toggleAddClass}></input>
                         </div>
                     }
                 </div>

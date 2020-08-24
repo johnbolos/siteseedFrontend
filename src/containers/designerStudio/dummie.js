@@ -160,6 +160,7 @@ export const template1Style = `
       .lead-title{
         margin:150px 0 30px 0;
         font-size:40px;
+        text-shadow: 3px 1px 0px rgba(34,188,34, 0.96);
       }
       .sub-lead-title{
         max-width:650px;
