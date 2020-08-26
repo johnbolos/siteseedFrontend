@@ -14,6 +14,7 @@ import PageManager from "./PageManager";
 import "react-tabs/style/react-tabs.css";
 import "./leftBlock.scss";
 import _grapesEditor from "../../../components/utils/grapesEditor";
+import LayerManager from "./LayerManager";
 
 const initialState = {
 	blocks: "none",
@@ -38,15 +39,23 @@ class LeftBlock extends Component {
 	}
 	componentDidMount() {
 		setTimeout(() => {
-			let { editor } = _grapesEditor;
-			const gjsWindow = document.getElementsByClassName('gjs-frame')[0].contentWindow
-			gjsWindow.addEventListener('mousedown', () => {
-				this.reset();
-			})
-			editor.on("component:update", () => {
+			const gjsWindow = document.getElementsByClassName("gjs-frame")[0]
+				.contentWindow;
+			gjsWindow.addEventListener("mousedown", () => {
 				this.reset();
 			});
+			/* editor.on("component:update", () => {
+				this.reset();
+			}); */
 		}, 500);
+	}
+	openLayers() {
+		let { editor } = _grapesEditor;
+		editor.runCommand("open-siteSeed-layers");
+	}
+	closeLayers() {
+		let { editor } = _grapesEditor;
+		editor.stopCommand("open-siteSeed-layers");
 	}
 	render() {
 		//const { pageReducer } = this.props;
@@ -119,13 +128,15 @@ class LeftBlock extends Component {
 					<Tabs>
 						<TabList style={{ display: "flex" }}>
 							<Tab>
-								<h4>Layers</h4>
+								<h4 onClick={this.openLayers}>Layers</h4>
 							</Tab>
 							<Tab>
-								<h4>Pages</h4>
+								<h4 onClick={this.closeLayers}>Pages</h4>
 							</Tab>
 						</TabList>
-						<TabPanel>Any content 1</TabPanel>
+						<TabPanel>
+							<LayerManager />
+						</TabPanel>
 						<TabPanel>
 							<PageManager />
 						</TabPanel>

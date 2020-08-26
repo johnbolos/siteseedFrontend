@@ -42,7 +42,7 @@ class PageSettingModal extends Component {
 	componentDidMount = () => {
 		setTimeout(() => {
 			let { pageSetting } = this.props;
-			console.log("pageSetting ", pageSetting);
+			//console.log("pageSetting ", pageSetting);
 			if (pageSetting) {
 				this.setState({
 					title: pageSetting.name,
@@ -138,7 +138,7 @@ class PageSettingModal extends Component {
 							<img src={favicon} alt='favicon' />
 						</div>
 						<div id='upload-btn'>
-							<label for='files' className='upload-btn'>
+							<label htmlFor='files' className='upload-btn'>
 								<img src={upload} alt='upload-icon' />
 								Upload
 							</label>
