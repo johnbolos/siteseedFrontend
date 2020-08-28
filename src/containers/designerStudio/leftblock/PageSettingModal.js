@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { cancel, helperIcon, upload, favicon } from "./icons";
 import Modal from "react-modal";
 import "./pageSettingModal.scss";
-import { logo } from "../panels/icons";
 
 Modal.setAppElement("#root");
 
@@ -34,10 +33,6 @@ class PageSettingModal extends Component {
 		});
 		this.props.closeModal();
 	};
-	/* handleUpdate = () => {
-		console.log("Update request");
-		this.props.sendEditPageReq(this.state.title);
-	}; */
 
 	componentDidMount = () => {
 		setTimeout(() => {

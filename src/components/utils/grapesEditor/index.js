@@ -526,10 +526,19 @@ const _grapesEditor = {
 			editor.runCommand("open-assets");
 		});
 
+		editor.on("component:update", () => {
+			setTimeout(() => {
+				$(".gjs-layer-name").attr("data-toggle-move", "true");
+				$(".gjs-layer-move").remove();
+				$(".gjs-layer-count").remove();
+			}, 110);
+		});
+
 		//for adding layer manager
 		editor.Commands.add("open-siteSeed-layers", {
 			run(editor) {
 				const lm = editor.LayerManager;
+				console.log("layermanager ", lm);
 				setTimeout(() => {
 					const newPanels = document.getElementById("layer-manager");
 					//console.log("from openSiteSeed command --> panels -->", newPanels);

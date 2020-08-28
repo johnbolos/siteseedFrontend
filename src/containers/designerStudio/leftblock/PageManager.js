@@ -8,7 +8,6 @@ import {
 	editPageSetting,
 } from "../../../reducers/actions/pageActions";
 import PageSettingModal from "./PageSettingModal";
-import $ from "jquery";
 
 class PageManager extends Component {
 	state = {
@@ -16,10 +15,8 @@ class PageManager extends Component {
 		pageSetting: {},
 		editPageIndex: null,
 		searchInput: "",
-		filteredPages: this.props.pageReducer.pages,
+		filteredPages: [],
 	};
-	//const [modalIsOpen, setIsOpen] = React.useState(false);
-	//const [pageSetting, setPageSetting] = React.useState({});
 
 	createPage = (title) => {
 		//creating new page
@@ -92,18 +89,17 @@ class PageManager extends Component {
 		this.props.editPage(this.state.editPageIndex, pageName);
 	};
 	componentDidMount = () => {
-		/* let parent = document.getElementById("react-tabs-3");
-		let lis = parent.getElementsByClassName("pages");
-		for (let i = 0; i < lis.length; i++) {
-			lis[i].addEventListener("click", function () {
-				let current = document.getElementsByClassName("active");
-				console.log("current active ", current[0].classList);
-
-				//current[0].className = current[0].className.replace(" active", "");
-				this.className += " active";
-			});
-		} */
+		this.setState({
+			filteredPages: this.props.pageReducer.pages,
+		});
 	};
+	componentDidUpdate(prevProps, prevState) {
+		if (prevProps.pageReducer.pages !== this.props.pageReducer.pages) {
+			this.setState({
+				filteredPages: this.props.pageReducer.pages,
+			});
+		}
+	}
 	render() {
 		const { filteredPages } = this.state;
 		return (

@@ -7,8 +7,6 @@ import {
 } from "../../designerStudio/panels/icons";
 import $ from "jquery";
 //import _grapesEditor from "../../../components/utils/grapesEditor";
-import { connect } from "react-redux";
-import { createPage, saveChanges } from "../../../reducers/actions/pageActions";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import PageManager from "./PageManager";
 import "react-tabs/style/react-tabs.css";
@@ -127,11 +125,11 @@ class LeftBlock extends Component {
 				<div id='layers' style={{ display: this.state.layers }}>
 					<Tabs>
 						<TabList style={{ display: "flex" }}>
-							<Tab>
-								<h4 onClick={this.openLayers}>Layers</h4>
+							<Tab onClick={this.openLayers}>
+								<h4>Layers</h4>
 							</Tab>
-							<Tab>
-								<h4 onClick={this.closeLayers}>Pages</h4>
+							<Tab onClick={this.closeLayers}>
+								<h4>Pages</h4>
 							</Tab>
 						</TabList>
 						<TabPanel>

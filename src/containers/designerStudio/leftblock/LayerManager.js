@@ -1,6 +1,8 @@
 import React from "react";
 import { search } from "./icons";
 import _grapesEditor from "../../../components/utils/grapesEditor";
+import "./layerManager.scss";
+import $ from "jquery";
 
 class LayerManager extends React.Component {
 	state = {
@@ -13,10 +15,15 @@ class LayerManager extends React.Component {
 			this.setState({
 				components,
 			});
-		}, 1000);
+			//$(".gjs-layer-move").remove();
+			//$(".gjs-layer-count").remove();
+		}, 100);
 	}
 
 	render() {
+		$(".gjs-layer-name").attr("data-toggle-move", "true");
+		$(".gjs-layer-move").remove();
+		$(".gjs-layer-count").remove();
 		return (
 			<>
 				<div>
@@ -30,7 +37,7 @@ class LayerManager extends React.Component {
 						//value={this.state.searchInput}
 					/>
 				</div>
-				<div>
+				<div style={{ borderBottom: "none" }}>
 					<div id='layer-manager'></div>
 				</div>
 			</>
