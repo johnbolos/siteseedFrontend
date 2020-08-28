@@ -139,10 +139,7 @@ class PickerField extends React.Component {
                         }
                     }}
                     onBlur={(e) => {
-
-                        if (e.target.value != this.state.alphaValue) {
-                            this.onChange(e.target.value, 'alphaValue')
-                        }
+                        this.onChange(e.target.value, 'alphaValue')
                     }}
                     onChange={(e) => { this.setState({ alphaValue: e.target.value }) }}
                 />
