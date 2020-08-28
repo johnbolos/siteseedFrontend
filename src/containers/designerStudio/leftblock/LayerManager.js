@@ -1,24 +1,50 @@
 import React from "react";
 import { search } from "./icons";
-import _grapesEditor from "../../../components/utils/grapesEditor";
+//import _grapesEditor from "../../../components/utils/grapesEditor";
 import "./layerManager.scss";
 import $ from "jquery";
+import { debounce } from "lodash";
 
 class LayerManager extends React.Component {
 	state = {
-		components: [],
+		searchQuery: "",
 	};
-	componentDidMount() {
-		setTimeout(() => {
-			let { editor } = _grapesEditor;
-			let components = JSON.parse(JSON.stringify(editor.getComponents()));
-			this.setState({
-				components,
+	handleChange = (e) => {
+		this.setState(
+			{
+				[e.target.name]: e.target.value,
+			},
+			this.findLayer
+		);
+	};
+
+	findLayer = () => {
+		let query = this.state.searchQuery.toLowerCase();
+		if (query) {
+			$("#layer-manager .gjs-layer").addClass("open"); //for opening all layers but looks bad
+			let result = $("#layer-manager span").filter(function () {
+				if ($(this).text().toLowerCase().indexOf(query) === -1) {
+					return $(this).parent().parent().addClass("change-opacity");
+				}
 			});
-			//$(".gjs-layer-move").remove();
-			//$(".gjs-layer-count").remove();
-		}, 100);
-	}
+			/* $("#layer-manager .gjs-layer").addClass("open"); //for opening all layers but looks bad
+			let result = $("#layer-manager span").filter(function () {
+				if ($(this).text().toLowerCase().indexOf(query) > -1) {
+					return $(this).parent().parent().addClass("gjs-selected");
+				}
+			}); */
+			console.log(result[1]); //result is having the required layers
+		} else {
+			$("#layer-manager .gjs-layer").removeClass("open");
+			$("#layer-manager span").filter(function () {
+				/* if ($(this).text().toLowerCase().indexOf(query) > -1) {
+					return $(this).parent().parent().removeClass("gjs-selected");
+				} */
+
+				return $(this).parent().parent().removeClass("change-opacity");
+			});
+		}
+	};
 
 	render() {
 		$(".gjs-layer-name").attr("data-toggle-move", "true");
@@ -31,10 +57,10 @@ class LayerManager extends React.Component {
 					<input
 						type='text'
 						placeholder='Search'
-						name='searchInput'
+						name='searchQuery'
 						style={{ width: "100%" }}
-						//onChange={this.handleChange}
-						//value={this.state.searchInput}
+						onChange={this.handleChange}
+						value={this.state.searchQuery}
 					/>
 				</div>
 				<div style={{ borderBottom: "none" }}>

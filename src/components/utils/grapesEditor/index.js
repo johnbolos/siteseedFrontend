@@ -538,13 +538,15 @@ const _grapesEditor = {
 		editor.Commands.add("open-siteSeed-layers", {
 			run(editor) {
 				const lm = editor.LayerManager;
-				console.log("layermanager ", lm);
 				setTimeout(() => {
 					const newPanels = document.getElementById("layer-manager");
 					//console.log("from openSiteSeed command --> panels -->", newPanels);
 					const layers = document.createElement("div");
 					layers.appendChild(lm.render());
 					newPanels.appendChild(layers);
+					$(".gjs-layer-name").attr("data-toggle-move", "true");
+					$(".gjs-layer-move").remove();
+					$(".gjs-layer-count").remove();
 				}, 100);
 			},
 
