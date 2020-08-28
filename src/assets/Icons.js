@@ -51,6 +51,7 @@ import { ReactComponent as BorderRadius } from "./right-pane/borderRadius.svg";
 import { ReactComponent as BackgroundImage } from "./right-pane/backgroundImage.svg";
 import { ReactComponent as BackgroundColor } from "./right-pane/backgroundColor.svg";
 import { ReactComponent as BackgroundGradient } from "./right-pane/backgroundGradient.svg";
+import { ReactComponent as CompositeCollapse } from "./right-pane/compositeCollapse.svg";
 
 export default {
 	Dropdown,
@@ -90,4 +91,5 @@ export default {
 	BackgroundImage,
 	BackgroundColor,
 	BackgroundGradient,
+	CompositeCollapse,
 }

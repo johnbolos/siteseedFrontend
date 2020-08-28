@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
 import _ from 'lodash'
+import Async from 'async'
 import shortid from 'shortid'
 
 import "./index.scss"
@@ -30,11 +31,15 @@ class StyleManager extends React.Component {
         textShadowValue: this.props.selected.node && getComputedStyle(this.props.selected.node, this.props.pseudoClass)['text-shadow'],
         textShadowRep: 0,
         backgroundRep: 0,
+        // showBackgroundComposite: false,
+        // showBoxShadowComposite: false,
+        // showTextShadowComposite: false
     }
     componentDidMount() {
     }
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         const { selected, pseudoClass } = this.props
+        // this.setcompositeHidden(prevState)
         if (prevProps.selected != this.props.selected) {
             // this.forceUpdate()
             this.extractTransform()
@@ -42,11 +47,26 @@ class StyleManager extends React.Component {
         if (this.props.selected && (prevProps.selected.node != this.props.selected.node)) {
             this.setState({
                 boxShadowValue: selected.node && getComputedStyle(selected.node, pseudoClass)['box-shadow'],
-                textShadowValue: selected.node && getComputedStyle(selected.node, pseudoClass)['text-shadow']
+                textShadowValue: selected.node && getComputedStyle(selected.node, pseudoClass)['text-shadow'],
+                backgroundValue: this.extractBackgroundProperty()
             }, () => {
                 this.setCompositeRep()
 
             })
+        }
+    }
+    setcompositeHidden = (prevState) => {
+        if (prevState.showBackgroundComposite != this.state.showBackgroundComposite) {
+            document.querySelector('.background-composite-label .composite-open').style.display = this.state.showBackgroundComposite ? 'flex' : 'none'
+            document.querySelector('.background-composite-label .composite-closed').style.display = !this.state.showBackgroundComposite ? 'flex' : 'none'
+        }
+        if (prevState.showBoxShadowComposite != this.state.showBoxShadowComposite) {
+            document.querySelector('.box-shadow-composite-label .composite-open').style.display = this.state.showBoxShadowComposite ? 'flex' : 'none'
+            document.querySelector('.box-shadow-composite-label .composite-closed').style.display = !this.state.showBoxShadowComposite ? 'flex' : 'none'
+        }
+        if (prevState.showTextShadowComposite != this.state.showTextShadowComposite) {
+            document.querySelector('.text-shadow-composite-label .composite-open').style.display = this.state.showTextShadowComposite ? 'flex' : 'none'
+            document.querySelector('.text-shadow-composite-label .composite-closed').style.display = !this.state.showTextShadowComposite ? 'flex' : 'none'
         }
     }
     setCompositeRep = () => {
@@ -56,8 +76,7 @@ class StyleManager extends React.Component {
         let value = null
 
         value = this.extractBackgroundProperty()
-        // console.log(value, value.length >= 1, value[0].color !== 'rgba(0, 0, 0, 0)', 'chicking backgourn')
-        this.handlechange('backgroundRep', ((value[0].color !== 'rgba(0, 0, 0, 0)') || value.length > 1) ? value.length : 0)
+        this.handlechange('backgroundRep', ((value[0] && value[0].color !== 'rgba(0, 0, 0, 0)') || value.length > 1) ? value.length : 0)
 
         value = (selected.node && getComputedStyle(selected.node, pseudoClass)['box-shadow'] || 'none').split(/,(?![^(]*\))/)
         // console.log((value[0] !== 'none'), value, 'chicking backgourn box')
@@ -227,12 +246,21 @@ class StyleManager extends React.Component {
                         result = token.exec(string);
                     } else array.push(result[1].trim());
                     if (result[2] != ',') return array
+                    else if (result[2] == ',' && result[1][result[1].length - 1] == '%') {
+                        array[array.length - 1] += result[1];
+                    }
                 }
             })()
         }
-        if (backgroundColor) { value.push({ type: 'color', color: backgroundColor }) }
+        if (backgroundColor) {
+            if (!(backgroundColor === 'rgba(0, 0, 0, 0)')) {
+                value.push({ type: 'color', color: backgroundColor })
+            }
+        }
 
+        console.log(backgroundImage, 'before')
         backgroundImage = split(backgroundImage)
+        console.log(backgroundImage, 'after')
         backgroundRepeat = backgroundRepeat.split(',')
         backgroundBlendMode = backgroundBlendMode.split(',')
         backgroundPosition = backgroundPosition.split(',')
@@ -253,45 +281,89 @@ class StyleManager extends React.Component {
                 value.push(imageDetails)
             }
         })
+        console.log(value, 'bcakgroundValue')
         return value
     }
-    backgroundCompositeField({ value, key, onChange, globalOnChange }) {
+    updateBackgroundProperty = (valArr, cb = () => { }) => {
+        // evaluate and update specific property using this array
+        let css = {
+            'background-color': ['transparent'],
+            'background-image': [],
+            'background-position': [],
+            'background-size': [],
+            'background-attachment': [],
+            'background-blend-mode': [],
+            'background-repeat': []
+        }
+        valArr.forEach(item => {
+            if (item.type === 'color') {
+                css['background-color'] = [item.color]
+                return
+            }
+            css['background-image'].push(item.image)
+            css['background-position'].push(item.position)
+            css['background-size'].push(item.size)
+            css['background-attachment'].push(item.attachment)
+            css['background-blend-mode'].push(item.blendMode)
+            css['background-repeat'].push(item.repeat)
+        })
+        //loop css and up date  color->image->position->size->attachment->repeat->blendMode
+        _.each(css, (value, key) => {
+            setTimeout(() => {
+                this.globalOnChange({ key, value: value.join(', ') })
+            }, 50)
+        })
+        Async.eachOf(css, (value, key, next) => {
+            setTimeout(() => {
+                this.globalOnChange({ key, value: value.join(', ') })
+                next()
+            }, 10)
+        }, () => {
+            cb()
+        })
+    }
+    backgroundCompositeField({ value, position: key, backgroundRep, updateRep, onChange, globalOnChange }) {
         // const { backgroundKey } = this.state
         const [state, setState] = useState({ backgroundKey: 'image' })
         let { backgroundKey } = state
         useEffect((prevValue) => {
             if (value) setState({ ...state, backgroundKey: value.type })
         }, [value])
-
-        if (value != null) {
-            // value = value.trim().split(/ (?![^(]*\))/)
-            // color = value[0]
-            // hOffset = value[1]
-            // vOffset = value[2]
-            // blur = value[3]
-            // spread = value[4]
-        }
         let handleOnChange = (item, action = '') => {
-            switch (item.key) {
-                case 'image':
-                    break;
-                case 'color':
-                    globalOnChange({
-                        key: 'background-color',
-                        value: item.value
-                    })
-                    break;
-                case 'gradient':
-                    break;
-                default:
-                    break;
+            if (action === 'backgroundRemove') {
+                onChange(item, key, 'backgroundRemove')
+                return
             }
-            // let resp = `${extractValue(hOffset)}px ${extractValue(vOffset)}px ${extractValue(blur)}px ${extractValue(spread)}px ${color} ${type}`
-            // onChange(resp, key, action)
+            onChange(item, key, 'background')
         }
         const extractValue = (data) => {
             let unit = data.replace(/[0-9]|\./gi, '')
             return data.replace(unit, '')
+        }
+        const extractPropertyValue = (val) => {
+            if (!val || val.length == 0) {
+                return 'center center'
+            }
+            val = val.trim()
+            val = val.split(' ')
+            let resp = ['center', 'center']
+            val.forEach((x, index) => {
+                x = parseInt(x)
+                switch (x) {
+                    case 0:
+                        resp[index] = index == 0 ? 'top' : 'left'
+                        break;
+                    case 50:
+                        resp[index] = 'center'
+                        break;
+                    case 100:
+                        resp[index] = index == 0 ? 'bottom' : 'right'
+                        break;
+                    default:
+                        break;
+                }
+            })
+            return resp.join(' ')
         }
         let switcher = [
             {
@@ -301,6 +373,7 @@ class StyleManager extends React.Component {
                     return <div className={'background-type-shift-btn'}>
                         <div className={backgroundKey == 'image' ? 'selected' : 'inactive'} style={{ borderRadius: backgroundKey == 'image' ? '4px 0px 0px 4px' : '0px' }}
                             onClick={() => {
+                                handleOnChange({ key: 'image', value: 'url("http://grapesjs.com/img/work-desk.jpg")', switcher: true })
                                 setState({ ...state, backgroundKey: 'image' })
                             }}
                         >
@@ -308,6 +381,7 @@ class StyleManager extends React.Component {
                         </div>
                         <div className={backgroundKey == 'color' ? 'selected' : 'inactive'}
                             onClick={() => {
+                                handleOnChange({ key: 'color', value: '#FFFFFF00' })
                                 setState({ ...state, backgroundKey: 'color' })
                             }}
                         >
@@ -315,9 +389,7 @@ class StyleManager extends React.Component {
                         </div>
                         <div className={backgroundKey == 'gradient' ? 'selected' : 'inactive'} style={{ borderRadius: backgroundKey == 'gradient' ? '0px 4px 4px 0px' : '0px' }}
                             onClick={() => {
-                                // ================================================================
-                                // delete color field is this was earlier colr type and add gradient defaults
-                                // ================================================================
+                                handleOnChange({ key: 'gradient', value: 'linear-gradient(90deg, rgba(2,0,36,1) 6%, rgba(1,87,126,1) 94%)', switcher: true })
                                 setState({ ...state, backgroundKey: 'gradient' })
                             }}
                         >
@@ -327,20 +399,247 @@ class StyleManager extends React.Component {
                 }
             }
         ]
-        let imageFields = []
+        let blendMode = {
+            label: 'Blend Mode',
+            key: 'blendMode',
+            type: 'select', //required
+            value: value && value.blendMode,
+            // width: '48%',
+            options: [  //optional type: Array of string, Array of objects
+                {
+                    label: 'Normal',
+                    value: 'normal'
+                },
+                {
+                    type: 'divider'
+                },
+                {
+                    label: 'Lighten',
+                    value: 'lighten'
+                },
+                {
+                    label: 'Darken',
+                    value: 'darken'
+                },
+                {
+                    label: 'Multiply',
+                    value: 'multiple'
+                },
+                {
+                    label: 'Color Burn',
+                    value: 'color-burn'
+                },
+                {
+                    label: 'Linear Dodge',
+                    value: 'color-dodge'
+                },
+                {
+                    type: 'divider'
+                },
+                {
+                    label: 'Overlay',
+                    value: 'overlay'
+                },
+                {
+                    label: 'Soft Light',
+                    value: 'soft-light'
+                },
+                {
+                    label: 'Hard Light',
+                    value: 'hard-light'
+                },
+                {
+                    type: 'divider'
+                },
+                {
+                    label: 'Difference',
+                    value: 'difference'
+                },
+                {
+                    label: 'Exclusion',
+                    value: 'exclusion'
+                },
+                {
+                    type: 'divider'
+                },
+                {
+                    label: 'Hue',
+                    value: 'hue'
+                },
+                {
+                    label: 'Saturation',
+                    value: 'saturation'
+                },
+                {
+                    label: 'Color',
+                    value: 'color'
+                },
+                {
+                    label: 'Luminosity',
+                    value: 'luminosity'
+                },
+                {
+                    label: 'Screen',
+                    value: 'screen'
+                },
+            ],
+        }
+        let imageFields = [
+            {
+                // label: 'Border Radius',
+                key: 'image',
+                value: value && value.image,
+                type: 'custom',
+                inline: true,
+                render: (value, globalOnChange) => {
+                    return <div className={'choose-image-btn'} onClick={() => { }}>
+                        Choose image
+                    </div>
+                }
+            },
+            { ...blendMode },
+            {
+                label: 'Repeat',
+                key: 'repeat',
+                type: 'select', //required
+                value: value && value.repeat,
+                width: '48%',
+                options: [  //optional type: Array of string, Array of objects
+                    {
+                        label: 'No Repeat',
+                        value: 'no-repeat'
+                    },
+                    {
+                        label: 'Repeat',
+                        value: 'repeat'
+                    },
+                    {
+                        label: 'Repeat X',
+                        value: 'repeat-x'
+                    },
+                    {
+                        label: 'Repeat Y',
+                        value: 'repeat-y'
+                    },
+                    {
+                        label: 'Space',
+                        value: 'space'
+                    },
+                    {
+                        label: 'Round',
+                        value: 'round'
+                    },
+                ],
+            },
+            {
+                label: 'Position (Y X)',
+                key: 'position',
+                type: 'select', //required
+                value: extractPropertyValue(value && value.position),
+                width: '48%',
+                options: [  //optional type: Array of string, Array of objects
+                    {
+                        label: 'Top Left',
+                        value: 'top left'
+                    },
+                    {
+                        label: 'Center Left',
+                        value: 'center left'
+                    },
+                    {
+                        label: 'Bottom Left',
+                        value: 'bottom left'
+                    },
+                    {
+                        label: 'Top Center',
+                        value: 'top center'
+                    },
+                    {
+                        label: 'Center Center',
+                        value: 'center center'
+                    },
+                    {
+                        label: 'Bottom Center',
+                        value: 'bottom center'
+                    },
+                    {
+                        label: 'Top Right',
+                        value: 'top right'
+                    },
+                    {
+                        label: 'Center Right',
+                        value: 'center right'
+                    },
+                    {
+                        label: 'Bottom Right',
+                        value: 'bottom right'
+                    },
+                ],
+            },
+            {
+                label: 'Attachment',
+                key: 'attachment',
+                type: 'select', //required
+                value: value && value.attachment,
+                width: '48%',
+                options: [  //optional type: Array of string, Array of objects
+                    {
+                        label: 'Scroll',
+                        value: 'scroll'
+                    },
+                    {
+                        label: 'Fixed',
+                        value: 'fixed'
+                    },
+                    {
+                        label: 'Local',
+                        value: 'local'
+                    },
+                ],
+            },
+            {
+                label: 'Size',
+                key: 'size',
+                type: 'select', //required
+                value: ['contain', 'cover', 'auto', 'initial'].includes(value && value.size) ? value.size : 'initial',
+                width: '48%',
+                options: [  //optional type: Array of string, Array of objects
+                    {
+                        label: 'Auto',
+                        value: 'auto'
+                    },
+                    {
+                        label: 'Contain',
+                        value: 'contain'
+                    },
+                    {
+                        label: 'Cover',
+                        value: 'cover'
+                    },
+                    {
+                        label: 'Initial',
+                        value: 'initial'
+                    },
+                ],
+            },
+        ]
         let colorFields = [
             {
                 key: 'color',
                 type: 'picker',
                 value: value && value.color
-            }
+            },
         ]
         let gradientFields = [
             {
                 key: 'gradient',
                 type: 'gradient',
                 value: value && value.image
-            }
+            },
+            {
+                ...blendMode,
+                containerClass: 'gradient-blend-select'
+            },
         ]
         let fields = []
         switch (backgroundKey) {
@@ -356,12 +655,13 @@ class StyleManager extends React.Component {
             default:
                 break;
         }
-        return (<div>
+        return (<div className={'background-composite-field'}>
             {/* {`${hOffset} ${vOffset} ${blur} ${spread} ${color} ${type}`} */}
             <div className={'composite-cross'}>
                 <Icons.Plus onClick={() => {
-                    handleOnChange({}, 'delete')
-                    this.setState({ backgroundRep: this.state.backgroundRep - 1 })
+                    handleOnChange({}, 'backgroundRemove')
+                    updateRep('backgroundRep', backgroundRep - 1)
+                    // this.setState({ backgroundRep: this.state.backgroundRep - 1 })
                 }} style={{ width: '12px', height: '12px', transform: 'rotateZ(45deg)' }} />
             </div>
             <CreateForm fields={fields} globalOnChange={handleOnChange} />
@@ -544,7 +844,7 @@ class StyleManager extends React.Component {
                     blur: newValue[3],
                     spread: newValue[4]
                 })
-                let resp = `${extractValue(newValue[1])}px ${extractValue(newValue[2])}px ${extractValue(newValue[3])}px  ${extractValue(newValue[4])}px ${newValue[0]} ${inside? 'inset' : ' '}`
+                let resp = `${extractValue(newValue[1])}px ${extractValue(newValue[2])}px ${extractValue(newValue[3])}px  ${extractValue(newValue[4])}px ${newValue[0]} ${inside ? 'inset' : ' '}`
                 onChange(resp, key, 'setArray')
             }
         }, [])
@@ -573,7 +873,7 @@ class StyleManager extends React.Component {
                     blur: newValue[3],
                     spread: newValue[4]
                 })
-                let resp = `${extractValue(newValue[1])}px ${extractValue(newValue[2])}px ${extractValue(newValue[3])}px  ${extractValue(newValue[4])}px ${newValue[0]} ${inside? 'inset' : ' '}`
+                let resp = `${extractValue(newValue[1])}px ${extractValue(newValue[2])}px ${extractValue(newValue[3])}px  ${extractValue(newValue[4])}px ${newValue[0]} ${inside ? 'inset' : ' '}`
                 onChange(resp, key, 'setArray')
             }
         }, [value])
@@ -718,7 +1018,9 @@ class StyleManager extends React.Component {
         </div>
     }
     handlechange = (key, value) => {
-        this.setState({ [key]: value })
+        this.setState({ [key]: value }, () => {
+            console.log(this.state.showBackgroundComposite, 'handle')
+        })
     }
     render() {
         const { transformKey } = this.state
@@ -1173,7 +1475,7 @@ class StyleManager extends React.Component {
                     let handleFocus = (event) => event.target.select()
                     return <div className={'line-height'}>
                         <Icons.LineHeight style={{ width: '12px', height: '12px' }} />
-                        <input onFocus={handleFocus} type={'number'} value={parseInt(value)} onChange={(e) => {
+                        <input onFocus={handleFocus} type={'number'} value={isNaN(parseInt(value))? '' : parseInt(value)} onChange={(e) => {
                             value && globalOnChange(`${e.target.value}px`)
                         }} />
                     </div>
@@ -1197,7 +1499,7 @@ class StyleManager extends React.Component {
                     let handleFocus = (event) => event.target.select()
                     return <div className={'letter-spacing'}>
                         <Icons.LetterSpacing style={{ width: '18px', height: '18px' }} />
-                        <input onFocus={handleFocus} type={'number'} value={parseInt(value)} onChange={(e) => {
+                        <input onFocus={handleFocus} type={'number'} value={isNaN(parseInt(value))? '' : parseInt(value)} onChange={(e) => {
                             (value != '' || value != null) && globalOnChange(`${e.target.value}px`)
                         }} />
                     </div>
@@ -1252,123 +1554,27 @@ class StyleManager extends React.Component {
             {
                 label: () => {
                     return (
-                        <div className={'composite-label custom-label'}>
+                        <div className={'composite-label custom-label text-shadow-composite-label'}>
                             Text Shadow
-                            <Icons.Plus onClick={() => {
-                                this.setState({ textShadowRep: this.state.textShadowRep + 1 })
-                            }} style={{ width: '12px', height: '12px' }} />
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                {/* <div className={'composite-open'} style={{ display: 'none' }}><Icons.Dropdown style={{ width: '10px', height: '10px', marginRight: '10px' }} onClick={() => { this.setState({ showTextShadowComposite: false }) }} /></div>
+                                <div className={'composite-closed'} style={{ display: 'flex' }}><Icons.RightArrow style={{ width: '10px', height: '10px', marginRight: '10px' }} onClick={() => { this.setState({ showTextShadowComposite: true }) }} /></div> */}
+                                <Icons.Plus onClick={() => {
+                                    this.setState({ textShadowRep: this.state.textShadowRep + 1 })
+                                }} style={{ width: '12px', height: '12px' }} />
+                            </div>
                         </div>
                     )
                 },
                 key: 'text-shadow',
                 type: 'composite',
                 times: this.state.textShadowRep,
+                // hiddenField: !this.state.showTextShadowComposite,
                 value: this.state.textShadowValue,
                 children: (value, key, onChange) => {
                     return <this.textShadowCompositeField {...{ value, position: key, onChange, global: this.globalOnChange, textShadowRep: this.state.textShadowRep, updateRep: this.handlechange }} />
                 }
             },
-            // {
-            //     label: () => {
-            //         return (
-            //             <div className={'composite-label custom-label'}>
-            //                 Text Shadow
-            //                 <Icons.Plus onClick={() => {
-            //                     this.setState({ textShadowRep: this.state.textShadowRep + 1 })
-            //                 }} style={{ width: '12px', height: '12px' }} />
-            //             </div>
-            //         )
-            //     },
-            //     key: 'text-shadow',
-            //     type: 'composite',
-            //     times: this.state.textShadowRep,
-            //     value: selected.node && getComputedStyle(selected.node, pseudoClass)['text-shadow'],
-            //     children: (value, key, onChange) => {
-            //         let hOffset = '0px',
-            //             vOffset = '0px',
-            //             blur = '0px',
-            //             color = '#FFFFFF'
-            //         if (value != null) {
-            //             // meane value was 'none'
-
-            //             value = value.trim().split(/ (?![^(]*\))/)
-            //             color = value[0]
-            //             hOffset = value[1]
-            //             vOffset = value[2]
-            //             blur = value[3]
-            //         }
-            //         let handleOnChange = (item, action = '') => {
-            //             switch (item.key) {
-            //                 case 'hOffset':
-            //                     if (item.value === '' || item.value === '-') {
-            //                         return
-            //                     }
-            //                     hOffset = extractValue(item.value)
-            //                     break;
-            //                 case 'vOffset':
-            //                     if (item.value === '' || item.value === '-') {
-            //                         return
-            //                     }
-            //                     vOffset = extractValue(item.value)
-            //                     break;
-            //                 case 'blur':
-            //                     if (item.value === '' || item.value === '-') {
-            //                         return
-            //                     }
-            //                     blur = extractValue(item.value)
-            //                     break;
-            //                 case 'color':
-            //                     color = item.value
-            //                     break;
-            //                 default:
-            //                     break;
-            //             }
-            //             let resp = `${extractValue(hOffset)}px ${extractValue(vOffset)}px ${extractValue(blur)}px ${color}`
-            //             onChange(resp, key, action)
-            //         }
-            //         const extractValue = (data) => {
-            //             let unit = data.replace(/[0-9]|\./gi, '')
-            //             return data.replace(unit, '')
-            //         }
-            //         const fields = [
-            //             {
-            //                 label: 'Blur',
-            //                 key: 'blur',
-            //                 type: 'integer',
-            //                 value: extractValue(blur),
-            //                 width: '30.3%',
-            //             },
-            //             {
-            //                 label: 'X',
-            //                 key: 'hOffset',
-            //                 type: 'integer',
-            //                 value: extractValue(hOffset),
-            //                 width: '30.3%',
-            //             },
-            //             {
-            //                 label: 'Y',
-            //                 key: 'vOffset',
-            //                 type: 'integer',
-            //                 value: extractValue(vOffset),
-            //                 width: '30.3%',
-            //             },
-            //             {
-            //                 key: 'color',
-            //                 type: 'picker',
-            //                 value: color,
-            //             },
-            //         ]
-            //         return <div>
-            //             <div className={'composite-cross'}>
-            //                 <Icons.Plus onClick={() => {
-            //                     handleOnChange({}, 'delete')
-            //                     this.setState({ textShadowRep: this.state.textShadowRep - 1 })
-            //                 }} style={{ width: '12px', height: '12px', transform: 'rotateZ(45deg)' }} />
-            //             </div>
-            //             <CreateForm fields={fields} globalOnChange={handleOnChange} />
-            //         </div>
-            //     }
-            // },
             {
                 type: 'divider'
             },
@@ -1378,6 +1584,7 @@ class StyleManager extends React.Component {
                 label: 'Opacity',
                 key: 'opacity',
                 labelClass: 'custom-label',
+                containerClass: 'opacity-container',
                 type: 'slider',
                 value: ((((selected.styleInfo.styles && selected.styleInfo.styles.opacity) || selected.node && getComputedStyle(selected.node, pseudoClass).opacity) || 0) * 100),
                 defaultUnit: '%',
@@ -1541,48 +1748,67 @@ class StyleManager extends React.Component {
             {
                 label: () => {
                     return (
-                        <div className={'composite-label custom-label'}>
+                        <div className={'composite-label custom-label box-shadow-composite-label'}>
                             Box Shadow
-                            <Icons.Plus onClick={() => {
-                                // this.globalOnChange({ key: 'box-shadow', value: '0px 0px 0px 0px #000000' })
-
-                                // this.setState({
-                                //     globalOnchangeCallBack: () => {
-                                //     }
-                                // })
-                                this.setState({ boxShadowRep: this.state.boxShadowRep + 1 })
-                                // this.setState({ boxShadowRep: this.state.boxShadowRep + 1 })
-                            }} style={{ width: '12px', height: '12px' }} />
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                <Icons.Plus onClick={() => {
+                                    this.setState({ boxShadowRep: this.state.boxShadowRep + 1 })
+                                }} style={{ width: '12px', height: '12px' }} />
+                                {/* <div className={'composite-open'} style={{ display: 'none' }}><Icons.Dropdown style={{ width: '10px', height: '10px', marginLeft: '10px' }} onClick={() => { this.setState({ showBoxShadowComposite: false }) }} /></div>
+                                <div className={'composite-closed'} style={{ display: 'flex' }}><Icons.RightArrow style={{ width: '10px', height: '10px', marginLeft: '10px' }} onClick={() => { this.setState({ showBoxShadowComposite: true }) }} /></div> */}
+                            </div>
                         </div>
                     )
                 },
                 key: 'box-shadow',
                 type: 'composite',
                 times: this.state.boxShadowRep,
+                // hiddenField: !this.state.showBoxShadowComposite,
                 value: this.state.boxShadowValue,
                 children: (value, key, onChange) => {
                     return <this.boxShadowCompositeField {...{ value, position: key, onChange, global: this.globalOnChange, boxShadowRep: this.state.boxShadowRep, updateRep: this.handlechange }} />
                 }
             },
-            // {
-            //     label: () => {
-            //         return (
-            //             <div className={'composite-label custom-label'}>
-            //                 Background
-            //                 <Icons.Plus onClick={() => {
-            //                     this.setState({ backgroundRep: this.state.backgroundRep + 1 })
-            //                 }} style={{ width: '12px', height: '12px' }} />
-            //             </div>
-            //         )
-            //     },
-            //     key: 'background',
-            //     type: 'composite',
-            //     times: this.state.backgroundRep,
-            //     value: this.extractBackgroundProperty(),
-            //     children: (value, key, onChange) => {
-            //         return <this.backgroundCompositeField {...{ value, key, onChange, globalOnChange: this.globalOnChange }} />
-            //     }
-            // },
+            {
+                label: () => {
+                    return (
+                        <div className={'composite-label custom-label background-composite-label'}>
+                            Background
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                <Icons.Plus onClick={() => {
+                                    let backgroundArr = this.extractBackgroundProperty()
+                                    backgroundArr.push({
+                                        image: 'url("http://grapesjs.com/img/work-desk.jpg")',
+                                        type: 'image',
+                                        position: '50% 50%',
+                                        size: 'cover',
+                                        attachment: 'scroll',
+                                        repeat: 'no-repeat',
+                                        blendMode: 'normal'
+                                    })
+                                    this.updateBackgroundProperty(backgroundArr, () => {
+                                        // this.setState({ backgroundValue: this.extractBackgroundProperty() })
+                                    })
+                                    this.setState({ backgroundRep: this.state.backgroundRep + 1, backgroundValue: backgroundArr })
+                                }} style={{ width: '12px', height: '12px' }} />
+                                {/* <div className={'composite-open'} style={{ display: 'none' }}><Icons.Dropdown style={{ width: '10px', height: '10px', marginLeft: '10px' }} onClick={() => { this.setState({ showBackgroundComposite: false }) }} /></div>
+                                <div className={'composite-closed'} style={{ display: 'flex' }}><Icons.RightArrow style={{ width: '10px', height: '10px', marginLeft: '10px' }} onClick={() => { this.setState({ showBackgroundComposite: true }) }} /></div> */}
+                            </div>
+                        </div>
+                    )
+                },
+                key: 'background',
+                type: 'composite',
+                times: this.state.backgroundRep,
+                // hiddenField: !this.state.showBackgroundComposite,
+                value: this.state.backgroundValue,
+                children: (value, key, onChange) => {
+                    return <this.backgroundCompositeField {...{ value, position: key, backgroundRep: this.state.backgroundRep, updateRep: this.handlechange, onChange, globalOnChange: this.globalOnChange }} />
+                },
+                onChange: (valArr) => {
+                    this.updateBackgroundProperty(valArr)
+                }
+            },
             {
                 type: 'divider'
             },
@@ -1600,7 +1826,7 @@ class StyleManager extends React.Component {
                 key: 'transition-property',
                 type: 'select', //required
                 value: (selected.styleInfo.styles && selected.styleInfo.styles['transition-property']) || selected.node && (getComputedStyle(selected.node, pseudoClass)['transition-property']) || 'Auto',
-                width: '63%',
+                width: '48%',
                 options: [
                     {
                         label: 'All',
@@ -1637,9 +1863,9 @@ class StyleManager extends React.Component {
                 key: 'transition-duration',
                 type: 'integer',
                 value: (selected.styleInfo.styles && selected.styleInfo.styles['transition-duration']) || selected.node && getComputedStyle(selected.node, pseudoClass)['transition-duration'],
-                defaultUnit: 's',
+                defaultUnit: 'ms',
                 unit: ['s', 'ms'],
-                width: '33%',
+                width: '48%',
             },
             {
                 label: 'Easing',

@@ -1,5 +1,13 @@
 @import "../../../assets/theme/editorTheme.scss";
 .style-panel-container {
+  div {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+  }
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -33,7 +41,7 @@
     border-bottom: 1px solid #444444;
     font-family: "Source Sans Pro";
     font-style: normal;
-    font-weight: bold;
+    font-weight: 400;
     font-size: 13px;
     line-height: 16px;
     letter-spacing: 0.04em;
@@ -241,7 +249,7 @@
       align-items: center;
       font-family: "Source Sans Pro";
       font-style: normal;
-      font-weight: 600;
+      font-weight: 400;
       font-size: 13px;
       line-height: 16px;
       color: #ffffff;
@@ -265,6 +273,7 @@
       display: flex;
       flex-direction: row;
       flex: 1;
+      cursor: pointer;
       .selected {
         background: #006cff;
         border-radius: 3px;
@@ -276,17 +285,49 @@
       .inactive {
         flex: 1;
         display: flex;
+        border-radius: 3px;
         justify-content: center;
         align-items: center;
       }
     }
-    
+    .background-composite-field {
+      font-family: "Source Sans Pro";
+      font-style: normal;
+      font-weight: normal;
+      font-size: 11px;
+      line-height: 16px;
+      .select-container {
+        .input {
+          padding: 2px 7px 2px 7px !important;
+        }
+      }
+      .choose-image-btn {
+        height: 30px;
+        width: 100%;
+        background: #444444;
+        border: 1px solid #5e5e5e;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .choose-image-btn:hover {
+        box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+      }
+    }
+    .gradient-blend-select {
+      margin-top: -6px;
+    }
     .background-type-shift-btn {
       height: 30px;
       background: #272727;
       border: 1px solid #444444;
       box-sizing: border-box;
       border-radius: 5px;
+      margin-top: 5px;
       padding: 2px;
       display: flex;
       flex-direction: row;
@@ -306,6 +347,10 @@
         align-items: center;
       }
     }
+    .background-type-shift-btn:hover {
+      cursor: pointer;
+    }
+
     .line-height,
     .letter-spacing {
       background: #272727;
@@ -463,6 +508,11 @@
         line-height: 16px;
       }
     }
+    .opacity-container {
+      .slider-container > input {
+        width: 65% !important;
+      }
+    }
     .border-radius-integer {
       display: flex;
       flex-direction: row;
@@ -529,13 +579,14 @@
           position: absolute;
           top: 0;
           color: #ffffff;
-          right: 13px;
+          right: 16px;
           display: flex;
           justify-content: center;
           align-items: center;
           height: 100%;
           flex-direction: column;
           select {
+            cursor: pointer;
             color: #ffffff;
 
             option {
@@ -559,7 +610,8 @@
       margin-left: 10px;
       padding: 9px;
     }
-    .independent-border-radius-btn-selected, .independent-border-radius-btn:hover {
+    .independent-border-radius-btn-selected,
+    .independent-border-radius-btn:hover {
       cursor: pointer;
       background: #444444;
       border: 1px solid #444444;
@@ -620,10 +672,25 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      // margin: 4px;
+      svg:hover {
+        // border-radius: 0.2px;
+        // box-shadow: 0 0 0px 5px #444444, inset 0 0 0px 5px #444444;
+        cursor: pointer;
+        path {
+          fill: #ffffff;
+        }
+      }
     }
     .composite-cross {
       display: flex;
       justify-content: flex-end;
+      > svg:hover {
+        cursor: pointer;
+        path {
+          fill: #ffffff;
+        }
+      }
     }
   }
 
