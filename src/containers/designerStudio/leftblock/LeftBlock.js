@@ -7,13 +7,12 @@ import {
 } from "../../designerStudio/panels/icons";
 import $ from "jquery";
 //import _grapesEditor from "../../../components/utils/grapesEditor";
-import { connect } from "react-redux";
-import { createPage, saveChanges } from "../../../reducers/actions/pageActions";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import PageManager from "./PageManager";
 import "react-tabs/style/react-tabs.css";
 import "./leftBlock.scss";
 import _grapesEditor from "../../../components/utils/grapesEditor";
+import LayerManager from "./LayerManager";
 
 const initialState = {
 	blocks: "none",
@@ -38,15 +37,23 @@ class LeftBlock extends Component {
 	}
 	componentDidMount() {
 		setTimeout(() => {
-			let { editor } = _grapesEditor;
-			const gjsWindow = document.getElementsByClassName('gjs-frame')[0].contentWindow
-			gjsWindow.addEventListener('mousedown', () => {
-				this.reset();
-			})
-			editor.on("component:update", () => {
+			const gjsWindow = document.getElementsByClassName("gjs-frame")[0]
+				.contentWindow;
+			gjsWindow.addEventListener("mousedown", () => {
 				this.reset();
 			});
+			/* editor.on("component:update", () => {
+				this.reset();
+			}); */
 		}, 500);
+	}
+	openLayers() {
+		let { editor } = _grapesEditor;
+		editor.runCommand("open-siteSeed-layers");
+	}
+	closeLayers() {
+		let { editor } = _grapesEditor;
+		editor.stopCommand("open-siteSeed-layers");
 	}
 	render() {
 		//const { pageReducer } = this.props;
@@ -118,14 +125,16 @@ class LeftBlock extends Component {
 				<div id='layers' style={{ display: this.state.layers }}>
 					<Tabs>
 						<TabList style={{ display: "flex" }}>
-							<Tab>
+							<Tab onClick={this.openLayers}>
 								<h4>Layers</h4>
 							</Tab>
-							<Tab>
+							<Tab onClick={this.closeLayers}>
 								<h4>Pages</h4>
 							</Tab>
 						</TabList>
-						<TabPanel>Any content 1</TabPanel>
+						<TabPanel>
+							<LayerManager />
+						</TabPanel>
 						<TabPanel>
 							<PageManager />
 						</TabPanel>

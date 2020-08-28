@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { cancel, helperIcon, upload, favicon } from "./icons";
 import Modal from "react-modal";
 import "./pageSettingModal.scss";
-import { logo } from "../panels/icons";
 
 Modal.setAppElement("#root");
 
@@ -34,15 +33,11 @@ class PageSettingModal extends Component {
 		});
 		this.props.closeModal();
 	};
-	/* handleUpdate = () => {
-		console.log("Update request");
-		this.props.sendEditPageReq(this.state.title);
-	}; */
 
 	componentDidMount = () => {
 		setTimeout(() => {
 			let { pageSetting } = this.props;
-			console.log("pageSetting ", pageSetting);
+			//console.log("pageSetting ", pageSetting);
 			if (pageSetting) {
 				this.setState({
 					title: pageSetting.name,
@@ -138,7 +133,7 @@ class PageSettingModal extends Component {
 							<img src={favicon} alt='favicon' />
 						</div>
 						<div id='upload-btn'>
-							<label for='files' className='upload-btn'>
+							<label htmlFor='files' className='upload-btn'>
 								<img src={upload} alt='upload-icon' />
 								Upload
 							</label>

@@ -462,6 +462,9 @@ const _grapesEditor = {
 		blockManager: {
 			appendTo: "#blocks",
 		},
+		layerManager: {
+			appendTo: "#layer-manager",
+		},
 		canvas: {
 			styles: [
 				// "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css",
@@ -522,6 +525,37 @@ const _grapesEditor = {
 			console.log("image dropped");
 			editor.runCommand("open-assets");
 		});
+
+		editor.on("component:update", () => {
+			setTimeout(() => {
+				$(".gjs-layer-name").attr("data-toggle-move", "true");
+				$(".gjs-layer-move").remove();
+				$(".gjs-layer-count").remove();
+			}, 110);
+		});
+
+		//for adding layer manager
+		editor.Commands.add("open-siteSeed-layers", {
+			run(editor) {
+				const lm = editor.LayerManager;
+				setTimeout(() => {
+					const newPanels = document.getElementById("layer-manager");
+					//console.log("from openSiteSeed command --> panels -->", newPanels);
+					const layers = document.createElement("div");
+					layers.appendChild(lm.render());
+					newPanels.appendChild(layers);
+					$(".gjs-layer-name").attr("data-toggle-move", "true");
+					$(".gjs-layer-move").remove();
+					$(".gjs-layer-count").remove();
+				}, 100);
+			},
+
+			stop() {
+				const layers = this.layers;
+				layers && (layers.style.display = "none");
+			},
+		});
+
 		//init style manager
 		styleManager.init(config.styles, dispatch);
 		if (cb) {

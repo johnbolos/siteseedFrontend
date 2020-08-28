@@ -8,16 +8,15 @@ import {
 	editPageSetting,
 } from "../../../reducers/actions/pageActions";
 import PageSettingModal from "./PageSettingModal";
-import $ from "jquery";
 
 class PageManager extends Component {
 	state = {
 		modalIsOpen: false,
 		pageSetting: {},
 		editPageIndex: null,
+		searchInput: "",
+		filteredPages: [],
 	};
-	//const [modalIsOpen, setIsOpen] = React.useState(false);
-	//const [pageSetting, setPageSetting] = React.useState({});
 
 	createPage = (title) => {
 		//creating new page
@@ -63,30 +62,59 @@ class PageManager extends Component {
 			}
 		);
 	};
+	handleChange = (e) => {
+		this.setState(
+			{
+				[e.target.name]: e.target.value,
+			},
+			() => {
+				let { filteredPages, searchInput } = this.state;
+				const { pageReducer } = this.props;
+				if (searchInput) {
+					filteredPages = pageReducer.pages.filter((page) =>
+						page.name.includes(searchInput)
+					);
+					this.setState({
+						filteredPages,
+					});
+				} else {
+					this.setState({
+						filteredPages: pageReducer.pages,
+					});
+				}
+			}
+		);
+	};
 	editPageRequest = (pageName) => {
 		this.props.editPage(this.state.editPageIndex, pageName);
 	};
 	componentDidMount = () => {
-		/* let parent = document.getElementById("react-tabs-3");
-		let lis = parent.getElementsByClassName("pages");
-		for (let i = 0; i < lis.length; i++) {
-			lis[i].addEventListener("click", function () {
-				let current = document.getElementsByClassName("active");
-				console.log("current active ", current[0].classList);
-
-				//current[0].className = current[0].className.replace(" active", "");
-				this.className += " active";
-			});
-		} */
+		this.setState({
+			filteredPages: this.props.pageReducer.pages,
+		});
 	};
+	componentDidUpdate(prevProps, prevState) {
+		if (prevProps.pageReducer.pages !== this.props.pageReducer.pages) {
+			this.setState({
+				filteredPages: this.props.pageReducer.pages,
+			});
+		}
+	}
 	render() {
-		const { pageReducer } = this.props;
+		const { filteredPages } = this.state;
 		return (
 			<>
 				<div>
 					<img src={search} alt='search' className='search-icon' />
-					<input type='text' placeholder='Search' />
+					<input
+						type='text'
+						placeholder='Search'
+						name='searchInput'
+						onChange={this.handleChange}
+						value={this.state.searchInput}
+					/>
 					<div
+						className='add-page'
 						onClick={() =>
 							this.setState({
 								pageSetting: {},
@@ -97,8 +125,8 @@ class PageManager extends Component {
 					</div>
 				</div>
 				<ul>
-					{pageReducer.pages &&
-						pageReducer.pages.map((pageElem, index) => (
+					{filteredPages &&
+						filteredPages.map((pageElem, index) => (
 							<li key={index} className='pages'>
 								<div onClick={() => this.changeTemplate(index)}>
 									<img src={page} alt='page' className='page' />

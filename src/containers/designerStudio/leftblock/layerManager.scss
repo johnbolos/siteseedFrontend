@@ -1,0 +1,78 @@
+#layer-manager {
+	width: 100%;
+	//margin-top: 10px;
+	background-color: #373737;
+	margin: 0px 6px 0px 6px;
+	overflow-x: scroll;
+	.gjs-one-bg,
+	.gjs-two-color {
+		color: #fff;
+		background-color: #373737;
+	}
+	.gjs-layer {
+		//margin-left: 10px; //removed to fit layers when opened in view
+	}
+	.gjs-layer.gjs-selected .gjs-layer-title {
+		background-color: #373737;
+	}
+	.gjs-layer.gjs-hovered .gjs-layer-title {
+		background-color: #373737;
+	}
+	.gjs-layer-title {
+		border: none;
+		background-color: #373737;
+		font-size: 13px;
+		font-family: "Source Sans Pro";
+		border-radius: 5px;
+	}
+	.gjs-layer-title-c {
+		border-radius: 5px;
+	}
+	.gjs-selected,   //for border on selected layer
+	.gjs-hovered {
+		border: 1px solid #006cff;
+		box-sizing: border-box;
+		border-radius: 5px;
+		background-color: #373737;
+	}
+	.gjs-layer-caret {
+		font-size: unset;
+	}
+
+	//for moving eye to right
+	.gjs-layer-vis {
+		left: unset;
+		right: 6px;
+		top: 5px;
+		color: #c0c0c0;
+	}
+
+	.gjs-layer-children {
+		.gjs-layer-vis {
+			color: #c0c0c0;
+		}
+	}
+	.fa-chevron-right,
+	.fa-chevron-down {
+		margin: -2px 0px 0px -7px;
+	}
+	.fa-chevron-right:before {
+		content: "\f0d7";
+	}
+	.fa-chevron-down:before {
+		content: "\f0d7"; // for down arrow if required
+		//content: "\f0da"; for right arrow
+	}
+
+	/* .gjs-layer__t-default {
+		margin: 1px 0px;
+	} */
+}
+.change-opacity {
+	opacity: 0.5;
+}
+
+.search-result {
+	color: "red";
+	border: "2px solid red";
+}
