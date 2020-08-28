@@ -4,6 +4,8 @@ import $ from 'jquery'
 import convert from 'color-convert'
 import Icons from '../../../../../../assets/Icons'
 import Integer from "../integer";
+import { Debounce } from "lodash-decorators/debounce";
+import CreateForm from "../../index"
 
 class Gradient extends React.Component {
     constructor(props) {
@@ -11,16 +13,20 @@ class Gradient extends React.Component {
         this.gradRef = React.createRef()
     }
     state = {
-        value: 'linear-gradient(90deg, rgba(2,0,36,1) 6%, rgba(1,87,126,1) 14%, rgba(1,56,94,1) 45%, rgba(0,141,182,1) 75%, rgba(0,212,255,1) 100%)',
+        value: 'linear-gradient(90deg, rgba(2,0,36,1) 6%, rgba(1,87,126,1) 94%)',
         dragging: false,
-        nodes: [{ left: 0 }, { left: 150 }],
+        nodes: [{ color: 'rgba(2,0,36,1)', left: 6, key: 0 }, { color: 'rgba(1,87,126,1)', left: 94, key: 1 }],
         selectedNodeKey: -1,
-        nodeWidth: 10,
-        nodeBorderWidth: 1.5
-
+        currentPickerNode: 0,
+        nodeWidth: 6,
+        nodeBorderWidth: 1,
+        direction: 0,
+        position: 0,
+        type: 'linear',
+        nodesStr: 'rgba(2,0,36,1) 6%, rgba(1,87,126,1) 94%',
     }
     componentDidMount() {
-        this.initValue(this.props.meta.value)
+        this.initValue(this.props.meta.value || this.state.value)
         window.addEventListener('mousedown', this.onMouseDown)
     }
     componentDidUpdate(prevProps, prevState) {
@@ -31,7 +37,8 @@ class Gradient extends React.Component {
             document.removeEventListener('mousemove', this.onMouseMove)
             document.removeEventListener('mouseup', this.onMouseUp)
         }
-        if ((prevProps.meta.value != this.props.meta.value)) {
+        if (this.props.meta.value && (prevState.value != this.props.meta.value) && (prevProps.meta.value != this.props.meta.value)) {
+            console.log(this.props.meta.value, 'did update')
             this.initValue(this.props.meta.value)
         }
     }
@@ -67,26 +74,40 @@ class Gradient extends React.Component {
             let mouseRelPos = this.getMouseRelPos(event)
 
             if (event.target.className.includes('grad-track')) {
-                nodes.push({ left: mouseRelPos - ((nodeWidth / 2) + nodeBorderWidth) })
-                this.setState({ nodes, selectedNodeKey: nodes.length }, () => {
+                let trackCoords = this.getCoords(document.querySelector('.grad-track'))
+                let newNode = {
+                    left: ((mouseRelPos - ((nodeWidth / 2) + nodeBorderWidth)) / trackCoords.width) * 100,
+                    key: nodes.length,
+                    color: nodes[nodes.length - 1].color
+                }
+                nodes.push(newNode)
+                nodes = _.sortBy(nodes, (o) => o.left)
+                let nodesStr = nodes.map(item => `${item.color} ${item.left}%`)
+                nodesStr = nodesStr.join(', ')
+                this.setState({ nodes, nodesStr, selectedNodeKey: newNode.key, currentPickerNode: newNode.key }, () => {
                 })
             } else if (event.target.className.includes('grad-node')) {
-                this.setState({ selectedNodeKey: event.target.className.replace('grad-node-', '') }, () => {
+                this.setState({ selectedNodeKey: event.target.className.replace('grad-node-', ''), currentPickerNode: event.target.className.replace('grad-node-', '') }, () => {
                 })
             }
         }
-        event.stopPropagation()
-        event.preventDefault()
+        // event.stopPropagation()
+        // event.preventDefault()
     }
     onMouseUp = (e) => {
-        this.setState({ dragging: false })
-        e.stopPropagation()
-        e.preventDefault()
+        const { nodes } = this.state
+        let resp = nodes.map(item => `${item.color} ${item.left}%`)
+        resp = resp.join(', ')
+        this.onChange(resp, 'nodesStr')
+        this.setState({ dragging: false, selectedNodeKey: -1 })
+        // e.stopPropagation()
+        // e.preventDefault()
     }
     onMouseMove = (e) => {
         if (!this.state.dragging) return
         let { nodes, selectedNodeKey, nodeWidth, nodeBorderWidth } = this.state
-        if (nodes[selectedNodeKey]) {
+        let currentNodeKey = _.findIndex(nodes, (item) => item.key == selectedNodeKey)
+        if (nodes[currentNodeKey]) {
             let mouseRelPos = this.getMouseRelPos(e)
             let trackCoords = this.getCoords(document.querySelector('.grad-track'))
             let position = mouseRelPos - ((nodeWidth / 2) + nodeBorderWidth)
@@ -96,16 +117,16 @@ class Gradient extends React.Component {
             if (position > (trackCoords.width - 10)) {
                 position = trackCoords.width - 10
             }
-            nodes[selectedNodeKey].left = position
-            this.setState({ nodes }, () => {
+            nodes[currentNodeKey].left = (position / trackCoords.width) * 100
+            this.setState({ nodes: _.sortBy(nodes, (o) => o.left) }, () => {
+                // convert nodes array to gradient string
             })
         }
-        e.stopPropagation()
-        e.preventDefault()
+        // e.stopPropagation()
+        // e.preventDefault()
     }
     initValue = (value) => {
-        value = 'linear-gradient(90deg, rgba(2,0,36,1) 6%, rgba(1,87,126,1) 14%, rgba(1,56,94,1), rgba(0,141,182,1) 75%, rgba(0,212,255,1) 100%)'
-
+        const { nodeBorderWidth, nodeWidth } = this.state
         const evaluateDirection = (dirStr) => {
             const switchFunc = (comp) => {
                 switch (comp) {
@@ -135,13 +156,20 @@ class Gradient extends React.Component {
         }
         let type = 'linear'
         let direction = 0
+        let position = 0
+        let trackCoords = this.getCoords(document.querySelector('.grad-track'))
         if (value.includes('radial')) {
             type = 'radial'
         }
         value = value.substring(value.indexOf('(') + 1, value.lastIndexOf(')'))
         value = value.split(/,(?![^(]*\))(?![^"']*["'](?:[^"']*["'][^"']*["'])*[^"']*$)/)
-        if (value[0].includes('to') || value[0].includes('deg')) {
-            direction = evaluateDirection(value[0])
+        if (value[0].includes('to') || value[0].includes('at') || value[0].includes('deg')) {
+            if (value[0].includes('at')) {
+                let pos = value[0].substr(value[0].search(/[0-9]|\./))
+                position = isNaN(parseInt(pos)) ? 0 : parseInt(pos)
+            } else {
+                direction = evaluateDirection(value[0])
+            }
             value.shift()
         }
         let nodes = value.map((val, key) => {
@@ -149,38 +177,101 @@ class Gradient extends React.Component {
             if (val.length == 1) {
                 // no position
                 return {
-                    color: val[0]
+                    color: val[0],
+                    key: key,
+                }
+            }
+            if (parseInt(val[1]) == 100) {
+                return {
+                    color: val[0],
+                    key: key,
+                    left: parseFloat(val[1]) - ((((nodeWidth)) / trackCoords.width) * 100)
                 }
             }
             return {
                 color: val[0],
+                key: key,
                 left: parseFloat(val[1])
             }
         })
-        const getClosestWithLeft = (nodes, currentKey, direction) => {
+        const getClosest = (nodes, currentKey, direction) => {
             if (nodes[currentKey] && nodes[currentKey].left) {
-                return {node: nodes[currentKey], key: currentKey}
+                return { node: nodes[currentKey], key: currentKey }
             }
             currentKey = currentKey + direction
-            return getClosestWithLeft(nodes, currentKey, direction)
+            return getClosest(nodes, currentKey, direction)
         }
         nodes.forEach((item, key) => {
             if (!item.left) {
                 if (key == 0) {
                     item.left = 0
                 } else if (key == nodes.length - 1) {
-                    item.left = 100
+                    item.left = 100 - ((((nodeWidth / 2) + nodeBorderWidth) / trackCoords.width) * 100)
                 } else {
-                    let lowerLimit = getClosestWithLeft(nodes, key, -1)
-                    let upperLimit = getClosestWithLeft(nodes, key, 1)
-                    item.left = (lowerLimit.node.left + (upperLimit.node.left - lowerLimit.node.left)/(upperLimit.key - lowerLimit.key))
+                    let lowerLimit = getClosest(nodes, key, -1)
+                    let upperLimit = getClosest(nodes, key, 1)
+                    item.left = (lowerLimit.node.left + (upperLimit.node.left - lowerLimit.node.left) / (upperLimit.key - lowerLimit.key))
                 }
             }
         })
-        this.setState({ value })
-    }
-    onChange = (val, key) => {
+        nodes = _.sortBy(nodes, (o) => o.left)
+        let nodesStr = nodes.map(item => `${item.color} ${item.left}%`)
+        nodesStr = nodesStr.join(', ')
+        this.setState({ nodes, nodesStr, direction, type, position, currentPickerNode: 0 }, () => {
 
+        })
+    }
+
+	// @Debounce(1000)
+    onChange = (val, key) => {
+        const { globalOnChange } = this.props
+        // key = node || direction || type
+        let { type, nodes, direction, position, nodesStr, currentPickerNode } = this.state
+        let gradient = [
+            `${type}-gradient(`,
+            `${type === 'linear' ? this.extractValue(`${direction}`) + 'deg' : 'circle at ' + (this.extractValue(`${position}`) + '% ' + this.extractValue(`${position}`) + '%')}, `,
+            nodesStr,
+            ')'
+        ]
+        switch (key) {
+            case 'colorPicker':
+                let nodeIndex = _.findIndex(nodes, (item) => item.key == currentPickerNode)
+                nodes[nodeIndex].color = val
+                nodesStr = nodes.map(item => `${item.color} ${item.left}%`)
+                nodesStr = nodesStr.join(', ')
+                gradient[2] = nodesStr
+                this.setState({ nodes, nodesStr })
+                break;
+            case 'nodesStr':
+                gradient[2] = val
+                break;
+            case 'direction':
+                gradient[1] = this.extractValue(`${val}`) + 'deg,'
+                break;
+            case 'position':
+                gradient[1] = 'circle at ' + (this.extractValue(`${val}`) + '% ' + this.extractValue(`${val}`) + '%,')
+                break;
+            case 'type':
+                gradient[0] = `${val}-gradient(`
+                gradient[1] = 'circle at ' + (this.extractValue(`${position}`) + '% ' + this.extractValue(`${position}`) + '%,')
+                break;
+            default:
+                break;
+        }
+        this.setState({ value: gradient.join(''), [key]: val }, () => {
+            globalOnChange && globalOnChange(gradient.join(''))
+        })
+    }
+    extractValue = (data) => {
+        let unit = data.replace(/[0-9]|\.|-/gi, '')
+        return data.replace(unit, '')
+    }
+    getCurrentNodeColor = () => {
+        const { nodes, currentPickerNode } = this.state
+        console.log(nodes, currentPickerNode)
+        let nodeIndex = _.findIndex(nodes, (item) => item.key == currentPickerNode)
+        if (nodeIndex == -1) return '#444444'
+        return nodes[nodeIndex].color
     }
     render() {
         const {
@@ -192,12 +283,55 @@ class Gradient extends React.Component {
             },
             globalOnChange //complete form specific change
         } = this.props
-        const { value, nodes, nodeWidth, nodeBorderWidth } = this.state
+        const { value, nodes, nodesStr, currentPickerNode, nodeWidth, nodeBorderWidth } = this.state
+        const fields = [
+            {
+                key: 'colorPicker',
+                type: 'picker',
+                value: this.getCurrentNodeColor(),
+            },
+            {
+                label: 'Direction',
+                key: 'direction',
+                hidden: !(this.state.type === 'linear'),
+                type: 'integer',
+                stopScrollValue: true,
+                value: this.state.direction,
+                defaultUnit: 'deg',
+                width: '48%',
+            },
+            {
+                label: 'Position',
+                key: 'position',
+                hidden: !!(this.state.type === 'linear'),
+                type: 'integer',
+                scrolstopScrollValuelValue: true,
+                value: this.state.position,
+                defaultUnit: '%',
+                width: '48%',
+            },
+            {
+                label: 'Type',
+                key: 'type',
+                type: 'select', //required
+                value: this.state.type,
+                width: '48%',
+                options: [  //optional type: Array of string, Array of objects
+                    {
+                        label: 'Linear',
+                        value: 'linear'
+                    },
+                    {
+                        label: 'Radial',
+                        value: 'radial'
+                    },
+                ],
+            }
+        ]
         return (
-            <div>
-                Gradient
+            <div className={'gradient'}>
                 <div className={'nodes-container'} ref={this.gradRef} style={{ position: 'relative', width: '100%', display: 'flex', alignItems: 'center' }}>
-                    <div className={'grad-track'} style={{ border: '1px solid white', width: '100%', height: '20px', marginTop: '0.5px', marginBottom: '1.5px', backgroundImage: value }}>
+                    <div className={'grad-track'} style={{ border: '1px solid #444444', borderRadius: '2px', width: '100%', height: '10px', marginTop: '0.5px', marginBottom: '1.5px', backgroundImage: `linear-gradient(90deg,${nodesStr})` }}>
                     </div>
 
                     {/* <div className={'grad-node'} style={{ border: `${nodeBorderWidth}px solid white`, borderRadius: '20%', width: `${nodeWidth}px`, height: '100%', position: 'absolute', top: 0, left: 0 }}>
@@ -208,13 +342,14 @@ class Gradient extends React.Component {
                     </div> */}
                     {
                         nodes.map((item, key) => {
-                            return <div className={'grad-node-' + key} style={{ border: `${nodeBorderWidth}px solid white`, borderRadius: '20%', width: `${nodeWidth}px`, height: '100%', position: 'absolute', top: 0, left: item.left + 'px' }}>
+                            return <div className={'grad-node-' + item.key} style={{ border: `${nodeBorderWidth}px solid #FFFFFF`, borderRadius: '2px', width: `${nodeWidth}px`, height: '12px', position: 'absolute', top: 0, left: item.left + '%', backgroundColor: item.color, cursor: 'pointer' }}>
 
                             </div>
                         })
                     }
                 </div>
-                {JSON.stringify(value)}
+                <CreateForm fields={fields} globalOnChange={(item, formData) => { this.onChange(item.value, item.key) }} />
+                {/* {JSON.stringify(value)} */}
             </div>
         )
     }

@@ -82,6 +82,9 @@ class Select extends React.Component {
                         }}
                     >
                         {options.map((item, key) => {
+                            if (item.type == 'divider') {
+                                return <div className={'list-divider'}></div>
+                            }
                             let child = null
                             if (typeof (item) === 'string') {
                                 child = <>{

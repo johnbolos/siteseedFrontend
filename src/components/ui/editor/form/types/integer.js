@@ -1,17 +1,27 @@
 import React from "react"
 import _ from 'lodash'
+import $ from 'jquery'
 
 import Icons from '../../../../../assets/Icons'
 
 class Integer extends React.Component {
     constructor(props) {
         super(props);
+        this.inputRef = React.createRef()
     }
     state = {
         value: '',
         unitValue: this.props.meta.defaultUnit || ''
     }
     componentDidMount() {
+        if (this.props.meta.stopScrollValue) {
+            $('.no-scroll').on('mousewheel', function (e) { $(this).blur() })
+            $('.no-scroll').on('keydown', function (e) {
+                if (e.which === 38 || e.which === 40) {
+                    e.preventDefault();
+                }
+            })
+        }
         this.initValue()
         this.setState({ unitValue: this.props.meta.defaultUnit || '' })
     }
@@ -56,6 +66,7 @@ class Integer extends React.Component {
                 unit,
                 step,
                 disabled,
+                stopScrollValue,
                 onChange, //form item specific change
                 // rules,
                 // multiple,
@@ -66,9 +77,11 @@ class Integer extends React.Component {
         return (
             <div className={'integer-container'} style={disabled ? { pointerEvents: 'none' } : {}}>
                 <input type="number" name="int"
+                    ref={this.inputRef}
                     value={disabled ? '' : value}
                     onFocus={this.handleFocus}
                     disabled={disabled}
+                    className={stopScrollValue ? 'no-scroll' : ''}
                     placeholder={(value == '' || disabled) ? 'Auto' : (isNaN(value) ? _.startCase(value) : '')}
                     onChange={(e) => {
                         this.onChange(e.target.value)

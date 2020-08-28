@@ -42,6 +42,10 @@
           background: transparent;
           cursor: pointer;
         }
+        // .btn:hover {
+        //   border-radius: 5px;
+        //   background-color: #3d3d3d;
+        // }
         .btn-active {
           flex: 1;
           justify-content: center;
@@ -131,11 +135,14 @@
           }
         }
       }
-
-
-      .integer-container:has(.unit-select) {
-        background-color: red;
+      .select-container:hover {
+        box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
+        cursor: pointer;
       }
+
+      // .integer-container:has(.unit-select) {
+      //   background-color: red;
+      // }
       .integer-container {
         height: 30px;
         position: relative;
@@ -197,7 +204,7 @@
           position: absolute;
           top: 0;
           color: #ffffff;
-          right: 13px;
+          right: 16px;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -208,6 +215,7 @@
             padding-right: 30px;
           }
           select {
+            cursor: pointer;
             color: #ffffff;
 
             option {
@@ -225,10 +233,11 @@
 
         .slider {
           display: flex;
-          width: 65%;
+          width: 75%;
         }
         .value {
           display: flex;
+          justify-content: center;
           flex: 1;
           margin-left: 10px;
           font-family: "Source Sans Pro";
@@ -313,27 +322,47 @@
           height: 100%;
           flex-direction: column;
           select {
+            cursor: pointer;
             color: #ffffff;
           }
         }
       }
 
       .composite-container {
-        border: 1px solid #272727;
+        // border: 1px solid #272727;
         box-sizing: border-box;
         border-radius: 5px;
-        padding: 2px;
+        // padding: 2px;
 
         .composite-elements {
-          background: #272727;
+          // background: #272727;
           box-sizing: border-box;
           border-radius: 5px;
-          padding: 5px;
-          margin: 5px;
+          // border: 1px solid #272727;
+          // padding: 5px;
+          margin-top: 5px;
 
           .list-container {
             padding: 10px 5px 10px 5px;
+            .list-divider {
+              width: 100%;
+              height: 0px;
+              border: 1px solid #444444;
+              margin: 14px 0px 15px 0px;
+            }
           }
+        }
+      }
+      .composite-container-hidden {
+        box-sizing: border-box;
+        border-radius: 5px;
+        display: none;
+      }
+
+      .gradient {
+        .nodes-container {
+          margin-bottom: 9px;
+          margin-top: 3px;
         }
       }
     }
