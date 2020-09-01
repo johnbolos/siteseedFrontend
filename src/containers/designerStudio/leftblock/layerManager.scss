@@ -11,6 +11,7 @@
 	}
 	.gjs-layer {
 		//margin-left: 10px; //removed to fit layers when opened in view
+		border: 1px solid transparent;
 	}
 	.gjs-layer.gjs-selected .gjs-layer-title {
 		background-color: #373737;
@@ -64,9 +65,10 @@
 		//content: "\f0da"; for right arrow
 	}
 
-	/* .gjs-layer__t-default {
-		margin: 1px 0px;
-	} */
+	// .gjs-layer__t-default {
+	// 	// margin: 1px 0px;
+	// 	border: 1px solid transparent;
+	// }
 }
 .change-opacity {
 	opacity: 0.5;

@@ -14,6 +14,7 @@ import { ReactComponent as Layers } from "./left-pane/layers.svg";
 import { ReactComponent as Comment } from "./left-pane/Comment.svg";
 import { ReactComponent as RightArrowSkeleton } from "./left-pane/right-arrow.svg";
 import { ReactComponent as Tip } from "./tip.svg";
+
 import { ReactComponent as Dropdown } from "./right-pane/Dropdown.svg";
 import { ReactComponent as Plus } from "./right-pane/Plus.svg";
 import { ReactComponent as Cross } from "./right-pane/Cross.svg";
@@ -52,6 +53,10 @@ import { ReactComponent as BackgroundImage } from "./right-pane/backgroundImage.
 import { ReactComponent as BackgroundColor } from "./right-pane/backgroundColor.svg";
 import { ReactComponent as BackgroundGradient } from "./right-pane/backgroundGradient.svg";
 import { ReactComponent as CompositeCollapse } from "./right-pane/compositeCollapse.svg";
+
+import { ReactComponent as ModalCross } from "./modal/cross.svg";
+import { ReactComponent as Loading } from "./modal/loading.svg";
+import { ReactComponent as CircularTick } from "./modal/tick.svg";
 
 export default {
 	Dropdown,
@@ -92,4 +97,8 @@ export default {
 	BackgroundColor,
 	BackgroundGradient,
 	CompositeCollapse,
+	// modal icons
+	ModalCross,
+	Loading,
+	CircularTick
 }

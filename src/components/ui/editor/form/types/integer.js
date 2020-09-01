@@ -86,7 +86,7 @@ class Integer extends React.Component {
                     onChange={(e) => {
                         this.onChange(e.target.value)
                     }}
-                    style={disabled ? { background: 'rgba(59, 59, 59, 0.3)', paddingRight: unit || defaultUnit ? '25px' : '15px' } : { paddingRight: unit || defaultUnit ? '25px' : '15px' }}
+                    style={disabled ? { background: 'rgba(59, 59, 59, 0.3)', paddingRight: unit || defaultUnit ? '30px' : '15px' } : { paddingRight: unit || defaultUnit ? '30px' : '15px' }}
                 />
                 {
                     unit &&

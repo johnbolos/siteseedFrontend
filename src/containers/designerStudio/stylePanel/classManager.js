@@ -154,7 +154,8 @@ class ClassManager extends React.Component {
             <div className={'classes-container'}>
                 <div className={'heading'}>Classes</div>
                 <div className={'input'}>
-                    <div style={{ width: '90%', height: '100%', display: 'flex', alignItems: 'center' }}>
+                    {/* <div style={{ width: '90%', height: '100%', display: 'flex', alignItems: 'center' }}> */}
+                    <div style={{ width: '90%', height: '100%', display: 'flex' }}>
                         <div className={'addBtn'} onClick={!(selected && selected.node == null) && this.toggleAddClass}>
                             <Icons.Plus className={'add-class-icon'} style={{ width: '9px', height: '9px' }} />
                         </div>

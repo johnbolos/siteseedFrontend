@@ -1,0 +1,119 @@
+.assets-manager {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  z-index: 5;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  .assets-modal {
+    height: 579px;
+    width: 1062px;
+    position: relative;
+    overflow: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: #373737;
+    border-radius: 5px;
+    > svg {
+      position: absolute;
+      right: 11px;
+      top: 11px;
+    }
+    > svg:hover {
+      cursor: pointer;
+    }
+    .upload-container {
+      width: 240px;
+      height: 100%;
+      background: #444444;
+      border-radius: 5px 0px 0px 5px;
+      display: flex;
+      flex-direction: column;
+      .title {
+        font-family: Source Sans Pro;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 20px;
+        padding: 13px 20px;
+        border-bottom: 1px solid #5e5e5e;
+      }
+      .img-drop-area {
+        display: flex;
+        flex: 1;
+        justify-content: center;
+        align-items: center;
+        .content {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          .content1 {
+            font-size: 16px;
+            line-height: 20px;
+          }
+          .content2 {
+            text-align: center;
+            font-size: 11px;
+            line-height: 14px;
+            margin-top: 6px;
+          }
+          .content3 {
+            margin: 12px;
+          }
+
+          .assets-upload-btn {
+            background: #006cff;
+            border-radius: 5px;
+            padding: 12px 22px;
+            font-weight: 600;
+            font-size: 13px;
+            line-height: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            > svg {
+              circle {
+                stroke: #ffffff;
+              }
+            }
+          }
+        }
+      }
+      .img-drop-area.adding-image-highlight {
+        border: 5px dashed #5e5e5e;
+      }
+    }
+
+    .main-container {
+      flex: 1;
+      height: 100%;
+      padding: 46px 56px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      .image-container {
+        width: 223px;
+        height: 149px;
+        border: 5px solid #444444;
+        border-radius: 5px;
+        background-color: #444444;
+        position: relative;
+        .selected-icon {
+          position: absolute;
+          right: 5px;
+          top: 2px;
+        }
+      }
+    }
+  }
+}
