@@ -7,6 +7,7 @@ import panels from "../../../containers/designerStudio/panels";
 // import "grapesjs-preset-webpage";
 import $ from "jquery";
 import styleManager from "./styleManager";
+import { openAssets } from '../../../reducers/actions/editor'
 
 import "./index.scss";
 import { svg } from "../index";
@@ -467,7 +468,7 @@ const _grapesEditor = {
 		},
 		canvas: {
 			styles: [
-				// "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css",
+				"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css",
 			],
 			scripts: [
 				"https://code.jquery.com/jquery-3.3.1.slim.min.js",
@@ -521,6 +522,12 @@ const _grapesEditor = {
 		editor.on("modal:open", () => {
 			console.log("modal opened");
 		});
+		editor.Commands.add('open-assets', {
+			run(editor, sender, opts = {}) {
+				dispatch(openAssets({ type: 'image', imageAssetsTarget: opts.target }))
+				// opts.target.set('src', 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg')
+			}
+		})
 		editor.on("component:image:add", () => {
 			console.log("image dropped");
 			editor.runCommand("open-assets");
@@ -585,8 +592,8 @@ const _grapesEditor = {
 				message: tag
 					? `Please add '${tag}' tag, to export correctly`
 					: `Please add '${
-							start + "' and '" + end
-					  }' identifer, to export correctly`,
+					start + "' and '" + end
+					}' identifer, to export correctly`,
 			};
 		let header = html.substring(startIndex, endIndex);
 		return {

@@ -85,6 +85,9 @@ class Select extends React.Component {
                             if (item.type == 'divider') {
                                 return <div className={'list-divider'}></div>
                             }
+                            if (item.type && item.type == 'custom') {
+                                return <>{item.render()}</>
+                            }
                             let child = null
                             if (typeof (item) === 'string') {
                                 child = <>{

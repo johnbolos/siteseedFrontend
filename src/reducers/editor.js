@@ -3,22 +3,33 @@ const initialState = {
   assetsManager: false,
   assets: {
     image: [
-      'https://grapesjs.com/img/work-desk.jpg',
-      'https://i.ytimg.com/vi/hF_LjTUvP-U/maxresdefault.jpg',
-      'https://r1.ilikewallpaper.net/iphone-x-wallpapers/download/78985/joker-2019-movie-iphone-x-wallpaper-ilikewallpaper_com_200.jpg',
-      'https://grapesjs.com/img/work-desk.jpg',
-      'https://i.ytimg.com/vi/hF_LjTUvP-U/maxresdefault.jpg',
-      'https://r1.ilikewallpaper.net/iphone-x-wallpapers/download/78985/joker-2019-movie-iphone-x-wallpaper-ilikewallpaper_com_200.jpg',
-      'https://grapesjs.com/img/work-desk.jpg',
-      'https://i.ytimg.com/vi/hF_LjTUvP-U/maxresdefault.jpg',
-      'https://r1.ilikewallpaper.net/iphone-x-wallpapers/download/78985/joker-2019-movie-iphone-x-wallpaper-ilikewallpaper_com_200.jpg',
-      'https://grapesjs.com/img/work-desk.jpg',
+      'http://grapesjs.com/img/work-desk.jpg',
       'https://i.ytimg.com/vi/hF_LjTUvP-U/maxresdefault.jpg',
       'https://r1.ilikewallpaper.net/iphone-x-wallpapers/download/78985/joker-2019-movie-iphone-x-wallpaper-ilikewallpaper_com_200.jpg',
     ],
-    fonts: ['']
+    fonts: [
+      'Abel',
+      'Allerta',
+      'Amarnth',
+      'Amatic SC',
+      'Anton',
+      'Arimo',
+      'Arvo',
+      'Asap',
+      'Bitter',
+      'Black Ops One',
+      'Bree Serif',
+      'Cabin',
+      'Cabin Condensed',
+      'Calligraffitti',
+      'Cantarell',
+      'Cardo',
+      'Changa One',
+    ]
   },
+  googleFonts: [],
   imageAssetsTarget: null,
+  backgroundImage: null,
   theme: 'dark'
 }
 
@@ -45,19 +56,35 @@ export default (state = initialState, action) => {
       if (action.options.imageAssetsTarget) {
         resp.imageAssetsTarget = action.options.imageAssetsTarget
       }
+      if (action.options.backgroundImage) {
+        resp.backgroundImage = action.options.backgroundImage
+      }
       return resp
 
     case 'CLOSE_ASSETS':
       return {
         ...state,
         assetsManager: false,
-        imageAssetsTarget: null
+        imageAssetsTarget: null,
+        backgroundImage: null,
+      }
+
+    case 'SET_BACKGROUND_IMAGE':
+      return {
+        ...state,
+        backgroundImage: action.value
       }
 
     case 'UPDATE_ASSETS':
       return {
         ...state,
         assets: action.value
+      }
+
+    case 'SET_GOOGLE_FONTS':
+      return {
+        ...state,
+        googleFonts: action.value
       }
 
     default:

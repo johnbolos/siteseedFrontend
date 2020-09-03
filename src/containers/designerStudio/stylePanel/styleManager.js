@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react"
-import { connect } from "react-redux"
+import { connect, useSelector, useDispatch } from "react-redux"
 import _ from 'lodash'
 import Async from 'async'
 import shortid from 'shortid'
 
 import "./index.scss"
+import Request from '../../../request'
 import { setEditorStyleData, setStyleStr } from "../../../reducers/actions/editorHistoryActions";
+import { openAssets } from "../../../reducers/actions/editor"
 import _grapesEditor from "../../../components/utils/grapesEditor"
 import { customEvents } from '../../../components/utils/grapesEditor/styleManager'
 import Icons from '../../../assets/Icons'
@@ -25,20 +27,26 @@ class StyleManager extends React.Component {
             scaleX: '1',
             scaleY: '1'
         },
+        fontOptions: [],
         integratedBorderRadius: true,
         boxShadowRep: 0,
         boxShadowValue: this.props.selected.node && getComputedStyle(this.props.selected.node, this.props.pseudoClass)['box-shadow'],
         textShadowValue: this.props.selected.node && getComputedStyle(this.props.selected.node, this.props.pseudoClass)['text-shadow'],
         textShadowRep: 0,
         backgroundRep: 0,
+        // backgroundValue: [],
         // showBackgroundComposite: false,
         // showBoxShadowComposite: false,
         // showTextShadowComposite: false
     }
     componentDidMount() {
+        this.getFonts()
     }
     componentDidUpdate(prevProps, prevState) {
         const { selected, pseudoClass } = this.props
+        if (prevProps.assetsManager != this.props.assetsManager) {
+            this.getFonts()
+        }
         // this.setcompositeHidden(prevState)
         if (prevProps.selected != this.props.selected) {
             // this.forceUpdate()
@@ -79,7 +87,6 @@ class StyleManager extends React.Component {
         this.handlechange('backgroundRep', ((value[0] && value[0].color !== 'rgba(0, 0, 0, 0)') || value.length > 1) ? value.length : 0)
 
         value = (selected.node && getComputedStyle(selected.node, pseudoClass)['box-shadow'] || 'none').split(/,(?![^(]*\))/)
-        // console.log((value[0] !== 'none'), value, 'chicking backgourn box')
         this.handlechange('boxShadowRep', (value[0] !== 'none') ? value.length : 0)
 
         value = (selected.node && getComputedStyle(selected.node, pseudoClass)['text-shadow'] || 'none').split(/,(?![^(]*\))/)
@@ -89,7 +96,6 @@ class StyleManager extends React.Component {
         const { selected, editorNode, pseudoClass, styleObj, dispatch } = this.props
         const { transformValue } = this.state
         let item = _.clone(obj)
-        console.log(item, 'globalOnChange')
         if (new RegExp(/X|Y|Z/).test(item.key)) {
             transformValue[`${this.state.transformKey}${item.key}`] = item.value
             item.key = 'transform'
@@ -110,6 +116,11 @@ class StyleManager extends React.Component {
             } else {
                 item.value = parseFloat(item.value) / 100
             }
+        }
+        if (item.key == 'font-family') {
+            item.value = item.value.trim()
+            item.value = item.value.replace(/\+/gi, ' ')
+            console.log(item.value)
         }
         if (!selected.node) {
             return
@@ -175,6 +186,8 @@ class StyleManager extends React.Component {
             // this.setCompositeRep()
             if (item.key === 'text-shadow') {
                 this.setState({ textShadowValue: selected.node && getComputedStyle(selected.node, pseudoClass)['text-shadow'] })
+            } else if (item.key === 'background-position') {
+                this.setState({ backgroundValue: this.extractBackgroundProperty() })
             }
             this.state.globalOnchangeCallBack && this.state.globalOnchangeCallBack()
         })
@@ -245,7 +258,12 @@ class StyleManager extends React.Component {
                         array.push(result[1].trim() + '(' + recurse().join(',') + ')');
                         result = token.exec(string);
                     } else array.push(result[1].trim());
-                    if (result[2] != ',') return array
+                    if (result[2] != ',') {
+                        if (result[2] == ')' && result[1][result[1].length - 1] == '%') {
+                            array[array.length - 1] += result[1];
+                        }
+                        return array
+                    }
                     else if (result[2] == ',' && result[1][result[1].length - 1] == '%') {
                         array[array.length - 1] += result[1];
                     }
@@ -258,9 +276,7 @@ class StyleManager extends React.Component {
             }
         }
 
-        console.log(backgroundImage, 'before')
         backgroundImage = split(backgroundImage)
-        console.log(backgroundImage, 'after')
         backgroundRepeat = backgroundRepeat.split(',')
         backgroundBlendMode = backgroundBlendMode.split(',')
         backgroundPosition = backgroundPosition.split(',')
@@ -281,7 +297,6 @@ class StyleManager extends React.Component {
                 value.push(imageDetails)
             }
         })
-        console.log(value, 'bcakgroundValue')
         return value
     }
     updateBackgroundProperty = (valArr, cb = () => { }) => {
@@ -324,10 +339,33 @@ class StyleManager extends React.Component {
     }
     backgroundCompositeField({ value, position: key, backgroundRep, updateRep, onChange, globalOnChange }) {
         // const { backgroundKey } = this.state
-        const [state, setState] = useState({ backgroundKey: 'image' })
+        const [state, setState] = useState({ backgroundKey: 'image', selecting: -1 })
         let { backgroundKey } = state
-        useEffect((prevValue) => {
-            if (value) setState({ ...state, backgroundKey: value.type })
+        const { backgroundImage, assetsManager } = useSelector(
+            ({ editor }) => ({
+                backgroundImage: editor.backgroundImage,
+                assetsManager: editor.assetsManager
+            })
+        )
+        const dispatch = useDispatch()
+        useEffect(() => {
+            if (value && backgroundImage && state.selecting == key) {
+                let valueStr = value.image
+                valueStr = valueStr.replace(/url\(|"|'|\)/gi, '')
+                if (valueStr != backgroundImage) {
+                    handleOnChange({ key: 'image', value: `url(${backgroundImage})` })
+                }
+            }
+        }, [backgroundImage])
+        useEffect(() => {
+            if (!!!assetsManager) {
+                setState({ ...state, selecting: -1 })
+            }
+        }, [assetsManager])
+        useEffect(() => {
+            if (value) {
+                setState({ ...state, backgroundKey: value.type, position: value.position })
+            }
         }, [value])
         let handleOnChange = (item, action = '') => {
             if (action === 'backgroundRemove') {
@@ -346,18 +384,18 @@ class StyleManager extends React.Component {
             }
             val = val.trim()
             val = val.split(' ')
-            let resp = ['center', 'center']
+            let resp = val
             val.forEach((x, index) => {
                 x = parseInt(x)
                 switch (x) {
                     case 0:
-                        resp[index] = index == 0 ? 'top' : 'left'
+                        resp[index] = index == 0 ? 'left' : 'top'
                         break;
                     case 50:
                         resp[index] = 'center'
                         break;
                     case 100:
-                        resp[index] = index == 0 ? 'bottom' : 'right'
+                        resp[index] = index == 0 ? 'right' : 'bottom'
                         break;
                     default:
                         break;
@@ -492,7 +530,11 @@ class StyleManager extends React.Component {
                 type: 'custom',
                 inline: true,
                 render: (value, globalOnChange) => {
-                    return <div className={'choose-image-btn'} onClick={() => { }}>
+                    return <div className={'choose-image-btn'} onClick={() => {
+                        setState({ ...state, selecting: key })
+                        value = value.replace(/url\(|"|'|\)/gi, '')
+                        dispatch(openAssets({ type: 'imageBackground', backgroundImage: value }))
+                    }}>
                         Choose image
                     </div>
                 }
@@ -532,47 +574,47 @@ class StyleManager extends React.Component {
                 ],
             },
             {
-                label: 'Position (Y X)',
+                label: 'Position (X Y)',
                 key: 'position',
                 type: 'select', //required
-                value: extractPropertyValue(value && value.position),
+                value: value ? extractPropertyValue(state.position) : 'center center',
                 width: '48%',
                 options: [  //optional type: Array of string, Array of objects
                     {
-                        label: 'Top Left',
-                        value: 'top left'
+                        label: 'Left Top',
+                        value: 'left top'
                     },
                     {
-                        label: 'Center Left',
-                        value: 'center left'
+                        label: 'Left Center',
+                        value: 'left center'
                     },
                     {
-                        label: 'Bottom Left',
-                        value: 'bottom left'
+                        label: 'Left Bottom',
+                        value: 'left bottom'
                     },
                     {
-                        label: 'Top Center',
-                        value: 'top center'
+                        label: 'Center Top',
+                        value: 'center top'
                     },
                     {
                         label: 'Center Center',
                         value: 'center center'
                     },
                     {
-                        label: 'Bottom Center',
-                        value: 'bottom center'
+                        label: 'Center Bottom',
+                        value: 'center bottom'
                     },
                     {
-                        label: 'Top Right',
-                        value: 'top right'
+                        label: 'Right Top',
+                        value: 'right top'
                     },
                     {
-                        label: 'Center Right',
-                        value: 'center right'
+                        label: 'Right Center',
+                        value: 'right center'
                     },
                     {
-                        label: 'Bottom Right',
-                        value: 'bottom right'
+                        label: 'Right Bottom',
+                        value: 'right bottom'
                     },
                 ],
             },
@@ -694,7 +736,6 @@ class StyleManager extends React.Component {
         }, [])
 
         useEffect(() => {
-            console.log(value, 'show value composite')
             if (value != null) {
                 // meane value was 'none'
                 // remove inset if present
@@ -712,7 +753,6 @@ class StyleManager extends React.Component {
             }
         }, [value])
         let handleOnChange = (item, action = '') => {
-            console.log(item, action, item, action === 'delete', item === 'none')
             if (action === 'delete' && item === 'none') {
                 onChange('none', key, action)
                 return
@@ -756,7 +796,6 @@ class StyleManager extends React.Component {
             }
             if (val || action === 'delete') {
                 setState({ ...state, [item.key]: val })
-                console.log(state, key, action, 'onChange')
                 let resp = `${extractValue(item.key == 'hOffset' ? val : hOffset)}px ${extractValue(item.key == 'vOffset' ? val : vOffset)}px ${extractValue(item.key == 'blur' ? val : blur)}px ${item.key == 'color' ? val : color}`
                 onChange(resp, key, action)
             }
@@ -850,7 +889,6 @@ class StyleManager extends React.Component {
         }, [])
 
         useEffect(() => {
-            console.log(value, 'show value composite')
             if (value != null) {
                 // meane value was 'none'
                 // remove inset if present
@@ -878,7 +916,6 @@ class StyleManager extends React.Component {
             }
         }, [value])
         let handleOnChange = (item, action = '') => {
-            console.log(item, action, item, action === 'delete', item === 'none')
             if (action === 'delete' && item === 'none') {
                 onChange('none', key, action)
                 return
@@ -935,7 +972,6 @@ class StyleManager extends React.Component {
             }
             if (val || action === 'delete') {
                 setState({ ...state, [item.key]: val })
-                console.log(state, key, action, 'onChange')
                 let resp = `${extractValue(item.key == 'hOffset' ? val : hOffset)}px ${extractValue(item.key == 'vOffset' ? val : vOffset)}px ${extractValue(item.key == 'blur' ? val : blur)}px ${extractValue(item.key == 'spread' ? val : spread)}px ${item.key == 'color' ? val : color} ${item.key == 'type' ? val : type}`
                 onChange(resp, key, action)
             }
@@ -1017,9 +1053,146 @@ class StyleManager extends React.Component {
             <CreateForm fields={fields} globalOnChange={handleOnChange} />
         </div>
     }
+    getFonts = () => {
+        const { assets, dispatch } = this.props
+        let { fonts } = assets
+        let defaultFonts = [
+            {
+                type: 'custom',
+                render: () => {
+                    return (
+                        <div className={'typography-fonts-googlefonts'}>
+                            Google Fonts
+                            <Icons.OpenLink style={{ width: '10px', height: '10px', marginLeft: '6px' }} />
+                        </div>
+                    )
+                }
+            },
+            {
+                type: 'custom',
+                render: () => {
+                    return <div class="typography-list-divider"></div>
+                }
+            },
+            {
+                label: 'Abel',
+                value: 'Abel',
+            },
+            {
+                label: 'Allerta',
+                value: 'Allerta',
+            },
+            {
+                label: 'Amarnth',
+                value: 'Amarnth',
+            },
+            {
+                label: 'Amatic SC',
+                value: 'Amatic+SC',
+            },
+            {
+                label: 'Anton',
+                value: 'Anton',
+            },
+            // {    //not found
+            //     label: 'Arial',
+            //     value: 'Arial',
+            // },
+            {
+                label: 'Arimo',
+                value: 'Arimo',
+            },
+            {
+                label: 'Arvo',
+                value: 'Arvo',
+            },
+            {
+                label: 'Asap',
+                value: 'Asap',
+            },
+            // {    //not found
+            //     label: 'Bahnschrift',
+            //     value: 'Bahnschrift',
+            // },
+            {
+                label: 'Bitter',
+                value: 'Bitter',
+            },
+            {
+                label: 'Black Ops One',
+                value: 'Black+Ops+One',
+            },
+            {
+                label: 'Bree Serif',
+                value: 'Bree+Serif',
+            },
+            {
+                label: 'Cabin',
+                value: 'Cabin',
+            },
+            {
+                label: 'Cabin Condensed',
+                value: 'Cabin+Condensed',
+            },
+            // {    //not found
+            //     label: 'Calibri',
+            //     value: 'Calibri',
+            // },
+            {
+                label: 'Calligraffitti',
+                value: 'Calligraffitti',
+            },
+            // {    //not found
+            //     label: 'Cambria',
+            //     value: 'Cambria',
+            // },
+            // {    //not found
+            //     label: 'Candara',
+            //     value: 'Candara',
+            // },
+            {
+                label: 'Cantarell',
+                value: 'Cantarell',
+            },
+            {
+                label: 'Cardo',
+                value: 'Cardo',
+            },
+            {
+                label: 'Changa One',
+                value: 'Changa+One',
+            },
+        ]
+        let resp = fonts.map((item) => {
+            return {
+                label: item,
+                value: item.replace(/ /gi, '+')
+            }
+        })
+        resp = [
+            {
+                type: 'custom',
+                render: () => {
+                    return (
+                        <div className={'typography-fonts-googlefonts'} onClick={() => { dispatch(openAssets({ type: 'font' })) }}>
+                            Google Fonts
+                            <Icons.OpenLink style={{ width: '10px', height: '10px', marginLeft: '6px' }} />
+                        </div>
+                    )
+                }
+            },
+            {
+                type: 'custom',
+                render: () => {
+                    return <div class="typography-list-divider"></div>
+                }
+            },
+            ...resp
+        ]
+        this.setState({ fontOptions : resp })
+    }
     handlechange = (key, value) => {
         this.setState({ [key]: value }, () => {
-            console.log(this.state.showBackgroundComposite, 'handle')
         })
     }
     render() {
@@ -1300,7 +1473,7 @@ class StyleManager extends React.Component {
                 key: 'font-family',
                 type: 'select',
                 value: _.startCase((selected.styleInfo.styles && selected.styleInfo.styles['font-family']) || selected.node && getComputedStyle(selected.node, pseudoClass)['font-family']) || 'Auto',
-                width: '100%',
+                // width: '100%',
                 // labelClass: 'custom-label',
                 onChange: (value, item, pastValue) => {
                     if (!item.url) {
@@ -1308,96 +1481,7 @@ class StyleManager extends React.Component {
                         _grapesEditor.styleManager.importFontsBlock(value)
                     }
                 },
-                options: [
-                    {
-                        label: 'Abel',
-                        value: 'Abel',
-                    },
-                    {
-                        label: 'Allerta',
-                        value: 'Allerta',
-                    },
-                    {
-                        label: 'Amarnth',
-                        value: 'Amarnth',
-                    },
-                    {
-                        label: 'Amatic SC',
-                        value: 'Amatic+SC',
-                    },
-                    {
-                        label: 'Anton',
-                        value: 'Anton',
-                    },
-                    // {    //not found
-                    //     label: 'Arial',
-                    //     value: 'Arial',
-                    // },
-                    {
-                        label: 'Arimo',
-                        value: 'Arimo',
-                    },
-                    {
-                        label: 'Arvo',
-                        value: 'Arvo',
-                    },
-                    {
-                        label: 'Asap',
-                        value: 'Asap',
-                    },
-                    // {    //not found
-                    //     label: 'Bahnschrift',
-                    //     value: 'Bahnschrift',
-                    // },
-                    {
-                        label: 'Bitter',
-                        value: 'Bitter',
-                    },
-                    {
-                        label: 'Black Ops One',
-                        value: 'Black+Ops+One',
-                    },
-                    {
-                        label: 'Bree Serif',
-                        value: 'Bree+Serif',
-                    },
-                    {
-                        label: 'Cabin',
-                        value: 'Cabin',
-                    },
-                    {
-                        label: 'Cabin Condensed',
-                        value: 'Cabin+Condensed',
-                    },
-                    // {    //not found
-                    //     label: 'Calibri',
-                    //     value: 'Calibri',
-                    // },
-                    {
-                        label: 'Calligraffitti',
-                        value: 'Calligraffitti',
-                    },
-                    // {    //not found
-                    //     label: 'Cambria',
-                    //     value: 'Cambria',
-                    // },
-                    // {    //not found
-                    //     label: 'Candara',
-                    //     value: 'Candara',
-                    // },
-                    {
-                        label: 'Cantarell',
-                        value: 'Cantarell',
-                    },
-                    {
-                        label: 'Cardo',
-                        value: 'Cardo',
-                    },
-                    {
-                        label: 'Changa One',
-                        value: 'Changa+One',
-                    },
-                ],
+                options: this.state.fontOptions,
             },
             {
                 label: 'Weight', //optional; Type: String || () => {}
@@ -1475,7 +1559,7 @@ class StyleManager extends React.Component {
                     let handleFocus = (event) => event.target.select()
                     return <div className={'line-height'}>
                         <Icons.LineHeight style={{ width: '12px', height: '12px' }} />
-                        <input onFocus={handleFocus} type={'number'} value={isNaN(parseInt(value))? '' : parseInt(value)} onChange={(e) => {
+                        <input onFocus={handleFocus} type={'number'} value={isNaN(parseInt(value)) ? '' : parseInt(value)} onChange={(e) => {
                             value && globalOnChange(`${e.target.value}px`)
                         }} />
                     </div>
@@ -1499,7 +1583,7 @@ class StyleManager extends React.Component {
                     let handleFocus = (event) => event.target.select()
                     return <div className={'letter-spacing'}>
                         <Icons.LetterSpacing style={{ width: '18px', height: '18px' }} />
-                        <input onFocus={handleFocus} type={'number'} value={isNaN(parseInt(value))? '' : parseInt(value)} onChange={(e) => {
+                        <input onFocus={handleFocus} type={'number'} value={isNaN(parseInt(value)) ? '' : parseInt(value)} onChange={(e) => {
                             (value != '' || value != null) && globalOnChange(`${e.target.value}px`)
                         }} />
                     </div>
@@ -2185,7 +2269,9 @@ const mapStateToProps = ({ global, layout, editor, templates, editorHistory }) =
         templates,
         styleObj: editorHistory.present.styleObj,
         styleStr: editorHistory.present.style,
-        pseudoClass: editor.pseudoClass
+        pseudoClass: editor.pseudoClass,
+        assets: editor.assets,
+        assetsManager: editor.assetsManager
     }
 }
 

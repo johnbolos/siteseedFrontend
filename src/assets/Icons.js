@@ -53,6 +53,7 @@ import { ReactComponent as BackgroundImage } from "./right-pane/backgroundImage.
 import { ReactComponent as BackgroundColor } from "./right-pane/backgroundColor.svg";
 import { ReactComponent as BackgroundGradient } from "./right-pane/backgroundGradient.svg";
 import { ReactComponent as CompositeCollapse } from "./right-pane/compositeCollapse.svg";
+import { ReactComponent as OpenLink } from "./right-pane/openLink.svg";
 
 import { ReactComponent as ModalCross } from "./modal/cross.svg";
 import { ReactComponent as Loading } from "./modal/loading.svg";
@@ -97,8 +98,9 @@ export default {
 	BackgroundColor,
 	BackgroundGradient,
 	CompositeCollapse,
+	OpenLink,
 	// modal icons
 	ModalCross,
 	Loading,
-	CircularTick
+	CircularTick,
 }

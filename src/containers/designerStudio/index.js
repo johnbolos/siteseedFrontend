@@ -5,9 +5,12 @@ import { connect } from "react-redux";
 import { Debounce } from "lodash-decorators/debounce";
 
 import "./index.scss";
+import Request from '../../request'
 import _grapesEditor from "../../components/utils/grapesEditor";
 import StylePanel from "./stylePanel/index";
+import AssetsManager from './assetsManager'
 import { undo, redo } from "../../reducers/actions/editorHistoryActions";
+import { setGoogleFonts } from "../../reducers/actions/editor"
 import { saveChanges } from "../../reducers/actions/pageActions";
 import { closestElement } from "../../components/utils/index";
 import { /* html, */ template1Html, template1Style } from "./dummie";
@@ -17,6 +20,7 @@ import { question, minus, plus } from "../designerStudio/panels/icons";
 import $ from "jquery";
 import LeftBlock from "./leftblock/LeftBlock";
 import TopPanel from "./toppanel/TopPanel";
+import assetsManager from "./assetsManager";
 
 const initialState = {
 	zoom: 100,
@@ -32,11 +36,21 @@ class DesignerStudio extends React.Component {
 
 	componentDidMount() {
 		//window.addEventListener("scroll", this.handleScroll, true);
+        // get google api fonts
+		this.setGoogleFonts()
 		this.apiRequest();
 		setTimeout(() => {
 			this.temp();
 		}, 5000);
 	}
+    setGoogleFonts = async () => {
+        const { dispatch } = this.props
+        const googleApiReq = await Request.getGoogleFonts()
+        if (googleApiReq.error) {
+            return
+        }
+        dispatch(setGoogleFonts(googleApiReq.items))
+    }
 	handleScroll = (e) => {
 		if (e.target.classList && e.target.classList.contains("on-scrollbar") === false) {
 			e.target.classList.add("on-scrollbar");
@@ -147,7 +161,7 @@ class DesignerStudio extends React.Component {
 				components,
 				style,
 			});
-		});
+		})
 	};
 	@Debounce(500)
 	fun(mouse) {
@@ -199,6 +213,7 @@ class DesignerStudio extends React.Component {
 	};
 	render() {
 		const { selected } = this.state;
+		const { assetsManager } = this.props
 		return (
 			<div className={"theme-dark"}>
 				<div
@@ -247,6 +262,7 @@ class DesignerStudio extends React.Component {
                                 <button onClick={() => { this.historyChange('redo') }}>Redo</button> */}
 								<StylePanel selected={selected} parentNode={this} />
 							</div>
+							{assetsManager && <AssetsManager selected={selected} />}
 						</div>
 					</div>
 				</div>
@@ -269,6 +285,7 @@ const mapStateToProps = ({
 		styleObj: editorHistory.present.styleObj,
 		pseudoClass: editor.pseudoClass,
 		pageReducer,
+		assetsManager: editor.assetsManager
 	};
 };
 

@@ -182,15 +182,15 @@ const styleManager = {
 		}
 		let str = styleTag.innerHTML, findPhrase = ''
 		if (type == 'google') {
-			findPhrase = 'https://fonts.googleapis.com/css?'
+			findPhrase = 'https://fonts.googleapis.com/css?family='
 		}
 		let indices = styleManager.getIndicesOf(findPhrase, str)
 		if (indices.length == 0) {
 			// not present yet
-			str = `\n\t@import url("${'https://fonts.googleapis.com/css?display=swap'}");\n` + str	//14
+			str = `\n\t@import url("${'https://fonts.googleapis.com/css?family=display=swap'}");\n` + str	//14
 			indices.push(15)
 		}
-		str = [str.slice(0, ((indices[0] + findPhrase.length))), `family=${name}:100,200,300,400,500,600,700,800,900&`, str.slice((indices[0] + findPhrase.length))].join('') 	// -6 due to family
+		str = [str.slice(0, ((indices[0] + findPhrase.length))), `${name}:100,200,300,400,500,600,700,800,900|`, str.slice((indices[0] + findPhrase.length))].join('') 	// -6 due to family
 		styleTag.innerHTML = str
 	},
 	removeFontsBlock: (name, type = 'google') => {
@@ -202,7 +202,7 @@ const styleManager = {
 		}
 		let str = styleTag.innerHTML, findPhrase = ''
 		if (type == 'google') {
-			findPhrase = 'https://fonts.googleapis.com/css?family'
+			findPhrase = 'https://fonts.googleapis.com/css?family='
 		}
 		let indices = styleManager.getIndicesOf(findPhrase, str)
 		if (indices.length == 0) {
@@ -210,7 +210,7 @@ const styleManager = {
 			return
 		}
 		if (type == 'google') {
-			findPhrase = `family=${name}:100,200,300,400,500,600,700,800,900&`
+			findPhrase = `${name}:100,200,300,400,500,600,700,800,900|`
 			str = str.replace(findPhrase, '')
 		}
 		styleTag.innerHTML = str
