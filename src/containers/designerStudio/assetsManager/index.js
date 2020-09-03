@@ -214,6 +214,9 @@ class AssetsManager extends React.Component {
         this.setState({ fontsArr: resp })
     }
     handleScroll = (e) => {
+        if (this.props.assetsManager != 'font') {
+            return
+        }
         const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
         if (bottom) {
             e.target.scrollTop = e.target.scrollTop - 2
