@@ -98,6 +98,10 @@ class AssetsManager extends React.Component {
         if (files && files.length == 0) {
             return
         }
+        if (files[0].size > 2000000) {
+            console.log('please upload a file smaller than 2MB')
+            return
+        }
         this.setState({ loading: true })
         let form = new FormData()
         form.append('file', files[0])
