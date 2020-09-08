@@ -715,6 +715,17 @@
         }
       }
     }
+
+    .flex-container-list,
+    .transition-timing-list,
+    .transition-property-list,
+    .background-attachment-list,
+    .background-repeat-list,
+    .display-list {
+      .list-container {
+        right: 0;
+      }
+    }
   }
 
   .view-mode-container {

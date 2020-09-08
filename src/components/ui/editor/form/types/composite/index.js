@@ -104,7 +104,6 @@ class Composite extends React.Component {
                             }
                         }
                         valArr[key].type = 'image'
-                        console.log(item, item.switcher, valArr[key])
                         break
                     case 'repeat':
                         valArr[key].repeat = item.value
@@ -141,13 +140,12 @@ class Composite extends React.Component {
                     default:
                         break
                 }
-                console.log(valArr, 'valArrr', key)
+                this.setState({ valArr: valArr })
                 onChange && onChange(valArr)
             }
             if (action === 'backgroundRemove') {
                 valArr = valArr.filter((value, index) => index != key)
                 this.setState({ valArr, value: valArr }, () => {
-                    console.log(valArr, 'valArrr', key)
                     onChange && onChange(valArr)
                 })
             }
@@ -196,7 +194,7 @@ class Composite extends React.Component {
             <div className={childrens.length == 0 ? 'composite-container-hidden' : 'composite-container'}>
                 {
                     hiddenField || <>
-                        
+
                         {childrens}
                     </>
                 }

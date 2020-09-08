@@ -73,12 +73,12 @@ class ClassManager extends React.Component {
     state = {
         showTagInput: false,
         selectPseudoClass: false,
-        pseudoClass: 'Active'
+        pseudoClass: 'Normal'
     }
     componentDidUpdate(prevProps) {
         if (prevProps.selected.node != this.props.selected.node) {
-            this.setState({ pseudoClass: 'Active' }, () => {
-                this.props.dispatch(setPseudoClass('active'))
+            this.setState({ pseudoClass: 'Normal', selectPseudoClass: false }, () => {
+                this.props.dispatch(setPseudoClass('normal'))
             })
         }
     }
@@ -140,7 +140,7 @@ class ClassManager extends React.Component {
         this.setState({ pseudoClass: val, selectPseudoClass: false }, () => {
             dispatch(setPseudoClass(val.toLowerCase()))
             if (selected && selected.node == null) return
-            if (val == 'Active') {
+            if (val == 'Normal') {
                 customEvents.saveStyleInfo({ elem: selected.node, node: editorNode })
                 return
             }
@@ -196,7 +196,7 @@ class ClassManager extends React.Component {
                     selectPseudoClass &&
                     <List
                         value={pseudoClass}
-                        items={['Active', 'Hover', 'Click']}
+                        items={['Normal', 'Hover', 'Active']}
                         onChange={this.pseudoClassChange}
                         onBlur={(e) => { this.setState({ selectPseudoClass: false }) }}
                         parentNode={this}

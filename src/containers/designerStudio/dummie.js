@@ -231,25 +231,25 @@ export const template1Style = `
       //   margin-top:-5px;
       //   box-shadow:0 20px 30px 0 rgba(0, 0, 0, 0.2);
       // }
-      .card-header{
+      .card-header-unique{
         height:155px;
         background-image:url("//placehold.it/350x250/78c5d6/fff/image1.jpg");
         background-size:cover;
         background-position:center center;
       }
-      .card-header.ch2{
+      .card-header-unique.ch2{
         background-image:url("//placehold.it/350x250/459ba8/fff/image2.jpg");
       }
-      .card-header.ch3{
+      .card-header-unique.ch3{
         background-image:url("//placehold.it/350x250/79c267/fff/image3.jpg");
       }
-      .card-header.ch4{
+      .card-header-unique.ch4{
         background-image:url("//placehold.it/350x250/c5d647/fff/image4.jpg");
       }
-      .card-header.ch5{
+      .card-header-unique.ch5{
         background-image:url("//placehold.it/350x250/f28c33/fff/image5.jpg");
       }
-      .card-header.ch6{
+      .card-header-unique.ch6{
         background-image:url("//placehold.it/350x250/e868a2/fff/image6.jpg");
       }
       .card-body{
@@ -624,7 +624,7 @@ export const template1Html = `
         </div>
       <div id="iaa0e" class="cards">
         <div class="card">
-          <div id="iquh1" class="card-header">
+          <div id="iquh1" class="card-header-unique">
           </div>
           <div class="card-body">
             <div class="card-title">Title one
@@ -636,7 +636,7 @@ export const template1Html = `
           </div>
         </div>
         <div class="card">
-          <div id="ify6j" class="card-header ch2">
+          <div id="ify6j" class="card-header-unique ch2">
           </div>
           <div class="card-body">
             <div class="card-title">Title two
@@ -648,7 +648,7 @@ export const template1Html = `
           </div>
         </div>
         <div class="card">
-          <div class="card-header ch3">
+          <div class="card-header-unique ch3">
           </div>
           <div class="card-body">
             <div class="card-title">Title three
@@ -660,7 +660,7 @@ export const template1Html = `
           </div>
         </div>
         <div class="card">
-          <div class="card-header ch4">
+          <div class="card-header-unique ch4">
           </div>
           <div class="card-body">
             <div class="card-title">Title four
@@ -672,7 +672,7 @@ export const template1Html = `
           </div>
         </div>
         <div class="card">
-          <div class="card-header ch5">
+          <div class="card-header-unique ch5">
           </div>
           <div class="card-body">
             <div class="card-title">Title five
@@ -684,7 +684,7 @@ export const template1Html = `
           </div>
         </div>
         <div class="card">
-          <div class="card-header ch6">
+          <div class="card-header-unique ch6">
           </div>
           <div class="card-body">
             <div class="card-title">Title six

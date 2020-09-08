@@ -30,8 +30,8 @@ class StyleManager extends React.Component {
         fontOptions: [],
         integratedBorderRadius: true,
         boxShadowRep: 0,
-        boxShadowValue: this.props.selected.node && getComputedStyle(this.props.selected.node, this.props.pseudoClass)['box-shadow'],
-        textShadowValue: this.props.selected.node && getComputedStyle(this.props.selected.node, this.props.pseudoClass)['text-shadow'],
+        boxShadowValue: this.props.selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'box-shadow'),
+        textShadowValue: this.props.selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'text-shadow'),
         textShadowRep: 0,
         backgroundRep: 0,
         // backgroundValue: [],
@@ -54,8 +54,8 @@ class StyleManager extends React.Component {
         }
         if (this.props.selected && (prevProps.selected.node != this.props.selected.node)) {
             this.setState({
-                boxShadowValue: selected.node && getComputedStyle(selected.node, pseudoClass)['box-shadow'],
-                textShadowValue: selected.node && getComputedStyle(selected.node, pseudoClass)['text-shadow'],
+                boxShadowValue: selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'box-shadow'),
+                textShadowValue: selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'text-shadow'),
                 backgroundValue: this.extractBackgroundProperty()
             }, () => {
                 this.setCompositeRep()
@@ -86,16 +86,19 @@ class StyleManager extends React.Component {
         value = this.extractBackgroundProperty()
         this.handlechange('backgroundRep', ((value[0] && value[0].color !== 'rgba(0, 0, 0, 0)') || value.length > 1) ? value.length : 0)
 
-        value = (selected.node && getComputedStyle(selected.node, pseudoClass)['box-shadow'] || 'none').split(/,(?![^(]*\))/)
+        value = (selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'box-shadow') || 'none').split(/,(?![^(]*\))/)
         this.handlechange('boxShadowRep', (value[0] !== 'none') ? value.length : 0)
 
-        value = (selected.node && getComputedStyle(selected.node, pseudoClass)['text-shadow'] || 'none').split(/,(?![^(]*\))/)
+        value = (selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'text-shadow') || 'none').split(/,(?![^(]*\))/)
         this.handlechange('textShadowRep', (value[0] !== 'none') ? value.length : 0)
     }
     globalOnChange = (obj, formData) => {
         const { selected, editorNode, pseudoClass, styleObj, dispatch } = this.props
         const { transformValue } = this.state
         let item = _.clone(obj)
+        if (item.key == 'background-image') {
+            console.log(item, '{{--')
+        }
         if (new RegExp(/X|Y|Z/).test(item.key)) {
             transformValue[`${this.state.transformKey}${item.key}`] = item.value
             item.key = 'transform'
@@ -120,7 +123,6 @@ class StyleManager extends React.Component {
         if (item.key == 'font-family') {
             item.value = item.value.trim()
             item.value = item.value.replace(/\+/gi, ' ')
-            console.log(item.value)
         }
         if (!selected.node) {
             return
@@ -138,13 +140,16 @@ class StyleManager extends React.Component {
         }
         let uniqueClassIndex = styleObj.length
         selected.styleInfo.index.forEach(val => {
-            if (styleObj[val].selector == (pseudoClass == 'active' ? uniqueClass : `${uniqueClass}:${pseudoClass}`)) {
+            if (pseudoClass == 'normal' && styleObj[val].selector.includes(':')) {
+                return
+            }
+            if (styleObj[val].selector == (pseudoClass == 'normal' ? '.' + uniqueClass : `.${uniqueClass}:${pseudoClass}`)) {
                 uniqueClassIndex = val
             }
         })
 
         let requiredStyleObj = _.cloneDeep(styleObj[uniqueClassIndex]) || {}
-        requiredStyleObj.selector = (pseudoClass == 'active' ? uniqueClass : `${uniqueClass}:${pseudoClass}`)
+        requiredStyleObj.selector = (pseudoClass == 'normal' ? '.' + uniqueClass : `.${uniqueClass}:${pseudoClass}`)  // if selector not there
         if (requiredStyleObj.styles) {
             requiredStyleObj.styles = {
                 ...requiredStyleObj.styles,
@@ -163,11 +168,12 @@ class StyleManager extends React.Component {
             cssString += `
             ${key}:${val};`
         })
-        cssString = `.${requiredStyleObj.selector} {${cssString}
+        cssString = `
+        ${requiredStyleObj.selector} {${cssString}
         }`
         //get style string from redux
         let str = _.clone(this.props.styleStr)
-        let data = _grapesEditor.styleManager.extractBlock(`.${requiredStyleObj.selector}`, str)
+        let data = _grapesEditor.styleManager.extractBlock(`${requiredStyleObj.selector} {`, str)
         if (data.customCode != '') {
             str = data.str
         }
@@ -178,15 +184,17 @@ class StyleManager extends React.Component {
         dispatch(setStyleStr(str, { update: true }))
 
         //set selected
-        if (pseudoClass == 'Active') {
+        if (pseudoClass == 'normal') {
             customEvents.saveStyleInfo({ elem: selected.node, node: editorNode })
             return
         }
         customEvents.saveStyleInfo({ elem: selected.node, node: editorNode }, { pseudoClass: pseudoClass }, () => {
             // this.setCompositeRep()
             if (item.key === 'text-shadow') {
-                this.setState({ textShadowValue: selected.node && getComputedStyle(selected.node, pseudoClass)['text-shadow'] })
-            } else if (item.key === 'background-position') {
+                this.setState({ textShadowValue: selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'text-shadow') })
+            } else if (item.key === 'box-shadow') {
+                this.setState({ boxShadowValue: selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'box-shadow') })
+            } else if (item.key.includes('background')) {
                 this.setState({ backgroundValue: this.extractBackgroundProperty() })
             }
             this.state.globalOnchangeCallBack && this.state.globalOnchangeCallBack()
@@ -241,17 +249,49 @@ class StyleManager extends React.Component {
         const { selected, pseudoClass } = this.props
         const { } = this.state
         let value = []
-        let backgroundImage = (selected.node && getComputedStyle(selected.node, pseudoClass)['background-image']) || 'none',
-            backgroundColor = (selected.node && getComputedStyle(selected.node, pseudoClass)['background-color']) || null,
-            backgroundBlendMode = (selected.node && getComputedStyle(selected.node, pseudoClass)['background-blend-mode']) || 'normal',
-            backgroundRepeat = (selected.node && getComputedStyle(selected.node, pseudoClass)['background-repeat']) || 'repeat',
-            backgroundPosition = (selected.node && getComputedStyle(selected.node, pseudoClass)['background-position']) || '0% 0%',
-            backgroundAttachment = (selected.node && getComputedStyle(selected.node, pseudoClass)['background-attachment']) || 'scroll',
-            backgroundSize = (selected.node && getComputedStyle(selected.node, pseudoClass)['background-size']) || 'auto'
-
+        let backgroundImage = (selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'background-image')) || 'none',
+            backgroundColor = (selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'background-color')) || null,
+            backgroundBlendMode = (selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'background-blend-mode')) || 'normal',
+            backgroundRepeat = (selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'background-repeat')) || 'repeat',
+            backgroundPosition = (selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'background-position')) || '0% 0%',
+            backgroundAttachment = (selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'background-attachment')) || 'scroll',
+            backgroundSize = (selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'background-size')) || 'auto'
         let split = (string) => {
+            let extracted = []
+            if (string.includes('radial')) {
+                const getIndicesOf = (searchStr, str, caseSensitive) => {
+                    var searchStrLen = searchStr.length;
+                    if (searchStrLen == 0) {
+                        return [];
+                    }
+                    var startIndex = 0, index, indices = [];
+                    if (!caseSensitive) {
+                        str = str.toLowerCase();
+                        searchStr = searchStr.toLowerCase();
+                    }
+                    while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+                        indices.push(index);
+                        startIndex = index + searchStrLen;
+                    }
+                    return indices;
+                }
+                let start = getIndicesOf('radial-gradient', string, false)
+                let end = []
+                _.each(start, (first, index) => {
+                    for (let i = first; i < string.length; i++) {
+                        if (string[i] == '%') {
+                            extracted.push(i)
+                        } else if (string[i] == ',') {
+                            break;
+                        }
+                    }
+                })
+                _.each(extracted, (val, index) => {
+                    string = string.substr(0, val) + '>' + string.substr(val + 1)
+                })
+            }
             var token = /((?:[^"']|".*?"|'.*?')*?)([(,)]|$)/g;
-            return (function recurse() {
+            function recurse() {
                 for (var array = []; ;) {
                     var result = token.exec(string);
                     if (result[2] == '(') {
@@ -268,14 +308,18 @@ class StyleManager extends React.Component {
                         array[array.length - 1] += result[1];
                     }
                 }
-            })()
+            }
+            let resp = recurse()
+            resp.forEach((item, index) => {
+                resp[index] = item.replace(/>/gi, '%')
+            })
+            return resp
         }
         if (backgroundColor) {
             if (!(backgroundColor === 'rgba(0, 0, 0, 0)')) {
                 value.push({ type: 'color', color: backgroundColor })
             }
         }
-
         backgroundImage = split(backgroundImage)
         backgroundRepeat = backgroundRepeat.split(',')
         backgroundBlendMode = backgroundBlendMode.split(',')
@@ -287,11 +331,11 @@ class StyleManager extends React.Component {
             if (image != 'none') {
                 let imageDetails = {
                     image: image.trim(),
-                    blendMode: backgroundBlendMode[key].trim(),
-                    repeat: backgroundRepeat[key].trim(),
-                    position: backgroundPosition[key].trim(),
-                    attachment: backgroundAttachment[key].trim(),
-                    size: backgroundSize[key].trim(),
+                    blendMode: backgroundBlendMode[key] ? backgroundBlendMode[key].trim() : backgroundBlendMode[0].trim(),
+                    repeat: backgroundRepeat[key] ? backgroundRepeat[key].trim() : backgroundRepeat[0].trim(),
+                    position: backgroundPosition[key] ? backgroundPosition[key].trim() : backgroundPosition[0].trim(),
+                    attachment: backgroundAttachment[key] ? backgroundAttachment[key].trim() : backgroundAttachment[0].trim(),
+                    size: backgroundSize[key] ? backgroundSize[key].trim() : backgroundSize[0].trim(),
                     type: image.trim().includes('url') ? 'image' : 'gradient'
                 }
                 value.push(imageDetails)
@@ -302,13 +346,21 @@ class StyleManager extends React.Component {
     updateBackgroundProperty = (valArr, cb = () => { }) => {
         // evaluate and update specific property using this array
         let css = {
-            'background-color': ['transparent'],
+            'background-color': ['rgba(0, 0, 0, 0)'],
             'background-image': [],
             'background-position': [],
             'background-size': [],
             'background-attachment': [],
             'background-blend-mode': [],
             'background-repeat': []
+        }
+        let count = _.countBy(valArr, (item) => {
+            return item.type
+        })
+        if (count.color > 1) {
+            let lastIndex = _.findLastIndex(valArr, function (o) { return o.type == 'color' })
+            valArr.splice(lastIndex, 1)
+            this.setState({ backgroundRep: valArr.length })
         }
         valArr.forEach(item => {
             if (item.type === 'color') {
@@ -323,14 +375,13 @@ class StyleManager extends React.Component {
             css['background-repeat'].push(item.repeat)
         })
         //loop css and up date  color->image->position->size->attachment->repeat->blendMode
-        _.each(css, (value, key) => {
-            setTimeout(() => {
-                this.globalOnChange({ key, value: value.join(', ') })
-            }, 50)
-        })
         Async.eachOf(css, (value, key, next) => {
             setTimeout(() => {
-                this.globalOnChange({ key, value: value.join(', ') })
+                if (key == 'background-image' && value.join(', ').trim() == '') {
+                    this.globalOnChange({ key, value: 'none' })
+                } else {
+                    this.globalOnChange({ key, value: value.join(', ') })
+                }
                 next()
             }, 10)
         }, () => {
@@ -411,6 +462,7 @@ class StyleManager extends React.Component {
                     return <div className={'background-type-shift-btn'}>
                         <div className={backgroundKey == 'image' ? 'selected' : 'inactive'} style={{ borderRadius: backgroundKey == 'image' ? '4px 0px 0px 4px' : '0px' }}
                             onClick={() => {
+                                if (backgroundKey == 'image') return
                                 handleOnChange({ key: 'image', value: 'url("http://grapesjs.com/img/work-desk.jpg")', switcher: true })
                                 setState({ ...state, backgroundKey: 'image' })
                             }}
@@ -419,6 +471,7 @@ class StyleManager extends React.Component {
                         </div>
                         <div className={backgroundKey == 'color' ? 'selected' : 'inactive'}
                             onClick={() => {
+                                if (backgroundKey == 'color') return
                                 handleOnChange({ key: 'color', value: '#FFFFFF00' })
                                 setState({ ...state, backgroundKey: 'color' })
                             }}
@@ -427,6 +480,7 @@ class StyleManager extends React.Component {
                         </div>
                         <div className={backgroundKey == 'gradient' ? 'selected' : 'inactive'} style={{ borderRadius: backgroundKey == 'gradient' ? '0px 4px 4px 0px' : '0px' }}
                             onClick={() => {
+                                if (backgroundKey == 'gradient') return
                                 handleOnChange({ key: 'gradient', value: 'linear-gradient(90deg, rgba(2,0,36,1) 6%, rgba(1,87,126,1) 94%)', switcher: true })
                                 setState({ ...state, backgroundKey: 'gradient' })
                             }}
@@ -546,6 +600,7 @@ class StyleManager extends React.Component {
                 type: 'select', //required
                 value: value && value.repeat,
                 width: '48%',
+                containerClass: 'background-repeat-list',
                 options: [  //optional type: Array of string, Array of objects
                     {
                         label: 'No Repeat',
@@ -624,6 +679,7 @@ class StyleManager extends React.Component {
                 type: 'select', //required
                 value: value && value.attachment,
                 width: '48%',
+                containerClass: 'background-attachment-list',
                 options: [  //optional type: Array of string, Array of objects
                     {
                         label: 'Scroll',
@@ -1189,7 +1245,7 @@ class StyleManager extends React.Component {
             },
             ...resp
         ]
-        this.setState({ fontOptions : resp })
+        this.setState({ fontOptions: resp })
     }
     handlechange = (key, value) => {
         this.setState({ [key]: value }, () => {
@@ -1203,7 +1259,7 @@ class StyleManager extends React.Component {
                 label: () => { return <div>Alignment</div> }, //optional; Type: String || () => {}
                 key: 'float',
                 type: 'radioBtn', //required
-                value: (selected.styleInfo.styles && selected.styleInfo.styles.float) || selected.node && getComputedStyle(selected.node, pseudoClass).float,
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'float'),
                 // width: '48%',
                 options: [  //optional type: Array of string, Array of objects
                     {
@@ -1243,8 +1299,9 @@ class StyleManager extends React.Component {
                 label: 'Display',
                 key: 'display',
                 type: 'select',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles.display) || selected.node && getComputedStyle(selected.node, pseudoClass).display || 'Auto',
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'display') || 'Auto',
                 width: '48%',
+                containerClass: 'display-list',
                 options: [
                     {
                         label: 'Block',
@@ -1272,7 +1329,7 @@ class StyleManager extends React.Component {
                 label: 'Position',
                 key: 'position',
                 type: 'select',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles.position) || selected.node && getComputedStyle(selected.node, pseudoClass).position || 'Auto',
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'position') || 'Auto',
                 width: '48%',
                 options: [
                     {
@@ -1317,7 +1374,7 @@ class StyleManager extends React.Component {
                 label: 'Top X',
                 key: 'top',
                 type: 'integer',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles.top) || selected.node && getComputedStyle(selected.node, pseudoClass).top,
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'top'),
                 defaultUnit: 'px',
                 unit: ['px', '%'],
                 width: '48%',
@@ -1326,7 +1383,7 @@ class StyleManager extends React.Component {
                 label: 'Right X',
                 key: 'right',
                 type: 'integer',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles.right) || selected.node && getComputedStyle(selected.node, pseudoClass).right,
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'right'),
                 defaultUnit: 'px',
                 unit: ['px', '%'],
                 width: '48%',
@@ -1335,7 +1392,7 @@ class StyleManager extends React.Component {
                 label: 'Left X',
                 key: 'left',
                 type: 'integer',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles.left) || selected.node && getComputedStyle(selected.node, pseudoClass).left,
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'left'),
                 defaultUnit: 'px',
                 unit: ['px', '%'],
                 width: '48%',
@@ -1344,7 +1401,7 @@ class StyleManager extends React.Component {
                 label: 'Bottom X',
                 key: 'bottom',
                 type: 'integer',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles.bottom) || selected.node && getComputedStyle(selected.node, pseudoClass).bottom,
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'bottom'),
                 defaultUnit: 'px',
                 unit: ['px', '%'],
                 width: '48%',
@@ -1358,7 +1415,7 @@ class StyleManager extends React.Component {
                 label: 'Width',
                 key: 'width',
                 type: 'integer',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles.width) || selected.node && getComputedStyle(selected.node, pseudoClass).width,
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'width'),
                 defaultUnit: 'px',
                 unit: ['px', '%'],
                 width: '48%',
@@ -1367,7 +1424,7 @@ class StyleManager extends React.Component {
                 label: 'Heigth',
                 key: 'height',
                 type: 'integer',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles.height) || selected.node && getComputedStyle(selected.node, pseudoClass).height,
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'height'),
                 defaultUnit: 'px',
                 unit: ['px', '%'],
                 width: '48%',
@@ -1376,7 +1433,7 @@ class StyleManager extends React.Component {
                 label: 'Max Width',
                 key: 'max-width',
                 type: 'integer',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles.maxWidth) || selected.node && getComputedStyle(selected.node, pseudoClass).maxWidth,
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'maxWidth'),
                 defaultUnit: 'px',
                 unit: ['px', '%'],
                 width: '48%',
@@ -1385,7 +1442,7 @@ class StyleManager extends React.Component {
                 label: 'Max Height',
                 key: 'max-height',
                 type: 'integer',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles.maxHeight) || selected.node && getComputedStyle(selected.node, pseudoClass).maxHeight,
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'maxHeight'),
                 defaultUnit: 'px',
                 unit: ['px', '%'],
                 width: '48%',
@@ -1396,16 +1453,16 @@ class StyleManager extends React.Component {
                 labelClass: 'custom-label',
                 render: (value, globalOnChange) => {
                     let margin = {
-                        top: selected.node && getComputedStyle(selected.node, pseudoClass).marginTop,
-                        right: selected.node && getComputedStyle(selected.node, pseudoClass).marginRight,
-                        bottom: selected.node && getComputedStyle(selected.node, pseudoClass).marginBottom,
-                        left: selected.node && getComputedStyle(selected.node, pseudoClass).marginLeft,
+                        top: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'marginTop'),
+                        right: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'marginRight'),
+                        bottom: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'marginBottom'),
+                        left: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'marginLeft'),
                     }
                     let padding = {
-                        top: selected.node && getComputedStyle(selected.node, pseudoClass).paddingTop,
-                        right: selected.node && getComputedStyle(selected.node, pseudoClass).paddingRight,
-                        bottom: selected.node && getComputedStyle(selected.node, pseudoClass).paddingBottom,
-                        left: selected.node && getComputedStyle(selected.node, pseudoClass).paddingLeft,
+                        top: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'paddingTop'),
+                        right: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'paddingRight'),
+                        bottom: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'paddingBottom'),
+                        left: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'paddingLeft'),
                     }
                     let handleOnChange = (val, key) => {    //val: 20px, key: 'margin.top'
                         key = key.split('.')
@@ -1472,7 +1529,7 @@ class StyleManager extends React.Component {
                 label: 'Font', //optional; Type: String || () => {}
                 key: 'font-family',
                 type: 'select',
-                value: _.startCase((selected.styleInfo.styles && selected.styleInfo.styles['font-family']) || selected.node && getComputedStyle(selected.node, pseudoClass)['font-family']) || 'Auto',
+                value: (selected.node && _.startCase(_grapesEditor.styleManager.getStyles(selected, pseudoClass, 'font-family'))) || 'Auto',
                 // width: '100%',
                 // labelClass: 'custom-label',
                 onChange: (value, item, pastValue) => {
@@ -1487,7 +1544,7 @@ class StyleManager extends React.Component {
                 label: 'Weight', //optional; Type: String || () => {}
                 key: 'font-weight',
                 type: 'select',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['font-weight']) || selected.node && getComputedStyle(selected.node, pseudoClass)['font-weight'] || 'Auto',
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'font-weight') || 'Auto',
                 width: '68%',
                 // labelClass: 'custom-label',
                 options: [
@@ -1533,7 +1590,7 @@ class StyleManager extends React.Component {
                 label: 'Size', //optional; Type: String || () => {}
                 key: 'font-size',
                 type: 'integer',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['font-size']) || selected.node && getComputedStyle(selected.node, pseudoClass)['font-size'] || '0',
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'font-size') || '0px',
                 defaultUnit: 'px',
                 unit: ['px'],
                 width: '28%',
@@ -1542,12 +1599,12 @@ class StyleManager extends React.Component {
                 // label: '',
                 key: 'color',
                 type: 'picker',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['color']) || selected.node && getComputedStyle(selected.node, pseudoClass)['color'],
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'color'),
             },
             {
                 type: 'custom',
                 key: 'line-height',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['line-height']) || selected.node && getComputedStyle(selected.node, pseudoClass)['line-height'],
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'line-height'),
                 inline: true,
                 width: '24%',
                 render: (value, globalOnChange) => {
@@ -1568,7 +1625,7 @@ class StyleManager extends React.Component {
             {
                 type: 'custom',
                 key: 'letter-spacing',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['letter-spacing']) || selected.node && getComputedStyle(selected.node, pseudoClass)['letter-spacing'],
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'letter-spacing'),
                 inline: true,
                 width: '24%',
                 render: (value, globalOnChange) => {
@@ -1593,7 +1650,7 @@ class StyleManager extends React.Component {
                 // label: '', //optional; Type: String || () => {}
                 key: 'text-decoration',
                 type: 'radioBtn', //required
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['text-decoration']) || selected.node && (getComputedStyle(selected.node, pseudoClass)['text-decoration'].split(' ')[0]),
+                value: selected.node && (_grapesEditor.styleManager.getStyles(selected, pseudoClass, 'text-decoration').split(' ')[0]),
                 width: '48%',
                 options: [  //optional type: Array of string, Array of objects
                     {
@@ -1614,7 +1671,7 @@ class StyleManager extends React.Component {
                 // label: '', //optional; Type: String || () => {}
                 key: 'text-align',
                 type: 'radioBtn', //required
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['text-align']) || selected.node && (getComputedStyle(selected.node, pseudoClass)['text-align']),
+                value: selected.node && (_grapesEditor.styleManager.getStyles(selected, pseudoClass, 'text-align')),
                 // width: '48%',
                 options: [  //optional type: Array of string, Array of objects
                     {
@@ -1670,7 +1727,7 @@ class StyleManager extends React.Component {
                 labelClass: 'custom-label',
                 containerClass: 'opacity-container',
                 type: 'slider',
-                value: ((((selected.styleInfo.styles && selected.styleInfo.styles.opacity) || selected.node && getComputedStyle(selected.node, pseudoClass).opacity) || 0) * 100),
+                value: (((selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'opacity')) || 0) * 100),
                 defaultUnit: '%',
                 integerEdit: true,
                 // width: '48%',
@@ -1682,7 +1739,7 @@ class StyleManager extends React.Component {
                 label: 'Border Radius',
                 key: 'border-radius',
                 labelClass: 'custom-label',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['border-radius']) || selected.node && getComputedStyle(selected.node, pseudoClass)['border-radius'],
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'border-radius'),
                 type: 'custom',
                 inline: true,
                 render: (value, globalOnChange) => {
@@ -1716,7 +1773,7 @@ class StyleManager extends React.Component {
                 // label: 'Border Radius',
                 key: 'border-radius',
                 hidden: this.state.integratedBorderRadius,
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['border-radius']) || selected.node && getComputedStyle(selected.node, pseudoClass)['border-radius'],
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'border-radius'),
                 type: 'custom',
                 inline: true,
                 render: (value, globalOnChange) => {
@@ -1797,7 +1854,7 @@ class StyleManager extends React.Component {
                 label: 'Width',
                 key: 'border-width',
                 type: 'integer',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['border-width']) || selected.node && getComputedStyle(selected.node, pseudoClass)['border-width'],
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'border-width'),
                 defaultUnit: 'px',
                 unit: ['px', '%'],
                 width: '48%',
@@ -1806,7 +1863,7 @@ class StyleManager extends React.Component {
                 label: 'Style',
                 key: 'border-style',
                 type: 'select', //required
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['border-style']) || selected.node && (getComputedStyle(selected.node, pseudoClass)['border-style']) || 'solid',
+                value: selected.node && (_grapesEditor.styleManager.getStyles(selected, pseudoClass, 'border-style')) || 'solid',
                 width: '48%',
                 options: [  //optional type: Array of string, Array of objects
                     {
@@ -1827,7 +1884,7 @@ class StyleManager extends React.Component {
                 // label: '',
                 key: 'border-color',
                 type: 'picker',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['border-color']) || selected.node && getComputedStyle(selected.node, pseudoClass)['border-color'],
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'border-color'),
             },
             {
                 label: () => {
@@ -1909,7 +1966,8 @@ class StyleManager extends React.Component {
                 label: 'Property',
                 key: 'transition-property',
                 type: 'select', //required
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['transition-property']) || selected.node && (getComputedStyle(selected.node, pseudoClass)['transition-property']) || 'Auto',
+                value: selected.node && (_grapesEditor.styleManager.getStyles(selected, pseudoClass, 'transition-property')) || 'Auto',
+                containerClass: 'transition-property-list',
                 width: '48%',
                 options: [
                     {
@@ -1946,7 +2004,7 @@ class StyleManager extends React.Component {
                 label: 'Duration',
                 key: 'transition-duration',
                 type: 'integer',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['transition-duration']) || selected.node && getComputedStyle(selected.node, pseudoClass)['transition-duration'],
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'transition-duration'),
                 defaultUnit: 'ms',
                 unit: ['s', 'ms'],
                 width: '48%',
@@ -1955,7 +2013,8 @@ class StyleManager extends React.Component {
                 label: 'Easing',
                 key: 'transition-timing-function',
                 type: 'select',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['transition-timing-function']) || selected.node && getComputedStyle(selected.node, pseudoClass)['transition-timing-function'] || 'Auto',
+                value: (selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'transition-timing-function')) || 'Auto',
+                containerClass: 'transition-timing-list',
                 options: [
                     {
                         label: 'Linear',
@@ -1984,7 +2043,7 @@ class StyleManager extends React.Component {
                 label: 'Perspective',
                 key: 'perspective',
                 type: 'integer',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['perspective']) || selected.node && getComputedStyle(selected.node, pseudoClass)['perspective'],
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'perspective'),
                 defaultUnit: 'px',
                 unit: ['px', '%'],
                 width: '48%',
@@ -2047,7 +2106,8 @@ class StyleManager extends React.Component {
                 label: 'Container',
                 key: 'display',
                 type: 'select',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['display']) || selected.node && getComputedStyle(selected.node, pseudoClass)['display'] || 'Auto',
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'display') || 'Auto',
+                containerClass: 'flex-container-list',
                 options: [
                     {
                         label: 'Disable',
@@ -2064,7 +2124,7 @@ class StyleManager extends React.Component {
                 label: 'Order',
                 key: 'order',
                 type: 'integer',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['order']) || selected.node && getComputedStyle(selected.node, pseudoClass)['orde'],
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'order'),
                 // defaultUnit: 'px',
                 // unit: ['px', '%'],
                 width: '48%',
@@ -2073,7 +2133,7 @@ class StyleManager extends React.Component {
                 label: 'Direction',
                 key: 'flex-direction',
                 type: 'radioBtn', //required
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['flex-direction']) || selected.node && (getComputedStyle(selected.node, pseudoClass)['flex-direction']),
+                value: selected.node && (_grapesEditor.styleManager.getStyles(selected, pseudoClass, 'flex-direction')),
                 // width: '48%',
                 options: [  //optional type: Array of string, Array of objects
                     {
@@ -2098,7 +2158,7 @@ class StyleManager extends React.Component {
                 label: 'Justify',
                 key: 'justify-content',
                 type: 'radioBtn', //required
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['justify-content']) || selected.node && (getComputedStyle(selected.node, pseudoClass)['justify-content']),
+                value: selected.node && (_grapesEditor.styleManager.getStyles(selected, pseudoClass, 'justify-content')),
                 // width: '48%',
                 options: [  //optional type: Array of string, Array of objects
                     {
@@ -2127,7 +2187,7 @@ class StyleManager extends React.Component {
                 label: 'Align',
                 key: 'align-items',
                 type: 'radioBtn', //required
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['align-items']) || selected.node && (getComputedStyle(selected.node, pseudoClass)['align-items']),
+                value: selected.node && (_grapesEditor.styleManager.getStyles(selected, pseudoClass, 'align-items')),
                 // width: '48%',
                 options: [  //optional type: Array of string, Array of objects
                     {
@@ -2159,7 +2219,7 @@ class StyleManager extends React.Component {
                 label: 'Grow', //optional; Type: String || () => {}
                 key: 'flex-grow',
                 type: 'integer',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['flex-grow']) || selected.node && getComputedStyle(selected.node, pseudoClass)['flex-grow'],
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'flex-grow'),
                 // defaultUnit: 'px',
                 // unit: ['px'],
                 width: '48%',
@@ -2168,7 +2228,7 @@ class StyleManager extends React.Component {
                 label: 'Shrink', //optional; Type: String || () => {}
                 key: 'flex-shrink',
                 type: 'integer',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['flex-shrink']) || selected.node && getComputedStyle(selected.node, pseudoClass)['flex-shrink'],
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'flex-shrink'),
                 // defaultUnit: 'px',
                 // unit: ['px'],
                 width: '48%',
@@ -2177,7 +2237,7 @@ class StyleManager extends React.Component {
                 label: 'Basis', //optional; Type: String || () => {}
                 key: 'flex-basis',
                 type: 'integer',
-                value: (selected.styleInfo.styles && selected.styleInfo.styles['flex-basis']) || selected.node && getComputedStyle(selected.node, pseudoClass)['flex-basis'],
+                value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'flex-basis'),
                 defaultUnit: 'px',
                 unit: ['px'],
                 width: '48%',

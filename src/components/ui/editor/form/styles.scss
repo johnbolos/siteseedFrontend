@@ -81,6 +81,7 @@
           // top: 110%;
           padding: 15px 10px 15px 10px;
           // max-height: 45%;
+          min-width: 114px;
           overflow-y: auto;
           background: #1b1b1b;
           border-radius: 5px;
@@ -101,7 +102,7 @@
           }
           .list-item {
             background: transparent;
-            padding: 5px 24px 4px 0px;
+            padding: 5px 0px 4px 0px;
             border: 1px solid transparent;
             margin-top: 1px;
             margin-bottom: 1px;
@@ -109,7 +110,7 @@
           }
           .list-item:hover {
             background: #272727;
-            padding: 5px 24px 4px 0px;
+            padding: 5px 0px 4px 0px;
             border: 1px solid #444444;
             box-sizing: border-box;
             border-radius: 5px;
@@ -124,7 +125,7 @@
             border-radius: 5px;
             display: flex;
             align-items: center;
-            padding: 5px 24px 4px 0px;
+            padding: 5px 0px 4px 0px;
             margin-top: 1px;
             margin-bottom: 1px;
             position: relative;

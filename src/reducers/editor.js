@@ -1,5 +1,5 @@
 const initialState = {
-  pseudoClass: 'active',
+  pseudoClass: 'normal',
   assetsManager: false,
   assets: {
     image: [

@@ -38,8 +38,7 @@ class Gradient extends React.Component {
             document.removeEventListener('mouseup', this.onMouseUp)
         }
         if (this.props.meta.value && (prevState.value != this.props.meta.value) && (prevProps.meta.value != this.props.meta.value)) {
-            console.log(this.props.meta.value, 'did update')
-            this.initValue(this.props.meta.value)
+            this.initValue(this.props.meta.value, true)
         }
     }
     getMouseRelPos = (event) => {
@@ -85,21 +84,25 @@ class Gradient extends React.Component {
                 let nodesStr = nodes.map(item => `${item.color} ${item.left}%`)
                 nodesStr = nodesStr.join(', ')
                 this.setState({ nodes, nodesStr, selectedNodeKey: newNode.key, currentPickerNode: newNode.key }, () => {
+                    this.setCurrentNodeColor()
                 })
             } else if (event.target.className.includes('grad-node')) {
                 this.setState({ selectedNodeKey: event.target.className.replace('grad-node-', ''), currentPickerNode: event.target.className.replace('grad-node-', '') }, () => {
+                    this.setCurrentNodeColor()
                 })
             }
         }
         // event.stopPropagation()
         // event.preventDefault()
     }
-    onMouseUp = (e) => {
-        const { nodes } = this.state
-        let resp = nodes.map(item => `${item.color} ${item.left}%`)
-        resp = resp.join(', ')
-        this.onChange(resp, 'nodesStr')
-        this.setState({ dragging: false, selectedNodeKey: -1 })
+    onMouseUp = (event) => {
+        const { nodes, nodeMoving, currentPickerNode } = this.state
+        if (nodeMoving == true) {
+            let resp = nodes.map(item => `${item.color} ${item.left}%`)
+            resp = resp.join(', ')
+            this.onChange(resp, 'nodesStr')
+        }
+        this.setState({ dragging: false, selectedNodeKey: -1, nodeMoving: false })
         // e.stopPropagation()
         // e.preventDefault()
     }
@@ -118,14 +121,15 @@ class Gradient extends React.Component {
                 position = trackCoords.width - 10
             }
             nodes[currentNodeKey].left = (position / trackCoords.width) * 100
-            this.setState({ nodes: _.sortBy(nodes, (o) => o.left) }, () => {
+            this.setState({ nodes: _.sortBy(nodes, (o) => o.left), nodeMoving: true }, () => {
+                // this.setCurrentNodeColor()
                 // convert nodes array to gradient string
             })
         }
         // e.stopPropagation()
         // e.preventDefault()
     }
-    initValue = (value) => {
+    initValue = (value, updating) => {
         const { nodeBorderWidth, nodeWidth } = this.state
         const evaluateDirection = (dirStr) => {
             const switchFunc = (comp) => {
@@ -214,15 +218,17 @@ class Gradient extends React.Component {
                 }
             }
         })
-        nodes = _.sortBy(nodes, (o) => o.left)
+        // nodes = _.sortBy(nodes, (o) => o.left)
         let nodesStr = nodes.map(item => `${item.color} ${item.left}%`)
         nodesStr = nodesStr.join(', ')
-        this.setState({ nodes, nodesStr, direction, type, position, currentPickerNode: 0 }, () => {
-
+        !updating && this.setState({ currentPickerNode: 0 }, () => {
+            this.setCurrentNodeColor()
+        })
+        this.setState({ nodes, nodesStr, direction, type, position }, () => {
         })
     }
 
-	// @Debounce(1000)
+    // @Debounce(1000)
     onChange = (val, key) => {
         const { globalOnChange } = this.props
         // key = node || direction || type
@@ -235,6 +241,7 @@ class Gradient extends React.Component {
         ]
         switch (key) {
             case 'colorPicker':
+                console.log(currentPickerNode, 'onChange')
                 let nodeIndex = _.findIndex(nodes, (item) => item.key == currentPickerNode)
                 nodes[nodeIndex].color = val
                 nodesStr = nodes.map(item => `${item.color} ${item.left}%`)
@@ -253,7 +260,12 @@ class Gradient extends React.Component {
                 break;
             case 'type':
                 gradient[0] = `${val}-gradient(`
-                gradient[1] = 'circle at ' + (this.extractValue(`${position}`) + '% ' + this.extractValue(`${position}`) + '%,')
+                gradient[1] = `${val === 'linear' ? this.extractValue(`${direction}`) + 'deg' : 'circle at ' + (this.extractValue(`${position}`) + '% ' + this.extractValue(`${position}`) + '%')}, `
+                // if (val == 'radial') {
+                //     // gradient[1] = 'circle at ' + (this.extractValue(`${position}`) + '% ' + this.extractValue(`${position}`) + '%,')
+                // } else {
+                //     gradient[1] = this.extractValue(`${direction}`) + 'deg,'
+                // }
                 break;
             default:
                 break;
@@ -266,12 +278,11 @@ class Gradient extends React.Component {
         let unit = data.replace(/[0-9]|\.|-/gi, '')
         return data.replace(unit, '')
     }
-    getCurrentNodeColor = () => {
+    setCurrentNodeColor = () => {
         const { nodes, currentPickerNode } = this.state
-        console.log(nodes, currentPickerNode)
         let nodeIndex = _.findIndex(nodes, (item) => item.key == currentPickerNode)
         if (nodeIndex == -1) return '#444444'
-        return nodes[nodeIndex].color
+        this.setState({ currentNodeColor: nodes[nodeIndex].color })
     }
     render() {
         const {
@@ -288,7 +299,7 @@ class Gradient extends React.Component {
             {
                 key: 'colorPicker',
                 type: 'picker',
-                value: this.getCurrentNodeColor(),
+                value: this.state.currentNodeColor,
             },
             {
                 label: 'Direction',
