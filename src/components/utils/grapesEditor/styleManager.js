@@ -278,6 +278,12 @@ const styleManager = {
 
 		let { styleInfo } = selected
 		let resp = styleInfo.styles[key]
+		if (key.includes('font-family') && styleInfo.styles[key]) {
+			if (resp.includes(',')) {
+				return _.startCase(resp)
+			}
+			return resp.replace(/ /gi, '+')
+		}
 		if (key.includes('transition')) {
 			resp = getComputedStyle(selected.node, pseudoClass)[key]
 			return resp

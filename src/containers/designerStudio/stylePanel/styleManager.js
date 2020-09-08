@@ -1529,7 +1529,7 @@ class StyleManager extends React.Component {
                 label: 'Font', //optional; Type: String || () => {}
                 key: 'font-family',
                 type: 'select',
-                value: (selected.node && _.startCase(_grapesEditor.styleManager.getStyles(selected, pseudoClass, 'font-family'))) || 'Auto',
+                value: (selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'font-family')) || 'Auto',
                 // width: '100%',
                 // labelClass: 'custom-label',
                 onChange: (value, item, pastValue) => {
