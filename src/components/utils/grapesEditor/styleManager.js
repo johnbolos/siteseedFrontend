@@ -278,6 +278,10 @@ const styleManager = {
 
 		let { styleInfo } = selected
 		let resp = styleInfo.styles[key]
+		if (key.includes('transition')) {
+			resp = getComputedStyle(selected.node, pseudoClass)[key]
+			return resp
+		}
 		if (key.includes('margin') && styleInfo.styles['margin']) {
 			let margin = styleInfo.styles['margin'].trim().split(' ')
 			let marginObj = {
