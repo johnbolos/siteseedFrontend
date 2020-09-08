@@ -718,12 +718,18 @@
 
     .flex-container-list,
     .transition-timing-list,
-    .transition-property-list,
     .background-attachment-list,
     .background-repeat-list,
     .display-list {
       .list-container {
         right: 0;
+      }
+    }
+
+    .transition-property-list {
+      .list-container {
+        right: 0;
+        min-width: 134px !important;
       }
     }
   }

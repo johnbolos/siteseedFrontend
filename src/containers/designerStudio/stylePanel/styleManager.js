@@ -1968,7 +1968,7 @@ class StyleManager extends React.Component {
                 type: 'select', //required
                 value: selected.node && (_grapesEditor.styleManager.getStyles(selected, pseudoClass, 'transition-property')) || 'Auto',
                 containerClass: 'transition-property-list',
-                width: '48%',
+                width: '58%',
                 options: [
                     {
                         label: 'All',
@@ -2007,7 +2007,7 @@ class StyleManager extends React.Component {
                 value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'transition-duration'),
                 defaultUnit: 'ms',
                 unit: ['s', 'ms'],
-                width: '48%',
+                width: '38%',
             },
             {
                 label: 'Easing',
