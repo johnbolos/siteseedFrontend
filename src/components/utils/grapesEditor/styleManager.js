@@ -245,7 +245,7 @@ const styleManager = {
 	},
 	getSelectorStyleInfo: (selector, styleObj, options = {}) => {
 		let { pseudoClass } = options;
-		if (pseudoClass == 'active') {
+		if (pseudoClass == 'normal') {
 			pseudoClass = null
 		}
 		let response = {
@@ -258,7 +258,7 @@ const styleManager = {
 					// return item.selector.includes(
 					// 	`${pseudoClass ? val + ":" + pseudoClass : val}`.trim()
 					// );
-					return item.selector == `${pseudoClass ? val + ":" + pseudoClass : val}`.trim()
+					return item.selector == `${pseudoClass ? '.' + val + ":" + pseudoClass : '.' + val}`.trim()
 				}
 			});
 		});
@@ -267,6 +267,234 @@ const styleManager = {
 			response.styles = { ...response.styles, ...styleObj[val].styles };
 		});
 		return response;
+	},
+	getStyles: (selected, pseudoClass, key) => {
+		// find in selected styleInfo, if not present then, return default
+		// switch (key) {
+		// 	case '':
+
+		// 		return
+		// }
+
+		let { styleInfo } = selected
+		let resp = styleInfo.styles[key]
+		if (key.includes('font-family') && styleInfo.styles[key]) {
+			if (resp.includes(',')) {
+				return _.startCase(resp)
+			}
+			return resp.replace(/ /gi, '+')
+		}
+		if (key.includes('transition')) {
+			resp = getComputedStyle(selected.node, pseudoClass)[key]
+			return resp
+		}
+		if (key.includes('margin') && styleInfo.styles['margin']) {
+			let margin = styleInfo.styles['margin'].trim().split(' ')
+			let marginObj = {
+				marginTop: '0px',
+				marginRight: '0px',
+				marginBottom: '0px',
+				marginLeft: '0px'
+			}
+			switch (margin.length) {
+				case 1:
+					marginObj = {
+						marginTop: margin[0],
+						marginRight: margin[0],
+						marginBottom: margin[0],
+						marginLeft: margin[0]
+					}
+					break;
+				case 2:
+					marginObj = {
+						marginTop: margin[0],
+						marginRight: margin[1],
+						marginBottom: margin[0],
+						marginLeft: margin[1]
+					}
+					break;
+				case 4:
+					marginObj = {
+						marginTop: margin[0],
+						marginRight: margin[1],
+						marginBottom: margin[2],
+						marginLeft: margin[3]
+					}
+					break;
+			}
+			return marginObj[key]
+		}
+		if (key.includes('padding') && styleInfo.styles['padding']) {
+			let padding = styleInfo.styles['padding'].trim().split(' ')
+			let paddingObj = {
+				paddingTop: '0px',
+				paddingRight: '0px',
+				paddingBottom: '0px',
+				paddingLeft: '0px'
+			}
+			switch (padding.length) {
+				case 1:
+					paddingObj = {
+						paddingTop: padding[0],
+						paddingRight: padding[0],
+						paddingBottom: padding[0],
+						paddingLeft: padding[0]
+					}
+					break;
+				case 2:
+					paddingObj = {
+						paddingTop: padding[0],
+						paddingRight: padding[1],
+						paddingBottom: padding[0],
+						paddingLeft: padding[1]
+					}
+					break;
+				case 4:
+					paddingObj = {
+						paddingTop: padding[0],
+						paddingRight: padding[1],
+						paddingBottom: padding[2],
+						paddingLeft: padding[3]
+					}
+					break;
+			}
+			return paddingObj[key]
+		}
+		if (resp) {
+			if (key == 'text-shadow') {
+				resp = resp.split(/,(?![^(]*\))/)
+				_.each(resp, (element, index) => {
+					element = element.trim().split(/ (?![^(]*\))/)
+					let color = element.pop()
+					element.unshift(color)
+					resp[index] = element.join(' ')
+				})
+				resp = resp.join(' ')
+			} else if (key == 'box-shadow') {
+				resp = resp.split(/,(?![^(]*\))/)
+				_.each(resp, (element, index) => {
+					element = element.trim().split(/ (?![^(]*\))/)
+					let color = element.pop()
+					element.unshift(color)
+					resp[index] = element.join(' ')
+				})
+				resp = resp.join(' ')
+			}
+		}
+		if (!resp) {
+			// create default
+			switch (key) {
+				case 'float':
+					resp = 'none'
+					return resp
+				case 'display':
+					resp = 'block'
+					return resp
+				case 'position':
+					resp = 'static'
+					return resp
+				case 'top':
+				case 'right':
+				case 'left':
+				case 'bottom':
+				case 'width':
+				case 'height':
+					resp = 'Auto'
+					return resp
+				case 'maxWidth':
+				case 'maxHeight':
+					resp = 'None'
+					return resp
+				case 'marginTop':
+				case 'marginRight':
+				case 'marginBottom':
+				case 'marginLeft':
+				case 'paddingTop':
+				case 'paddingRight':
+				case 'paddingBottom':
+				case 'paddingLeft':
+					resp = '0px'
+					return resp
+				case 'font-family':
+				case 'font-weight':
+					resp = 'Auto'
+					return resp
+				case 'font-size':
+					resp = getComputedStyle(selected.node, pseudoClass)[key]
+					return resp
+				case 'color':
+					resp = 'rgb(255, 255, 255)'
+					return resp
+				case 'line-height':
+				case 'letter-spacing':
+					resp = getComputedStyle(selected.node, pseudoClass)[key]
+					return resp
+				case 'text-decoration':
+					resp = 'none'
+					return resp
+				case 'text-align':
+					resp = 'left'
+					return resp
+				case 'opacity':
+					resp = 100
+					return resp
+				case 'border-radius':
+					resp = '0%'
+					return resp
+				case 'border-width':
+					resp = '0px'
+					return resp
+				case 'border-style':
+					resp = 'solid'
+					return resp
+				case 'border-color':
+					resp = 'rgb(255, 255, 255)'
+					return resp
+				case 'transition-property':
+					resp = 'all'
+					return resp
+				case 'transition-duration':
+					resp = '0ms'
+					return resp
+				case 'transition-timing-function':
+					resp = 'ease'
+					return resp
+				case 'perspective':
+				case 'order':
+					resp = null
+					return resp
+				case 'flex-direction':
+				case 'justify-content':
+				case 'align-items':
+					resp = getComputedStyle(selected.node, pseudoClass)[key]
+					return resp
+				case 'flex-grow':
+					resp = '0'
+					return resp
+				case 'flex-shrink':
+					resp = '1'
+					return resp
+				case 'flex-basis':
+					resp = null
+					return resp
+				case 'text-shadow':
+				case 'box-shadow':
+					resp = 'none'
+					return resp
+				case 'background-image':
+				case 'background-blend-mode':
+				case 'background-repeat':
+				case 'background-position':
+				case 'background-attachment':
+				case 'background-size':
+					resp = null
+					return resp
+				case 'background-color':
+					resp = 'rgba(0, 0, 0, 0)'
+					return resp
+			}
+		}
+		return resp
 	},
 };
 
@@ -284,6 +512,7 @@ export const customEvents = {
 			options
 		);
 		node.setState({ selected: { node: elem, styleInfo } }, () => {
+			// console.log('.....', { node: elem, styleInfo }, node.props.styleObj)
 			cb();
 		});
 	},

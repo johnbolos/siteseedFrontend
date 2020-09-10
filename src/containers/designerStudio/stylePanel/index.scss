@@ -41,6 +41,7 @@
     border-bottom: 1px solid #444444;
     font-family: "Source Sans Pro";
     font-style: normal;
+    position: relative;
     font-weight: 400;
     font-size: 13px;
     line-height: 16px;
@@ -713,6 +714,23 @@
         path {
           fill: #ffffff;
         }
+      }
+    }
+
+    .flex-container-list,
+    .transition-timing-list,
+    .background-attachment-list,
+    .background-repeat-list,
+    .display-list {
+      .list-container {
+        right: 0;
+      }
+    }
+
+    .transition-property-list {
+      .list-container {
+        right: 0;
+        min-width: 134px !important;
       }
     }
   }
