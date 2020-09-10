@@ -11,18 +11,18 @@ export const basicBlocks = (editor) => {
 		label: `<img src=${tooltip} alt=tooltip />
         <div>Tooltips</div>`,
 		category: "Basic",
-		content: `<div class="tooltip">Hover over me
-		<span class="tooltiptext">Tooltip text</span>
+		content: `<div class="ss-tooltip">Hover over me
+		<span class="ss-tooltiptext">Tooltip text</span>
 	  </div>
 	 
 	  <style>
-	  .tooltip {
+	  .ss-tooltip {
 		position: relative;
 		display: inline-block;
 		border-bottom: 1px dotted black;
 	  }
 	  
-	  .tooltip .tooltiptext {
+	  .ss-tooltip .ss-tooltiptext {
 		visibility: hidden;
 		width: 120px;
 		background-color: black;
@@ -36,7 +36,7 @@ export const basicBlocks = (editor) => {
 		left: 110%;
 	  }
 	  
-	  .tooltip .tooltiptext::after {
+	  .ss-tooltip .ss-tooltiptext::after {
 		content: "";
 		position: absolute;
 		top: 50%;
@@ -46,7 +46,7 @@ export const basicBlocks = (editor) => {
 		border-style: solid;
 		border-color: transparent black transparent transparent;
 	  }
-	  .tooltip:hover .tooltiptext {
+	  .ss-tooltip:hover .ss-tooltiptext {
 		visibility: visible;
 	  }
 </style>
