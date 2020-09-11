@@ -14,6 +14,9 @@ export const setStyleStr = (data, options={}) => {
     let frame = document.getElementsByClassName("gjs-frame")
     let doc = frame[0].contentWindow.document
     let style = doc.getElementById("ss-style")
+    if (!style) {
+      return {type: ''}
+    }
     let innerHTML = _.clone(data)
     innerHTML = innerHTML.replace('<style>', '')
     innerHTML = innerHTML.replace('</style>', '')
