@@ -1541,7 +1541,7 @@ class StyleManager extends React.Component {
                 options: this.state.fontOptions,
             },
             {
-                label: 'Weight', //optional; Type: String || () => {}
+                label: 'Style', //optional; Type: String || () => {}
                 key: 'font-weight',
                 type: 'select',
                 value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'font-weight') || 'Auto',
