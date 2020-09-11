@@ -233,6 +233,7 @@ export const template1Style = `
       // }
       .card-header-unique{
         height:155px;
+        width:300px;
         background-image:url("//placehold.it/350x250/78c5d6/fff/image1.jpg");
         background-size:cover;
         background-position:center center;

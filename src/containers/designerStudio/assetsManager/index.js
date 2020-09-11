@@ -107,6 +107,9 @@ class AssetsManager extends React.Component {
             console.log('please upload a file smaller than 2MB')
             return
         }
+        if (!/jpeg|jpg|gif|png/.test(files[0].type)) {
+            return
+        }
         this.setState({ loading: true })
         let s3Dir = userS3Dir
         if (!s3Dir) {
@@ -125,6 +128,7 @@ class AssetsManager extends React.Component {
             }
             this.handleAddImage(resp.data.location)
         })
+
         // this.setState({ loading: true })
         // let form = new FormData()
         // form.append('file', files[0])
