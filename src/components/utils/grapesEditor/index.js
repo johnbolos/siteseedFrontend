@@ -4,10 +4,10 @@ import grapesjs from "grapesjs";
 //import "grapesjs-blocks-basic";
 import exportPlugin from "grapesjs-plugin-export";
 import panels from "../../../containers/designerStudio/panels";
-// import "grapesjs-preset-webpage";
+//import "grapesjs-preset-webpage";
 import $ from "jquery";
 import styleManager from "./styleManager";
-import { openAssets } from '../../../reducers/actions/editor'
+import { openAssets } from "../../../reducers/actions/editor";
 
 import "./index.scss";
 import { svg } from "../index";
@@ -15,7 +15,9 @@ import layoutBlocks from "../blocks/layout";
 import { basicBlocks } from "../blocks/basic";
 import { typography } from "../blocks/typography";
 import { formBlocks } from "../blocks/forms";
+import formTraits from "../blocks/forms/formTraits";
 import { media } from "../blocks/media";
+import { extras } from "../blocks/extras";
 import { slider } from "../blocks/basic/icons";
 import "grapesjs-lory-slider";
 
@@ -444,6 +446,8 @@ const _grapesEditor = {
 			media,
 			"grapesjs-lory-slider",
 			formBlocks,
+			extras,
+			formTraits,
 		],
 		pluginsOpts: {
 			"grapesjs-lory-slider": {
@@ -465,6 +469,9 @@ const _grapesEditor = {
 		},
 		layerManager: {
 			appendTo: "#layer-manager",
+		},
+		traitManager: {
+			appendTo: ".traits-container",
 		},
 		canvas: {
 			styles: [
@@ -522,15 +529,49 @@ const _grapesEditor = {
 		editor.on("modal:open", () => {
 			console.log("modal opened");
 		});
-		editor.Commands.add('open-assets', {
+		editor.Commands.add("open-assets", {
 			run(editor, sender, opts = {}) {
-				dispatch(openAssets({ type: 'image', imageAssetsTarget: opts.target }))
+				dispatch(openAssets({ type: "image", imageAssetsTarget: opts.target }));
 				// opts.target.set('src', 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg')
+			},
+		});
+		/* 	editor.Commands.add("show-traits", {
+			getTraitsEl(editor) {
+				//const row = editor.getContainer().closest(".style-panel-container");
+				//console.log(document.getElementsByClassName("traits-container"));
+				return document.getElementsByClassName("traits-container");
+			},
+			run(editor, sender) {
+				document.getElementsByClassName("traits-container")[0].style.display =
+					"";
+			},
+			stop(editor, sender) {
+				document.getElementsByClassName("traits-container")[0].style.display =
+					"none";
+			},
+		}); */
+		// editor.on("component:add", (model) => {
+		// 	/* if (model.attributes.type === "image") {
+		// 		editor.runCommand("open-assets");
+		// 	} */
+		// 	/* if (model.ccid === "modal-container-2") {
+		// 		editor.select(model);
+		// 		const component = editor.getSelected();
+		// 		component.remove(model);
+		// 		alert("cannot add multiple popups on same page");
+		// 	} */
+		// });
+		editor.on("canvas:drop", (instance, model) => {
+			if (model.attributes && model.attributes.type === "image") {
+				editor.runCommand("open-assets");
 			}
-		})
-		editor.on("component:image:add", () => {
-			console.log("image dropped");
-			editor.runCommand("open-assets");
+
+			if (model.ccid === "modal-container-2") {
+				editor.select(model);
+				const component = editor.getSelected();
+				component.remove(model);
+				alert("cannot add multiple popups on same page");
+			}
 		});
 
 		editor.on("component:update", () => {
@@ -563,6 +604,24 @@ const _grapesEditor = {
 			},
 		});
 
+		let domComps = editor.DomComponents;
+		let dType = domComps.getType("video");
+		let dModel = dType.model;
+		const yt = "yt";
+		domComps.addType("video", {
+			model: dModel.extend({
+				getProviderTrait() {
+					return {
+						type: "select",
+						label: "Provider",
+						name: "provider",
+						changeProp: 1,
+						options: [{ value: yt, name: "Youtube" }],
+					};
+				},
+			}),
+		});
+
 		//init style manager
 		styleManager.init(config.styles, dispatch);
 		if (cb) {
@@ -592,8 +651,8 @@ const _grapesEditor = {
 				message: tag
 					? `Please add '${tag}' tag, to export correctly`
 					: `Please add '${
-					start + "' and '" + end
-					}' identifer, to export correctly`,
+							start + "' and '" + end
+					  }' identifer, to export correctly`,
 			};
 		let header = html.substring(startIndex, endIndex);
 		return {

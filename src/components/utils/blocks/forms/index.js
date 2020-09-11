@@ -21,17 +21,10 @@ export const formBlocks = (editor) => {
     <label for="lname">Last Name</label>
     <input type="text" id="lname" name="lastname" placeholder="Your last name..">
 
-    <label for="country">Country</label>
-    <select id="country" name="country">
-      <option value="australia">Australia</option>
-      <option value="canada">Canada</option>
-      <option value="usa">USA</option>
-    </select>
-  
-    <input type="submit" value="Submit">
+    <button type="submit" class="submit-btn">Submit</button>
   </form>
   <style>
-  input[type=text], select {
+  input[type=text], input[type=email], input[type=password], input[type=number], select {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -41,7 +34,7 @@ export const formBlocks = (editor) => {
     box-sizing: border-box;
   }
   
-  input[type=submit] {
+  .submit-btn {
     width: 100%;
     background-color: #4CAF50;
     color: white;
@@ -52,7 +45,7 @@ export const formBlocks = (editor) => {
     cursor: pointer;
   }
   
-  input[type=submit]:hover {
+  .submit-btn:hover {
     background-color: #45a049;
   }
   </style>
