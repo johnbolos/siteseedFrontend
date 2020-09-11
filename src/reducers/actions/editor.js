@@ -11,10 +11,6 @@ export const closeAssets = () => {
   return { type: 'CLOSE_ASSETS' }
 }
 
-export const updateAssets = (value) => {
-  return { type: 'UPDATE_ASSETS', value }
-}
-
 export const setbackgroundImage = (value) => {
   return { type: 'SET_BACKGROUND_IMAGE', value }
 }

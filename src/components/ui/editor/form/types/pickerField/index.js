@@ -96,7 +96,7 @@ class PickerField extends React.Component {
         const { value, alphaValue, openPicker } = this.state
         return (
             <div ref={this.PickerRef} className={'picker-field-container'}>
-                <div className={'preview-color'} onClick={() => { this.setState({ openPicker: true }) }} style={{ background: value }}></div>
+                <div className={'preview-color'} onClick={() => { this.setState({ openPicker: true }) }} style={{ backgroundColor: value }}></div>
                 {
                     openPicker && <div onBlur={() => {
                     }}>

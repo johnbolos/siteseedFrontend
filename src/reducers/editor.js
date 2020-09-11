@@ -1,32 +1,6 @@
 const initialState = {
   pseudoClass: 'normal',
   assetsManager: false,
-  assets: {
-    image: [
-      'http://grapesjs.com/img/work-desk.jpg',
-      'https://i.ytimg.com/vi/hF_LjTUvP-U/maxresdefault.jpg',
-      'https://r1.ilikewallpaper.net/iphone-x-wallpapers/download/78985/joker-2019-movie-iphone-x-wallpaper-ilikewallpaper_com_200.jpg',
-    ],
-    fonts: [
-      'Abel',
-      'Allerta',
-      'Amarnth',
-      'Amatic SC',
-      'Anton',
-      'Arimo',
-      'Arvo',
-      'Asap',
-      'Bitter',
-      'Black Ops One',
-      'Bree Serif',
-      'Cabin',
-      'Cabin Condensed',
-      'Calligraffitti',
-      'Cantarell',
-      'Cardo',
-      'Changa One',
-    ]
-  },
   googleFonts: [],
   imageAssetsTarget: null,
   backgroundImage: null,
@@ -73,12 +47,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         backgroundImage: action.value
-      }
-
-    case 'UPDATE_ASSETS':
-      return {
-        ...state,
-        assets: action.value
       }
 
     case 'SET_GOOGLE_FONTS':

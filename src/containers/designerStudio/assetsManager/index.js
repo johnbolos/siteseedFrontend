@@ -1,16 +1,19 @@
 import React from "react"
 import { connect } from "react-redux"
 import _ from 'lodash'
+import shortid from 'shortid'
 
 import "./index.scss"
 import Request from '../../../request'
 import _grapesEditor from "../../../components/utils/grapesEditor"
 // import { Select } from '../../../components/ui/editor'
 import { undo, redo, setEditorStyleData } from "../../../reducers/actions/editorHistoryActions"
-import { setPseudoClass, updateAssets, closeAssets, setbackgroundImage } from "../../../reducers/actions/editor"
+import { setPseudoClass, closeAssets, setbackgroundImage } from "../../../reducers/actions/editor"
+import { setS3Dir, updateAssets } from "../../../reducers/actions/userActions"
 import { customEvents } from '../../../components/utils/grapesEditor/styleManager'
 import Icons from '../../../assets/Icons'
 import editor from "../../../reducers/editor"
+import _s3 from "../../../components/utils/s3"
 
 class AssetsManager extends React.Component {
     constructor(props) {
@@ -68,7 +71,9 @@ class AssetsManager extends React.Component {
         this.setState({ selected: value }, () => {
             if (assetsManager == 'image') {
                 imageAssetsTarget && imageAssetsTarget.set('src', value)
+                this.handleClose()
             } else if (assetsManager == 'imageBackground') {
+                this.handleClose()
                 dispatch(setbackgroundImage(value))
             }
         })
@@ -86,7 +91,7 @@ class AssetsManager extends React.Component {
         })
     }
     handleUpload = async (e, mouseDrop) => {
-        let { dispatch, assets } = this.props
+        let { dispatch, assets, userS3Dir } = this.props
         let files = []
         if (mouseDrop) {
             // e.preventDefault()
@@ -103,15 +108,33 @@ class AssetsManager extends React.Component {
             return
         }
         this.setState({ loading: true })
-        let form = new FormData()
-        form.append('file', files[0])
-        form.append('upload_preset', 'ybygtzty')
-        const apiRequest = await Request.uploadImage(form)
-        this.setState({ loading: false })
-        if (!apiRequest.secure_url) {
-            return
+        let s3Dir = userS3Dir
+        if (!s3Dir) {
+            // create new userS3Dir
+            s3Dir = shortid.generate()
+            dispatch(setS3Dir(s3Dir))
         }
-        this.handleAddImage(apiRequest.secure_url)
+        _s3.uploadFile(files[0], s3Dir, (resp) => {
+            this.setState({ loading: false })
+            console.log(resp)
+            if (resp.error) {
+                if (resp.message) {
+                    console.error(resp.message)
+                }
+                return
+            }
+            this.handleAddImage(resp.data.location)
+        })
+        // this.setState({ loading: true })
+        // let form = new FormData()
+        // form.append('file', files[0])
+        // form.append('upload_preset', 'ybygtzty')
+        // const apiRequest = await Request.uploadImage(form)
+        // this.setState({ loading: false })
+        // if (!apiRequest.secure_url) {
+        //     return
+        // }
+        // this.handleAddImage(apiRequest.secure_url)
     }
     handleClose = () => {
         const { dispatch, assets } = this.props
@@ -334,10 +357,11 @@ const mapStateToProps = ({ global, layout, templates, editor, editorHistory }) =
         loading: global.loading,
         templates,
         assetsManager: editor.assetsManager,
-        assets: editor.assets,
+        assets: global.assets,
         imageAssetsTarget: editor.imageAssetsTarget,
         backgroundImage: editor.backgroundImage,
         googleFonts: editor.googleFonts,
+        userS3Dir: global.userS3Dir
     }
 }
 

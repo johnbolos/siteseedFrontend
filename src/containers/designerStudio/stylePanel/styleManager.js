@@ -2330,7 +2330,7 @@ const mapStateToProps = ({ global, layout, editor, templates, editorHistory }) =
         styleObj: editorHistory.present.styleObj,
         styleStr: editorHistory.present.style,
         pseudoClass: editor.pseudoClass,
-        assets: editor.assets,
+        assets: global.assets,
         assetsManager: editor.assetsManager
     }
 }

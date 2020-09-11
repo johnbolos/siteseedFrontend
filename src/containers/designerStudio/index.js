@@ -11,6 +11,7 @@ import StylePanel from "./stylePanel/index";
 import AssetsManager from './assetsManager'
 import { undo, redo } from "../../reducers/actions/editorHistoryActions";
 import { setGoogleFonts } from "../../reducers/actions/editor"
+import { updateAssets } from '../../reducers/actions/userActions'
 import { saveChanges } from "../../reducers/actions/pageActions";
 import { closestElement } from "../../components/utils/index";
 import { /* html, */ template1Html, template1Style } from "./dummie";
@@ -35,6 +36,14 @@ class DesignerStudio extends React.Component {
 	state = initialState;
 
 	componentDidMount() {
+		let { currentUser, dispatch, assets } = this.props
+		if (currentUser) {
+			// initialise different settings.....
+			if (currentUser.assets && currentUser.assets.image) {
+				assets.image.push(currentUser.assets.image)
+				dispatch(updateAssets(assets))
+			}
+		}
 		//window.addEventListener("scroll", this.handleScroll, true);
         // get google api fonts
 		this.setGoogleFonts()
@@ -285,7 +294,9 @@ const mapStateToProps = ({
 		styleObj: editorHistory.present.styleObj,
 		pseudoClass: editor.pseudoClass,
 		pageReducer,
-		assetsManager: editor.assetsManager
+		assetsManager: editor.assetsManager,
+		assets: global.assets,
+		currentUser: global.currentUser
 	};
 };
 

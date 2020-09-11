@@ -1,6 +1,31 @@
 const initialState = {
-    currentUser: {
-        email: null
+    currentUser: null,
+    userS3Dir: null,
+    assets: {
+        image: [
+            'http://grapesjs.com/img/work-desk.jpg',
+            'https://i.ytimg.com/vi/hF_LjTUvP-U/maxresdefault.jpg',
+            'https://r1.ilikewallpaper.net/iphone-x-wallpapers/download/78985/joker-2019-movie-iphone-x-wallpaper-ilikewallpaper_com_200.jpg',
+        ],
+        fonts: [
+            'Abel',
+            'Allerta',
+            'Amarnth',
+            'Amatic SC',
+            'Anton',
+            'Arimo',
+            'Arvo',
+            'Asap',
+            'Bitter',
+            'Black Ops One',
+            'Bree Serif',
+            'Cabin',
+            'Cabin Condensed',
+            'Calligraffitti',
+            'Cantarell',
+            'Cardo',
+            'Changa One',
+        ]
     },
     token: null,
     buttonLoading: false,
@@ -14,6 +39,18 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 currentUser: action.user
+            }
+
+        case 'SET_S3_DIR':
+            return {
+                ...state,
+                userS3Dir: action.value
+            }
+
+        case 'UPDATE_ASSETS':
+            return {
+                ...state,
+                assets: action.value
             }
 
         case 'LOGOUT':
@@ -33,7 +70,7 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: false
             }
-            
+
         case 'SHOW_BTN_LOADING':
             return {
                 ...state,
