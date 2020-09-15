@@ -2451,30 +2451,14 @@ export const template1Html = `
                   <div class="row">
                       <div class="col-md-12 offset-lg-4 col-lg-8  offset-mb-0 mb-12 p-0">
             
-            <div class="img-container">
-              
-                              <img class="img-responsive image" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/vedio-imge.jpg">
-                              <div class="overlay"> <span id="hom" class="hom"><img class="popup image_on" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/play-button-B.png"><img class="popup image_off" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/play-button-G.png"></span>
-                              </div>
-                          </div>
+					  	<div class="img-container" style="display: flex;">
+					  		<img class="img-responsive image video-img" src="http://159.65.145.117:8090/SiteSeed/Spa&amp;Wellnss/images/vedio-imge.jpg" style="height: 474px;">
+					  		<div class="overlay"> <span id="hom"><img class="popup image_on" src="http://159.65.145.117:8090/SiteSeed/Spa&amp;Wellnss/images/play-button-B.png"><img class="popup image_off" src="http://159.65.145.117:8090/SiteSeed/Spa&amp;Wellnss/images/play-button-G.png"></span>
+					  		</div>
+		  					<iframe id="cartoonVideo" style="height: 474px; display: none; flex: 1;" width="560" height="315" src="https://www.youtube.com/embed/YE7VzlLtp-4?autoplay=1&amp;autoplay=1&amp;autoplay=1&amp;autoplay=1&amp;autoplay=1&amp;autoplay=1&amp;autoplay=1&amp;autoplay=1&amp;autoplay=1&amp;autoplay=1&amp;autoplay=1&amp;autoplay=1&amp;autoplay=1" frameborder="0" allowfullscreen="" style=" flex: 1; display: none;">
+		  					</iframe>
+				  		</div>
                           <!--modal button-->
-                          <div class="bs-example">
-                              <!-- Button HTML (to Trigger Modal) -->
-                              <button style="display: none;" class="btn btn-lg btn-primary play" data-target='#myModal' data-toggle="modal">Launch Demo Modal</button>
-                              <!-- Modal HTML -->
-                              <div id="myModal" class="modal fade">
-                                  <div class="modal-dialog">
-                                      <div class="modal-content">
-                                          <div class="modal-header">
-                                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                          </div>
-                                          <div class="modal-body">
-                                              <iframe id="cartoonVideo" width="560" height="315" src="https://www.youtube.com/embed/YE7VzlLtp-4" frameborder="0" allowfullscreen allow="autoplay;"></iframe>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
                       </div>
                   </div>
               </div>
@@ -2774,17 +2758,18 @@ export const template1Html = `
   </script>
   <script>
   $(document).ready(function(){
-      $(".popup").click(function () {
-      player.src = url;
-      $('.play').click();
-      var symbol = $("#cartoonVideo")[0].src.indexOf("?") > -1 ? "&" : "?";
-      //modify source to autoplay and start video
-      $("#cartoonVideo")[0].src += symbol + "autoplay=1";
-  }); 
-  $(".close").click(function () {
-      player.src = "";
-      $('#myModal').hide();
-  });
+	var url = $("#cartoonVideo").attr('src');
+	var player = document.getElementById("cartoonVideo");
+	$(".popup").click(function () {
+    $('.video-img').css("display", "none");
+    $('#cartoonVideo').css("display", "block");
+    $('.overlay').css("display", "none");
+	    player.src = url;
+	    $('.play').click();
+	    var symbol = $("#cartoonVideo")[0].src.indexOf("?") > -1 ? "&" : "?";
+	    //modify source to autoplay and start video
+	    $("#cartoonVideo")[0].src += symbol + "autoplay=1";
+	});
   })
   </script>
   <!--navbar-->
