@@ -1,4 +1,7 @@
 import _ from "lodash";
+
+// import { template1StyleMedia } from "../../../containers/designerStudio/dummieTemp";
+import { template1StyleMedia } from "../../../containers/designerStudio/dummiev3";
 import { setEditorStyleData, setStyleStr } from "../../../reducers/actions/editorHistoryActions";
 
 const styleManager = {
@@ -14,6 +17,7 @@ const styleManager = {
 			return styleObj;
 		}
 		//save in redux=====================================================================
+		// console.log(styleObj.data.stylesObj, 'style obj')
 		dispatch(setEditorStyleData(styleObj.data.stylesObj));
 		dispatch(setStyleStr(styleStr))
 		//==================================================================================
@@ -64,7 +68,9 @@ const styleManager = {
 				) {
 					let style = document.createElement("style");
 					style.id = "ss-customStyles";
-					style.innerHTML = styleObj.data.stylesObj[0].styles;
+					// style.innerHTML = styleObj.data.stylesObj[0].styles;	//adds custom stylesss
+					
+					style.innerHTML = template1StyleMedia
 					gjsCssRules.appendChild(style)
 					// body.insertBefore(style, body.firstChild);
 				}
@@ -73,7 +79,7 @@ const styleManager = {
 	},
 	strToObj: (str) => {
 		//does not support media queries
-		str = str.toLowerCase();
+		// str = str.toLowerCase();
 		let response = [];
 		let start = str.search("<style>");
 		let end = str.search("</style>");
@@ -86,6 +92,9 @@ const styleManager = {
 		if (end == -1) str = str.substring(start + 7, str.length - 1);
 		else str = str.substring(start + 7, end - 1);
 		str = str.trim();
+		// remove all comments
+		
+		str = styleManager.removeComments(str)
 		//extract custom styles now
 		const data = styleManager.extractBlock("@media", str);
 		if (data.customCode != "") {
@@ -124,6 +133,9 @@ const styleManager = {
 			message: "converted successfully",
 			data: { filteredStr: str, stylesObj: response },
 		};
+	},
+	removeComments: (str) => {
+		return str.replace(/\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm, '')
 	},
 	extractBlock: (phrase = "@media", str) => {
 		let response = {

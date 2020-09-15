@@ -14,7 +14,9 @@ import { setGoogleFonts } from "../../reducers/actions/editor"
 import { updateAssets } from '../../reducers/actions/userActions'
 import { saveChanges } from "../../reducers/actions/pageActions";
 import { closestElement } from "../../components/utils/index";
-import { /* html, */ template1Html, template1Style } from "./dummie";
+// import { /* html, */ template1Html, template1Style } from "./dummie";
+// import { /* html, */ template1Html, template1Style } from "./dummieTemp";
+import { /* html, */ template1Html, template1Style } from "./dummiev3";
 import { landingHtml, landingStyle } from "./templates/landing";
 import { landing2Html, landing2Style } from "./templates/landing2";
 import { question, minus, plus } from "../designerStudio/panels/icons";
