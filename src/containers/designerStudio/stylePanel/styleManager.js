@@ -50,6 +50,7 @@ class StyleManager extends React.Component {
         // this.setcompositeHidden(prevState)
         if (prevProps.selected != this.props.selected) {
             // this.forceUpdate()
+            console.log(this.props.selected, 'aaaaaa')
             this.extractTransform()
         }
         if (this.props.selected && (prevProps.selected.node != this.props.selected.node)) {
@@ -587,6 +588,7 @@ class StyleManager extends React.Component {
                     return <div className={'choose-image-btn'} onClick={() => {
                         setState({ ...state, selecting: key })
                         value = value.replace(/url\(|"|'|\)/gi, '')
+                        console.log(value, 'aaaaaaaaaaaaaaaa')
                         dispatch(openAssets({ type: 'imageBackground', backgroundImage: value }))
                     }}>
                         Choose image

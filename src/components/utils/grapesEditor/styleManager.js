@@ -17,7 +17,7 @@ const styleManager = {
 			return styleObj;
 		}
 		//save in redux=====================================================================
-		// console.log(styleObj.data.stylesObj, 'style obj')
+		console.log(styleObj.data.stylesObj, 'style obj')
 		dispatch(setEditorStyleData(styleObj.data.stylesObj));
 		dispatch(setStyleStr(styleStr))
 		//==================================================================================
@@ -124,7 +124,12 @@ const styleManager = {
 				let declaration = item.split(":");
 				if (item == "") return;
 				if (declaration[0].trim() == "") return;
-				styles[declaration[0].trim()] = declaration[1];
+				if (declaration.length > 2) {
+					let ruleSeclector = declaration.shift()
+					styles[ruleSeclector.trim()] = declaration.join(':')
+				} else {
+					styles[declaration[0].trim()] = declaration[1];
+				}
 			});
 			response.push({ selector, styles });
 		});
