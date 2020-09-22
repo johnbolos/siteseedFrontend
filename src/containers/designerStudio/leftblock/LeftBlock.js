@@ -19,6 +19,7 @@ const initialState = {
 	component: "none",
 	layers: "none",
 	comment: "none",
+	openComponents : false
 };
 
 class LeftBlock extends Component {
@@ -31,7 +32,7 @@ class LeftBlock extends Component {
 			[e.target.name]: this.state[e.target.name] === "none" ? "block" : "none",
 		});
 	};
-	reset(elem) {
+	reset = (elem) => {
 		this.setState(initialState);
 		// elem.next().toggleClass("hide-top");
 	}
@@ -45,6 +46,8 @@ class LeftBlock extends Component {
 			/* editor.on("component:update", () => {
 				this.reset();
 			}); */
+			/* let { editor } = _grapesEditor;
+			this.setState({ newComponents: editor.BlockManager.render() }); */
 		}, 500);
 	}
 	openLayers() {
@@ -55,8 +58,22 @@ class LeftBlock extends Component {
 		let { editor } = _grapesEditor;
 		editor.stopCommand("open-siteSeed-layers");
 	}
+	openComponents() {
+		let { editor } = _grapesEditor;
+		let {openComponents} = this.state
+		openComponents ? editor.stopCommand("add-component-manager") : editor.runCommand("add-component-manager")
+		this.setState({
+			openComponents : !this.state.openComponents
+		})
+		//editor.runCommand("add-component-manager")
+	}
+	saveSection() {
+		let { editor } = _grapesEditor;
+		editor.runCommand("ss-save-section")
+	}
 	render() {
 		//const { pageReducer } = this.props;
+		//let { editor } = _grapesEditor;
 		return (
 			<>
 				<div className='left-pane'>
@@ -74,7 +91,7 @@ class LeftBlock extends Component {
 							src={components}
 							alt='Component'
 							name='component'
-							onClick={this.drawerToggleClickHandler}></img>
+							onClick={(e) => {this.drawerToggleClickHandler(e); this.openComponents();}}></img>
 						<span className='tooltiptext-left'>Add Components</span>
 					</div>
 					<div className='tooltip-left'>
@@ -98,6 +115,7 @@ class LeftBlock extends Component {
 					}}></img>
 				<div id='blocks' style={{ display: this.state.blocks }}>
 					<h4 className='add-element'>Add Elements</h4>
+					<button type="button" className="save-section" onClick={this.saveSection}>Save Section</button>
 				</div>
 				<img
 					src={tip}
@@ -111,6 +129,7 @@ class LeftBlock extends Component {
 					}}></img>
 				<div id='components' style={{ display: this.state.component }}>
 					<h4 className='add-element'>Add Components</h4>
+					
 				</div>
 				<img
 					src={tip}

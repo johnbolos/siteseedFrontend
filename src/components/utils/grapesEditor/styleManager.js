@@ -2,7 +2,10 @@ import _ from "lodash";
 
 // import { template1StyleMedia } from "../../../containers/designerStudio/dummieTemp";
 import { template1StyleMedia } from "../../../containers/designerStudio/dummiev3";
-import { setEditorStyleData, setStyleStr } from "../../../reducers/actions/editorHistoryActions";
+import {
+	setEditorStyleData,
+	setStyleStr,
+} from "../../../reducers/actions/editorHistoryActions";
 
 const styleManager = {
 	defaultConfig: {},
@@ -19,7 +22,7 @@ const styleManager = {
 		//save in redux=====================================================================
 		// console.log(styleObj.data.stylesObj, 'style obj')
 		dispatch(setEditorStyleData(styleObj.data.stylesObj));
-		dispatch(setStyleStr(styleStr))
+		dispatch(setStyleStr(styleStr));
 		//==================================================================================
 
 		// let frame = document.getElementsByClassName("gjs-frame");
@@ -45,37 +48,39 @@ const styleManager = {
 
 		let frame = document.getElementsByClassName("gjs-frame");
 		const grapesDocument = frame[0].contentWindow.document;
-		let body = grapesDocument.getElementsByTagName(
-			"body"
-		);
-		frame[0].contentWindow.addEventListener('DOMNodeInserted', function (evt) {
-			if (evt.target.className == 'gjs-css-rules') {
-				// const gjsCssRules = frame[0].contentWindow.document.querySelector(
-				// 	".gjs-css-rules"
-				// );
-				const gjsCssRules = evt.target
-				//add the style tag in dom
-				let styleId = "ss-style";
-				let style = document.createElement("style");
-				style.id = styleId;
-				style.innerHTML = styleObj.data.filteredStr;
-				gjsCssRules.appendChild(style)
-				// body.insertBefore(style, body.firstChild);
-				if (
-					styleObj.data &&
-					styleObj.data.stylesObj[0] &&
-					styleObj.data.stylesObj[0].custom
-				) {
+		let body = grapesDocument.getElementsByTagName("body");
+		frame[0].contentWindow.addEventListener(
+			"DOMNodeInserted",
+			function (evt) {
+				if (evt.target.className == "gjs-css-rules") {
+					// const gjsCssRules = frame[0].contentWindow.document.querySelector(
+					// 	".gjs-css-rules"
+					// );
+					const gjsCssRules = evt.target;
+					//add the style tag in dom
+					let styleId = "ss-style";
 					let style = document.createElement("style");
-					style.id = "ss-customStyles";
-					// style.innerHTML = styleObj.data.stylesObj[0].styles;	//adds custom stylesss
-					
-					style.innerHTML = template1StyleMedia
-					gjsCssRules.appendChild(style)
+					style.id = styleId;
+					style.innerHTML = styleObj.data.filteredStr;
+					gjsCssRules.appendChild(style);
 					// body.insertBefore(style, body.firstChild);
+					if (
+						styleObj.data &&
+						styleObj.data.stylesObj[0] &&
+						styleObj.data.stylesObj[0].custom
+					) {
+						let style = document.createElement("style");
+						style.id = "ss-customStyles";
+						// style.innerHTML = styleObj.data.stylesObj[0].styles;	//adds custom stylesss
+
+						style.innerHTML = template1StyleMedia;
+						gjsCssRules.appendChild(style);
+						// body.insertBefore(style, body.firstChild);
+					}
 				}
-			}
-		}, false);
+			},
+			false
+		);
 	},
 	strToObj: (str) => {
 		//does not support media queries
@@ -93,8 +98,8 @@ const styleManager = {
 		else str = str.substring(start + 7, end - 1);
 		str = str.trim();
 		// remove all comments
-		
-		str = styleManager.removeComments(str)
+
+		str = styleManager.removeComments(str);
 		//extract custom styles now
 		const data = styleManager.extractBlock("@media", str);
 		if (data.customCode != "") {
@@ -135,7 +140,7 @@ const styleManager = {
 		};
 	},
 	removeComments: (str) => {
-		return str.replace(/\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm, '')
+		return str.replace(/\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm, "");
 	},
 	extractBlock: (phrase = "@media", str) => {
 		let response = {
@@ -179,53 +184,59 @@ const styleManager = {
 		response.str = str;
 		return response;
 	},
-	importFontsBlock: (name, type = 'google') => {
+	importFontsBlock: (name, type = "google") => {
 		let frame = document.getElementsByClassName("gjs-frame");
 		const grapesDocument = frame[0].contentWindow.document;
-		let styleTag = grapesDocument.getElementById('ss-style-assets')
+		let styleTag = grapesDocument.getElementById("ss-style-assets");
 		if (!styleTag) {
-			let styleId = 'ss-style-assets'
-			styleTag = grapesDocument.createElement('style')
-			styleTag.id = styleId
-			let body = grapesDocument.getElementsByTagName(
-				"body"
-			)[0];
+			let styleId = "ss-style-assets";
+			styleTag = grapesDocument.createElement("style");
+			styleTag.id = styleId;
+			let body = grapesDocument.getElementsByTagName("body")[0];
 			body.insertBefore(styleTag, body.firstChild);
 		}
-		let str = styleTag.innerHTML, findPhrase = ''
-		if (type == 'google') {
-			findPhrase = 'https://fonts.googleapis.com/css?family='
+		let str = styleTag.innerHTML,
+			findPhrase = "";
+		if (type == "google") {
+			findPhrase = "https://fonts.googleapis.com/css?family=";
 		}
-		let indices = styleManager.getIndicesOf(findPhrase, str)
+		let indices = styleManager.getIndicesOf(findPhrase, str);
 		if (indices.length == 0) {
 			// not present yet
-			str = `\n\t@import url("${'https://fonts.googleapis.com/css?family=display=swap'}");\n` + str	//14
-			indices.push(15)
+			str =
+				`\n\t@import url("${"https://fonts.googleapis.com/css?family=display=swap"}");\n` +
+				str; //14
+			indices.push(15);
 		}
-		str = [str.slice(0, ((indices[0] + findPhrase.length))), `${name}:100,200,300,400,500,600,700,800,900|`, str.slice((indices[0] + findPhrase.length))].join('') 	// -6 due to family
-		styleTag.innerHTML = str
+		str = [
+			str.slice(0, indices[0] + findPhrase.length),
+			`${name}:100,200,300,400,500,600,700,800,900|`,
+			str.slice(indices[0] + findPhrase.length),
+		].join(""); // -6 due to family
+		styleTag.innerHTML = str;
 	},
-	removeFontsBlock: (name, type = 'google') => {
+	removeFontsBlock: (name, type = "google") => {
 		let frame = document.getElementsByClassName("gjs-frame");
 		const grapesDocument = frame[0].contentWindow.document;
-		const styleTag = grapesDocument.getElementById('ss-style-assets')
+		const styleTag = grapesDocument.getElementById("ss-style-assets");
 		if (!styleTag) {
-			return
+			return;
 		}
-		let str = styleTag.innerHTML, findPhrase = ''
-		if (type == 'google') {
-			findPhrase = 'https://fonts.googleapis.com/css?family='
+		let str = styleTag.innerHTML,
+			findPhrase = "";
+		if (type == "google") {
+			findPhrase = "https://fonts.googleapis.com/css?family=";
 		}
-		let indices = styleManager.getIndicesOf(findPhrase, str)
+		let indices = styleManager.getIndicesOf(findPhrase, str);
 		if (indices.length == 0) {
 			// not present yet
-			return
+			return;
 		}
-		if (type == 'google') {
-			findPhrase = `${name}:100,200,300,400,500,600,700,800,900|`
-			str = str.replace(findPhrase, '')
+		if (type == "google") {
+			findPhrase = `${name}:100,200,300,400,500,600,700,800,900|`;
+			str = str.replace(findPhrase, "");
 		}
-		styleTag.innerHTML = str
+		styleTag.innerHTML = str;
 	},
 	getIndicesOf: (searchStr, str, caseSensitive) => {
 		var searchStrLen = searchStr.length;
@@ -257,8 +268,8 @@ const styleManager = {
 	},
 	getSelectorStyleInfo: (selector, styleObj, options = {}) => {
 		let { pseudoClass } = options;
-		if (pseudoClass == 'normal') {
-			pseudoClass = null
+		if (pseudoClass == "normal") {
+			pseudoClass = null;
 		}
 		let response = {
 			index: [],
@@ -270,7 +281,10 @@ const styleManager = {
 					// return item.selector.includes(
 					// 	`${pseudoClass ? val + ":" + pseudoClass : val}`.trim()
 					// );
-					return item.selector == `${pseudoClass ? '.' + val + ":" + pseudoClass : '.' + val}`.trim()
+					return (
+						item.selector ==
+						`${pseudoClass ? "." + val + ":" + pseudoClass : "." + val}`.trim()
+					);
 				}
 			});
 		});
@@ -288,230 +302,230 @@ const styleManager = {
 		// 		return
 		// }
 
-		let { styleInfo } = selected
-		let resp = styleInfo.styles[key]
-		if (key.includes('font-family') && styleInfo.styles[key]) {
-			if (resp.includes(',')) {
-				return _.startCase(resp)
+		let { styleInfo } = selected;
+		let resp = styleInfo.styles[key];
+		if (key.includes("font-family") && styleInfo.styles[key]) {
+			if (resp.includes(",")) {
+				return _.startCase(resp);
 			}
-			return resp.replace(/ /gi, '+')
+			return resp.replace(/ /gi, "+");
 		}
-		if (key.includes('transition')) {
-			resp = getComputedStyle(selected.node, pseudoClass)[key]
-			return resp
+		if (key.includes("transition")) {
+			resp = getComputedStyle(selected.node, pseudoClass)[key];
+			return resp;
 		}
-		if (key.includes('margin') && styleInfo.styles['margin']) {
-			let margin = styleInfo.styles['margin'].trim().split(' ')
+		if (key.includes("margin") && styleInfo.styles["margin"]) {
+			let margin = styleInfo.styles["margin"].trim().split(" ");
 			let marginObj = {
-				marginTop: '0px',
-				marginRight: '0px',
-				marginBottom: '0px',
-				marginLeft: '0px'
-			}
+				marginTop: "0px",
+				marginRight: "0px",
+				marginBottom: "0px",
+				marginLeft: "0px",
+			};
 			switch (margin.length) {
 				case 1:
 					marginObj = {
 						marginTop: margin[0],
 						marginRight: margin[0],
 						marginBottom: margin[0],
-						marginLeft: margin[0]
-					}
+						marginLeft: margin[0],
+					};
 					break;
 				case 2:
 					marginObj = {
 						marginTop: margin[0],
 						marginRight: margin[1],
 						marginBottom: margin[0],
-						marginLeft: margin[1]
-					}
+						marginLeft: margin[1],
+					};
 					break;
 				case 4:
 					marginObj = {
 						marginTop: margin[0],
 						marginRight: margin[1],
 						marginBottom: margin[2],
-						marginLeft: margin[3]
-					}
+						marginLeft: margin[3],
+					};
 					break;
 			}
-			return marginObj[key]
+			return marginObj[key];
 		}
-		if (key.includes('padding') && styleInfo.styles['padding']) {
-			let padding = styleInfo.styles['padding'].trim().split(' ')
+		if (key.includes("padding") && styleInfo.styles["padding"]) {
+			let padding = styleInfo.styles["padding"].trim().split(" ");
 			let paddingObj = {
-				paddingTop: '0px',
-				paddingRight: '0px',
-				paddingBottom: '0px',
-				paddingLeft: '0px'
-			}
+				paddingTop: "0px",
+				paddingRight: "0px",
+				paddingBottom: "0px",
+				paddingLeft: "0px",
+			};
 			switch (padding.length) {
 				case 1:
 					paddingObj = {
 						paddingTop: padding[0],
 						paddingRight: padding[0],
 						paddingBottom: padding[0],
-						paddingLeft: padding[0]
-					}
+						paddingLeft: padding[0],
+					};
 					break;
 				case 2:
 					paddingObj = {
 						paddingTop: padding[0],
 						paddingRight: padding[1],
 						paddingBottom: padding[0],
-						paddingLeft: padding[1]
-					}
+						paddingLeft: padding[1],
+					};
 					break;
 				case 4:
 					paddingObj = {
 						paddingTop: padding[0],
 						paddingRight: padding[1],
 						paddingBottom: padding[2],
-						paddingLeft: padding[3]
-					}
+						paddingLeft: padding[3],
+					};
 					break;
 			}
-			return paddingObj[key]
+			return paddingObj[key];
 		}
 		if (resp) {
-			if (key == 'text-shadow') {
-				resp = resp.split(/,(?![^(]*\))/)
+			if (key == "text-shadow") {
+				resp = resp.split(/,(?![^(]*\))/);
 				_.each(resp, (element, index) => {
-					element = element.trim().split(/ (?![^(]*\))/)
-					let color = element.pop()
-					element.unshift(color)
-					resp[index] = element.join(' ')
-				})
-				resp = resp.join(' ')
-			} else if (key == 'box-shadow') {
-				resp = resp.split(/,(?![^(]*\))/)
+					element = element.trim().split(/ (?![^(]*\))/);
+					let color = element.pop();
+					element.unshift(color);
+					resp[index] = element.join(" ");
+				});
+				resp = resp.join(" ");
+			} else if (key == "box-shadow") {
+				resp = resp.split(/,(?![^(]*\))/);
 				_.each(resp, (element, index) => {
-					element = element.trim().split(/ (?![^(]*\))/)
-					let color = element.pop()
-					element.unshift(color)
-					resp[index] = element.join(' ')
-				})
-				resp = resp.join(' ')
+					element = element.trim().split(/ (?![^(]*\))/);
+					let color = element.pop();
+					element.unshift(color);
+					resp[index] = element.join(" ");
+				});
+				resp = resp.join(" ");
 			}
 		}
 		if (!resp) {
 			// create default
 			switch (key) {
-				case 'float':
-					resp = 'none'
-					return resp
-				case 'display':
-					resp = 'block'
-					return resp
-				case 'position':
-					resp = 'static'
-					return resp
-				case 'top':
-				case 'right':
-				case 'left':
-				case 'bottom':
-				case 'width':
-				case 'height':
-					resp = 'Auto'
-					return resp
-				case 'maxWidth':
-				case 'maxHeight':
-					resp = 'None'
-					return resp
-				case 'marginTop':
-				case 'marginRight':
-				case 'marginBottom':
-				case 'marginLeft':
-				case 'paddingTop':
-				case 'paddingRight':
-				case 'paddingBottom':
-				case 'paddingLeft':
-					resp = '0px'
-					return resp
-				case 'font-family':
-				case 'font-weight':
-					resp = 'Auto'
-					return resp
-				case 'font-size':
-					resp = getComputedStyle(selected.node, pseudoClass)[key]
-					return resp
-				case 'color':
-					resp = 'rgb(255, 255, 255)'
-					return resp
-				case 'line-height':
-				case 'letter-spacing':
-					resp = getComputedStyle(selected.node, pseudoClass)[key]
-					return resp
-				case 'text-decoration':
-					resp = 'none'
-					return resp
-				case 'text-align':
-					resp = 'left'
-					return resp
-				case 'opacity':
-					resp = 100
-					return resp
-				case 'border-radius':
-					resp = '0%'
-					return resp
-				case 'border-width':
-					resp = '0px'
-					return resp
-				case 'border-style':
-					resp = 'solid'
-					return resp
-				case 'border-color':
-					resp = 'rgb(255, 255, 255)'
-					return resp
-				case 'transition-property':
-					resp = 'all'
-					return resp
-				case 'transition-duration':
-					resp = '0ms'
-					return resp
-				case 'transition-timing-function':
-					resp = 'ease'
-					return resp
-				case 'perspective':
-				case 'order':
-					resp = null
-					return resp
-				case 'flex-direction':
-				case 'justify-content':
-				case 'align-items':
-					resp = getComputedStyle(selected.node, pseudoClass)[key]
-					return resp
-				case 'flex-grow':
-					resp = '0'
-					return resp
-				case 'flex-shrink':
-					resp = '1'
-					return resp
-				case 'flex-basis':
-					resp = null
-					return resp
-				case 'text-shadow':
-				case 'box-shadow':
-					resp = 'none'
-					return resp
-				case 'background-image':
-				case 'background-blend-mode':
-				case 'background-repeat':
-				case 'background-position':
-				case 'background-attachment':
-				case 'background-size':
-					resp = null
-					return resp
-				case 'background-color':
-					resp = 'rgba(0, 0, 0, 0)'
-					return resp
+				case "float":
+					resp = "none";
+					return resp;
+				case "display":
+					resp = "block";
+					return resp;
+				case "position":
+					resp = "static";
+					return resp;
+				case "top":
+				case "right":
+				case "left":
+				case "bottom":
+				case "width":
+				case "height":
+					resp = "Auto";
+					return resp;
+				case "maxWidth":
+				case "maxHeight":
+					resp = "None";
+					return resp;
+				case "marginTop":
+				case "marginRight":
+				case "marginBottom":
+				case "marginLeft":
+				case "paddingTop":
+				case "paddingRight":
+				case "paddingBottom":
+				case "paddingLeft":
+					resp = "0px";
+					return resp;
+				case "font-family":
+				case "font-weight":
+					resp = "Auto";
+					return resp;
+				case "font-size":
+					resp = getComputedStyle(selected.node, pseudoClass)[key];
+					return resp;
+				case "color":
+					resp = "rgb(255, 255, 255)";
+					return resp;
+				case "line-height":
+				case "letter-spacing":
+					resp = getComputedStyle(selected.node, pseudoClass)[key];
+					return resp;
+				case "text-decoration":
+					resp = "none";
+					return resp;
+				case "text-align":
+					resp = "left";
+					return resp;
+				case "opacity":
+					resp = 100;
+					return resp;
+				case "border-radius":
+					resp = "0%";
+					return resp;
+				case "border-width":
+					resp = "0px";
+					return resp;
+				case "border-style":
+					resp = "solid";
+					return resp;
+				case "border-color":
+					resp = "rgb(255, 255, 255)";
+					return resp;
+				case "transition-property":
+					resp = "all";
+					return resp;
+				case "transition-duration":
+					resp = "0ms";
+					return resp;
+				case "transition-timing-function":
+					resp = "ease";
+					return resp;
+				case "perspective":
+				case "order":
+					resp = null;
+					return resp;
+				case "flex-direction":
+				case "justify-content":
+				case "align-items":
+					resp = getComputedStyle(selected.node, pseudoClass)[key];
+					return resp;
+				case "flex-grow":
+					resp = "0";
+					return resp;
+				case "flex-shrink":
+					resp = "1";
+					return resp;
+				case "flex-basis":
+					resp = null;
+					return resp;
+				case "text-shadow":
+				case "box-shadow":
+					resp = "none";
+					return resp;
+				case "background-image":
+				case "background-blend-mode":
+				case "background-repeat":
+				case "background-position":
+				case "background-attachment":
+				case "background-size":
+					resp = null;
+					return resp;
+				case "background-color":
+					resp = "rgba(0, 0, 0, 0)";
+					return resp;
 			}
 		}
-		return resp
+		return resp;
 	},
 };
 
 export const customEvents = {
-	saveStyleInfo: (meta, options, cb = () => { }) => {
+	saveStyleInfo: (meta, options, cb = () => {}) => {
 		//options = { pseudoClass: 'hover' }
 		const { elem, node } = meta;
 		if (typeof elem.className == "object") {

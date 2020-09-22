@@ -538,32 +538,6 @@ const _grapesEditor = {
 				// opts.target.set('src', 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg')
 			},
 		});
-		/* 	editor.Commands.add("show-traits", {
-			getTraitsEl(editor) {
-				//const row = editor.getContainer().closest(".style-panel-container");
-				//console.log(document.getElementsByClassName("traits-container"));
-				return document.getElementsByClassName("traits-container");
-			},
-			run(editor, sender) {
-				document.getElementsByClassName("traits-container")[0].style.display =
-					"";
-			},
-			stop(editor, sender) {
-				document.getElementsByClassName("traits-container")[0].style.display =
-					"none";
-			},
-		}); */
-		// editor.on("component:add", (model) => {
-		// 	/* if (model.attributes.type === "image") {
-		// 		editor.runCommand("open-assets");
-		// 	} */
-		// 	/* if (model.ccid === "modal-container-2") {
-		// 		editor.select(model);
-		// 		const component = editor.getSelected();
-		// 		component.remove(model);
-		// 		alert("cannot add multiple popups on same page");
-		// 	} */
-		// });
 		editor.on("canvas:drop", (instance, model) => {
 			if (model.attributes && model.attributes.type === "image") {
 				editor.runCommand("open-assets");
@@ -584,6 +558,31 @@ const _grapesEditor = {
 				$(".gjs-layer-count").remove();
 			}, 110);
 		});
+		let saveSection = 1
+		editor.Commands.add("ss-save-section", {
+			run(editor) {
+				let fromGetSelected = editor.getSelected();
+			if(fromGetSelected) {
+
+				let componentCss = editor.CodeManager.getCode(fromGetSelected, "css", {
+					cssc: editor.CssComposer,
+				});
+				let componentHTML = editor.CodeManager.getCode(fromGetSelected, "html", {
+					htmlc: editor.HtmlComposer,
+				});
+				
+				editor.BlockManager.add(`ss-section-${saveSection}`, {
+					label: `<div>Section ${saveSection}</div>`,
+					category: 'Saved sections',
+					content: `${componentHTML} <style> ${componentCss}</style>`,
+				});
+				saveSection++
+			} else {
+				alert("please select a section to save")
+			}
+		}
+		 })
+			
 
 		//for adding layer manager
 		editor.Commands.add("open-siteSeed-layers", {
@@ -606,6 +605,56 @@ const _grapesEditor = {
 				layers && (layers.style.display = "none");
 			},
 		});
+
+		//add components manager for savable section
+		/*  editor.Commands.add("add-component-manager", {
+			run(editor) {
+				const bm = editor.BlockManager;
+				const blocks = bm.getAll();
+				console.log("component manager command running");
+				const filtered = blocks.filter(block => {
+					console.log(block.get('category').id)
+					return block.get('category').id == 'sections'
+				});
+				if(filtered) {
+					setTimeout(() => {
+						const newPanels = document.getElementById("components");
+						const components = document.createElement("div");
+						components.appendChild(bm.render(filtered, {external : true}));
+						console.log("components manager ", components, filtered, blocks)
+						newPanels.appendChild(components);
+						// const newBlocksEl = bm.render(filtered, { external: true });
+						// document.getElementById("components").appendChild(newBlocksEl);
+					}, 100);
+				}
+			},
+
+			stop() {
+				let sections = document.getElementById("components").querySelectorAll('div')
+				sections.forEach(el => el.remove())
+			},
+		}); */ 
+		/*   editor.Commands.add("add-block-manager", {
+			run(editor) {
+				const bm = editor.BlockManager;
+				const blocks = bm.getAll();
+				console.log("trying to add blocks");
+				const filtered = blocks.filter(
+					(block) => block.get("category") !== "Sections"
+				);
+				setTimeout(() => {
+					const newPanels = document.getElementById("blocks");
+					const components = document.createElement("div");
+					components.appendChild(bm.render());
+					newPanels.appendChild(components);
+				}, 100);
+			},
+
+			stop() {
+				const components = this.components;
+				components && (components.style.display = "none");
+			},
+		});   */
 
 		let domComps = editor.DomComponents;
 		let dType = domComps.getType("video");

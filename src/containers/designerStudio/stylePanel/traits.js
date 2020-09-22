@@ -14,6 +14,15 @@ class Traits extends Component {
 		let { editor } = _grapesEditor;
 		editor.runCommand("show-traits");
 	};
+	componentDidMount() {
+		/* setTimeout(() => {
+			const gjsWindow = document.getElementsByClassName("gjs-frame")[0]
+				.contentWindow;
+			gjsWindow.addEventListener("mousedown", () => {
+				this.setState({ isOpen: false });
+			});
+		}, 500); */
+	}
 	render() {
 		let settingRow = document.getElementsByClassName("gjs-trt-trait__wrp")[0];
 		/* $("select").selectpicker(); */

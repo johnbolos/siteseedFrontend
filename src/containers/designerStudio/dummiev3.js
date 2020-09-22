@@ -1,44 +1,44 @@
 export const componentData = {
-    styleOb: [
-        {
-            selector: '',
-            styles: {
-                'color': 'red',
-                'background-color': 'yellow'
-            }
-        }
-    ]
-}
+	styleOb: [
+		{
+			selector: "",
+			styles: {
+				color: "red",
+				"background-color": "yellow",
+			},
+		},
+	],
+};
 
 export const layerData = [
-    {
-        tagName: 'div',
-        id: 'main',
-        children: [
-            {
-                tagName: 'div',
-                id: 'heading',
-                innerHtml: 'Heading'
-            },
-            {
-                tagName: 'div',
-                id: 'caption',
-                innerHtml: 'Caption'
-            },
-        ]
-    },
-    {
-        tagName: 'div',
-        id: 'secondary',
-        children: [
-            {
-                tagName: 'a',
-                id: 'link',
-                innerHtml: 'Link'
-            }
-        ]
-    }
-]
+	{
+		tagName: "div",
+		id: "main",
+		children: [
+			{
+				tagName: "div",
+				id: "heading",
+				innerHtml: "Heading",
+			},
+			{
+				tagName: "div",
+				id: "caption",
+				innerHtml: "Caption",
+			},
+		],
+	},
+	{
+		tagName: "div",
+		id: "secondary",
+		children: [
+			{
+				tagName: "a",
+				id: "link",
+				innerHtml: "Link",
+			},
+		],
+	},
+];
 
 export const html = `<style>
       
@@ -96,8 +96,7 @@ export const html = `<style>
            text.style.display = "none";
         }
       }
-      </script>`
-
+      </script>`;
 
 //   ===================================================
 export const template1StyleMedia = `
@@ -1465,7 +1464,7 @@ export const template1StyleMedia = `
 
 
   
-  `
+  `;
 
 export const template1StyleCss = `
   
@@ -2301,12 +2300,12 @@ input:-moz-placeholder {
 }
 /*-------end Nav mobile view----------*/
 
-  `
+  `;
 export const template1Style = `
   <style>
-    ${`@media {background: red;}` + template1StyleCss}
+    ${`@media {background: red;}` + template1StyleCss + template1StyleMedia}
   </style>
-  `
+  `;
 
 export const template1Html = `
   
@@ -2455,7 +2454,7 @@ export const template1Html = `
 					  		<img class="img-responsive image video-img" src="http://159.65.145.117:8090/SiteSeed/Spa&amp;Wellnss/images/vedio-imge.jpg" style="height: 474px;">
 					  		<div class="overlay"> <span id="hom"><img class="popup image_on" src="http://159.65.145.117:8090/SiteSeed/Spa&amp;Wellnss/images/play-button-B.png"><img class="popup image_off" src="http://159.65.145.117:8090/SiteSeed/Spa&amp;Wellnss/images/play-button-G.png"></span>
 					  		</div>
-		  					<iframe id="cartoonVideo" style="height: 474px; display: none; flex: 1;" width="560" height="315" src="https://www.youtube.com/embed/YE7VzlLtp-4?autoplay=1&amp;autoplay=1&amp;autoplay=1&amp;autoplay=1&amp;autoplay=1&amp;autoplay=1&amp;autoplay=1&amp;autoplay=1&amp;autoplay=1&amp;autoplay=1&amp;autoplay=1&amp;autoplay=1&amp;autoplay=1" frameborder="0" allowfullscreen="" style=" flex: 1; display: none;">
+		  					<iframe id="cartoonVideo" style="height: 474px; display: none; flex: 1;" width="560" height="315" src="https://www.youtube.com/embed/YE7VzlLtp-4?" frameborder="0" allowfullscreen="" style=" flex: 1; display: none;">
 		  					</iframe>
 				  		</div>
                           <!--modal button-->
@@ -2829,7 +2828,7 @@ export const template1Html = `
   </script>
   
   
-  `
+  `;
 //   ===================================================
 
 /*
