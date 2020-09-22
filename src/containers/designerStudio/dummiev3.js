@@ -265,7 +265,7 @@ export const template1StyleMedia = `
 	}
 
 	.percentge {
-		font-family: 'ralewaymedium';
+		font-family: 'Raleway';
 		font-weight: 600;
 		font-size: 36px;
 		line-height: 42px;
@@ -275,7 +275,7 @@ export const template1StyleMedia = `
 
 	p.descrpt {
 		text-transform: uppercase;
-		font-family: 'ralewaymedium';
+		font-family: 'Raleway';
 		font-weight: 600;
 		font-size: 16px;
 		line-height: 19px;
@@ -429,7 +429,7 @@ export const template1StyleMedia = `
 		margin-top: 2em;
 		background-color: #3b717b;
 		border: 0px;
-		font-family: 'ralewaymedium';
+		font-family: 'Raleway';
 		font-size: 13px;
 		line-height: 22px;
 	}
@@ -499,7 +499,7 @@ export const template1StyleMedia = `
 	}
 
 	.percentge {
-		font-family: 'ralewaymedium';
+		font-family: 'Raleway';
 		font-weight: 600;
 		font-size: 36px;
 		line-height: 42px;
@@ -509,7 +509,7 @@ export const template1StyleMedia = `
 
 	p.descrpt {
 		text-transform: uppercase;
-		font-family: 'ralewaymedium';
+		font-family: 'Raleway';
 		font-weight: 600;
 		font-size: 16px;
 		line-height: 22px;
@@ -704,7 +704,7 @@ export const template1StyleMedia = `
 	}
 
 	.footer-heading {
-		font-family: 'playfair_displayblack';
+		font-family: 'Playfair Display';
 		font-size: 29px;
 		line-height: 39px;
 		color: #000;
@@ -721,7 +721,7 @@ export const template1StyleMedia = `
 	}
 
 	.percentge {
-		font-family: 'ralewaymedium';
+		font-family: 'Raleway';
 		font-weight: 600;
 		font-size: 20px;
 		line-height: 42px;
@@ -731,7 +731,7 @@ export const template1StyleMedia = `
 
 	p.descrpt {
 		text-transform: uppercase;
-		font-family: 'ralewaymedium';
+		font-family: 'Raleway';
 		font-weight: 600;
 		font-size: 13px;
 		line-height: 19px;
@@ -1035,7 +1035,7 @@ export const template1StyleMedia = `
 	}
 
 	.percentge {
-		font-family: 'ralewaymedium';
+		font-family: 'Raleway';
 		font-weight: 600;
 		font-size: 20px;
 		line-height: 42px;
@@ -1045,7 +1045,7 @@ export const template1StyleMedia = `
 
 	p.descrpt {
 		text-transform: uppercase;
-		font-family: 'ralewaymedium';
+		font-family: 'Raleway';
 		font-weight: 600;
 		font-size: 10px;
 		line-height: 19px;
@@ -1125,7 +1125,7 @@ export const template1StyleMedia = `
 	}
 
 	.percentge {
-		font-family: 'ralewaymedium';
+		font-family: 'Raleway';
 		font-weight: 600;
 		font-size: 20px;
 		line-height: 42px;
@@ -1280,7 +1280,7 @@ export const template1StyleMedia = `
 		border: 0px;
 		height: 49px;
 		width: 123px;
-		font-family: 'ralewaymedium';
+		font-family: 'Raleway';
 		font-size: 13px;
 		color: #1B1B1B;
 		font-style: normal;
@@ -1293,7 +1293,7 @@ export const template1StyleMedia = `
 		border: 0px;
 		height: 49px;
 		width: 123px;
-		font-family: 'ralewaymedium';
+		font-family: 'Raleway';
 		font-size: 13px;
 		color: #fff;
 		font-style: normal;
@@ -1467,7 +1467,8 @@ export const template1StyleMedia = `
   `;
 
 export const template1StyleCss = `
-  
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');  
 .container.mobi-container {
 	max-width: 1326px !important;
 }
@@ -1656,7 +1657,7 @@ p {
 }
 
 .navbar-dark .navbar-nav .nav-link {
-	font-family: 'playfair_displayregular';
+	font-family: 'Playfair Display';
 	font-weight: bold;
 	font-size: 16px;
 	letter-spacing: 0.025em;
@@ -1674,7 +1675,7 @@ button.Book-now-button {
 	border: 0px;
 	height: 49px;
 	width: 123px;
-	font-family: 'ralewaymedium';
+	font-family: 'Raleway';
 	font-size: 13px;
 	color: #1B1B1B;
 	font-style: normal;
@@ -1692,7 +1693,7 @@ button.Book-now-button:hover {
 	border: 0px;
 	height: 49px;
 	width: 123px;
-	font-family: 'ralewaymedium';
+	font-family: 'Raleway';
 	font-size: 13px;
 	color: #fff;
 	font-style: normal;
@@ -1732,7 +1733,7 @@ span.Call-sec {
 }
 
 h1.top-heading {
-	font-family: 'playfair_displayblack';
+	font-family: 'Playfair Display';
 	font-size: 52px;
 	line-height: 69px;
 	color: #000;
@@ -1740,7 +1741,7 @@ h1.top-heading {
 }
 
 p.top-paragraph {
-	font-family: 'ralewaymedium';
+	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
 	width: 67%;
@@ -1767,7 +1768,7 @@ p.top-paragraph {
 }
 
 p.Abt-txt {
-	font-family: 'ralewaymedium';
+	font-family: 'Raleway';
 	font-style: normal;
 	font-weight: 600;
 	font-size: 16px;
@@ -1794,11 +1795,11 @@ h1.B-services-heading {
 	line-height: 29px;
 	font-weight: bold;
 	font-style: normal;
-	font-family: 'playfair_displayblack';
+	font-family: 'Playfair Display';
 }
 
 .B-services-text {
-	font-family: 'ralewaymedium';
+	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
 	color: #000;
@@ -1809,7 +1810,7 @@ h1.B-services-heading {
 
 span.num-count {
 	margin-left: -25px;
-	font-family: 'playfair_displayregular';
+	font-family: 'Playfair Display';
 	font-size: 52px;
 	line-height: 69px;
 	color: #3b717b;
@@ -1854,19 +1855,19 @@ a:hover {
 	line-height: 32px;
 	font-weight: bold;
 	font-style: normal;
-	font-family: 'playfair_displayregular';
+	font-family: 'Playfair Display';
 }
 
 .B-blog-heading-w {
 	font-weight: bold;
 	font-style: normal;
-	font-family: 'playfair_displayregular';
+	font-family: 'Playfair Display';
 	font-size: 24px;
 	line-height: 32px;
 }
 
 .P-blog-text {
-	font-family: 'ralewaymedium';
+	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
 	line-height: 22px;
@@ -1876,7 +1877,7 @@ a:hover {
 }
 
 .learn-txt {
-	font-family: 'ralewaymedium';
+	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
 	line-height: 22px;
@@ -1908,7 +1909,7 @@ span.bio-org-box img {
 	border: 0px;
 	height: 40px;
 	width: 120px;
-	font-family: 'ralewaymedium';
+	font-family: 'Raleway';
 	font-size: 13px;
 	color: #fff;
 	font-style: normal;
@@ -1926,7 +1927,7 @@ span.bio-org-box img {
 }
 
 span.inner-follow-sec {
-	font-family: 'ralewaymedium';
+	font-family: 'Raleway';
 	font-weight: 600;
 	font-size: 16px;
 	line-height: 27px;
@@ -1954,7 +1955,7 @@ span.inner-follow-sec {
 }
 
 p.right-col {
-	font-family: 'ralewaymedium';
+	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
 	line-height: 15px;
@@ -1963,7 +1964,7 @@ p.right-col {
 }
 
 p.left-col {
-	font-family: 'ralewaymedium';
+	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
 	line-height: 15px;
@@ -1972,7 +1973,7 @@ p.left-col {
 }
 
 .footer-heading {
-	font-family: 'playfair_displayblack';
+	font-family: 'Playfair Display';
 	font-size: 42px;
 	line-height: 69px;
 	color: #000;
@@ -1980,7 +1981,7 @@ p.left-col {
 }
 
 .F-blog-text {
-	font-family: 'ralewaymedium';
+	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
 	line-height: 22px;
@@ -2002,7 +2003,7 @@ button.search-more-button-B.text-center {
 	border: 0px;
 	height: 40px;
 	width: 88px;
-	font-family: 'ralewaymedium';
+	font-family: 'Raleway';
 	font-size: 13px;
 	color: #fff;
 	font-style: normal;
@@ -2036,7 +2037,7 @@ ul li {
 }
 
 li a {
-	font-family: 'playfair_displayregular';
+	font-family: 'Playfair Display';
 	font-weight: bold;
 	font-size: 16px;
 	letter-spacing: 0.025em;
@@ -2079,7 +2080,7 @@ li.B-footer-1 {
 
 /*placeholder css*/
 :-ms-input-placeholder {
-	font-family: 'ralewaymedium';
+	font-family: 'Raleway';
 	color: #0000003b !important;
 }
 
@@ -2087,7 +2088,7 @@ li.B-footer-1 {
 input::-webkit-input-placeholder {
 	font-size: 13px;
 	line-height: 18px;
-	font-family: 'ralewaymedium';
+	font-family: 'Raleway';
 	font-weight: 600;
 	color: #0000003b !important;
 	opacity: 0.3;
@@ -2096,7 +2097,7 @@ input::-webkit-input-placeholder {
 input:-moz-placeholder {
 	font-size: 13px;
 	line-height: 18px;
-	font-family: 'ralewaymedium';
+	font-family: 'Raleway';
 	font-weight: 600;
 	color: #0000003b !important;
 	opacity: 0.3;
@@ -2105,7 +2106,7 @@ input:-moz-placeholder {
 :-ms-input-placeholder {
 	font-size: 13px;
 	line-height: 18px;
-	font-family: 'ralewaymedium';
+	font-family: 'Raleway';
 	font-weight: 600;
 	color: #0000003b !important;
 	opacity: 0.3;
@@ -2122,7 +2123,7 @@ input:-moz-placeholder {
 }
 
 .testimonial .title {
-	font-family: 'playfair_displayregular';
+	font-family: 'Playfair Display';
 	font-weight: bold;
 	font-size: 24px;
 	line-height: 32px;
@@ -2132,7 +2133,7 @@ input:-moz-placeholder {
 
 .testimonial .description {
 	text-align: justify;
-	font-family: 'ralewaymedium';
+	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
 	line-height: 22px;
@@ -2173,7 +2174,7 @@ input:-moz-placeholder {
 
 .testimonial .name {
 	margin-bottom: 0px;
-	font-family: 'playfair_displayregular';
+	font-family: 'Playfair Display';
 	font-weight: bold;
 	font-size: 16px;
 	line-height: 21px;
@@ -2182,7 +2183,7 @@ input:-moz-placeholder {
 }
 
 .testimonial .post {
-	font-family: 'ralewaymedium';
+	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
 	line-height: 22px;
