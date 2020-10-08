@@ -12201,13 +12201,11 @@ $(".close").click(function () {
 
 $(document).ready(function(){
     window.onscroll = function() {myFunction()};
-    console.log('ss-tttttttttttttt', window)
   
   	var header = document.getElementById("myHeader");
   	var sticky = header.offsetTop;
   
   	function myFunction() {
-      console.log('ss-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
   	  if (window.pageYOffset > sticky) {
   	    header.classList.add("sticky");
   	  } else {

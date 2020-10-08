@@ -1,7 +1,8 @@
 const initialState = {
-    styleObj: [],
+    styleObj: null,
     html: '',
-    style: ''
+    style: '',
+    status: ''
 }
 
 export default (state = initialState, action) => {
@@ -10,13 +11,15 @@ export default (state = initialState, action) => {
         case 'SET_STYLE_OBJECT':
             return {
                 ...state,
-                styleObj: action.value
+                styleObj: JSON.stringify(action.value),
+                status: action.status || 'style'
             }
 
         case 'SET_STYLE_DATA':
             return {
                 ...state,
-                style: action.value
+                style: action.value,
+                status: action.status || 'style'
             }
 
         case 'SET_HTML_DATA':
@@ -24,6 +27,13 @@ export default (state = initialState, action) => {
                 ...state,
                 html: action.value
             }
+
+        case 'SET_HISTORY_STATUS':
+            return {
+                ...state,
+                status: action.value
+            }
+
 
         default:
             return state

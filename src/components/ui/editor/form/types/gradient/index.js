@@ -241,7 +241,6 @@ class Gradient extends React.Component {
         ]
         switch (key) {
             case 'colorPicker':
-                console.log(currentPickerNode, 'onChange')
                 let nodeIndex = _.findIndex(nodes, (item) => item.key == currentPickerNode)
                 nodes[nodeIndex].color = val
                 nodesStr = nodes.map(item => `${item.color} ${item.left}%`)

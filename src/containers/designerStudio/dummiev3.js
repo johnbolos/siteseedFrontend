@@ -100,7 +100,8 @@ export const html = `<style>
 
 //   ===================================================
 export const template1StyleMedia = `
-  
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');  
   
 
   @-webkit-keyframes fadeIn {
@@ -684,6 +685,7 @@ export const template1StyleMedia = `
 	iframe#cartoonVideo {
 		height: 180px;
 		width: 250px !important;
+		
 	}
 
 	.B-blog-heading-w {
@@ -1782,6 +1784,7 @@ p.Abt-txt {
 /*our services section*/
 .latest-services-block {
 	padding: 67px;
+	background-color: #ffeed0;
 }
 
 section.Our.services {
@@ -2191,6 +2194,12 @@ input:-moz-placeholder {
 	color: #000;
 	opacity: 0.7;
 }
+.testimonial-1 {	
+	border-right: 1px solid #e9e9e9;
+}
+.testimonial-3 {	
+	border-left: 1px solid #e9e9e9;
+}
 
 .owl-theme .owl-controls .owl-page span {
 	background-image: url('http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/Arrow_Left.svg');
@@ -2203,6 +2212,7 @@ input:-moz-placeholder {
 
 .img-container {
 	position: relative;
+	display: flex
 }
 
 .img-container .overlay {
@@ -2289,7 +2299,42 @@ input:-moz-placeholder {
 	display: inline;
 }
 
+.img-responsive.image.video-img {
+	height: 474px;
+}
 
+#cartoonVideo {
+	height: 474px;
+	display: none;
+	flex: 1;
+}
+#music-marathon {
+	background-color: #f5dad1;
+}
+#music-marathon-2 {
+	background-color: #3b717b;
+}
+#music-marathon-2 h1 {
+	color : #fff
+}
+#music-marathon-2 p {
+	color : #fff
+}
+#music-marathon-3 {
+	background-color: #ffeed0;
+}
+#music-marathon-img {
+	background-color: #3b717b;
+}
+.testimonial-Text-sec{
+	background-color: #f5dad1; 
+}
+.inner-follow-sec img{
+	margin-bottom: 10px;
+}
+#insta-hashtag {
+	color : #000;
+}
 
 /* END social icon hover*/
 .offcanvas-header.mt-3 {
@@ -2455,7 +2500,7 @@ export const template1Html = `
 					  		<img class="img-responsive image video-img" src="http://159.65.145.117:8090/SiteSeed/Spa&amp;Wellnss/images/vedio-imge.jpg" style="height: 474px;">
 					  		<div class="overlay"> <span id="hom"><img class="popup image_on" src="http://159.65.145.117:8090/SiteSeed/Spa&amp;Wellnss/images/play-button-B.png"><img class="popup image_off" src="http://159.65.145.117:8090/SiteSeed/Spa&amp;Wellnss/images/play-button-G.png"></span>
 					  		</div>
-		  					<iframe id="cartoonVideo" style="height: 474px; display: none; flex: 1;" width="560" height="315" src="https://www.youtube.com/embed/YE7VzlLtp-4?" frameborder="0" allowfullscreen="" style=" flex: 1; display: none;">
+		  					<iframe id="cartoonVideo" style="height: 474px; display: none; flex: 1;" width="560" height="315" src="https://www.youtube.com/embed/YE7VzlLtp-4?" frameborder="0" allowfullscreen="" >
 		  					</iframe>
 				  		</div>
                           <!--modal button-->
@@ -2503,7 +2548,7 @@ export const template1Html = `
                       </div>
                   </div>
                   <div class="row">
-                      <div class="col-lg-6 col-md-6 mb-12 p-0" style="background-color: #f5dad1;">
+                      <div class="col-lg-6 col-md-6 mb-12 p-0" id="music-marathon" style="background-color: #f5dad1;">
                           <div class="content">
                               <h1 class="B-blog-heading">Messmerising music maraton was create with spinning records & special</h1>
                               <p class="P-blog-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc malesuada vel urna sed luctus. Pellentesque leo erat, egestas scelerisque efficitur eget,</p>
@@ -2514,7 +2559,7 @@ export const template1Html = `
                               </a>
                           </div>
                       </div>
-                      <div class="col-lg-6 col-md-6 mb-12 p-0" style="background-color: #3b717b;">
+                      <div class="col-lg-6 col-md-6 mb-12 p-0" id="music-marathon-2" style="background-color: #3b717b;">
                           <div class="content">
                               <h1 class="B-blog-heading-w" style="color:#fff;">Messmerising music maraton was create with spinning records & special</h1>
                               <p class="P-blog-text" style="color:#fff; opacity: 0.7;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel urna sed luctus. Pellentesque leo erat, egestas scelerisque efficitur eget, vestibulum ac nunc.</p>
@@ -2527,7 +2572,7 @@ export const template1Html = `
                       </div>
                   </div>
                   <div class="row">
-                      <div class="col-lg-6 col-md-6 mb-12 p-0" style="background-color: #ffeed0;">
+                      <div class="col-lg-6 col-md-6 mb-12 p-0" id="music-marathon-3" style="background-color: #ffeed0;">
                           <div class="content">
                               <h1 class="B-blog-heading">Messmerising music maraton was create with spinning records & special</h1>
                               <p class="P-blog-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc malesuada vel urna sed luctus. Pellentesque leo erat, egestas scelerisque efficitur eget,</p>
@@ -2538,7 +2583,7 @@ export const template1Html = `
                               </a>
                           </div>
                       </div>
-                      <div class="col-lg-6 col-md-6 mb-12 p-0" style="background-color: #3b717b;">
+                      <div class="col-lg-6 col-md-6 mb-12 p-0" id="music-marathon-img" style="background-color: #3b717b;">
                           <div class="content content-img">
                               <img class="img-responsive exp-img" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/experience-img.jpg">
                           </div>
@@ -2561,7 +2606,7 @@ export const template1Html = `
                           <div class="row">
                               <div class="col-md-12">
                                   <div id="testimonial-slider" class="owl-carousel">
-                                      <div class="testimonial" style="border-right: 1px solid #e9e9e9;">
+                                      <div class="testimonial testimonial-1" style="border-right: 1px solid #e9e9e9;">
                                           <h3 class="title">Help us to improve our <br>productivity</h3>
                                           <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget vehicula nibh. Duis eu interdum dolor. Pellentesque mollis nisl vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget vehicula nibh. Duis eu interdum dolor. Pellentesque mollis nisl vitae.</p>
                                           <div class="testimonial-content">
@@ -2574,7 +2619,7 @@ export const template1Html = `
                                               </div>
                                           </div>
                                       </div>
-                                      <div class="testimonial">
+                                      <div class="testimonial testimonial-2">
                                           <h3 class="title">Help us to improve our <br>productivity</h3>
                                           <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget vehicula nibh. Duis eu interdum dolor. Pellentesque mollis nisl vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget vehicula nibh. Duis eu interdum dolor. Pellentesque mollis nisl vitae.</p>
                                           <div class="testimonial-content">
@@ -2587,7 +2632,7 @@ export const template1Html = `
                                               </div>
                                           </div>
                                       </div>
-                                      <div class="testimonial" style="border-left: 1px solid #e9e9e9;">
+                                      <div class="testimonial testimonial-3" style="border-left: 1px solid #e9e9e9;">
                                           <h3 class="title">Help us to improve our <br>productivity</h3>
                                           <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget vehicula nibh. Duis eu interdum dolor. Pellentesque mollis nisl vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget vehicula nibh. Duis eu interdum dolor. Pellentesque mollis nisl vitae.</p>
                                           <div class="testimonial-content">
@@ -2662,7 +2707,7 @@ export const template1Html = `
                       </div>
                       <div class="footer-sec-1 insta-follow-sec"><span class="inner-follow-sec"><img src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/instagram-sketched.svg" alt="#" style="margin-bottom: 10px;"><br>
                   Follow us<br>
-                  on instagram<br> <a href="#" style="color: #000;">#SiteSeed</a></span>
+                  on instagram<br> <a href="#" id="insta-hashtag" style="color: #000;">#SiteSeed</a></span>
                       </div>
                   </div>
                   <div class="row bottom-nav">
@@ -2777,13 +2822,11 @@ export const template1Html = `
   
   $(document).ready(function(){
       window.onscroll = function() {myFunction()};
-      console.log('ss-tttttttttttttt', window)
     
         var header = document.getElementById("myHeader");
         var sticky = header.offsetTop;
     
         function myFunction() {
-        console.log('ss-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
           if (window.pageYOffset > sticky) {
             header.classList.add("sticky");
           } else {
@@ -2838,4 +2881,6 @@ export const template1Html = `
   2. put basic styles in template1StyleCss variable
   3. put later styles in template1StyleMedia variable
   4. put html>body content in template1Html also append scripts tags in the end of this variable
+  5. Remove all inline styles and add them in css with proper ids
+  6. If you want to drag and move components which has scripts. The script tags should be in the immediate parent of that component.
   */

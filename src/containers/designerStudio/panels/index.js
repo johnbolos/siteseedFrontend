@@ -44,7 +44,8 @@ export default (editor, config) => {
 				{
 					id: "undo",
 					//className: "fa fa-undo",
-					command: (e) => e.runCommand("core:undo"),
+					// command: (e) => e.runCommand("core:undo"),
+					command: (e) => e.runCommand("ss-style-undo"),
 					label: `<div class="tooltip"><div><img  src=${undo} alt="erase" height=22px width=22px  ></img></div>
           <span class="tooltiptext">Undo</span>
         </div>`,
@@ -52,7 +53,7 @@ export default (editor, config) => {
 				{
 					id: "redo",
 					//className: "fa fa-repeat",
-					command: (e) => e.runCommand("core:redo"),
+					command: (e) => (e.runCommand("ss-style-redo")) ,
 					label: `<div class="tooltip"><div><img src=${redo} alt="erase" height=22px width=22px  ></img></div>
           <span class="tooltiptext">Redo</span>
         </div>`,
@@ -75,7 +76,7 @@ export default (editor, config) => {
 				{
 					id: cmdImport,
 					//className: "fa fa-download",
-					command: (e) => e.runCommand(cmdImport),
+					command: (e) => e.runCommand("gjs-export-zip"),
 					label: `<div class="tooltip"><div><img src=${download} alt="erase" height=22px width=22px  ></img></div>
           <span class="tooltiptext" style="left: -65%">Download</span>
         </div>`,
@@ -127,7 +128,6 @@ export default (editor, config) => {
 	// On component change show the Style Manager
 	config.showStylesOnChange &&
 		editor.on("component:selected", () => {
-			console.log("getting executed");
 			const openSmBtn = pn.getButton("views", osm);
 			const openLayersBtn = pn.getButton("views", ola);
 

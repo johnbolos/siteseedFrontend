@@ -38,7 +38,6 @@ class PickerField extends React.Component {
     }
     componentDidUpdate(prevProps) {
         if ((prevProps.meta.value != this.props.meta.value)) {
-            console.log(this.props.meta.value, 'valueu')
             this.setState({ unitWidth: document.querySelector('.unit-select > select') && document.querySelector('.unit-select > select').clientWidth })
             this.initValue(this.props.meta.value)
         }

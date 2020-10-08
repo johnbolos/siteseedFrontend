@@ -49,8 +49,7 @@ class StyleManager extends React.Component {
         }
         // this.setcompositeHidden(prevState)
         if (prevProps.selected != this.props.selected) {
-            // this.forceUpdate()
-            console.log(this.props.selected, 'aaaaaa')
+            this.forceUpdate()
             this.extractTransform()
         }
         if (this.props.selected && (prevProps.selected.node != this.props.selected.node)) {
@@ -93,13 +92,17 @@ class StyleManager extends React.Component {
         value = (selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'text-shadow') || 'none').split(/,(?![^(]*\))/)
         this.handlechange('textShadowRep', (value[0] !== 'none') ? value.length : 0)
     }
-    globalOnChange = (obj, formData) => {
+    globalOnChange = async (obj, formData) => {
         const { selected, editorNode, pseudoClass, styleObj, dispatch } = this.props
         const { transformValue } = this.state
         let item = _.clone(obj)
-        if (item.key == 'background-image') {
-            console.log(item, '{{--')
+        let status = 'style'
+        if (item.key.includes('background')) {
+            status = 'style-background'
         }
+        // if (item.key.includes('transform')) {
+        //     status = 'style'
+        // }
         if (new RegExp(/X|Y|Z/).test(item.key)) {
             transformValue[`${this.state.transformKey}${item.key}`] = item.value
             item.key = 'transform'
@@ -181,8 +184,18 @@ class StyleManager extends React.Component {
         str = str.replace('</style>', `${cssString} </style>`)
         styleObj[uniqueClassIndex] = requiredStyleObj
         // update style tag and redux history
-        dispatch(setEditorStyleData(styleObj));
-        dispatch(setStyleStr(str, { update: true }))
+        dispatch(setEditorStyleData(styleObj, { status }))
+        let response = await dispatch(setStyleStr(str, { update: true, status }))
+        let {editor} = _grapesEditor
+        if(response) {
+            // editor.setStyle(str);
+            // let frame = document.getElementsByClassName("gjs-frame");
+            // const grapesDocument = frame[0].contentWindow.document;
+            // let SSStyle = grapesDocument.getElementsByClassName("ss-style")
+            // if(SSStyle) {
+            //     SSStyle.innerHTML = str;
+            // }
+        }
 
         //set selected
         if (pseudoClass == 'normal') {
@@ -588,7 +601,6 @@ class StyleManager extends React.Component {
                     return <div className={'choose-image-btn'} onClick={() => {
                         setState({ ...state, selecting: key })
                         value = value.replace(/url\(|"|'|\)/gi, '')
-                        console.log(value, 'aaaaaaaaaaaaaaaa')
                         dispatch(openAssets({ type: 'imageBackground', backgroundImage: value }))
                     }}>
                         Choose image
@@ -2329,7 +2341,7 @@ const mapStateToProps = ({ global, layout, editor, templates, editorHistory }) =
     return {
         loading: global.loading,
         templates,
-        styleObj: editorHistory.present.styleObj,
+		styleObj: JSON.parse(editorHistory.present.styleObj),
         styleStr: editorHistory.present.style,
         pseudoClass: editor.pseudoClass,
         assets: global.assets,

@@ -107,7 +107,8 @@ class AssetsManager extends React.Component {
             console.log('please upload a file smaller than 2MB')
             return
         }
-        if (!/jpeg|jpg|gif|png/.test(files[0].type)) {
+        if (!/jpeg|jpg|gif|png|svg/.test(files[0].type)) {
+            console.log('Invalid File format')
             return
         }
         this.setState({ loading: true })
@@ -119,7 +120,6 @@ class AssetsManager extends React.Component {
         }
         _s3.uploadFile(files[0], s3Dir, (resp) => {
             this.setState({ loading: false })
-            console.log(resp)
             if (resp.error) {
                 if (resp.message) {
                     console.error(resp.message)

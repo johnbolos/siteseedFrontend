@@ -32,6 +32,10 @@
   height: 20px;
   width: 20px;
 }
+.icon-ss-link:before {
+  content: "\e900";
+  color: #c0c0c0;
+}
 .icon-CheckboxUnchecked:before {
   content: "\e901";
   color: #fff;
@@ -58,12 +62,14 @@
 }
 
 .gjs-rte-actionbar {
-  background-color: red;
-  display: none !important;
+  color: #c0c0c0;
+  font-size: 10px;
+  // background-color: red;
+  // display: none !important;
 }
 
 .gjs-toolbar {
-  display: none;
+  // display: none;
 }
 
 .on-scrollbar::-webkit-scrollbar {

@@ -5,7 +5,7 @@ import grapesjs from "grapesjs";
 import exportPlugin from "grapesjs-plugin-export";
 import panels from "../../../containers/designerStudio/panels";
 //import "grapesjs-preset-webpage";
-import $ from "jquery";
+import $, { parseHTML } from "jquery";
 import styleManager from "./styleManager";
 import { openAssets } from "../../../reducers/actions/editor";
 
@@ -20,28 +20,56 @@ import { media } from "../blocks/media";
 import { extras } from "../blocks/extras";
 import { slider } from "../blocks/basic/icons";
 import "grapesjs-lory-slider";
+import { useStore } from "react-redux";
+import { store } from "../../../store";
+
 
 const _grapesEditor = {
 	editor: null,
 	styleManager,
 	exportConfig: {
-		addExportBtn: true,
+		addExportBtn: false,
 		btnLabel: "Export ZIP",
 		filename: (editor) => "my-file.zip",
 		root: {
 			css: {
-				"style.css": (ed) => ed.getCss(),
+				'style.css': ed => {
+					let resp = ed.getCss()
+					let frame = document.getElementsByClassName("gjs-frame")
+					let doc = frame[0].contentWindow.document
+					let style = doc.getElementById("ss-style")
+					let customStyles = doc.getElementById("ss-customStyles")
+					let styleAssets = doc.getElementById("ss-style-assets")
+					if (styleAssets) {
+						resp = styleAssets.innerHTML + '\n\n' + resp
+					}
+					if (style) {
+						resp += '\n\n' + style.innerHTML
+					}
+					if (customStyles) {
+						resp += '\n\n' + customStyles.innerHTML
+					}
+					return resp
+				},
 			},
-			"body.html": (ed) => `<body>${ed.getHtml()}</body>`,
-			"header.html": (ed) => {
-				const data = _grapesEditor.extractHtmlCode({ tag: "header" }); //Custom Utility
-				if (data.error) return data.message;
-				return data.data;
-			},
-			"footer.html": (ed) => {
-				const data = _grapesEditor.extractHtmlCode({ tag: "footer" }); //Custom Utility
-				if (data.error) return data.message;
-				return data.data;
+			'index.html': ed => {
+				let storeState = store.getState()
+				const page = storeState.pageReducer.pages[storeState.pageReducer.currentPage]
+				let title = (page.seo && page.seo.name) || page.name
+				let desp = (page.seo && page.seo.desp) || page.desp
+				let favicon = page.favicon == '' || !page.favicon ? 'https://siteseed-dev.s3.amazonaws.com/gXdwAR4hx/ssFavicon.svg' : page.favicon
+				return `<!doctype html>
+			  <html lang="en">
+				<head>
+				<title>${title}</title>
+				<link rel="icon" href="${favicon}" />
+				<meta name=”description” content=”${desp == '' || !desp ? '' : desp}”>
+				  <meta charset="utf-8">
+				  ${_grapesEditor.getTags()}
+				  <link rel="stylesheet" href="./css/style.css">
+				</head>
+				<body>${ed.getHtml()}</body>
+			  <html>`
 			},
 		},
 	},
@@ -432,6 +460,14 @@ const _grapesEditor = {
 		container: "#grapesEditor",
 		height: "100%",
 		storageManager: { type: "none" },
+		// richTextEditor: {
+		// 	stylePrefix: 'rte-',
+		// 	// If true, moves the toolbar below the element when the top canvas
+		// 	// edge is reached
+		// 	adjustToolbar: 1,
+		// 	// Default RTE actions
+		// 	actions: ['bold']
+		// },
 		// dragMode: 'absolute',
 		// parser: {
 		// 	parserCss: (css, editor) => [],
@@ -478,6 +514,8 @@ const _grapesEditor = {
 				"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css",
 				"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css",
 				"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css",
+				"https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap",
+				"https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap",
 			],
 			scripts: [
 				"https://code.jquery.com/jquery-3.3.1.slim.min.js",
@@ -487,6 +525,7 @@ const _grapesEditor = {
 			],
 		},
 	},
+	pages: [],
 	init: (config = {}, dispatch, cb) => {
 		let defaultConfig = _grapesEditor.config;
 		if (defaultConfig.styleManager)
@@ -503,7 +542,7 @@ const _grapesEditor = {
 		//fires for every change in the canvas
 		// editor.on("component:update", (some) => {
 		// 	// do something
-		// 	console.log("component changed/updated/added", some);
+	
 		// });
 		editor.on("run:preview", () => {
 			$("#grapesEditor").addClass("left-pane-preview");
@@ -530,7 +569,14 @@ const _grapesEditor = {
 			run: (editor) => editor.setDevice("tablet"),
 		});
 		editor.on("modal:open", () => {
-			console.log("modal opened");
+		
+		
+			let component = editor.getComponents()//.toHTML();
+			//component = JSON.parse(JSON.stringify(component))
+			let html = '';
+			component.forEach((m) => {
+				html += m.toHTML();
+			});
 		});
 		editor.Commands.add("open-assets", {
 			run(editor, sender, opts = {}) {
@@ -562,27 +608,27 @@ const _grapesEditor = {
 		editor.Commands.add("ss-save-section", {
 			run(editor) {
 				let fromGetSelected = editor.getSelected();
-			if(fromGetSelected) {
+				if (fromGetSelected) {
 
-				let componentCss = editor.CodeManager.getCode(fromGetSelected, "css", {
-					cssc: editor.CssComposer,
-				});
-				let componentHTML = editor.CodeManager.getCode(fromGetSelected, "html", {
-					htmlc: editor.HtmlComposer,
-				});
-				
-				editor.BlockManager.add(`ss-section-${saveSection}`, {
-					label: `<div>Section ${saveSection}</div>`,
-					category: 'Saved sections',
-					content: `${componentHTML} <style> ${componentCss}</style>`,
-				});
-				saveSection++
-			} else {
-				alert("please select a section to save")
+					let componentCss = editor.CodeManager.getCode(fromGetSelected, "css", {
+						cssc: editor.CssComposer,
+					});
+					let componentHTML = editor.CodeManager.getCode(fromGetSelected, "html", {
+						htmlc: editor.HtmlComposer,
+					});
+
+					editor.BlockManager.add(`ss-section-${saveSection}`, {
+						label: `<div>Section ${saveSection}</div>`,
+						category: 'Saved sections',
+						content: `${componentHTML} <style> ${componentCss}</style>`,
+					});
+					saveSection++
+				} else {
+					alert("please select a section to save")
+				}
 			}
-		}
-		 })
-			
+		})
+
 
 		//for adding layer manager
 		editor.Commands.add("open-siteSeed-layers", {
@@ -590,7 +636,7 @@ const _grapesEditor = {
 				const lm = editor.LayerManager;
 				setTimeout(() => {
 					const newPanels = document.getElementById("layer-manager");
-					//console.log("from openSiteSeed command --> panels -->", newPanels);
+				
 					const layers = document.createElement("div");
 					layers.appendChild(lm.render());
 					newPanels.appendChild(layers);
@@ -611,9 +657,7 @@ const _grapesEditor = {
 			run(editor) {
 				const bm = editor.BlockManager;
 				const blocks = bm.getAll();
-				console.log("component manager command running");
 				const filtered = blocks.filter(block => {
-					console.log(block.get('category').id)
 					return block.get('category').id == 'sections'
 				});
 				if(filtered) {
@@ -621,7 +665,6 @@ const _grapesEditor = {
 						const newPanels = document.getElementById("components");
 						const components = document.createElement("div");
 						components.appendChild(bm.render(filtered, {external : true}));
-						console.log("components manager ", components, filtered, blocks)
 						newPanels.appendChild(components);
 						// const newBlocksEl = bm.render(filtered, { external: true });
 						// document.getElementById("components").appendChild(newBlocksEl);
@@ -633,12 +676,11 @@ const _grapesEditor = {
 				let sections = document.getElementById("components").querySelectorAll('div')
 				sections.forEach(el => el.remove())
 			},
-		}); */ 
+		}); */
 		/*   editor.Commands.add("add-block-manager", {
 			run(editor) {
 				const bm = editor.BlockManager;
 				const blocks = bm.getAll();
-				console.log("trying to add blocks");
 				const filtered = blocks.filter(
 					(block) => block.get("category") !== "Sections"
 				);
@@ -655,7 +697,6 @@ const _grapesEditor = {
 				components && (components.style.display = "none");
 			},
 		});   */
-
 		let domComps = editor.DomComponents;
 		let dType = domComps.getType("video");
 		let dModel = dType.model;
@@ -702,9 +743,8 @@ const _grapesEditor = {
 				error: true,
 				message: tag
 					? `Please add '${tag}' tag, to export correctly`
-					: `Please add '${
-							start + "' and '" + end
-					  }' identifer, to export correctly`,
+					: `Please add '${start + "' and '" + end
+					}' identifer, to export correctly`,
 			};
 		let header = html.substring(startIndex, endIndex);
 		return {
@@ -720,6 +760,18 @@ const _grapesEditor = {
 		let blockManager = _grapesEditor.editor.BlockManager;
 		blockManager.add(name, config);
 	},
+	getTags: () => {
+		let scripts = _grapesEditor.config.canvas.scripts
+		let styles = _grapesEditor.config.canvas.styles
+		let tags = ""
+		for (let i = 0; i < scripts.length; i++) {
+			tags += `<script type="text/javascript" src="${scripts[i]}"></script>`
+		}
+		for (let i = 0; i < styles.length; i++) {
+			tags += `<link href="${styles[i]}" rel="stylesheet"></link>`
+		}
+		return tags
+	}
 };
 
 export default _grapesEditor;

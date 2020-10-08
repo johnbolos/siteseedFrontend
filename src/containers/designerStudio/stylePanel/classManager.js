@@ -85,7 +85,6 @@ class ClassManager extends React.Component {
     getClass = (node) => node.className.split(' ')
     toggleAddClass = () => {
         this.setState({ showTagInput: !this.state.showTagInput }, () => {
-            console.log('falinggg', this.state.showTagInput)
             if (this.state.showTagInput && this.state.showTagInput) {
                 
                 this.addClassInput.current.focus();
@@ -212,7 +211,7 @@ const mapStateToProps = ({ global, layout, templates, editorHistory }) => {
     return {
         loading: global.loading,
         templates,
-        styleObj: editorHistory.present.styleObj
+		styleObj: JSON.parse(editorHistory.present.styleObj),
     }
 }
 

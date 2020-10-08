@@ -15,8 +15,8 @@ export default combineReducers({
 	layout,
 	global,
 	templates,
+	pageReducer,
 	editorHistory: undoable(editorHistory),
 	editor,
 	router: connectRouter(history),
-	pageReducer,
 });

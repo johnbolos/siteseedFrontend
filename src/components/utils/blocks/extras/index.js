@@ -131,7 +131,6 @@ export const extras = (editor) => {
         // When the user clicks the button, open the modal 
         // btn.ondblclick = function() {
         // modal.style.display = "block";
-        // console.log("modal opened")
         // }
 
         //open the modal on triple click

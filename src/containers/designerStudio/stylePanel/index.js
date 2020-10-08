@@ -39,7 +39,7 @@ const mapStateToProps = ({ global, layout, templates, editorHistory }) => {
 	return {
 		loading: global.loading,
 		templates,
-		styleObj: editorHistory.present.styleObj,
+		styleObj: JSON.parse(editorHistory.present.styleObj),
 	};
 };
 

@@ -20,7 +20,6 @@ const styleManager = {
 			return styleObj;
 		}
 		//save in redux=====================================================================
-		console.log(styleObj.data.stylesObj, 'style obj')
 		dispatch(setEditorStyleData(styleObj.data.stylesObj));
 		dispatch(setStyleStr(styleStr));
 		//==================================================================================
@@ -527,10 +526,23 @@ const styleManager = {
 		}
 		return resp;
 	},
+	setStyleTag: (data) => {
+		// update style tag
+		let frame = document.getElementsByClassName("gjs-frame")
+		let doc = frame[0].contentWindow.document
+		let style = doc.getElementById("ss-style")
+		if (!style) {
+			return { type: '' }
+		}
+		let innerHTML = _.clone(data)
+		innerHTML = innerHTML.replace('<style>', '')
+		innerHTML = innerHTML.replace('</style>', '')
+		style.innerHTML = innerHTML
+	},
 };
 
 export const customEvents = {
-	saveStyleInfo: (meta, options, cb = () => {}) => {
+	saveStyleInfo: (meta, options, cb = () => { }) => {
 		//options = { pseudoClass: 'hover' }
 		const { elem, node } = meta;
 		if (typeof elem.className == "object") {
@@ -543,7 +555,7 @@ export const customEvents = {
 			options
 		);
 		node.setState({ selected: { node: elem, styleInfo } }, () => {
-			// console.log('.....', { node: elem, styleInfo }, node.props.styleObj)
+			
 			cb();
 		});
 	},

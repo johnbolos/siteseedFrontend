@@ -1,7 +1,13 @@
 import React, { Component } from "react";
-import { cancel, helperIcon, upload, favicon } from "./icons";
+import _ from 'lodash'
+import { cancel, helperIcon, upload, favicon as faviconIcon } from "./icons";
+import shortid from 'shortid'
 import Modal from "react-modal";
 import "./pageSettingModal.scss";
+import { connect } from "react-redux";
+import { editPage } from "../../../reducers/actions/pageActions";
+import { setS3Dir } from "../../../reducers/actions/userActions";
+import _s3 from "../../../components/utils/s3"
 
 Modal.setAppElement("#root");
 
@@ -11,6 +17,7 @@ class PageSettingModal extends Component {
 		description: "",
 		previewTitle: "",
 		previewDescription: "",
+		favicon: null,
 	};
 
 	handleChange = (e) => {
@@ -20,44 +27,114 @@ class PageSettingModal extends Component {
 		});
 	};
 	handleFormSubmit = (e) => {
+		const { dispatch, pageReducer, editPageIndex } = this.props
 		e.preventDefault();
-		//console.log("create page req");
+		const {
+			title,
+			description,
+			previewTitle,
+			previewDescription,
+			favicon
+		} = this.state
 		if (this.props.pageSetting.name) {
-			this.props.sendEditPageReq(this.state.title);
+			// this.props.sendEditPageReq(this.state.title);
+			let pageObj = pageReducer.pages[editPageIndex]
+			pageObj = {
+				...pageObj,
+				name: _.startCase(title),
+				desp: description,
+				favicon: favicon,
+				seo: {
+					name: _.startCase(previewTitle),
+					desp: previewDescription
+				}
+			}
+			dispatch(editPage(editPageIndex, pageObj))
 		} else {
-			this.props.createPage(this.state.title);
+			let pageObj = {
+				name: _.startCase(title),
+				desp: description,
+				favicon: favicon,
+				seo: {
+					name: _.startCase(previewTitle),
+					desp: previewDescription
+				}
+			}
+			this.props.createPage(this.state.title, pageObj);
 		}
 		this.setState({
 			title: "",
 			description: "",
+			previewTitle: "",
+			previewDescription: "",
+			favicon: null
 		});
 		this.props.closeModal();
 	};
-
-	componentDidMount = () => {
-		setTimeout(() => {
-			let { pageSetting } = this.props;
-			//console.log("pageSetting ", pageSetting);
-			if (pageSetting) {
-				this.setState({
-					title: pageSetting.name,
-				});
-			}
-		}, 5000);
-	};
-	componentDidUpdate = (prevProps) => {
-		let { pageSetting } = this.props;
-		if (pageSetting.name !== prevProps.pageSetting.name) {
-			if (pageSetting) {
-				this.setState({
-					title: pageSetting.name,
-				});
-			}
+	setFormFields = () => {
+		const { pageSetting } = this.props
+		if (!pageSetting || Object.keys(pageSetting).length === 0) {
+			this.setState({
+				title: '',
+				description: '',
+				favicon: null,
+				previewTitle: '',
+				previewDescription: '',
+			})
+			return
 		}
-	};
+		this.setState({
+			title: _.startCase(pageSetting.name),
+			description: pageSetting.desp,
+			favicon: pageSetting.favicon,
+			previewTitle: _.startCase(pageSetting.seo.name),
+			previewDescription: pageSetting.seo.desp,
+		})
+	}
+	handleUpload = async (e, mouseDrop) => {
+		let { dispatch, assets, userS3Dir } = this.props
+		let files = []
+		if (mouseDrop) {
+			// e.preventDefault()
+			// e.stopPropagation()
+			files = e.dataTransfer ? e.dataTransfer.files : []
+		} else {
+			files = e.target.files
+		}
+		if (files && files.length == 0) {
+			return
+		}
+		if (files[0].size > 2000000) {
+			console.log('please upload a file smaller than 2MB')
+			return
+		}
+		if (!/jpeg|jpg|gif|png|svg|ico/.test(files[0].type)) {
+			console.log('Invalid File Type')
+			return
+		}
+		this.setState({ loading: true })
+		let s3Dir = userS3Dir
+		if (!s3Dir) {
+			// create new userS3Dir
+			s3Dir = shortid.generate()
+			dispatch(setS3Dir(s3Dir))
+		}
+		_s3.uploadFile(files[0], s3Dir, (resp) => {
+			this.setState({ loading: false })
+			if (resp.error || !resp.data.location) {
+				if (resp.message) {
+					console.error(resp.message)
+				}
+				console.error('Empty Location returned')
+				return
+			}
+			// this.handleAddImage(resp.data.location)
+			this.setState({ favicon: resp.data.location })
+		})
+	}
 	render() {
 		return (
-			<Modal {...this.props} contentLabel='Example Modal'>
+			<Modal {...this.props} onAfterOpen={this.setFormFields} contentLabel='Example Modal'>
 				<header>
 					<h4>{this.props.pageSetting.name || "New Page"} Setting</h4>
 					<img src={cancel} alt='close' onClick={this.props.closeModal} />
@@ -130,14 +207,22 @@ class PageSettingModal extends Component {
 					</div>
 					<div className='favicon-content'>
 						<div className='favicon-box'>
-							<img src={favicon} alt='favicon' />
+							<img src={this.state.favicon || faviconIcon} alt='favicon' />
 						</div>
 						<div id='upload-btn'>
 							<label htmlFor='files' className='upload-btn'>
 								<img src={upload} alt='upload-icon' />
-								Upload
-							</label>
-							<input id='files' style={{ display: "none" }} type='file' />
+                                Upload
+                            </label>
+							{/* <input id='files' style={{ display: "none" }} type='file' /> */}
+							<input
+								type="file"
+								id='files'
+								accept="image/*"
+								// multiple
+								style={{ display: 'none' }}
+								onChange={this.handleUpload}
+							/>
 							<label className='helper-text'>
 								Upload a 32X32 pixel Icon, PNG, GIF, or JPG to display in
 								browser tabs.
@@ -155,4 +240,17 @@ class PageSettingModal extends Component {
 	}
 }
 
-export default PageSettingModal;
+const mapStateToProps = ({ global, pageReducer }) => {
+	return {
+		pageReducer,
+		userS3Dir: global.userS3Dir
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		dispatch,
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PageSettingModal);

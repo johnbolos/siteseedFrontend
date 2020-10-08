@@ -1,5 +1,6 @@
 import React from "react";
 import _ from 'lodash'
+import Async from 'async'
 import { connect } from "react-redux";
 //import grapesjs from "grapesjs"
 import { Debounce } from "lodash-decorators/debounce";
@@ -9,7 +10,7 @@ import Request from '../../request'
 import _grapesEditor from "../../components/utils/grapesEditor";
 import StylePanel from "./stylePanel/index";
 import AssetsManager from './assetsManager'
-import { undo, redo } from "../../reducers/actions/editorHistoryActions";
+import { undoOnce, redoOnce, setHistoryStatus, undoTimes, redoTimes } from "../../reducers/actions/editorHistoryActions";
 import { setGoogleFonts } from "../../reducers/actions/editor"
 import { updateAssets } from '../../reducers/actions/userActions'
 import { saveChanges } from "../../reducers/actions/pageActions";
@@ -24,6 +25,7 @@ import $ from "jquery";
 import LeftBlock from "./leftblock/LeftBlock";
 import TopPanel from "./toppanel/TopPanel";
 import assetsManager from "./assetsManager";
+import { customEvents } from "../../components/utils/grapesEditor/styleManager";
 
 const initialState = {
 	zoom: 100,
@@ -47,21 +49,26 @@ class DesignerStudio extends React.Component {
 			}
 		}
 		//window.addEventListener("scroll", this.handleScroll, true);
-        // get google api fonts
+		// get google api fonts
 		this.setGoogleFonts()
 		this.apiRequest();
 		setTimeout(() => {
 			this.temp();
 		}, 5000);
 	}
-    setGoogleFonts = async () => {
-        const { dispatch } = this.props
-        const googleApiReq = await Request.getGoogleFonts()
-        if (googleApiReq.error) {
-            return
-        }
-        dispatch(setGoogleFonts(googleApiReq.items))
-    }
+	// componentDidUpdate(prevProps) {
+	// 	if (JSON.stringify(prevProps.styleObj) != JSON.stringify(this.props.styleObj) && this.props.selected) {
+	// 		this.setState({ selected: this.props.selected })
+	// 	}
+	// }
+	setGoogleFonts = async () => {
+		const { dispatch } = this.props
+		const googleApiReq = await Request.getGoogleFonts()
+		if (googleApiReq.error) {
+			return
+		}
+		dispatch(setGoogleFonts(googleApiReq.items))
+	}
 	handleScroll = (e) => {
 		if (e.target.classList && e.target.classList.contains("on-scrollbar") === false) {
 			e.target.classList.add("on-scrollbar");
@@ -159,6 +166,14 @@ class DesignerStudio extends React.Component {
 					);
 					// _grapesEditor.styleManager.addEvents({ e, node: this }, { pseudoClass: 'hover' })
 				});
+				// =============================Rich Text Editor=========================
+				const { editor } = _grapesEditor;
+				const rte = editor.RichTextEditor;
+				rte.remove('link')
+				rte.add("link", {
+					icon: '<span class="icon-ss-link"></span>'
+				});
+				// ======================================================================
 			}
 		);
 		const { editor } = _grapesEditor;
@@ -166,28 +181,89 @@ class DesignerStudio extends React.Component {
 			let { currentPage, pages } = this.props.pageReducer;
 			let components = JSON.parse(JSON.stringify(editor.getComponents()));
 			let style = JSON.parse(JSON.stringify(editor.getStyle()));
-			// console.log(pages);
 			this.props.saveCurrentChanges(currentPage, {
 				name: pages[currentPage].name,
 				components,
 				style,
 			});
 		})
+		const um = editor.UndoManager;
+		um.remove(editor.getStyle());
+		editor.Commands.add("ss-style-undo", async editor => {
+			let times = 1
+			if (this.props.past && this.props.past.length > 2 && this.props.present.status == 'style') {
+				times = 2
+				// update ss-style tag ============================================
+				_grapesEditor.styleManager.setStyleTag(this.props.past[this.props.past.length - times].style)
+			} else if (this.props.past && this.props.past.length > 2 && this.props.present.status == 'style-background') {
+				times = 14
+				// update ss-style tag ============================================
+				_grapesEditor.styleManager.setStyleTag(this.props.past[this.props.past.length - times].style)
+			} else {
+				um.undo()
+			}
+			if (this.props.past && this.props.past.length > 2) {
+				await this.historyChange("undo", times)
+			}
+			// ==============
+		});
+		editor.on('change:changesCount', e => {
+			if (document.activeElement.className == 'gjs-frame') {
+				// if mouse was in side canvas then set history as canvas/grapesjs
+				dispatch(setHistoryStatus('grapejs'))
+				// ================================================================
+				// revaluate styles
+				// let grapesDoc = document.activeElement.contentWindow.document
+				// let selected = grapesDoc.querySelector('.gjs-selected')
+			
+				// customEvents.saveStyleInfo({ elem: selected, node: this }, { pseudoClass: this.props.pseudoClass })
+				// ================================================================
+			}
+		});
+		editor.Commands.add("ss-style-redo", async editor => {
+			let times = 1
+			if (this.props.future && this.props.future.length > 0 && this.props.future[0].status == 'style') {
+				times = 2
+				// update ss-style tag ============================================
+				_grapesEditor.styleManager.setStyleTag(this.props.future[times - 1].style)
+			} else if (this.props.future && this.props.future.length > 0 && this.props.future[0].status == 'style-background') {
+				times = 14
+				// update ss-style tag ============================================
+				_grapesEditor.styleManager.setStyleTag(this.props.future[times - 1].style)
+			} else {
+				um.redo()
+			}
+			if (this.props.future && this.props.future.length > 0) {
+				await this.historyChange("redo", times)
+			}
+		});
+		// =============Toolbar events==============
+		editor.on('run', (cmdId, res) => {
+			let toolbarCmds = ['core:component-exit', 'tlb-move', 'tlb-clone', 'tlb-delete']
+			if (toolbarCmds.includes(cmdId)) {
+				let frame = document.getElementsByClassName("gjs-frame")
+				const grapesDoc = frame[0].contentWindow.document
+				let selected = grapesDoc.querySelector('.gjs-selected')
+				customEvents.saveStyleInfo({ elem: selected, node: this }, { pseudoClass: this.props.pseudoClass })
+			}
+		});
+		// =========================================
+
 	};
 	@Debounce(500)
 	fun(mouse) {
-		// console.log("mouse moved", mouse.pageX, mouse.pageY);
+	
 		const el = closestElement({ x: mouse.pageX, y: mouse.pageY }, "draggable");
-		// console.log(el, "is closest to mouse");
+	
 	}
 	temp = () => {
-		console.log("temporary function");
 		const { editor } = _grapesEditor;
 		// const rte = editor.RichTextEditor;
-		// rte.add("bold", {
-		// 	icon: '<i class="icon-SS-Checkbox"></i>',
-		// 	attributes: { title: "Bold" },
-		// 	result: (rte) => rte.exec("bold"),
+		// rte.remove('link')
+		// rte.add("link", {
+		// 	icon: '<span class="icon-ss-link"></span>',
+		// 	attributes: { title: "LINK" },
+		// 	result: (rte) => rte.insertHTML(`<a href="#">${rte.selection()}</a>`),
 		// });
 
 		const sm = editor.StyleManager;
@@ -210,13 +286,24 @@ class DesignerStudio extends React.Component {
 			dispatch({ type: "SET_STYLE_OBJECT", value: this.state.key });
 		});
 	};
-	historyChange = (type) => {
-		const { dispatch } = this.props;
-		if (type == "undo") {
-			dispatch(undo());
-		} else {
-			dispatch(redo());
-		}
+	historyChange = (type, times) => {
+		return new Promise(async resolve => {
+			const { dispatch } = this.props;
+			if (type == "undo") {
+				await dispatch(undoTimes(times));
+				return resolve()
+				// Async.times(times, async (n, next) => {
+				// 	await dispatch(undo());
+				// 	next()
+				// }, () => {
+				// 	return resolve()
+				// })
+			} else {
+				await dispatch(redoTimes(times));
+				// await dispatch(redo());
+				return resolve()
+			}
+		})
 	};
 	changeDevice = () => {
 		$("#device").toggleClass("hide-top");
@@ -293,7 +380,11 @@ const mapStateToProps = ({
 	return {
 		loading: global.loading,
 		templates,
-		styleObj: editorHistory.present.styleObj,
+		styleObj: JSON.parse(editorHistory.present.styleObj),
+		styleStr: editorHistory.present.style,
+		past: editorHistory.past,
+		present: editorHistory.present,
+		future: editorHistory.future,
 		pseudoClass: editor.pseudoClass,
 		pageReducer,
 		assetsManager: editor.assetsManager,

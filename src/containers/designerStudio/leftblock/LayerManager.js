@@ -33,7 +33,6 @@ class LayerManager extends React.Component {
 					return $(this).parent().parent().addClass("gjs-selected");
 				}
 			}); */
-			console.log(result[1]); //result is having the required layers
 		} else {
 			$("#layer-manager .gjs-layer").removeClass("open");
 			$("#layer-manager span").filter(function () {

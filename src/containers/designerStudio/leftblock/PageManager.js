@@ -18,7 +18,7 @@ class PageManager extends Component {
 		filteredPages: [],
 	};
 
-	createPage = (title) => {
+	createPage = (title, details) => {
 		//creating new page
 		//new page should be blank
 		//const { editor } = _grapesEditor;
@@ -29,17 +29,14 @@ class PageManager extends Component {
 		//blank new page
 		let components = "";
 		let style = "";
-
 		console.log(this.props.pageReducer);
-		this.props.createNewPage(title, components, style);
+		this.props.createNewPage(title, components, style, details);
 	};
 	changeTemplate = async (index) => {
 		const { editor } = _grapesEditor;
 		let { pageReducer } = this.props;
-		console.log(index);
 
 		await this.props.changeCurrentPage(pageReducer.currentPage, index);
-		//console.log(pageReducer.pages[index], index);
 		editor.setComponents(pageReducer.pages[index].components);
 		editor.setStyle(pageReducer.pages[index].style);
 	};
@@ -139,7 +136,7 @@ class PageManager extends Component {
 										alt='setting'
 										onClick={() => this.openSettings(index)}
 									/>
-									<img src={show} alt='show' />
+									<img src={show} style={{ marginRight: '0px' }} alt='show' />
 								</div>
 							</li>
 						))}
@@ -157,6 +154,7 @@ class PageManager extends Component {
 					createPage={this.createPage}
 					pageSetting={this.state.pageSetting}
 					sendEditPageReq={this.editPageRequest}
+					editPageIndex={this.state.editPageIndex}
 				/>
 			</>
 		);
@@ -173,8 +171,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		changeCurrentPage: (currentPageIndex, newPageIndex) =>
 			dispatch(changePage(currentPageIndex, newPageIndex)),
-		createNewPage: (name, components, style) =>
-			dispatch(createPage(name, components, style)),
+		createNewPage: (name, components, style, details) =>
+			dispatch(createPage(name, components, style, details)),
 		editPage: (index, pageName) => dispatch(editPageSetting(index, pageName)),
 	};
 };
