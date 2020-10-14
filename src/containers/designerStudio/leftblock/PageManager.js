@@ -44,7 +44,7 @@ class PageManager extends Component {
 
 		await this.props.changeCurrentPage(pageReducer.currentPage, index);
 		editor.setComponents(pageReducer.pages[index].components);
-		editor.setStyle(pageReducer.pages[index].style);
+		// editor.setStyle(pageReducer.pages[index].style);
 	};
 	closeModal = () => {
 		this.setState({

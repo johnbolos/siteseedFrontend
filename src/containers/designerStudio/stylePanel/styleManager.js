@@ -8,6 +8,7 @@ import "./index.scss"
 import Request from '../../../request'
 import { setEditorStyleData, setStyleStr } from "../../../reducers/actions/editorHistoryActions";
 import { openAssets } from "../../../reducers/actions/editor"
+import { saveChanges } from "../../../reducers/actions/pageActions";
 import _grapesEditor from "../../../components/utils/grapesEditor"
 import { customEvents } from '../../../components/utils/grapesEditor/styleManager'
 import Icons from '../../../assets/Icons'
@@ -186,8 +187,14 @@ class StyleManager extends React.Component {
         // update style tag and redux history
         dispatch(setEditorStyleData(styleObj, { status }))
         let response = await dispatch(setStyleStr(str, { update: true, status }))
-        let {editor} = _grapesEditor
-        if(response) {
+        let { editor } = _grapesEditor
+        if (response) {
+            const { pageReducer } = this.props
+            const { pages, currentPage } = pageReducer
+            this.props.saveCurrentChanges(currentPage, {
+                ...pages[currentPage],
+                style: str,
+            });
             // editor.setStyle(str);
             // let frame = document.getElementsByClassName("gjs-frame");
             // const grapesDocument = frame[0].contentWindow.document;
@@ -2337,20 +2344,25 @@ class StyleManager extends React.Component {
     }
 }
 
-const mapStateToProps = ({ global, layout, editor, templates, editorHistory }) => {
+const mapStateToProps = ({ global, layout, editor, templates, pageReducer, editorHistory }) => {
     return {
         loading: global.loading,
         templates,
-		styleObj: JSON.parse(editorHistory.present.styleObj),
+        styleObj: JSON.parse(editorHistory.present.styleObj),
         styleStr: editorHistory.present.style,
         pseudoClass: editor.pseudoClass,
         assets: global.assets,
-        assetsManager: editor.assetsManager
+        assetsManager: editor.assetsManager,
+		pageReducer,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return { dispatch }
+    return {
+        dispatch,
+        saveCurrentChanges: (pageIndex, pageObj) =>
+            dispatch(saveChanges(pageIndex, pageObj)),
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(StyleManager)

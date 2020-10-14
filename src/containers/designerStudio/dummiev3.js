@@ -2349,7 +2349,7 @@ input:-moz-placeholder {
   `;
 export const template1Style = `
   <style>
-    ${`@media {background: red;}` + template1StyleCss + template1StyleMedia}
+    ${`@media {background: red;}` + template1StyleCss}
   </style>
   `;
 

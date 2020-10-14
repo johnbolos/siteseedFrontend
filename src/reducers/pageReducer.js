@@ -36,10 +36,13 @@ export default (state = initialState, action) => {
 
 		case "SAVE_CHANGES":
 			let pageIndex = action.payload.pageIndex;
-			let newState = state;
-			newState.currentPage = pageIndex;
-			newState.pages[pageIndex] = { ...newState.pages[pageIndex], ...action.payload.pageObj };
-			return newState;
+			let newPages = state.pages;
+			// newState.currentPage = pageIndex;
+			newPages[pageIndex] = { ...state.pages[pageIndex], ...action.payload.pageObj };
+			return {
+				...state,
+				pages: newPages
+			};
 
 		case "CHANGE_PAGE":
 			return {
@@ -54,6 +57,7 @@ export default (state = initialState, action) => {
 			return stateCopy;
 
 		case "EDIT_PAGE":
+			console.log('aaaaaaaaaaaaaaaaaaaaaaa////////////////////////////////')
 			let pageNo = action.payload.pageIndex;
 			let pages = state.pages;
 			let pageInfo = { ...state.pages[pageNo], ...action.payload.change };

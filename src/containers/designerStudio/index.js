@@ -17,7 +17,7 @@ import { saveChanges } from "../../reducers/actions/pageActions";
 import { closestElement } from "../../components/utils/index";
 // import { /* html, */ template1Html, template1Style } from "./dummie";
 // import { /* html, */ template1Html, template1Style } from "./dummieTemp";
-import { /* html, */ template1Html, template1Style } from "./dummiev3";
+import { /* html, */ template1Html, template1Style, template1StyleCss } from "./dummiev3";
 import { landingHtml, landingStyle } from "./templates/landing";
 import { landing2Html, landing2Style } from "./templates/landing2";
 import { question, minus as Minus, plus as Plus } from "../designerStudio/panels/icons";
@@ -41,6 +41,7 @@ class DesignerStudio extends React.Component {
 
 	componentDidMount() {
 		let { currentUser, dispatch, assets } = this.props
+		this.addCloseEvent()
 		if (currentUser) {
 			// initialise different settings.....
 			if (currentUser.assets && currentUser.assets.image) {
@@ -55,6 +56,13 @@ class DesignerStudio extends React.Component {
 		setTimeout(() => {
 			this.temp();
 		}, 5000);
+	}
+	addCloseEvent = () => {
+		window.addEventListener("beforeunload", function (event) {
+			// send data to backend before we leave page!!!!
+
+			// =============================================
+		})
 	}
 	// componentDidUpdate(prevProps) {
 	// 	if (JSON.stringify(prevProps.styleObj) != JSON.stringify(this.props.styleObj) && this.props.selected) {
@@ -81,25 +89,46 @@ class DesignerStudio extends React.Component {
 
 	apiRequest = () => {
 		return new Promise((resolve) => {
-			const { templateName } = this.props.templates;
-			let tempStyle;
-			switch (templateName) {
+			const { pageReducer } = this.props
+			const { templateName: projectType } = this.props.templates;
+			let style, html;
+			console.log(projectType, 'aaa.templateName')
+			switch (projectType) {
 				case "template1":
-					tempStyle = template1Style;
+					html = template1Html
+					style = template1StyleCss;
 					break;
 				case "template2":
-					tempStyle = landing2Style;
+					html = landing2Html
+					style = landing2Style;
 					break;
 				case "template3":
-					tempStyle = landingStyle;
+					html = landingHtml
+					style = landingStyle;
+					break;
+				case "myProject1":
+					// html = xyzHtml
+					// styles = xyzStyle;
+					break;
+				case "inProgress":
 					break;
 				default:
 					break;
 			}
-			//convert this string to styleObject
 
-			//Save the tring to state
-			this.setState({ templateStyle: tempStyle }, () => {
+			// set page manager here =========================================
+			if (html && style) {
+				let { pages, currentPage } = pageReducer
+				this.props.saveCurrentChanges(0, {
+					...pages[0],
+					components: html,
+					style: style,
+				});
+			}
+
+			// ===============================================================
+
+			this.setState({ templateStyle: '' }, () => {
 				this.StartEditor();
 			});
 			return resolve();
@@ -130,29 +159,36 @@ class DesignerStudio extends React.Component {
 	};
 
 	StartEditor = () => {
-		const { dispatch } = this.props;
+		const { dispatch, pageReducer } = this.props;
 		const { templateName } = this.props.templates;
-		let tempHtml, tempStyle;
-		switch (templateName) {
-			case "template1":
-				tempHtml = template1Html;
-				tempStyle = template1Style;
-				break;
-			case "template2":
-				tempHtml = landing2Html;
-				tempStyle = landing2Style;
-				break;
-			case "template3":
-				tempHtml = landingHtml;
-				tempStyle = landingStyle;
-				break;
-			default:
-				break;
-		}
+		// let tempHtml, tempStyle;
+		// switch (templateName) {
+		// 	case "template1":
+		// 		tempHtml = template1Html;
+		// 		tempStyle = template1Style;
+		// 		break;
+		// 	case "template2":
+		// 		tempHtml = landing2Html;
+		// 		tempStyle = landing2Style;
+		// 		break;
+		// 	case "template3":
+		// 		tempHtml = landingHtml;
+		// 		tempStyle = landingStyle;
+		// 		break;
+		// 	default:
+		// 		break;
+		// }
+		// set template html and style from page manager
+		let html = pageReducer.pages[pageReducer.currentPage].components
+		let style = `<style> 
+		@media {background: red;}
+		 ${pageReducer.pages[pageReducer.currentPage].style} </style>`
+		console.log(style, this.state.templateStyle, 'aaa.init')
+		// ==========================================================
 		_grapesEditor.init(
 			{
-				components: tempHtml + tempStyle,
-				styles: this.state.templateStyle,
+				components: html,
+				styles: style,
 			},
 			dispatch,
 			() => {
@@ -180,8 +216,17 @@ class DesignerStudio extends React.Component {
 		editor.on("storage:start", () => {
 			let { currentPage, pages } = this.props.pageReducer;
 			let components = JSON.parse(JSON.stringify(editor.getComponents()));
-			let style = JSON.parse(JSON.stringify(editor.getStyle()));
+			// let style = JSON.parse(JSON.stringify(editor.getCss()));
+			// save all ss style tag in page manager
+			let frame = document.getElementsByClassName("gjs-frame")
+			let doc = frame[0].contentWindow.document
+			let style = doc.getElementById("ss-style").innerHTML
+			console.log(doc.getElementById("ss-style").innerHTML, 'aaa.storage')
+			// let customStyles = doc.getElementById("ss-customStyles")
+			// let styleAssets = doc.getElementById("ss-style-assets")
+			// ======================================
 			this.props.saveCurrentChanges(currentPage, {
+				...pages[currentPage],
 				name: pages[currentPage].name,
 				components,
 				style,
@@ -377,7 +422,7 @@ const mapStateToProps = ({
 	editorHistory,
 	pageReducer,
 }) => {
-	console.log(editorHistory.present.styleObj, 'aaaaaa..')
+	// console.log(editorHistory.present.styleObj, 'aaaaaa..')
 	return {
 		loading: global.loading,
 		theme: layout.theme,

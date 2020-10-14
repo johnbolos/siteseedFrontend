@@ -16,7 +16,7 @@ const styleManager = {
 	init: (styleStr, dispatch) => {
 		//create object
 		let styleObj = styleManager.strToObj(styleStr);
-		console.log(styleObj, 'aaaaaaaaaaaaaaa..............')
+		console.log(styleObj, 'aaa.style evaluater')
 		if (styleObj.error) {
 			styleStr = '<style>	</style>'
 			styleObj = { data: { stylesObj: [], filteredStr: '' } }
@@ -103,6 +103,7 @@ const styleManager = {
 		str = styleManager.removeComments(str);
 		//extract custom styles now
 		const data = styleManager.extractBlock("@media", str);
+		console.log(data, 'aaa.convert to obj')
 		if (data.customCode != "") {
 			response.push({
 				custom: true,
@@ -181,6 +182,7 @@ const styleManager = {
 		customStyleIndices.forEach((item, key) => {
 			let subStr = str.substring(item.start, item.end + 1);
 			response.customCode += "\n" + subStr;
+			console.log(subStr, 'aaa.extractBlock')
 			str = str.replace(subStr, "");
 			if (customStyleIndices[key + 1]) {
 				customStyleIndices[key + 1].start -= subStr.length;
