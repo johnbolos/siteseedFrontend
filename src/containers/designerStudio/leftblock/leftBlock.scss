@@ -1,98 +1,175 @@
+@import "../../../assets/theme/editorTheme.scss";
+
 .react-tabs__tab {
-	padding: 0px;
-	border: none;
-	color: #c0c0c0;
-	font-weight: normal;
-	//margin: 10px -5px;
-	//font-size: 16px;
-	text-align: center;
-	line-height: 21px;
-	margin-left: 20px;
+  padding: 0px;
+  border: none;
+  //margin: 10px -5px;
+  //font-size: 16px;
+  text-align: center;
+  line-height: 21px;
+  margin-left: 20px;
+  // color: #c0c0c0;
+  > h4 {
+    font-weight: normal;
+  }
+  .theme-dark & {
+    color: map-get($dark, "color1");
+  }
+  .theme-light & {
+    color: map-get($light, "color1");
+  }
 }
 
 .react-tabs__tab--selected {
-	background-color: inherit;
-	border: none;
-	color: inherit;
-	font-weight: 600;
+  background-color: inherit;
+  border: none;
+  > h4 {
+    font-weight: 600;
+  }
+  .theme-dark & {
+    color: map-get($dark, "color");
+  }
+  .theme-light & {
+    color: map-get($light, "color");
+  }
 }
 
 .react-tabs__tab-list {
-	border-bottom: 1px solid #444444;
-	margin: 0px;
+  margin: 0px;
+  border-bottom: 1px solid #444444;
+  .theme-dark & {
+    border-color: map-get($dark, "background3");
+  }
+  .theme-light & {
+    border-color: map-get($light, "background3");
+  }
 }
 
 .react-tabs__tab-panel > div {
-	border-bottom: 1px solid #444444;
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid #444444;
+  .theme-dark & {
+    border-color: map-get($dark, "background3");
+  }
+  .theme-light & {
+    border-color: map-get($light, "background3");
+  }
+  svg {
+    path {
+      .theme-dark & {
+        fill: map-get($dark, "icon1");
+      }
+      .theme-light & {
+        fill: map-get($light, "icon1");
+      }
+    }
+  }
 }
 
 .react-tabs__tab-panel > div > .add-page {
-	width: 30px;
-	height: 30px;
+  width: 30px;
+  height: 30px;
 
-	display: flex;
-	background-color: #2b2b2b;
-	justify-content: center;
-	border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  // background-color: #2b2b2b;
+  .theme-dark & {
+    background-color: map-get($dark, "background6");
+  }
+  .theme-light & {
+    background-color: map-get($light, "background3");
+  }
 }
 
 .react-tabs__tab-panel {
-	input {
-		margin: 10px;
-		background-color: #2b2b2b;
-		border: none;
-		height: 30px;
-		padding: 0px 0px 0px 24px;
-		width: 180px;
-		color: #ffffff;
-		border-radius: 5px;
-	}
+  input {
+    margin: 10px;
+    border: none;
+    height: 30px;
+    padding: 0px 0px 0px 24px;
+    width: 180px;
+    border-radius: 5px;
+    // color: #ffffff;
+    // background-color: #2b2b2b;
+    .theme-dark & {
+      background-color: map-get($dark, "background6");
+      color: map-get($dark, "color");
+    }
+    .theme-light & {
+      background-color: map-get($light, "background2");
+      color: map-get($light, "color");
+    }
+  }
 
-	ul {
-		padding-left: 10px;
-	}
+  ul {
+    padding-left: 10px;
+  }
 
-	ul li {
-		float: none;
-		cursor: pointer;
-		display: flex;
-		padding: 5px;
-		justify-content: space-between;
-		margin-right: 10px;
-		font-size: 13px;
-		div {
-			display: flex;
-			align-items: center;
-			//margin-right: 26px;
+  ul li {
+    float: none;
+    cursor: pointer;
+    display: flex;
+    padding: 5px 15px;
+    justify-content: space-between;
+    margin-right: 10px;
+    font-size: 13px;
+    div {
+      display: flex;
+      align-items: center;
+      //margin-right: 26px;
 
-			img {
-				margin: 2px 10px 2px 0px;
-			}
-		}
-	}
+      svg {
+        margin: 2px 10px 2px 0px;
+        path {
+          .theme-dark & {
+            fill: map-get($dark, "icon1");
+          }
+          .theme-light & {
+            fill: map-get($light, "icon1");
+          }
+        }
+      }
+    }
+  }
 
-	.search-icon {
-		position: absolute;
-		margin-left: 14px;
-	}
+  .search-icon {
+    position: absolute;
+    margin-left: 14px;
+  }
 }
 
 .pages:hover {
-	background-color: #444444;
-	border-radius: 5px;
+  border-radius: 5px;
+  background-color: #444444;
+  .theme-dark & {
+    background-color: map-get($dark, "background3");
+  }
+  .theme-light & {
+    background-color: map-get($light, "background3");
+  }
 }
 
 .save-section {
-	margin: 0px 10px;
-	width: 90%;
-	outline: none;
-	background: #272727;
-    border: 1px solid #444444;
-    box-sizing: border-box;
-    border-radius: 5px;
-	min-height: 30px;
-	color : #fff;
+  margin: 0px 10px;
+  width: 90%;
+  outline: none;
+  box-sizing: border-box;
+  border-radius: 5px;
+  min-height: 30px;
+  background: #272727;
+  border: 1px solid #444444;
+  .theme-dark & {
+    background-color: map-get($dark, "background2");
+    border-color: map-get($dark, "background3");
+    color: map-get($dark, "color");
+  }
+  .theme-light & {
+    background-color: map-get($light, "background2");
+    border-color: map-get($light, "background3");
+    color: map-get($light, "color");
+  }
 }

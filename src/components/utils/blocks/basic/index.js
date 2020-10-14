@@ -2,13 +2,13 @@ import { button, tooltip, label, upload, search, map } from "./icons";
 
 export const basicBlocks = (editor) => {
 	editor.BlockManager.add("button", {
-		label: `<img src=${button} alt=column />
+		label: `${button}
         <div>Button</div>`,
 		category: "Basic",
 		content: `<button class="btn btn-danger">Send</button>`,
 	});
 	editor.BlockManager.add("tooltip", {
-		label: `<img src=${tooltip} alt=tooltip />
+		label: `${tooltip}
         <div>Tooltips</div>`,
 		category: "Basic",
 		content: `<div class="ss-tooltip">Hover over me
@@ -53,7 +53,7 @@ export const basicBlocks = (editor) => {
 	  `,
 	});
 	editor.BlockManager.add("label", {
-		label: `<img src=${label} alt=label />
+		label: `${label}
         <div>Label</div>`,
 		category: "Basic",
 		content: `<label for="">Label</label>
@@ -66,7 +66,7 @@ export const basicBlocks = (editor) => {
         `,
 	});
 	editor.BlockManager.add("upload", {
-		label: `<img src=${upload} alt=upload />
+		label: `${upload}
         <div>Upload</div>`,
 		category: "Basic",
 		attributes: {
@@ -75,7 +75,7 @@ export const basicBlocks = (editor) => {
 		content: `<input type="file">`,
 	});
 	editor.BlockManager.add("search", {
-		label: `<img src=${search} alt=search />
+		label: `${search}
         <div>Search</div>`,
 		category: "Basic",
 		attributes: {
@@ -95,7 +95,7 @@ export const basicBlocks = (editor) => {
 		`,
 	});
 	editor.BlockManager.add("map", {
-		label: `<img src=${map} alt=map />
+		label: `${map}
         <div>Map</div>`,
 		category: "Basic",
 		//activate: true,

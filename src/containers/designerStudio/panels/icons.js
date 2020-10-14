@@ -1,25 +1,25 @@
 import clean from "../../../assets/header/Clean.svg";
 import code from "../../../assets/header/Code.svg";
-import desktop from "../../../assets/header/Desktop.svg";
+import { ReactComponent as desktop } from "../../../assets/header/Desktop.svg";
 import download from "../../../assets/header/Download.svg";
-import ipad from "../../../assets/header/Ipad.svg";
-import mobile from "../../../assets/header/Mobile.svg";
-import bell from "../../../assets/header/BellNotification.svg";
+import { ReactComponent as ipad } from "../../../assets/header/Ipad.svg";
+import { ReactComponent as mobile } from "../../../assets/header/Mobile.svg";
+import { ReactComponent as bell } from "../../../assets/header/BellNotification.svg";
 import share from "../../../assets/header/Share.svg";
 import viewMode from "../../../assets/header/ViewMode.svg";
 import redo from "../../../assets/header/Redo.svg";
 import undo from "../../../assets/header/Undo.svg";
 import play from "../../../assets/header/Play.svg";
-import logo from "../../../assets/header/Logo.svg";
-import addElem from "../../../assets/left-pane/add-elements.svg";
-import components from "../../../assets/left-pane/component.svg";
-import layers from "../../../assets/left-pane/layers.svg";
+import { ReactComponent as logo } from "../../../assets/header/Logo.svg";
+import { ReactComponent as addElem } from "../../../assets/left-pane/add-elements.svg";
+import { ReactComponent as components } from "../../../assets/left-pane/component.svg";
+import { ReactComponent as layers } from "../../../assets/left-pane/layers.svg";
 import comment from "../../../assets/left-pane/Comment.svg";
 import rightArrow from "../../../assets/left-pane/right-arrow.svg";
-import tip from "../../../assets/tip.svg";
+import { ReactComponent as tip } from "../../../assets/tip.svg";
 import question from "../../../assets/question-mark.svg";
-import minus from "../../../assets/Minus_Bold.svg";
-import plus from "../../../assets/Plus_Bold.svg";
+import { ReactComponent as minus } from "../../../assets/Minus_Bold.svg";
+import {ReactComponent as plus} from "../../../assets/Plus_Bold.svg";
 
 export {
 	clean,

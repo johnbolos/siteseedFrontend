@@ -488,7 +488,7 @@ const _grapesEditor = {
 		pluginsOpts: {
 			"grapesjs-lory-slider": {
 				sliderBlock: {
-					label: `<img src=${slider} alt=slider />
+					label: `${slider}
 					<div>Slider</div>`,
 					category: "Basic",
 				},

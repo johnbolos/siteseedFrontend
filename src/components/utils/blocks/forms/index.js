@@ -11,7 +11,7 @@ import {
 
 export const formBlocks = (editor) => {
 	editor.BlockManager.add("form-block", {
-		label: `<img src=${formicon} alt=formblock />
+		label: `${formicon}
         <div>Form Block</div>`,
 		category: "Forms",
 		content: `<form>
@@ -53,7 +53,7 @@ export const formBlocks = (editor) => {
 	});
 
 	editor.BlockManager.add("input-block", {
-		label: `<img src=${inputIcon} alt=inputblock />
+		label: `${inputIcon}
               <div>Input</div>`,
 		category: "Forms",
 		content: `<input type="text" class="form-control" id="" >
@@ -72,7 +72,7 @@ export const formBlocks = (editor) => {
 	});
 
 	editor.BlockManager.add("textarea-block", {
-		label: `<img src=${textarea} alt=textareablock />
+		label: `${textarea}
               <div>Text Area</div>`,
 		category: "Forms",
 		content: ` <div class="form-group">
@@ -95,7 +95,7 @@ export const formBlocks = (editor) => {
   `,
 	});
 	editor.BlockManager.add("select-block", {
-		label: `<img src=${selectIcon} alt=selectblock />
+		label: `${selectIcon}
               <div>Select</div>`,
 		category: "Forms",
 		content: `<div class="form-group">
@@ -120,7 +120,7 @@ export const formBlocks = (editor) => {
   `,
 	});
 	editor.BlockManager.add("dropdown-block", {
-		label: `<img src=${dropdown} alt=dropdownblock />
+		label: `${dropdown}
               <div>Dropdown</div>`,
 		category: "Forms",
 		content: `<div class="dropdown">
@@ -178,7 +178,7 @@ export const formBlocks = (editor) => {
   `,
 	});
 	editor.BlockManager.add("checkbox-block", {
-		label: `<img src=${checkbox} alt=checkboxblock />
+		label: `${checkbox}
               <div>Checkbox</div>`,
 		category: "Forms",
 		content: `<div class="form-group form-check">
@@ -187,7 +187,7 @@ export const formBlocks = (editor) => {
   </div>`,
 	});
 	editor.BlockManager.add("radio-block", {
-		label: `<img src=${radio} alt=radioblock />
+		label: `${radio}
               <div>Radio</div>`,
 		category: "Forms",
 		content: `<input type="radio" id="male" name="gender" value="male">
@@ -198,7 +198,7 @@ export const formBlocks = (editor) => {
     <label for="other">Other </label> `,
 	});
 	editor.BlockManager.add("toggle-block", {
-		label: `<img src=${toggle} alt=toggleblock />
+		label: `${toggle}
               <div>Toggle</div>`,
 		category: "Forms",
 		content: `

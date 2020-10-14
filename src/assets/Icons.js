@@ -28,6 +28,8 @@ import { ReactComponent as AlignRight } from "./right-pane/alignRight.svg";
 import { ReactComponent as AlignCenter } from "./right-pane/alignCenter.svg";
 import { ReactComponent as AlignJustified } from "./right-pane/alignJustified.svg";
 import { ReactComponent as Theme } from "./right-pane/theme.svg";
+import { ReactComponent as ThemeLight } from "./right-pane/themeLight.svg";
+import { ReactComponent as ThemeDark } from "./right-pane/themeDark.svg";
 import { ReactComponent as Underline } from "./right-pane/underline.svg";
 import { ReactComponent as Strikethru } from "./right-pane/strikethru.svg";
 import { ReactComponent as SolidLine } from "./right-pane/solidLine.svg";
@@ -73,6 +75,8 @@ export default {
 	AlignCenter,
 	AlignJustified,
 	Theme,
+	ThemeLight,
+	ThemeDark,
 	Underline,
 	Strikethru,
 	SolidLine,

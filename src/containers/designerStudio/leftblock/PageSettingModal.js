@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import _ from 'lodash'
-import { cancel, helperIcon, upload, favicon as faviconIcon } from "./icons";
+import { cancel as Cancel, helperIcon as HelperIcon, upload, favicon as faviconIcon } from "./icons";
 import shortid from 'shortid'
 import Modal from "react-modal";
 import "./pageSettingModal.scss";
@@ -133,11 +133,12 @@ class PageSettingModal extends Component {
 		})
 	}
 	render() {
+		const { theme } = this.props
 		return (
-			<Modal {...this.props} onAfterOpen={this.setFormFields} contentLabel='Example Modal'>
+			<Modal {...this.props} className={`Modal modal-theme-${theme}`} onAfterOpen={this.setFormFields} contentLabel='Example Modal'>
 				<header>
 					<h4>{this.props.pageSetting.name || "New Page"} Setting</h4>
-					<img src={cancel} alt='close' onClick={this.props.closeModal} />
+					<Cancel onClick={this.props.closeModal} />
 				</header>
 				<form onSubmit={this.handleFormSubmit} autoComplete='off'>
 					<label htmlFor='page-title'>Page title</label>
@@ -147,7 +148,7 @@ class PageSettingModal extends Component {
 						value={this.state.title}
 						onChange={this.handleChange}></input>
 					<label className='helper-text'>
-						<img src={helperIcon} alt='helper-icon' />
+						<HelperIcon />
 						character. Most search engines use a maximum of 57 chars for the
 						home title
 					</label>
@@ -158,7 +159,7 @@ class PageSettingModal extends Component {
 						value={this.state.description}
 						onChange={this.handleChange}></textarea>
 					<label className='helper-text'>
-						<img src={helperIcon} alt='helper-icon' />
+						<HelperIcon />
 						character. Most search engines use a maximum of 60 chars for the
 						home description
 					</label>
@@ -185,7 +186,7 @@ class PageSettingModal extends Component {
 						value={this.state.previewTitle}
 						onChange={this.handleChange}></input>
 					<label className='helper-text'>
-						<img src={helperIcon} alt='helper-icon' />
+						<HelperIcon />
 						character. Most search engines use a maximum of 57 chars for the
 						home title
 					</label>
@@ -196,7 +197,7 @@ class PageSettingModal extends Component {
 						value={this.state.previewDescription}
 						onChange={this.handleChange}></textarea>
 					<label className='helper-text'>
-						<img src={helperIcon} alt='helper-icon' />
+						<HelperIcon />
 						character. Most search engines use a maximum of 60 chars for the
 						home description
 					</label>
@@ -240,9 +241,10 @@ class PageSettingModal extends Component {
 	}
 }
 
-const mapStateToProps = ({ global, pageReducer }) => {
+const mapStateToProps = ({ global, layout, pageReducer }) => {
 	return {
 		pageReducer,
+		theme: layout.theme,
 		userS3Dir: global.userS3Dir
 	};
 };

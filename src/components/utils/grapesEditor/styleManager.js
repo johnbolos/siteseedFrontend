@@ -15,9 +15,11 @@ const styleManager = {
 	},
 	init: (styleStr, dispatch) => {
 		//create object
-		const styleObj = styleManager.strToObj(styleStr);
+		let styleObj = styleManager.strToObj(styleStr);
+		console.log(styleObj, 'aaaaaaaaaaaaaaa..............')
 		if (styleObj.error) {
-			return styleObj;
+			styleStr = '<style>	</style>'
+			styleObj = { data: { stylesObj: [], filteredStr: '' } }
 		}
 		//save in redux=====================================================================
 		dispatch(setEditorStyleData(styleObj.data.stylesObj));
@@ -555,7 +557,7 @@ export const customEvents = {
 			options
 		);
 		node.setState({ selected: { node: elem, styleInfo } }, () => {
-			
+
 			cb();
 		});
 	},

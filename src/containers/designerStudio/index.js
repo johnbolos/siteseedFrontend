@@ -20,7 +20,7 @@ import { closestElement } from "../../components/utils/index";
 import { /* html, */ template1Html, template1Style } from "./dummiev3";
 import { landingHtml, landingStyle } from "./templates/landing";
 import { landing2Html, landing2Style } from "./templates/landing2";
-import { question, minus, plus } from "../designerStudio/panels/icons";
+import { question, minus as Minus, plus as Plus } from "../designerStudio/panels/icons";
 import $ from "jquery";
 import LeftBlock from "./leftblock/LeftBlock";
 import TopPanel from "./toppanel/TopPanel";
@@ -215,7 +215,7 @@ class DesignerStudio extends React.Component {
 				// revaluate styles
 				// let grapesDoc = document.activeElement.contentWindow.document
 				// let selected = grapesDoc.querySelector('.gjs-selected')
-			
+
 				// customEvents.saveStyleInfo({ elem: selected, node: this }, { pseudoClass: this.props.pseudoClass })
 				// ================================================================
 			}
@@ -252,9 +252,9 @@ class DesignerStudio extends React.Component {
 	};
 	@Debounce(500)
 	fun(mouse) {
-	
+
 		const el = closestElement({ x: mouse.pageX, y: mouse.pageY }, "draggable");
-	
+
 	}
 	temp = () => {
 		const { editor } = _grapesEditor;
@@ -313,7 +313,7 @@ class DesignerStudio extends React.Component {
 		const { selected } = this.state;
 		const { assetsManager } = this.props
 		return (
-			<div className={"theme-dark"}>
+			<div className={`theme-${this.props.theme}`}>
 				<div
 					style={{
 						display: "flex",
@@ -338,11 +338,11 @@ class DesignerStudio extends React.Component {
 							<div id='grapesEditor'></div>
 							<div id='zoom'>
 								<span className='minus' onClick={this.minus}>
-									<img src={minus} alt='minus'></img>
+									<Minus />
 								</span>
 								<input type='text' value={this.state.zoom + "%"} disabled />
 								<span className='plus' onClick={this.plus}>
-									<img src={plus} alt='plus'></img>
+									<Plus />
 								</span>
 							</div>
 							<div id='question'>
@@ -377,8 +377,10 @@ const mapStateToProps = ({
 	editorHistory,
 	pageReducer,
 }) => {
+	console.log(editorHistory.present.styleObj, 'aaaaaa..')
 	return {
 		loading: global.loading,
+		theme: layout.theme,
 		templates,
 		styleObj: JSON.parse(editorHistory.present.styleObj),
 		styleStr: editorHistory.present.style,

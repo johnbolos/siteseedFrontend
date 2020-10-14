@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { addPage, page, show, setting, search } from "./icons";
+import {
+	addPage as AddPage,
+	page as Page,
+	show as Show,
+	setting as Setting,
+	search as Search
+} from "./icons";
 import _grapesEditor from "../../../components/utils/grapesEditor";
 import { connect } from "react-redux";
 import {
@@ -69,7 +75,7 @@ class PageManager extends Component {
 				const { pageReducer } = this.props;
 				if (searchInput) {
 					filteredPages = pageReducer.pages.filter((page) =>
-						page.name.includes(searchInput)
+						(page.name.toLowerCase()).includes(searchInput.toLowerCase())
 					);
 					this.setState({
 						filteredPages,
@@ -102,7 +108,7 @@ class PageManager extends Component {
 		return (
 			<>
 				<div>
-					<img src={search} alt='search' className='search-icon' />
+					<Search className='search-icon' />
 					<input
 						type='text'
 						placeholder='Search'
@@ -118,7 +124,7 @@ class PageManager extends Component {
 								modalIsOpen: true,
 							})
 						}>
-						<img src={addPage} alt='add-page' />
+						<AddPage />
 					</div>
 				</div>
 				<ul>
@@ -126,17 +132,15 @@ class PageManager extends Component {
 						filteredPages.map((pageElem, index) => (
 							<li key={index} className='pages'>
 								<div onClick={() => this.changeTemplate(index)}>
-									<img src={page} alt='page' className='page' />
+									<Page className='page' />
 									{pageElem.name}
 								</div>
 								<div>
-									<img
+									<Setting
 										className='setting'
-										src={setting}
-										alt='setting'
 										onClick={() => this.openSettings(index)}
 									/>
-									<img src={show} style={{ marginRight: '0px' }} alt='show' />
+									<Show style={{ marginRight: '0px' }} />
 								</div>
 							</li>
 						))}

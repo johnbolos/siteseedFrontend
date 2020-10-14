@@ -5,6 +5,7 @@ import $ from 'jquery'
 import Icons from '../../../../../../assets/Icons'
 import Integer from "../integer";
 import './slidebar.scss'
+import { connect } from "react-redux";
 
 class Slider extends React.Component {
     constructor(props) {
@@ -22,6 +23,26 @@ class Slider extends React.Component {
         if (prevProps.meta.value != this.props.meta.value) {
             this.changeSidebarStyles(this.props.meta.value)
             this.initValue(this.props.meta.value)
+        }
+        if (prevProps.theme != this.props.theme) {
+            // fetch background prperty and update it
+            let themeElem = document.getElementsByClassName(`slider-container`)
+            if (!themeElem || themeElem.length == 0) {
+                return
+            }
+            _.each(themeElem, (element) => {
+                let bgVal = getComputedStyle(element.children[0])['background']
+                let backgroundColor = '#5e5e5e'
+                if (this.props.theme == 'light') {
+                    backgroundColor = '#f6f6f6'
+                }
+                if (this.props.theme == 'dark') {
+                    bgVal = bgVal.replaceAll('rgb(246, 246, 246)', backgroundColor)
+                } else {
+                    bgVal = bgVal.replaceAll('rgb(94, 94, 94)', backgroundColor)
+                }
+                element.children[0].style.background = bgVal
+            })
         }
     }
     initValue = (value) => {
@@ -59,21 +80,25 @@ class Slider extends React.Component {
         })
     }
     changeSidebarStyles = (value) => {
-        const { meta: { min = 0, max = 100, pointerCenter } } = this.props
+        const { meta: { min = 0, max = 100, pointerCenter }, theme } = this.props
         let total = max - min
         let length = value - min
         let percent = (length / total) * 100
+        let backgroundColor = '#5e5e5e'
+        if (theme == 'light') {
+            backgroundColor = '#f6f6f6'
+        }
         if (pointerCenter) {
             if (percent <= 50) {
-                this.sliderRef.current.style.background = `linear-gradient(to right, #272727 ${percent}%, #006CFF 1%, #006CFF 50%, #272727 1%)`
+                this.sliderRef.current.style.background = `linear-gradient(to right, ${backgroundColor} ${percent}%, #006CFF 1%, #006CFF 50%, ${backgroundColor} 1%)`
                 return
             }
-            this.sliderRef.current.style.background = `linear-gradient(to right, #272727 50%, #006CFF 1%, #006CFF ${percent}%, #272727 1%)`
+            this.sliderRef.current.style.background = `linear-gradient(to right, ${backgroundColor} 50%, #006CFF 1%, #006CFF ${percent}%, ${backgroundColor} 1%)`
             return
         }
-        this.sliderRef.current.style.background = `linear-gradient(to right, #006CFF ${percent}%, #272727 1%, #272727)`
+        this.sliderRef.current.style.background = `linear-gradient(to right, #006CFF ${percent}%, ${backgroundColor} 1%, ${backgroundColor})`
 
-        // $('.slider').css('background', `linear-gradient(to right, #006CFF ${percent}%, #272727 1%, #272727)`)
+        // $('.slider').css('background', `linear-gradient(to right, #006CFF ${percent}%, ${backgroundColor} 1%, ${backgroundColor})`)
     }
     render() {
         const {
@@ -109,5 +134,18 @@ class Slider extends React.Component {
     }
 }
 
+const mapStateToProps = ({
+    layout,
+}) => {
+    return {
+        theme: layout.theme,
+    };
+};
 
-export default Slider
+const mapDispatchToProps = (dispatch) => {
+    return {
+        dispatch,
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Slider);

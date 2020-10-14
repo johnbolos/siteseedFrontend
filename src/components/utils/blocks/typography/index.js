@@ -2,25 +2,25 @@ import { heading, paragraph, quote, richtext, textLink, text } from "./icons";
 
 export const typography = (editor) => {
 	editor.BlockManager.add("heading", {
-		label: `<img src=${heading} alt=heading />
+		label: `${heading}
         <div>Heading</div>`,
 		category: "Typography",
 		content: `<h1>Heading</h1>`,
 	});
 	editor.BlockManager.add("paragraph", {
-		label: `<img src=${paragraph} alt=paragraph />
+		label: `${paragraph}
         <div>Paragraph</div>`,
 		category: "Typography",
 		content: `<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus placeat accusantium unde doloribus.</p>`,
 	});
 	editor.BlockManager.add("text-block", {
-		label: `<img src=${text} alt=text-block />
+		label: `${text}
         <div>Text Block</div>`,
 		category: "Typography",
 		content: `<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus placeat accusantium unde doloribus. Text block inside of div</div>`,
 	});
 	editor.BlockManager.add("block-quote", {
-		label: `<img src=${quote} alt=block-quote />
+		label: `${quote}
         <div>Block Quote</div>`,
 		category: "Typography",
 		content: `<blockquote class="quote">
@@ -39,7 +39,7 @@ export const typography = (editor) => {
       `,
 	});
 	editor.BlockManager.add("rich-text", {
-		label: `<img src=${richtext} alt=rich-text />
+		label: `${richtext}
         <div>Rich Text</div>`,
 		category: "Typography",
 		content: `<h1>A Nice heading</h1>

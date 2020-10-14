@@ -499,7 +499,7 @@ class StyleManager extends React.Component {
                                 setState({ ...state, backgroundKey: 'gradient' })
                             }}
                         >
-                            <Icons.BackgroundGradient style={{ width: '12px', height: '12px' }} />
+                            <Icons.BackgroundGradient className={'background-gradient-icon'} style={{ width: '12px', height: '12px' }} />
                         </div>
                     </div>
                 }

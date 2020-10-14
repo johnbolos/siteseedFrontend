@@ -1,5 +1,5 @@
 import React from "react";
-import { search } from "./icons";
+import { search as Search } from "./icons";
 //import _grapesEditor from "../../../components/utils/grapesEditor";
 import "./layerManager.scss";
 import $ from "jquery";
@@ -52,7 +52,7 @@ class LayerManager extends React.Component {
 		return (
 			<>
 				<div>
-					<img src={search} alt='search' className='search-icon' />
+					<Search className='search-icon' />
 					<input
 						type='text'
 						placeholder='Search'

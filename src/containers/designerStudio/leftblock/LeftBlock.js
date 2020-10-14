@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import {
-	addElem,
-	components,
-	layers,
-	tip,
+	addElem as AddElem,
+	components as Components,
+	layers as Layers,
+	tip as Tip,
 } from "../../designerStudio/panels/icons";
 import $ from "jquery";
 //import _grapesEditor from "../../../components/utils/grapesEditor";
@@ -19,17 +19,17 @@ const initialState = {
 	component: "none",
 	layers: "none",
 	comment: "none",
-	openComponents : false
+	openComponents: false
 };
 
 class LeftBlock extends Component {
 	state = initialState;
 
-	drawerToggleClickHandler = (e) => {
-		let elem = $(`[name='${e.target.name}']`);
+	drawerToggleClickHandler = (name) => {
+		let elem = $(`[name='${name}']`);
 		this.reset(elem);
 		this.setState({
-			[e.target.name]: this.state[e.target.name] === "none" ? "block" : "none",
+			[name]: this.state[name] === "none" ? "block" : "none",
 		});
 	};
 	reset = (elem) => {
@@ -60,10 +60,10 @@ class LeftBlock extends Component {
 	}
 	openComponents() {
 		let { editor } = _grapesEditor;
-		let {openComponents} = this.state
+		let { openComponents } = this.state
 		openComponents ? editor.stopCommand("add-component-manager") : editor.runCommand("add-component-manager")
 		this.setState({
-			openComponents : !this.state.openComponents
+			openComponents: !this.state.openComponents
 		})
 		//editor.runCommand("add-component-manager")
 	}
@@ -77,70 +77,57 @@ class LeftBlock extends Component {
 		return (
 			<>
 				<div className='left-pane'>
-					<div className='tooltip-left'>
-						<img
-							src={addElem}
-							alt='addElement'
-							name='blocks'
-							onClick={this.drawerToggleClickHandler}
-						/>
+					<div className='tooltip-left' name='blocks' onClick={(e) => { this.drawerToggleClickHandler('blocks') }}>
+
+						<AddElem />
 						<span className='tooltiptext-left'>Add Elements</span>
 					</div>
-					<div className='tooltip-left'>
-						<img
-							src={components}
-							alt='Component'
-							name='component'
-							onClick={(e) => {this.drawerToggleClickHandler(e); this.openComponents();}}></img>
+					<div className='tooltip-left' onClick={(e) => { this.drawerToggleClickHandler('component'); this.openComponents(); }}>
+
+						<Components />
 						<span className='tooltiptext-left'>Add Components</span>
 					</div>
-					<div className='tooltip-left'>
-						<img
-							src={layers}
-							alt='layers'
-							name='layers'
-							onClick={this.drawerToggleClickHandler}></img>
+					<div className='tooltip-left' onClick={() => { this.drawerToggleClickHandler('layers') }}>
+
+						<Layers />
 						<span className='tooltiptext-left'>Add Layers</span>
 					</div>
 				</div>
-				<img
-					src={tip}
-					alt='tip'
+				<Tip
 					width='15px'
 					height='9px'
 					className='tip'
 					style={{
 						display: this.state.blocks,
 						marginTop: "15px",
-					}}></img>
+					}}
+				/>
 				<div id='blocks' style={{ display: this.state.blocks }}>
 					<h4 className='add-element'>Add Elements</h4>
 					<button type="button" className="save-section" onClick={this.saveSection}>Save Section</button>
 				</div>
-				<img
-					src={tip}
-					alt='tip'
+				<Tip
 					width='15px'
 					height='9px'
 					className='tip'
 					style={{
 						display: this.state.component,
 						marginTop: "55px",
-					}}></img>
+					}}
+				/>
 				<div id='components' style={{ display: this.state.component }}>
 					<h4 className='add-element'>Add Components</h4>
-					
+
 				</div>
-				<img
-					src={tip}
-					alt='tip'
+				<Tip
 					width='15px'
 					height='9px'
 					className='tip'
 					style={{
 						display: this.state.layers,
 						marginTop: "94px",
-					}}></img>
+					}}
+				/>
 				<div id='layers' style={{ display: this.state.layers }}>
 					<Tabs>
 						<TabList style={{ display: "flex" }}>

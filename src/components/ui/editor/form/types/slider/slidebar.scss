@@ -1,7 +1,14 @@
+@import "../../../../../../assets/theme/editorTheme.scss";
 input[type="range"] {
-  background: #272727;
   border: none;
   -webkit-appearance: none;
+  background: #272727;
+  .theme-light & {
+    background-color: map-get($light, "background2");
+  }
+  .theme-dark & {
+    background-color: map-get($dark, "background2");
+  }
 }
 input[type="range"]:focus {
   outline: none;
@@ -13,7 +20,7 @@ input[type="range"]::-webkit-slider-runnable-track {
   cursor: pointer;
 }
 input[type="range"]::-webkit-slider-thumb {
-  background-color: #006cff;
+  background-color: map-get($primary, "background");
   border-radius: 50%;
   top: 0;
   height: 10px;

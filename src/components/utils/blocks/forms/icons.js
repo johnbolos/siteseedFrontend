@@ -1,11 +1,11 @@
-import checkbox from "../../../../assets/blocks/forms/Checkbox.svg";
-import dropdown from "../../../../assets/blocks/forms/Dropdown.svg";
-import formicon from "../../../../assets/blocks/forms/formicon.svg";
-import inputIcon from "../../../../assets/blocks/forms/Input.svg";
-import radio from "../../../../assets/blocks/forms/Radio.svg";
-import selectIcon from "../../../../assets/blocks/forms/Select.svg";
-import textarea from "../../../../assets/blocks/forms/Textarea.svg";
-import toggle from "../../../../assets/blocks/forms/Toggle.svg";
+import checkbox from "../../../../assets/blocks/forms/Checkbox.js";
+import dropdown from "../../../../assets/blocks/forms/Dropdown.js";
+import formicon from "../../../../assets/blocks/forms/formicon.js";
+import inputIcon from "../../../../assets/blocks/forms/Input.js";
+import radio from "../../../../assets/blocks/forms/Radio.js";
+import selectIcon from "../../../../assets/blocks/forms/Select.js";
+import textarea from "../../../../assets/blocks/forms/Textarea.js";
+import toggle from "../../../../assets/blocks/forms/Toggle.js";
 
 export {
 	checkbox,

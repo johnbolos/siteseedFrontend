@@ -133,7 +133,7 @@ export default function (editor, opt = {}) {
 
 	toAdd("column1") &&
 		bm.add("column1", {
-			label: `<img src=${column} alt=column />
+			label: `${column}
       <div>1 Column</div>`,
 			category: c.category,
 			//attributes: { class: 'gjs-fonts gjs-f-b1' },
@@ -152,7 +152,7 @@ export default function (editor, opt = {}) {
 
 	toAdd("column2") &&
 		bm.add("column2", {
-			label: `<img src=${column2} alt=column2 />
+			label: `${column2}
       <div>2 Columns</div>`,
 			//attributes: { class: 'gjs-fonts gjs-f-b2' },
 			category: c.category,
@@ -172,7 +172,7 @@ export default function (editor, opt = {}) {
 
 	toAdd("column3") &&
 		bm.add("column3", {
-			label: `<img src=${column3} alt=column3 />
+			label: `${column3}
       <div>3 Columns</div>`,
 			category: c.category,
 			//attributes: { class: 'gjs-fonts gjs-f-b3' },
@@ -192,7 +192,7 @@ export default function (editor, opt = {}) {
 		});
 	toAdd("column4") &&
 		bm.add("column4", {
-			label: `<img src=${column4} alt=column4 />
+			label: `${column4}
       <div>4 Columns</div>`,
 			category: c.category,
 			//attributes: { class: 'gjs-fonts gjs-f-b3' },
@@ -214,7 +214,7 @@ export default function (editor, opt = {}) {
 
 	toAdd("4-8column") &&
 		bm.add("4-8column", {
-			label: `<img src=${four} alt=4-8column />
+			label: `${four}
       <div>4/8 Columns</div>`,
 			category: c.category,
 			//attributes: { class: 'gjs-fonts gjs-f-b37' },
@@ -239,7 +239,7 @@ export default function (editor, opt = {}) {
 		});
 	toAdd("8-4column") &&
 		bm.add("8-4column", {
-			label: `<img src=${eight} alt=8-4column />
+			label: `${eight}
       <div>8/4 Columns</div>`,
 			category: c.category,
 			//attributes: { class: 'gjs-fonts gjs-f-b37' },
