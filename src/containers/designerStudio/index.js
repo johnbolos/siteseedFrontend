@@ -26,6 +26,7 @@ import LeftBlock from "./leftblock/LeftBlock";
 import TopPanel from "./toppanel/TopPanel";
 import assetsManager from "./assetsManager";
 import { customEvents } from "../../components/utils/grapesEditor/styleManager";
+import { selectTemplate } from "../../reducers/actions/templateActions";
 
 const initialState = {
 	zoom: 100,
@@ -42,6 +43,7 @@ class DesignerStudio extends React.Component {
 	componentDidMount() {
 		let { currentUser, dispatch, assets } = this.props
 		this.addCloseEvent()
+		dispatch(selectTemplate('inProgress'))
 		if (currentUser) {
 			// initialise different settings.....
 			if (currentUser.assets && currentUser.assets.image) {
@@ -180,9 +182,7 @@ class DesignerStudio extends React.Component {
 		// }
 		// set template html and style from page manager
 		let html = pageReducer.pages[pageReducer.currentPage].components
-		let style = `<style> 
-		@media {background: red;}
-		 ${pageReducer.pages[pageReducer.currentPage].style} </style>`
+		let style = `<style> ${pageReducer.pages[pageReducer.currentPage].style} </style>`
 		console.log(style, this.state.templateStyle, 'aaa.init')
 		// ==========================================================
 		_grapesEditor.init(

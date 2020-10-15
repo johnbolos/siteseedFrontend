@@ -32,6 +32,7 @@ function Home({ dispatch, loading, templates }) {
 					<div
 						class="lead-btn"
 						onClick={() => {
+							dispatch(selectTemplate("template1"))
 							dispatch(getPushPathWrapper("designerStudio"));
 						}}
 					>

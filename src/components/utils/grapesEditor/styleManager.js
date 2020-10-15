@@ -403,7 +403,7 @@ const styleManager = {
 					element.unshift(color);
 					resp[index] = element.join(" ");
 				});
-				resp = resp.join(" ");
+				resp = resp.join(", ");
 			} else if (key == "box-shadow") {
 				resp = resp.split(/,(?![^(]*\))/);
 				_.each(resp, (element, index) => {
@@ -412,7 +412,7 @@ const styleManager = {
 					element.unshift(color);
 					resp[index] = element.join(" ");
 				});
-				resp = resp.join(" ");
+				resp = resp.join(", ");
 			}
 		}
 		if (!resp) {

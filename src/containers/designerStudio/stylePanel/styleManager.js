@@ -53,6 +53,11 @@ class StyleManager extends React.Component {
             this.forceUpdate()
             this.extractTransform()
         }
+        if (prevState.textShadowRep != this.state.textShadowRep) {
+            this.setState({
+                textShadowValue: selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'text-shadow'),
+            })
+        }
         if (this.props.selected && (prevProps.selected.node != this.props.selected.node)) {
             this.setState({
                 boxShadowValue: selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'box-shadow'),
@@ -191,6 +196,8 @@ class StyleManager extends React.Component {
         if (response) {
             const { pageReducer } = this.props
             const { pages, currentPage } = pageReducer
+            str = str.replaceAll('<style>', '')
+            str = str.replaceAll('</style>', '')
             this.props.saveCurrentChanges(currentPage, {
                 ...pages[currentPage],
                 style: str,
@@ -206,7 +213,16 @@ class StyleManager extends React.Component {
 
         //set selected
         if (pseudoClass == 'normal') {
-            customEvents.saveStyleInfo({ elem: selected.node, node: editorNode })
+            customEvents.saveStyleInfo({ elem: selected.node, node: editorNode }, {}, () => {
+                if (item.key === 'text-shadow') {
+                    this.setState({ textShadowValue: selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'text-shadow') })
+                } else if (item.key === 'box-shadow') {
+                    this.setState({ boxShadowValue: selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'box-shadow') })
+                } else if (item.key.includes('background')) {
+                    this.setState({ backgroundValue: this.extractBackgroundProperty() })
+                }
+                this.state.globalOnchangeCallBack && this.state.globalOnchangeCallBack()
+            })
             return
         }
         customEvents.saveStyleInfo({ elem: selected.node, node: editorNode }, { pseudoClass: pseudoClass }, () => {
@@ -799,7 +815,7 @@ class StyleManager extends React.Component {
                 // meane value was 'none'
                 // remove inset if present
                 let newValue = value
-                newValue = newValue.trim().split(/ (?![^(]*\))/)
+                newValue = newValue.trim().replace(/\s\s+/g, ' ').split(/ (?![^(]*\))/)
                 setState({
                     ...state,
                     color: newValue[0],
@@ -817,7 +833,7 @@ class StyleManager extends React.Component {
                 // meane value was 'none'
                 // remove inset if present
                 let newValue = value
-                newValue = newValue.trim().split(/ (?![^(]*\))/)
+                newValue = newValue.trim().replace(/\s\s+/g, ' ').split(/ (?![^(]*\))/)
                 setState({
                     ...state,
                     color: newValue[0],
@@ -922,6 +938,7 @@ class StyleManager extends React.Component {
                         updateRep('textShadowRep', textShadowRep - 1)
                         updateRep('globalOnchangeCallBack', null)
                     })
+                    // updateRep('textShadowRep', textShadowRep - 1)
                 }} style={{ width: '12px', height: '12px', transform: 'rotateZ(45deg)' }} />
             </div>
             <CreateForm fields={fields} globalOnChange={handleOnChange} />
@@ -951,7 +968,7 @@ class StyleManager extends React.Component {
                     newValue = newValue.replace('inset', '')
                     inside = true
                 }
-                newValue = newValue.trim().split(/ (?![^(]*\))/)
+                newValue = newValue.trim().replace(/\s\s+/g, ' ').split(/ (?![^(]*\))/)
                 setState({
                     ...state,
                     color: newValue[0],
@@ -979,7 +996,7 @@ class StyleManager extends React.Component {
                     newValue = newValue.replace('inset', '')
                     inside = true
                 }
-                newValue = newValue.trim().split(/ (?![^(]*\))/)
+                newValue = newValue.trim().replace(/\s\s+/g, ' ').split(/ (?![^(]*\))/)
                 setState({
                     ...state,
                     color: newValue[0],
@@ -2353,7 +2370,7 @@ const mapStateToProps = ({ global, layout, editor, templates, pageReducer, edito
         pseudoClass: editor.pseudoClass,
         assets: global.assets,
         assetsManager: editor.assetsManager,
-		pageReducer,
+        pageReducer,
     }
 }
 
