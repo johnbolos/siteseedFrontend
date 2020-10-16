@@ -278,7 +278,8 @@ class DesignerStudio extends React.Component {
 			// save all ss style tag in page manager
 			let frame = document.getElementsByClassName("gjs-frame")
 			let doc = frame[0].contentWindow.document
-			let style = doc.getElementById("ss-style").innerHTML
+			let style = doc.getElementById("ss-style")
+			style = (style && style.innerHTML) || ''
 			// let customStyles = doc.getElementById("ss-customStyles")
 			// let styleAssets = doc.getElementById("ss-style-assets")
 			// ======================================

@@ -62,7 +62,11 @@ const styleManager = {
 					let style = document.createElement("style");
 					style.id = styleId;
 					style.innerHTML = styleObj.data.filteredStr;
-					gjsCssRules.appendChild(style);
+					// ===========================================================
+					// gjsCssRules.appendChild(style);
+					// ===========================================================
+					console.log(body, 'aaaaaaaaaaaaaaaaaa')
+					body[0].appendChild(style);
 					// body.insertBefore(style, body.firstChild);
 
 					style = document.createElement("style");
@@ -70,7 +74,11 @@ const styleManager = {
 					// style.innerHTML = styleObj.data.stylesObj[0].styles;	//adds custom stylesss
 
 					style.innerHTML = template1StyleMedia;
-					gjsCssRules.appendChild(style);
+					// ===========================================================
+					// gjsCssRules.appendChild(style);
+					// ===========================================================
+					body[0].appendChild(style);
+
 					// if (
 					// 	styleObj.data &&
 					// 	styleObj.data.stylesObj[0] &&
