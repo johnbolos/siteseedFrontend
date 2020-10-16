@@ -266,8 +266,8 @@ class DesignerStudio extends React.Component {
 					icon: '<span class="icon-ss-link"></span>'
 				});
 				// ======================================================================
-				const commands = editor.Commands;
-				commands.run('core:component-outline');
+				// const commands = editor.Commands;
+				// commands.run('core:component-outline');
 			}
 		);
 		const { editor } = _grapesEditor;
@@ -279,7 +279,6 @@ class DesignerStudio extends React.Component {
 			let frame = document.getElementsByClassName("gjs-frame")
 			let doc = frame[0].contentWindow.document
 			let style = doc.getElementById("ss-style").innerHTML
-			console.log(components, 'aaa.storage')
 			// let customStyles = doc.getElementById("ss-customStyles")
 			// let styleAssets = doc.getElementById("ss-style-assets")
 			// ======================================
