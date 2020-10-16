@@ -140,102 +140,104 @@ class PageSettingModal extends Component {
 					<h4>{this.props.pageSetting.name || "New Page"} Setting</h4>
 					<Cancel onClick={this.props.closeModal} />
 				</header>
-				<form onSubmit={this.handleFormSubmit} autoComplete='off'>
-					<label htmlFor='page-title'>Page title</label>
-					<input
-						type='text'
-						name='title'
-						value={this.state.title}
-						onChange={this.handleChange}></input>
-					<label className='helper-text'>
-						<HelperIcon />
-						character. Most search engines use a maximum of 57 chars for the
-						home title
-					</label>
-
-					<label htmlFor='page-description'>Page Description</label>
-					<textarea
-						name='description'
-						value={this.state.description}
-						onChange={this.handleChange}></textarea>
-					<label className='helper-text'>
-						<HelperIcon />
-						character. Most search engines use a maximum of 60 chars for the
-						home description
-					</label>
-
-					{/* SEO settings section */}
-					<div>
-						<h4>SEO Setting</h4>
-						<label className='helper-text seo-setting'>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-							Accusamus placeat accusantium unde doloribus.
-						</label>
-					</div>
-					<div className='seo-preview'>
-						<h5>{this.state.previewTitle || "Untitled"}</h5>
-						<span>website.com/{`${this.state.previewTitle}`}</span>
+				<div className={'modal-form-container'}>
+					<form onSubmit={this.handleFormSubmit} autoComplete='off'>
+						<label htmlFor='page-title'>Page Title</label>
+						<input
+							type='text'
+							name='title'
+							value={this.state.title}
+							onChange={this.handleChange}></input>
 						<label className='helper-text'>
-							{this.state.previewDescription || "meta description"}
-						</label>
-					</div>
-					<label htmlFor='page-title'>Page title</label>
-					<input
-						type='text'
-						name='previewTitle'
-						value={this.state.previewTitle}
-						onChange={this.handleChange}></input>
-					<label className='helper-text'>
-						<HelperIcon />
+							<HelperIcon />
 						character. Most search engines use a maximum of 57 chars for the
 						home title
 					</label>
 
-					<label htmlFor='page-description'>Page Description</label>
-					<textarea
-						name='previewDescription'
-						value={this.state.previewDescription}
-						onChange={this.handleChange}></textarea>
-					<label className='helper-text'>
-						<HelperIcon />
+						<label htmlFor='page-description'>Page Description</label>
+						<textarea
+							name='description'
+							value={this.state.description}
+							onChange={this.handleChange}></textarea>
+						<label className='helper-text'>
+							<HelperIcon />
 						character. Most search engines use a maximum of 60 chars for the
 						home description
 					</label>
 
-					{/* Favicon section */}
-					<div>
-						<h4>Favicon</h4>
-					</div>
-					<div className='favicon-content'>
-						<div className='favicon-box'>
-							<img src={this.state.favicon || faviconIcon} alt='favicon' />
+						{/* SEO settings section */}
+						<div className={'seo-div'}>
+							<h4>Seo Setting</h4>
+							<label className='helper-text seo-setting'>
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+								Accusamus placeat accusantium unde doloribus.
+						</label>
 						</div>
-						<div id='upload-btn'>
-							<label htmlFor='files' className='upload-btn'>
-								<img src={upload} alt='upload-icon' />
-                                Upload
-                            </label>
-							{/* <input id='files' style={{ display: "none" }} type='file' /> */}
-							<input
-								type="file"
-								id='files'
-								accept="image/*"
-								// multiple
-								style={{ display: 'none' }}
-								onChange={this.handleUpload}
-							/>
+						<div className='seo-preview'>
+							<h5>{this.state.previewTitle || "Untitled"}</h5>
+							<span>website.com/{`${this.state.previewTitle}`}</span>
 							<label className='helper-text'>
-								Upload a 32X32 pixel Icon, PNG, GIF, or JPG to display in
-								browser tabs.
+								{this.state.previewDescription || "Meta Description"}
 							</label>
 						</div>
-					</div>
-					<footer>
-						<button type='submit'>
-							{this.props.pageSetting.name ? "Update" : "Save"}
-						</button>
-					</footer>
-				</form>
+						<label htmlFor='page-title'>Title Tag</label>
+						<input
+							type='text'
+							name='previewTitle'
+							value={this.state.previewTitle}
+							onChange={this.handleChange}></input>
+						<label className='helper-text'>
+							<HelperIcon />
+						character. Most search engines use a maximum of 57 chars for the
+						home title
+					</label>
+
+						<label htmlFor='page-description'>Meta Description</label>
+						<textarea
+							name='previewDescription'
+							value={this.state.previewDescription}
+							onChange={this.handleChange}></textarea>
+						<label className='helper-text'>
+							<HelperIcon />
+						character. Most search engines use a maximum of 60 chars for the
+						home description
+					</label>
+
+						{/* Favicon section */}
+						<div className={'favicon-heading'}>
+							<h4>Favicon</h4>
+						</div>
+						<div className='favicon-content'>
+							<div className='favicon-box'>
+								<img src={this.state.favicon || faviconIcon} alt='favicon' />
+							</div>
+							<div id='upload-btn'>
+								<label htmlFor='files' className='upload-btn'>
+									<img src={upload} alt='upload-icon' />
+                                Upload
+                            </label>
+								{/* <input id='files' style={{ display: "none" }} type='file' /> */}
+								<input
+									type="file"
+									id='files'
+									accept="image/*"
+									// multiple
+									style={{ display: 'none' }}
+									onChange={this.handleUpload}
+								/>
+								<label className='helper-text'>
+									Upload a 32X32 pixel Icon, PNG, GIF, or JPG to display in
+									browser tabs.
+							</label>
+							</div>
+						</div>
+						<footer>
+							<button type='submit'>
+								{this.props.pageSetting.name ? "Update" : "Save"}
+							</button>
+						</footer>
+					</form>
+				</div>
 			</Modal>
 		);
 	}

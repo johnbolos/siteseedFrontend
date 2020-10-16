@@ -84,7 +84,7 @@ class Slider extends React.Component {
         let total = max - min
         let length = value - min
         let percent = (length / total) * 100
-        let backgroundColor = '#5e5e5e'
+        let backgroundColor = '#272727'
         if (theme == 'light') {
             backgroundColor = '#f6f6f6'
         }
@@ -106,6 +106,7 @@ class Slider extends React.Component {
                 // value,
                 defaultUnit,
                 integerEdit,
+                showDegSign,
                 min,
                 max,
                 unit,   //optional
@@ -119,13 +120,14 @@ class Slider extends React.Component {
         const { value, unitValue } = this.state
         return (
             <div className={'slider-container'}>
+                <div className={'slider-center-divider'}></div>
                 <input type="range" ref={this.sliderRef} className={'slider'} min={min ? `${min}` : "0"} max={max ? `${max}` : "100"} value={value} onChange={(e) => { this.onChange(e.target.value) }} />
                 <div className={'value'}>
                     {
                         integerEdit && <Integer meta={{ defaultUnit: defaultUnit, value: `${value}`, onChange: (value) => { this.onChange(value) } }} />
                     }
                     {
-                        !integerEdit && <div>{value + ' ' + unitValue}</div>
+                        !integerEdit && <div>{value + ' ' + `${showDegSign ? (unitValue == 'deg' ? '°' : unitValue) : unitValue }`}</div>
                     }
                 </div>
 

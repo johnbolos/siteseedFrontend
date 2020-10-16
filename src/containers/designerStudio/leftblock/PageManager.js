@@ -105,6 +105,7 @@ class PageManager extends Component {
 	}
 	render() {
 		const { filteredPages } = this.state;
+		const { pageReducer } = this.props
 		return (
 			<>
 				<div>
@@ -130,15 +131,18 @@ class PageManager extends Component {
 				<ul>
 					{filteredPages &&
 						filteredPages.map((pageElem, index) => (
-							<li key={index} className='pages'>
-								<div onClick={() => this.changeTemplate(index)}>
+							<li key={index} className='pages' onClick={() => this.changeTemplate(index)}>
+								<div>
 									<Page className='page' />
 									{pageElem.name}
 								</div>
 								<div>
 									<Setting
 										className='setting'
-										onClick={() => this.openSettings(index)}
+										onClick={(e) => {
+											e.stopPropagation()
+											this.openSettings(index)
+										}}
 									/>
 									<Show style={{ marginRight: '0px' }} />
 								</div>

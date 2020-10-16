@@ -586,7 +586,7 @@ const _grapesEditor = {
 		});
 		editor.on("canvas:drop", (instance, model) => {
 			if (model.attributes && model.attributes.type === "image") {
-				editor.runCommand("open-assets");
+				// editor.runCommand("open-assets");
 			}
 
 			if (model.ccid === "modal-container-2") {

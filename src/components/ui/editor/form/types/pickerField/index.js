@@ -81,11 +81,17 @@ class PickerField extends React.Component {
             this.onChange(color.hex, 'value')
         })
     }
+    calcFinalValue = () => {
+        const { alphaValue } = this.state
+        let rgb = convert.hex.rgb(this.state.value)
+        let updatedVal = `rgba(${rgb.join(',')}, ${((alphaValue === '') ? '100' : parseFloat(alphaValue).toFixed(0)) / 100})`
+        return updatedVal
+    }
     handleFocus = (event) => event.target.select();
     render() {
         const {
             meta: {
-                // value,
+                value: metaVal,
                 onChange, //form item specific change
                 // rules,
                 // multiple,
@@ -95,7 +101,16 @@ class PickerField extends React.Component {
         const { value, alphaValue, openPicker } = this.state
         return (
             <div ref={this.PickerRef} className={'picker-field-container'}>
-                <div className={'preview-color'} onClick={() => { this.setState({ openPicker: true }) }} style={{ backgroundColor: value }}></div>
+                <div className={'preview-color'} style={{
+                    position: "absolute",
+                    left: '5px',
+                    zIndex: 0,
+                    height: '20px',
+                    width: '20x',
+                    borderRadius: '4px',
+                    backgroundImage: 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==)'
+                }}></div>
+                <div className={'preview-color'} onClick={() => { this.setState({ openPicker: true }) }} style={{ backgroundColor: this.calcFinalValue(value), zIndex: 1 }}></div>
                 {
                     openPicker && <div onBlur={() => {
                     }}>
@@ -114,12 +129,10 @@ class PickerField extends React.Component {
                         }
                     }}
                     onBlur={(e) => {
-                        if (e.target.value != this.state.value) {
-                            this.onChange(e.target.value, 'value')
-                        }
+                        this.onChange(e.target.value, 'value')
                     }}
-                    // onChange={(e) => { this.setState({ value: e.target.value }) }}
-                    value={(value == '') ? '#006CFF' : value}
+                    onChange={(e) => { this.setState({ value: e.target.value }) }}
+                    value={(metaVal && (metaVal == '')) ? '#006CFF' : value}
 
                 />
                 <input type="number" className={'alpha'} name="int"

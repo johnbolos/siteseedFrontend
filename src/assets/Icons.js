@@ -17,6 +17,7 @@ import { ReactComponent as Tip } from "./tip.svg";
 
 import { ReactComponent as Dropdown } from "./right-pane/Dropdown.svg";
 import { ReactComponent as Plus } from "./right-pane/Plus.svg";
+import { ReactComponent as PlusBold } from "./right-pane/PlusBold.svg";
 import { ReactComponent as Cross } from "./right-pane/Cross.svg";
 import { ReactComponent as Checkbox } from "./right-pane/Checkbox.svg";
 import { ReactComponent as CheckboxUnchecked } from "./right-pane/CheckboxUnchecked.svg";
@@ -64,6 +65,7 @@ import { ReactComponent as CircularTick } from "./modal/tick.svg";
 export default {
 	Dropdown,
 	Plus,
+	PlusBold,
 	Checkbox,
 	CheckboxUnchecked,
 	Cross,

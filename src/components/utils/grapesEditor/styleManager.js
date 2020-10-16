@@ -16,7 +16,6 @@ const styleManager = {
 	init: (styleStr, dispatch) => {
 		//create object
 		let styleObj = styleManager.strToObj(styleStr);
-		console.log(styleObj, 'aaa.style evaluater')
 		if (styleObj.error) {
 			styleStr = '<style>	</style>'
 			styleObj = { data: { stylesObj: [], filteredStr: '' } }
@@ -103,7 +102,6 @@ const styleManager = {
 		str = styleManager.removeComments(str);
 		//extract custom styles now
 		const data = styleManager.extractBlock("@media", str);
-		console.log(data, 'aaa.convert to obj')
 		if (data.customCode != "") {
 			response.push({
 				custom: true,

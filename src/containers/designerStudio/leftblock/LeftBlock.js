@@ -72,22 +72,23 @@ class LeftBlock extends Component {
 		editor.runCommand("ss-save-section")
 	}
 	render() {
+		const { blocks, component, layers } = this.state
 		//const { pageReducer } = this.props;
 		//let { editor } = _grapesEditor;
 		return (
 			<>
 				<div className='left-pane'>
-					<div className='tooltip-left' name='blocks' onClick={(e) => { this.drawerToggleClickHandler('blocks') }}>
+					<div className={`tooltip-left ${blocks != 'none' ? 'tooltip-left-selected' : ''}`} name='blocks' onClick={(e) => { this.drawerToggleClickHandler('blocks') }}>
 
 						<AddElem />
 						<span className='tooltiptext-left'>Add Elements</span>
 					</div>
-					<div className='tooltip-left' onClick={(e) => { this.drawerToggleClickHandler('component'); this.openComponents(); }}>
+					<div className={`tooltip-left ${component != 'none' ? 'tooltip-left-selected' : ''}`} onClick={(e) => { this.drawerToggleClickHandler('component'); this.openComponents(); }}>
 
 						<Components />
 						<span className='tooltiptext-left'>Add Components</span>
 					</div>
-					<div className='tooltip-left' onClick={() => { this.drawerToggleClickHandler('layers') }}>
+					<div className={`tooltip-left ${layers != 'none' ? 'tooltip-left-selected' : ''}`} onClick={() => { this.drawerToggleClickHandler('layers') }}>
 
 						<Layers />
 						<span className='tooltiptext-left'>Add Layers</span>

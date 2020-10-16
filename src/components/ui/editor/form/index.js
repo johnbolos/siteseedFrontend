@@ -47,7 +47,8 @@ class CreateForm extends React.Component {
                             return null
                         }
                         if (item.type == 'divider') {
-                            return <div className={'form-container-divider'} style={{ width: '150%', height: '0px', marginTop: '14px', marginBottom: '16px', marginRight: '-20px', marginLeft: '-20px' }}></div>
+                            let defaultStyle = { width: '150%', height: '0px', marginTop: '14px', marginBottom: '16px', marginRight: '-20px', marginLeft: '-20px'}
+                            return <div className={`form-container-divider ${(item.containerClass) ? item.containerClass : ''}`} style={item.containerStyle ? {...defaultStyle, ...item.containerStyle} : defaultStyle}></div>
                         }
                         return <FormItem meta={item} key={key} globalOnChange={this.onChange} onUmmount={this.unMount} />
                     })

@@ -51,7 +51,6 @@ class StyleManager extends React.Component {
         // this.setcompositeHidden(prevState)
         if (prevProps.selected != this.props.selected) {
             this.forceUpdate()
-            this.extractTransform()
         }
         if (prevState.textShadowRep != this.state.textShadowRep) {
             this.setState({
@@ -59,13 +58,13 @@ class StyleManager extends React.Component {
             })
         }
         if (this.props.selected && (prevProps.selected.node != this.props.selected.node)) {
+            this.extractTransform()
             this.setState({
                 boxShadowValue: selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'box-shadow'),
                 textShadowValue: selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'text-shadow'),
                 backgroundValue: this.extractBackgroundProperty()
             }, () => {
                 this.setCompositeRep()
-
             })
         }
     }
@@ -279,8 +278,16 @@ class StyleManager extends React.Component {
                     }
                 })
             })
-            this.setState({ transformValue: resp })
+        } else {
+            resp = {
+                rotateX: '0deg',
+                rotateY: '0deg',
+                rotateZ: '0deg',
+                scaleX: '1',
+                scaleY: '1'
+            }
         }
+        this.setState({ transformValue: resp })
     }
     extractBackgroundProperty = () => {
         const { selected, pseudoClass } = this.props
@@ -1689,7 +1696,8 @@ class StyleManager extends React.Component {
                 key: 'text-decoration',
                 type: 'radioBtn', //required
                 value: selected.node && (_grapesEditor.styleManager.getStyles(selected, pseudoClass, 'text-decoration').split(' ')[0]),
-                width: '48%',
+                width: '88px',
+                fieldClass: 'text-decoration-field-class',
                 options: [  //optional type: Array of string, Array of objects
                     {
                         label: <Icons.Cross className={'text-decoration-none'} style={{ width: '8.25px', height: '8.25px' }} />,
@@ -1738,13 +1746,14 @@ class StyleManager extends React.Component {
                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                 {/* <div className={'composite-open'} style={{ display: 'none' }}><Icons.Dropdown style={{ width: '10px', height: '10px', marginRight: '10px' }} onClick={() => { this.setState({ showTextShadowComposite: false }) }} /></div>
                                 <div className={'composite-closed'} style={{ display: 'flex' }}><Icons.RightArrow style={{ width: '10px', height: '10px', marginRight: '10px' }} onClick={() => { this.setState({ showTextShadowComposite: true }) }} /></div> */}
-                                <Icons.Plus onClick={() => {
+                                <Icons.PlusBold onClick={() => {
                                     this.setState({ textShadowRep: this.state.textShadowRep + 1 })
                                 }} style={{ width: '12px', height: '12px' }} />
                             </div>
                         </div>
                     )
                 },
+                containerClass: 'text-shadow-container',
                 key: 'text-shadow',
                 type: 'composite',
                 times: this.state.textShadowRep,
@@ -1755,7 +1764,11 @@ class StyleManager extends React.Component {
                 }
             },
             {
-                type: 'divider'
+                type: 'divider',
+                // containerClass: 'divider-custom-style',
+                containerStyle: {
+                    marginTop: this.state.textShadowRep > 0 ? '12px' : '6px'
+                }
             },
         ]
         const decorationsFormFields = [
@@ -1930,7 +1943,7 @@ class StyleManager extends React.Component {
                         <div className={'composite-label custom-label box-shadow-composite-label'}>
                             Box Shadow
                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <Icons.Plus onClick={() => {
+                                <Icons.PlusBold onClick={() => {
                                     this.setState({ boxShadowRep: this.state.boxShadowRep + 1 })
                                 }} style={{ width: '12px', height: '12px' }} />
                                 {/* <div className={'composite-open'} style={{ display: 'none' }}><Icons.Dropdown style={{ width: '10px', height: '10px', marginLeft: '10px' }} onClick={() => { this.setState({ showBoxShadowComposite: false }) }} /></div>
@@ -1954,7 +1967,7 @@ class StyleManager extends React.Component {
                         <div className={'composite-label custom-label background-composite-label'}>
                             Background
                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <Icons.Plus onClick={() => {
+                                <Icons.PlusBold onClick={() => {
                                     let backgroundArr = this.extractBackgroundProperty()
                                     backgroundArr.push({
                                         image: 'url("http://grapesjs.com/img/work-desk.jpg")',
@@ -2117,6 +2130,7 @@ class StyleManager extends React.Component {
                 defaultUnit: this.state.transformKey == 'rotate' ? 'deg' : '',
                 pointerCenter: true,
                 integerEdit: false,
+                showDegSign: true,
                 inline: true,
                 min: this.state.transformKey == 'rotate' ? -180 : -10,
                 max: this.state.transformKey == 'rotate' ? 180 : 10,
@@ -2134,6 +2148,7 @@ class StyleManager extends React.Component {
                 defaultUnit: this.state.transformKey == 'rotate' ? 'deg' : '',
                 pointerCenter: true,
                 integerEdit: false,
+                showDegSign: true,
                 inline: true,
                 min: this.state.transformKey == 'rotate' ? -180 : -10,
                 max: this.state.transformKey == 'rotate' ? 180 : 10,
@@ -2299,6 +2314,7 @@ class StyleManager extends React.Component {
                 defaultUnit: this.state.transformKey == 'rotate' ? 'deg' : '',
                 pointerCenter: true,
                 integerEdit: false,
+                showDegSign: true,
                 inline: true,
                 min: this.state.transformKey == 'rotate' ? -180 : -10,
                 max: this.state.transformKey == 'rotate' ? 180 : 10,
@@ -2365,6 +2381,7 @@ const mapStateToProps = ({ global, layout, editor, templates, pageReducer, edito
     return {
         loading: global.loading,
         templates,
+        theme: layout.theme,
         styleObj: JSON.parse(editorHistory.present.styleObj),
         styleStr: editorHistory.present.style,
         pseudoClass: editor.pseudoClass,

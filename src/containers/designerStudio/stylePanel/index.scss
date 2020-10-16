@@ -501,7 +501,7 @@
 
     .line-height,
     .letter-spacing {
-      padding: 7px;
+      padding: 6px;
       border-radius: 5px;
       display: flex;
       width: 100%;
@@ -548,6 +548,32 @@
           color: map-get($dark, "color");
         }
       }
+    }
+
+    .text-decoration-field-class {
+      padding: 4px 0px 6px 0px !important;
+      .radio-btn-container {
+        border: 1px solid white !important;
+        .theme-light & {
+          padding: 0px !important;
+          border-color: map-get($light, "background3") !important;
+        }
+        .theme-dark & {
+          padding: 0px !important;
+          border-color: map-get($dark, "background3") !important;
+        }
+      }
+    }
+
+    .text-shadow-container {
+      padding-top: 8px;
+      .field-class {
+        padding-bottom: 0px !important;
+      }
+    }
+
+    .divider-custom-style {
+      margin-top: 0px;
     }
 
     .margin-padding {
@@ -722,6 +748,9 @@
       }
     }
     .opacity-container {
+      .slider-center-divider {
+        display: none;
+      }
       .slider-container > input {
         width: 64% !important;
       }

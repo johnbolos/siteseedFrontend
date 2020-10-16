@@ -1,133 +1,145 @@
 @import "../../../assets/theme/editorTheme.scss";
 
 #layer-manager {
-	width: 100%;
-	//margin-top: 10px;
-	margin: 0px 6px 0px 6px;
-	overflow-x: scroll;
-	// background-color: #373737;
+  width: 100%;
+  //margin-top: 10px;
+  margin: 0px 6px 0px 6px;
+  overflow-x: scroll;
+  // background-color: #373737;
+  .theme-dark & {
+    background-color: map-get($dark, "background");
+  }
+  .theme-light & {
+    background-color: map-get($light, "background");
+  }
+  .gjs-one-bg,
+  .gjs-two-color {
+    // background-color: #373737;
+    // color: #fff;
+    .theme-dark & {
+      background-color: map-get($dark, "background");
+      color: map-get($dark, "color");
+    }
+    .theme-light & {
+      background-color: map-get($light, "background");
+      color: map-get($light, "color");
+    }
+  }
+  .gjs-layer {
+    //margin-left: 10px; //removed to fit layers when opened in view
+    border: 1px solid transparent;
+  }
+  .gjs-layer.gjs-selected .gjs-layer-title {
+    // background-color: #373737;
     .theme-dark & {
       background-color: map-get($dark, "background");
     }
     .theme-light & {
       background-color: map-get($light, "background");
     }
-	.gjs-one-bg,
-	.gjs-two-color {
-		// background-color: #373737;
-		// color: #fff;
-		.theme-dark & {
-		  background-color: map-get($dark, "background");
-		  color: map-get($dark, "color");
-		}
-		.theme-light & {
-		  background-color: map-get($light, "background");
-		  color: map-get($light, "color");
-		}
-	}
-	.gjs-layer {
-		//margin-left: 10px; //removed to fit layers when opened in view
-		border: 1px solid transparent;
-	}
-	.gjs-layer.gjs-selected .gjs-layer-title {
-		// background-color: #373737;
-		.theme-dark & {
-		  background-color: map-get($dark, "background");
-		}
-		.theme-light & {
-		  background-color: map-get($light, "background");
-		}
-	}
-	.gjs-layer.gjs-hovered .gjs-layer-title {
-		// background-color: #373737;
-		.theme-dark & {
-		  background-color: map-get($dark, "background");
-		}
-		.theme-light & {
-		  background-color: map-get($light, "background");
-		}
-	}
-	.gjs-layer-title {
-		border: none;
-		font-size: 13px;
-		font-family: "Source Sans Pro";
-		border-radius: 5px;
-		// background-color: #373737;
-		.theme-dark & {
-		  background-color: map-get($dark, "background");
-		}
-		.theme-light & {
-		  background-color: map-get($light, "background");
-		}
-	}
-	.gjs-layer-title-c {
-		border-radius: 5px;
-	}
-	.gjs-selected,   //for border on selected layer
+  }
+  .gjs-layer.gjs-hovered .gjs-layer-title {
+    // background-color: #373737;
+    .theme-dark & {
+      background-color: map-get($dark, "background");
+    }
+    .theme-light & {
+      background-color: map-get($light, "background");
+    }
+  }
+  .gjs-layer-title {
+    border: none;
+    font-size: 13px;
+    font-family: "Source Sans Pro";
+	border-radius: 5px;
+	padding: 0px 10px 0px 30px;
+    // background-color: #373737;
+    .gjs-layer-title-inn {
+      height: 30px;
+    }
+    .gjs-layer-name {
+      height: 30px;
+      display: flex;
+      align-items: center;
+    }
+    .theme-dark & {
+      background-color: map-get($dark, "background");
+    }
+    .theme-light & {
+      background-color: map-get($light, "background");
+    }
+  }
+  .gjs-layer-title-c {
+    border-radius: 5px;
+  }
+  .gjs-selected,   //for border on selected layer
 	.gjs-hovered {
-		box-sizing: border-box;
-		border-radius: 5px;
-		border: 1px solid #006cff;
-		border-color: map-get($primary, "background");
-		// background-color: #373737;
-		.theme-dark & {
-		  background-color: map-get($dark, "background");
-		}
-		.theme-light & {
-		  background-color: map-get($light, "background");
-		}
-	}
-	.gjs-layer-caret {
-		font-size: unset;
-	}
+    box-sizing: border-box;
+    border-radius: 5px;
+	border: 1px solid #006cff;
+	overflow: hidden;
+    border-color: map-get($primary, "background");
+    // background-color: #373737;
+    .theme-dark & {
+      background-color: map-get($dark, "background");
+    }
+    .theme-light & {
+      background-color: map-get($light, "background");
+    }
+  }
+  .gjs-layer-caret {
+    font-size: unset;
+    top: 8px;
+  }
 
-	//for moving eye to right
-	.gjs-layer-vis {
-		left: unset;
-		right: 6px;
-		top: 5px;
-		// color: #c0c0c0;
-		.theme-dark & {
-		  color: map-get($dark, "color1");
-		}
-		.theme-light & {
-		  color: map-get($light, "color1");
-		}
-	}
+  //for moving eye to right
+  .gjs-layer-vis {
+    left: unset;
+    right: 6px;
+    top: 10px;
+    padding: 0px 5px 0px 10px;
+    // color: #c0c0c0;
+    .theme-dark & {
+      color: map-get($dark, "color1");
+    }
+    .theme-light & {
+      color: map-get($light, "color1");
+    }
+  }
 
-	.gjs-layer-children {
-		.gjs-layer-vis {
-			// color: #c0c0c0;
-			.theme-dark & {
-			  color: map-get($dark, "color1");
-			}
-			.theme-light & {
-			  color: map-get($light, "color1");
-			}
-		}
-	}
-	.fa-chevron-right,
-	.fa-chevron-down {
-		margin: -2px 0px 0px -7px;
-	}
-	.fa-chevron-right:before {
-		content: "\f0da"; // for right arrow
-	}
-	.fa-chevron-down:before {
-		content: "\f0d7"; // for down arrow if required
-		// content: "\f0da"; // for right arrow
-	}
+  .gjs-layer-children {
+    .gjs-layer-vis {
+      // color: #c0c0c0;
+      .theme-dark & {
+        color: map-get($dark, "color1");
+      }
+      .theme-light & {
+        color: map-get($light, "color1");
+      }
+    }
+  }
+  .fa-chevron-right,
+  .fa-chevron-down {
+    margin: -2px 0px 0px -7px;
+  }
+  .fa-chevron-right:before {
+    content: "\f0da"; // for right arrow
+  }
+  .fa-chevron-down:before {
+    content: "\f0d7"; // for down arrow if required
+    // content: "\f0da"; // for right arrow
+  }
 
-	// .gjs-layer__t-default {
-	// 	// margin: 1px 0px;
-	// 	border: 1px solid transparent;
-	// }
+  // .gjs-layer__t-default {
+  // 	// margin: 1px 0px;
+  // 	border: 1px solid transparent;
+  // }
 }
 .change-opacity {
-	opacity: 0.5;
+  opacity: 0.5;
 }
 
 .search-result {
-	color: "red";
-	border: "2px solid red";
+  color: "red";
+  border: "2px solid red";
 }

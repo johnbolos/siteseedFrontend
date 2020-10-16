@@ -56,8 +56,14 @@ class DesignerStudio extends React.Component {
 		this.setGoogleFonts()
 		this.apiRequest();
 		setTimeout(() => {
+			this.setScrollBarStyle()
 			this.temp();
 		}, 5000);
+	}
+	componentDidUpdate(prevProps) {
+		if (prevProps.theme != this.props.theme) {
+			this.setScrollBarStyle()
+		}
 	}
 	addCloseEvent = () => {
 		window.addEventListener("beforeunload", function (event) {
@@ -66,11 +72,59 @@ class DesignerStudio extends React.Component {
 			// =============================================
 		})
 	}
-	// componentDidUpdate(prevProps) {
-	// 	if (JSON.stringify(prevProps.styleObj) != JSON.stringify(this.props.styleObj) && this.props.selected) {
-	// 		this.setState({ selected: this.props.selected })
-	// 	}
-	// }
+	setScrollBarStyle = () => {
+		const { theme } = this.props
+		let frame = document.getElementsByClassName("gjs-frame")
+		let doc = frame[0].contentWindow.document
+		let styleElem = doc.querySelector('body > style')
+		let newStyleElem = doc.querySelector('#ss-scrollbar-style')
+		if (!newStyleElem) {
+			newStyleElem = doc.createElement('style')
+			newStyleElem.id = 'ss-scrollbar-style'
+			styleElem.parentNode.insertBefore(newStyleElem, styleElem.nextSibling);
+		}
+		let stringDark = styleElem.innerHTML
+		let stringLight = styleElem.innerHTML
+		stringDark += `
+		
+		
+			* ::-webkit-scrollbar {
+				width: 6px;
+			}
+
+			* ::-webkit-scrollbar-track {
+				background-color: #272727;
+			}
+
+			* ::-webkit-scrollbar-thumb {
+				border-radius: 150px;
+				background-color: #6a6a6a;
+			}
+		`
+
+		stringLight += `
+		
+		
+			* ::-webkit-scrollbar {
+				width: 6px;
+			}
+
+			* ::-webkit-scrollbar-track {
+				background-color: #e6e6e6;
+			}
+
+			* ::-webkit-scrollbar-thumb {
+				border-radius: 150px;
+				background-color: #c0c0c0;
+			}
+		`
+
+		if (theme == 'light') {
+			newStyleElem.innerHTML = stringLight
+			return
+		}
+		newStyleElem.innerHTML = stringDark
+	}
 	setGoogleFonts = async () => {
 		const { dispatch } = this.props
 		const googleApiReq = await Request.getGoogleFonts()
@@ -183,7 +237,6 @@ class DesignerStudio extends React.Component {
 		// set template html and style from page manager
 		let html = pageReducer.pages[pageReducer.currentPage].components
 		let style = `<style> ${pageReducer.pages[pageReducer.currentPage].style} </style>`
-		console.log(style, this.state.templateStyle, 'aaa.init')
 		// ==========================================================
 		_grapesEditor.init(
 			{
@@ -193,6 +246,10 @@ class DesignerStudio extends React.Component {
 			dispatch,
 			() => {
 				console.log("callback for grapesjs init");
+				const { editor } = _grapesEditor;
+				const keymaps = editor.Keymaps;
+				keymaps.remove('core:redo')
+				keymaps.remove('core:undo')
 				let frame = document.getElementsByClassName("gjs-frame");
 				let contentWindow = frame[0].contentWindow;
 				contentWindow.addEventListener("mousedown", (e) => {
@@ -203,13 +260,14 @@ class DesignerStudio extends React.Component {
 					// _grapesEditor.styleManager.addEvents({ e, node: this }, { pseudoClass: 'hover' })
 				});
 				// =============================Rich Text Editor=========================
-				const { editor } = _grapesEditor;
 				const rte = editor.RichTextEditor;
 				rte.remove('link')
 				rte.add("link", {
 					icon: '<span class="icon-ss-link"></span>'
 				});
 				// ======================================================================
+				const commands = editor.Commands;
+				commands.run('core:component-outline');
 			}
 		);
 		const { editor } = _grapesEditor;
@@ -221,7 +279,7 @@ class DesignerStudio extends React.Component {
 			let frame = document.getElementsByClassName("gjs-frame")
 			let doc = frame[0].contentWindow.document
 			let style = doc.getElementById("ss-style").innerHTML
-			console.log(doc.getElementById("ss-style").innerHTML, 'aaa.storage')
+			console.log(components, 'aaa.storage')
 			// let customStyles = doc.getElementById("ss-customStyles")
 			// let styleAssets = doc.getElementById("ss-style-assets")
 			// ======================================
