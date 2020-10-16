@@ -1475,13 +1475,10 @@ export const template1StyleCss = `
 	max-width: 1326px !important;
 }
 
-.nav-link:hover {
+.navbar-dark .navbar-nav .nav-link:hover {
 	color: #000;
 }
 
-.BOX-1 {	
-    background: #b4d6b1;
-}
 .cool-link {
 	display: inline-block;
 	color: #000;
@@ -1661,7 +1658,7 @@ p {
 	background-color: #ffffff!important;
 }
 
-.nav-link {
+.navbar-dark .navbar-nav .nav-link {
 	font-family: 'Playfair Display';
 	font-weight: bold;
 	font-size: 16px;
@@ -1671,11 +1668,11 @@ p {
 	line-height: 21px;
 }
 
-.navbar-dark {
+nav.navbar.navbar-expand-lg.navbar-dark {
 	padding: 40px 10px;
 }
 
-.Book-now-button {
+button.Book-now-button {
 	background-color: #fff;
 	border: 0px;
 	height: 49px;
@@ -1687,7 +1684,7 @@ p {
 	line-height: 15px;
 }
 
-.Book-now-button:hover {
+button.Book-now-button:hover {
 	background-color: #000;
 	color: #fff;
 }
@@ -1715,7 +1712,7 @@ p {
 	top: 6em;
 }
 
-.l-img {
+img.l-img {
 	width: 100%;
 	max-width: 120pt;
 }
@@ -1737,7 +1734,7 @@ span.Call-sec {
 	position: relative;
 }
 
-.top-heading {
+h1.top-heading {
 	font-family: 'Playfair Display';
 	font-size: 52px;
 	line-height: 69px;
@@ -1745,7 +1742,7 @@ span.Call-sec {
 	font-style: normal;
 }
 
-.top-paragraph {
+p.top-paragraph {
 	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
@@ -1772,7 +1769,7 @@ span.Call-sec {
 	padding: 100px 0px;
 }
 
-.Abt-txt {
+p.Abt-txt {
 	font-family: 'Raleway';
 	font-style: normal;
 	font-weight: 600;
@@ -1790,11 +1787,11 @@ span.Call-sec {
 	background-color: #ffeed0;
 }
 
-.services {
+section.Our.services {
 	padding: 50px 0px;
 }
 
-.B-services-heading {
+h1.B-services-heading {
 	font-size: 22px;
 	text-align: left;
 	color: #000;
@@ -1814,7 +1811,7 @@ span.Call-sec {
 	font-style: normal;
 }
 
-.num-count {
+span.num-count {
 	margin-left: -25px;
 	font-family: 'Playfair Display';
 	font-size: 52px;
@@ -1838,7 +1835,7 @@ span.Call-sec {
 
 /*our blog section*/
 
-.R-arrow-img {
+img.R-arrow-img {
 	margin-top: -5px;
 }
 
@@ -1896,7 +1893,7 @@ a:hover {
 
 /*Testimonial section*/
 
-.testimonial-section {
+section.testimonial-section {
 	padding: 100px 50px;
 }
 
@@ -1960,7 +1957,7 @@ span.inner-follow-sec {
 	color: #000;
 }
 
-.right-col {
+p.right-col {
 	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
@@ -1969,7 +1966,7 @@ span.inner-follow-sec {
 	color: #000;
 }
 
-.left-col {
+p.left-col {
 	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
@@ -2000,11 +1997,11 @@ span.inner-follow-sec {
 	width: 20%;
 }
 
-.Footer-section {
+section.Footer-section {
 	padding: 50px 0px;
 }
 
-.search-more-button-B {
+button.search-more-button-B.text-center {
 	background-color: #000000;
 	border: 0px;
 	height: 40px;
@@ -2016,7 +2013,7 @@ span.inner-follow-sec {
 	line-height: 15px;
 }
 
-.search-more-button-B:hover {
+button.search-more-button-B.text-center:hover {
 	background-color: #3b717b;
 	color: #fff;
 }
@@ -2038,7 +2035,7 @@ ul {
 	list-style-type: none;
 }
 
-li {
+ul li {
 	float: left;
 }
 

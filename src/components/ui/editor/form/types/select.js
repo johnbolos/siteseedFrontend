@@ -67,7 +67,7 @@ class Select extends React.Component {
         return (
             <div ref={this.listRef} className={'select-container'}>
                 <div className={'input'} onClick={() => { this.setState({ open: !this.state.open }) }}>
-                    <div style={{ display: 'flex' }}>{this.showLabel(value)}</div>
+                    <div style={{ display: 'flex' }}>{`${this.showLabel(value)}`.replace(/\+|'|"/gi,'')}</div>
                     <Icons.Dropdown className={'down-arrow'} style={{ width: '6.75px', height: '3.38px' }} />
                 </div>
                 {

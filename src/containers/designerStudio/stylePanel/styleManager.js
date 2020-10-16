@@ -58,6 +58,7 @@ class StyleManager extends React.Component {
             })
         }
         if (this.props.selected && (prevProps.selected.node != this.props.selected.node)) {
+            console.log(selected, this.props.styleObj, 'aaa.selected')
             this.extractTransform()
             this.setState({
                 boxShadowValue: selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'box-shadow'),

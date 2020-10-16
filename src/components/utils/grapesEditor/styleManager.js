@@ -64,19 +64,26 @@ const styleManager = {
 					style.innerHTML = styleObj.data.filteredStr;
 					gjsCssRules.appendChild(style);
 					// body.insertBefore(style, body.firstChild);
-					if (
-						styleObj.data &&
-						styleObj.data.stylesObj[0] &&
-						styleObj.data.stylesObj[0].custom
-					) {
-						let style = document.createElement("style");
-						style.id = "ss-customStyles";
-						// style.innerHTML = styleObj.data.stylesObj[0].styles;	//adds custom stylesss
 
-						style.innerHTML = template1StyleMedia;
-						gjsCssRules.appendChild(style);
-						// body.insertBefore(style, body.firstChild);
-					}
+					style = document.createElement("style");
+					style.id = "ss-customStyles";
+					// style.innerHTML = styleObj.data.stylesObj[0].styles;	//adds custom stylesss
+
+					style.innerHTML = template1StyleMedia;
+					gjsCssRules.appendChild(style);
+					// if (
+					// 	styleObj.data &&
+					// 	styleObj.data.stylesObj[0] &&
+					// 	styleObj.data.stylesObj[0].custom
+					// ) {
+					// 	let style = document.createElement("style");
+					// 	style.id = "ss-customStyles";
+					// 	// style.innerHTML = styleObj.data.stylesObj[0].styles;	//adds custom stylesss
+
+					// 	style.innerHTML = template1StyleMedia;
+					// 	gjsCssRules.appendChild(style);
+					// 	// body.insertBefore(style, body.firstChild);
+					// }
 				}
 			},
 			false
