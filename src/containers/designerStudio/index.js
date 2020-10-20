@@ -20,13 +20,75 @@ import { closestElement } from "../../components/utils/index";
 import { /* html, */ template1Html, template1Style, template1StyleCss } from "./dummiev3";
 import { landingHtml, landingStyle } from "./templates/landing";
 import { landing2Html, landing2Style } from "./templates/landing2";
-import { question, minus as Minus, plus as Plus } from "../designerStudio/panels/icons";
+import {
+	question,
+	minus as Minus,
+	plus as Plus,
+	PlayTuts,
+	Speaker,
+	Keyboard,
+	People,
+	Chat,
+	tip as Tip,
+} from "../designerStudio/panels/icons";
 import $ from "jquery";
 import LeftBlock from "./leftblock/LeftBlock";
 import TopPanel from "./toppanel/TopPanel";
 import assetsManager from "./assetsManager";
 import { customEvents } from "../../components/utils/grapesEditor/styleManager";
 import { selectTemplate } from "../../reducers/actions/templateActions";
+
+
+class HelpNSupport extends React.Component {
+	state = {
+		dropDown: false,
+	}
+	render() {
+		const { dropDown } = this.state
+		return (
+			<div id='question'>
+				{
+					dropDown && (
+						<>
+							<div id='help-support'>
+								<div>
+									<PlayTuts style={{ height: '20px', width: '20px' }} />
+									How it works
+								</div>
+								<div>
+									<Speaker style={{ height: '20px', width: '20px' }} />
+									What's new
+								</div>
+								<div>
+									<Keyboard style={{ height: '20px', width: '20px' }} />
+									Shortcuts
+								</div>
+								<div>
+									<People style={{ height: '20px', width: '20px' }} />
+									Comunity Forums
+								</div>
+								<div>
+									<Chat style={{ height: '20px', width: '20px' }} />
+									Support
+								</div>
+								<Tip
+									width='15px'
+									height='9px'
+									className='help-tip'
+									style={{
+										display: 'block',
+									}}
+								/>
+							</div>
+							<div className={'help-support-backdrop'} onClick={() => { this.setState({ dropDown: !dropDown }) }}></div>
+						</>
+					)
+				}
+				<img src={question} alt='question-mark' onClick={() => { this.setState({ dropDown: !dropDown }) }}></img>
+			</div>
+		)
+	}
+}
 
 const initialState = {
 	zoom: 100,
@@ -153,6 +215,7 @@ class DesignerStudio extends React.Component {
 				case "template1":
 					html = template1Html
 					style = template1StyleCss;
+					// styleFontStr = ''
 					break;
 				case "template2":
 					html = landing2Html
@@ -179,6 +242,7 @@ class DesignerStudio extends React.Component {
 					...pages[0],
 					components: html,
 					style: style,
+					// styleFontStr
 				});
 			}
 
@@ -237,11 +301,13 @@ class DesignerStudio extends React.Component {
 		// set template html and style from page manager
 		let html = pageReducer.pages[pageReducer.currentPage].components
 		let style = `<style> ${pageReducer.pages[pageReducer.currentPage].style} </style>`
+		let styleFontStr = pageReducer.pages[pageReducer.currentPage].styleFontStr
 		// ==========================================================
 		_grapesEditor.init(
 			{
 				components: html,
 				styles: style,
+				styleFontStr
 			},
 			dispatch,
 			() => {
@@ -448,9 +514,7 @@ class DesignerStudio extends React.Component {
 									<Plus />
 								</span>
 							</div>
-							<div id='question'>
-								<img src={question} alt='question-mark'></img>
-							</div>
+							<HelpNSupport />
 							<div
 								id='style-manager'
 								style={{

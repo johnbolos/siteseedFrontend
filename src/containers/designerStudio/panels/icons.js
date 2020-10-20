@@ -19,7 +19,12 @@ import rightArrow from "../../../assets/left-pane/right-arrow.svg";
 import { ReactComponent as tip } from "../../../assets/tip.svg";
 import question from "../../../assets/question-mark.svg";
 import { ReactComponent as minus } from "../../../assets/Minus_Bold.svg";
-import {ReactComponent as plus} from "../../../assets/Plus_Bold.svg";
+import { ReactComponent as plus } from "../../../assets/Plus_Bold.svg";
+import { ReactComponent as PlayTuts } from "../../../assets/helpNSupport/play.svg";
+import { ReactComponent as Speaker } from "../../../assets/helpNSupport/speaker.svg";
+import { ReactComponent as Keyboard } from "../../../assets/helpNSupport/keyboard.svg";
+import { ReactComponent as People } from "../../../assets/helpNSupport/people.svg";
+import { ReactComponent as Chat } from "../../../assets/helpNSupport/chat.svg";
 
 export {
 	clean,
@@ -44,4 +49,9 @@ export {
 	bell,
 	share,
 	viewMode,
+	PlayTuts,
+	Speaker,
+	Keyboard,
+	People,
+	Chat,
 };

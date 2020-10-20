@@ -24,17 +24,16 @@ export default class TopPanel extends Component {
 				</div>
 				<div className='panel__devices'></div>
 				<div className='panel__basic-actions'>
-					<span className='gjs-pn-btn'>
+					{/* <span className='gjs-pn-btn'>
 						<div className='tooltip'>
 							<div>
 								<Bell />
-								{/* <img src={bell} alt='notification' height='22px' width='22px' /> */}
 							</div>
 							<span className='tooltiptext' style={{ left: "-85%" }}>
 								Notification
 							</span>
 						</div>
-					</span>
+					</span> */}
 					<span className='gjs-pn-btn'>
 						<div className='tooltip'>
 							<div onClick={this.changeDevice}>

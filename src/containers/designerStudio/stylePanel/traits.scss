@@ -8,21 +8,36 @@
     align-items: center;
     flex-wrap: wrap;
     justify-content: space-between;
+    padding: 0px 10px;
   }
   .gjs-trt-trait {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width: 200px;
+    padding: 5px 0px;
+  }
+  .gjs-trt-trait--checkbox {
+    flex-direction: row;
+    width: 95px;
   }
   .gjs-trt-trait__wrp {
-    width: 50%;
+    // width: 50%;
   }
   .gjs-label-wrp {
     width: 100%;
     padding-bottom: 5px;
   }
+  .gjs-field-wrp--checkbox {
+    width: auto !important;
+    margin-top: 4px;
+  }
+  .gjs-field-wrp {
+    flex-grow: 1;
+    width: 100%;
+  }
   .gjs-field-select {
-    width: 110%;
+    width: 100%;
   }
   .gjs-field-select > div[data-input] {
     box-sizing: border-box;
@@ -35,11 +50,11 @@
     border: 1px solid #5e5e5e;
     .theme-light & {
       background-color: map-get($light, "background2");
-      border-color: map-get($light, "background3");
+      border-color: map-get($light, "background4");
     }
     .theme-dark & {
-      background-color: map-get($dark, "background2");
-      border-color: map-get($dark, "background3");
+      background-color: map-get($dark, "background3");
+      border-color: map-get($dark, "background4");
     }
   }
   .gjs-field-select > div > select > option {
@@ -61,16 +76,12 @@
     align-items: center;
     width: 100%;
     padding: 7px 13px 7px 10px;
-    border-radius: 5px;
     cursor: pointer;
+    background: transparent;
     .theme-light & {
-      background: url("data:image/svg+xml;utf8,<svg fill='black' height='22' viewBox='0 0 24 24' width='22' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>")
-        no-repeat right #f6f6f6;
       background-position-x: 100%;
     }
     .theme-dark & {
-      background: url("data:image/svg+xml;utf8,<svg fill='white' height='22' viewBox='0 0 24 24' width='22' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>")
-        no-repeat right #272727;
       background-position-x: 100%;
     }
   }
@@ -97,6 +108,7 @@
   }
   .gjs-field:not(.gjs-sm-layers):not(.gjs-field-radio) {
     border-bottom: none;
+    background-color: transparent;
   }
   .gjs-field.gjs-field-checkbox {
     .theme-light & {
@@ -109,13 +121,13 @@
       background-color: map-get($dark, "background2");
       //   color: map-get($dark, "color");
     }
-    input:checked+.gjs-chk-icon {
-    .theme-light & {
-      border-color:  map-get($light, "color");
-    }
-    .theme-dark & {
-      border-color: map-get($dark, "color");
-    }
+    input:checked + .gjs-chk-icon {
+      .theme-light & {
+        border-color: map-get($light, "color");
+      }
+      .theme-dark & {
+        border-color: map-get($dark, "color");
+      }
     }
   }
   textarea,

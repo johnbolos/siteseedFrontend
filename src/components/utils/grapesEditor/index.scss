@@ -110,6 +110,13 @@ html {
 
 .gjs-field .gjs-d-s-arrow {
   border-top: 4px solid #1f3b52;
+  right: 10px;
+  .theme-light & {
+    border-top-color: map-get($light, "icon1");
+  }
+  .theme-dark & {
+    border-top-color: map-get($dark, "icon1");
+  }
 }
 
 .gjs-field-arrow-u {
@@ -450,7 +457,7 @@ svg {
   // margin-top: 5px;
   //margin-bottom: 5px;
   margin: 5px 0px 5px 44px;
-  font-family: 'Source Sans Pro';
+  font-family: "Source Sans Pro";
   overflow: scroll;
   border-radius: 5px;
   -ms-overflow-style: none;
@@ -899,10 +906,110 @@ button {
   border-radius: 50%;
   text-align: center;
   margin-bottom: 20px;
+
+  #help-support {
+    position: absolute;
+    bottom: 46px;
+    height: 164px;
+    width: 163px;
+    right: 0px;
+    z-index: 1;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: inherit;
+    border-radius: 5px;
+    .theme-dark & {
+      background-color: map-get($dark, "background1");
+      color: map-get($dark, "color1");
+    }
+    .theme-light & {
+      background-color: map-get($light, "background1");
+      color: map-get($light, "color1");
+    }
+
+    .help-tip {
+      position: absolute;
+      bottom: -6.4px;
+      right: 13px;
+      transform: rotate(-90deg);
+      path {
+        .theme-dark & {
+          fill: map-get($dark, "background1");
+        }
+        .theme-light & {
+          fill: map-get($light, "background1");
+        }
+      }
+    }
+
+    div {
+      padding: 6px;
+      justify-content: flex-start;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+      height: 26px;
+      width: 143px;
+      margin: 0px 10px;
+      font-family: "Source Sans Pro";
+      font-style: normal;
+      font-weight: normal;
+      font-size: 11px;
+      line-height: 14px;
+      svg {
+        margin-right: 4px;
+        margin-left: 5px;
+        .theme-dark & {
+          fill: map-get($dark, "icon3") !important;
+        }
+        .theme-light & {
+          fill: map-get($light, "icon3") !important;
+        }
+      }
+    }
+
+    div:hover {
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid #444444;
+      box-sizing: border-box;
+      .theme-dark & {
+        color: map-get($dark, "color");
+        background-color: map-get($dark, "background2");
+        border-color: map-get($dark, "background3");
+        svg {
+          path {
+            fill: map-get($dark, "icon2") !important;
+          }
+        }
+      }
+      .theme-light & {
+        color: map-get($light, "color");
+        background-color: map-get($light, "background2");
+        border-color: map-get($light, "background3");
+        svg {
+          path {
+            fill: map-get($light, "icon2") !important;
+          }
+        }
+      }
+    }
+  }
 }
 
 #question > img {
   padding: 9.5px;
+  cursor: pointer;
+}
+
+#question > .help-support-backdrop {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  left: 0px;
+  top: 0px;
 }
 
 //block manager
@@ -918,7 +1025,7 @@ button {
 }
 
 .gjs-block-label {
-  font-family: 'Source Sans Pro';
+  font-family: "Source Sans Pro";
   font-style: normal;
   font-weight: normal;
   font-size: 11px;

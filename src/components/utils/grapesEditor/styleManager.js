@@ -13,7 +13,7 @@ const styleManager = {
 		//options = { pseudoClass: 'hover' }
 		customEvents.saveStyleInfo(meta, options);
 	},
-	init: (styleStr, dispatch) => {
+	init: (styleStr, dispatch, styleFontStr) => {
 		//create object
 		let styleObj = styleManager.strToObj(styleStr);
 		if (styleObj.error) {
@@ -65,7 +65,6 @@ const styleManager = {
 					// ===========================================================
 					// gjsCssRules.appendChild(style);
 					// ===========================================================
-					console.log(body, 'aaaaaaaaaaaaaaaaaa')
 					body[0].appendChild(style);
 					// body.insertBefore(style, body.firstChild);
 
@@ -78,6 +77,15 @@ const styleManager = {
 					// gjsCssRules.appendChild(style);
 					// ===========================================================
 					body[0].appendChild(style);
+
+					// -------------------------------------------Style-font-assets------------------------------------------------
+					if (styleFontStr) {
+						style = document.createElement("style");
+						style.id = "ss-style-assets";
+						style.innerHTML = styleFontStr;
+						body[0].appendChild(style);
+					}
+					// ------------------------------------------------------------------------------------------------------------
 
 					// if (
 					// 	styleObj.data &&
@@ -235,13 +243,14 @@ const styleManager = {
 			str.slice(indices[0] + findPhrase.length),
 		].join(""); // -6 due to family
 		styleTag.innerHTML = str;
+		return { error: false, data: str }
 	},
 	removeFontsBlock: (name, type = "google") => {
 		let frame = document.getElementsByClassName("gjs-frame");
 		const grapesDocument = frame[0].contentWindow.document;
 		const styleTag = grapesDocument.getElementById("ss-style-assets");
 		if (!styleTag) {
-			return;
+			return { error: true }
 		}
 		let str = styleTag.innerHTML,
 			findPhrase = "";
@@ -251,13 +260,14 @@ const styleManager = {
 		let indices = styleManager.getIndicesOf(findPhrase, str);
 		if (indices.length == 0) {
 			// not present yet
-			return;
+			return { error: true }
 		}
 		if (type == "google") {
 			findPhrase = `${name}:100,200,300,400,500,600,700,800,900|`;
 			str = str.replace(findPhrase, "");
 		}
 		styleTag.innerHTML = str;
+		return { error: false, data: str }
 	},
 	getIndicesOf: (searchStr, str, caseSensitive) => {
 		var searchStrLen = searchStr.length;
@@ -322,9 +332,11 @@ const styleManager = {
 
 		// 		return
 		// }
-
 		let { styleInfo } = selected;
 		let resp = styleInfo.styles[key];
+		if (resp)
+			resp = resp.trim()
+			
 		if (key.includes("font-family") && styleInfo.styles[key]) {
 			if (resp.includes(",")) {
 				return _.startCase(resp);

@@ -58,7 +58,6 @@ class StyleManager extends React.Component {
             })
         }
         if (this.props.selected && (prevProps.selected.node != this.props.selected.node)) {
-            console.log(selected, this.props.styleObj, 'aaa.selected')
             this.extractTransform()
             this.setState({
                 boxShadowValue: selected.node && _grapesEditor.styleManager.getStyles(this.props.selected, this.props.pseudoClass, 'box-shadow'),
@@ -1581,7 +1580,13 @@ class StyleManager extends React.Component {
                 onChange: (value, item, pastValue) => {
                     if (!item.url) {
                         _grapesEditor.styleManager.removeFontsBlock(pastValue)
-                        _grapesEditor.styleManager.importFontsBlock(value)
+                        const data = _grapesEditor.styleManager.importFontsBlock(value)
+                        if (data.error) {
+                            return
+                        }
+                        this.props.saveCurrentChanges(this.props.pageReducer.currentPage, {
+                            styleFontStr: data.data
+                        });
                     }
                 },
                 options: this.state.fontOptions,
@@ -1908,7 +1913,7 @@ class StyleManager extends React.Component {
                 type: 'integer',
                 value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'border-width'),
                 defaultUnit: 'px',
-                unit: ['px', '%'],
+                unit: ['px'],
                 width: '48%',
             },
             {

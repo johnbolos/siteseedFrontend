@@ -716,7 +716,7 @@ const _grapesEditor = {
 		});
 
 		//init style manager
-		styleManager.init(config.styles, dispatch);
+		styleManager.init(config.styles, dispatch, config.styleFontStr);
 		if (cb) {
 			cb();
 		}

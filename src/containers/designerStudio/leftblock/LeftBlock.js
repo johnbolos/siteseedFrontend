@@ -83,11 +83,11 @@ class LeftBlock extends Component {
 						<AddElem />
 						<span className='tooltiptext-left'>Add Elements</span>
 					</div>
-					<div className={`tooltip-left ${component != 'none' ? 'tooltip-left-selected' : ''}`} onClick={(e) => { this.drawerToggleClickHandler('component'); this.openComponents(); }}>
+					{/* <div className={`tooltip-left ${component != 'none' ? 'tooltip-left-selected' : ''}`} onClick={(e) => { this.drawerToggleClickHandler('component'); this.openComponents(); }}>
 
 						<Components />
 						<span className='tooltiptext-left'>Add Components</span>
-					</div>
+					</div> */}
 					<div className={`tooltip-left ${layers != 'none' ? 'tooltip-left-selected' : ''}`} onClick={() => { this.drawerToggleClickHandler('layers') }}>
 
 						<Layers />
@@ -126,7 +126,8 @@ class LeftBlock extends Component {
 					className='tip'
 					style={{
 						display: this.state.layers,
-						marginTop: "94px",
+						marginTop: "55px",
+						// marginTop: "94px",
 					}}
 				/>
 				<div id='layers' style={{ display: this.state.layers }}>

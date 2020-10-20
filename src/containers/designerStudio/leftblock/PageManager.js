@@ -3,6 +3,7 @@ import {
 	addPage as AddPage,
 	page as Page,
 	show as Show,
+	Hide,
 	setting as Setting,
 	search as Search
 } from "./icons";
@@ -12,6 +13,7 @@ import {
 	changePage,
 	createPage,
 	editPageSetting,
+	saveChanges,
 } from "../../../reducers/actions/pageActions";
 import PageSettingModal from "./PageSettingModal";
 
@@ -23,7 +25,6 @@ class PageManager extends Component {
 		searchInput: "",
 		filteredPages: [],
 	};
-
 	createPage = (title, details) => {
 		//creating new page
 		//new page should be blank
@@ -35,13 +36,14 @@ class PageManager extends Component {
 		//blank new page
 		let components = "";
 		let style = "";
-		console.log(this.props.pageReducer);
 		this.props.createNewPage(title, components, style, details);
 	};
 	changeTemplate = async (index) => {
 		const { editor } = _grapesEditor;
 		let { pageReducer } = this.props;
-
+		if (pageReducer.currentPage == index) {
+			return
+		}
 		await this.props.changeCurrentPage(pageReducer.currentPage, index);
 		editor.setComponents(pageReducer.pages[index].components);
 		// editor.setStyle(pageReducer.pages[index].style);
@@ -103,6 +105,16 @@ class PageManager extends Component {
 			});
 		}
 	}
+	showHide = (index) => {
+		const { pageReducer: { currentPage, pages }, dispatch } = this.props
+		if (currentPage == index) {
+			console.error('Cannot hide currently opened page')
+			return
+		}
+		dispatch(saveChanges(index, {
+			hidden: !pages[index].hidden
+		}))
+	}
 	render() {
 		const { filteredPages } = this.state;
 		const { pageReducer } = this.props
@@ -131,7 +143,11 @@ class PageManager extends Component {
 				<ul>
 					{filteredPages &&
 						filteredPages.map((pageElem, index) => (
-							<li key={index} className='pages' onClick={() => this.changeTemplate(index)}>
+							<li key={index} className={`pages ${pageReducer.pages[index].hidden && 'hide-page'}`} onClick={() => {
+								if (pageReducer.pages[index].hidden) return
+								
+								this.changeTemplate(index)
+							}}>
 								<div>
 									<Page className='page' />
 									{pageElem.name}
@@ -144,7 +160,18 @@ class PageManager extends Component {
 											this.openSettings(index)
 										}}
 									/>
-									<Show style={{ marginRight: '0px' }} />
+									{!pageReducer.pages[index].hidden && <Show style={{ marginRight: '0px' }}
+										onClick={(e) => {
+											e.stopPropagation()
+											this.showHide(index)
+										}}
+									/>}
+									{pageReducer.pages[index].hidden && <Hide style={{ marginRight: '0px', height: '14px', width: '14px' }}
+										onClick={(e) => {
+											e.stopPropagation()
+											this.showHide(index)
+										}}
+									/>}
 								</div>
 							</li>
 						))}
@@ -177,6 +204,7 @@ const mapStateToProps = ({ pageReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
+		dispatch,
 		changeCurrentPage: (currentPageIndex, newPageIndex) =>
 			dispatch(changePage(currentPageIndex, newPageIndex)),
 		createNewPage: (name, components, style, details) =>

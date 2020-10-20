@@ -5,6 +5,8 @@ const initialState = {
 			name: "Home",
 			components: [],
 			style: [],
+			styleFontStr: null,
+			hidden: false,
 			desp: null,
 			favicon: null,
 			seo: {
@@ -16,6 +18,8 @@ const initialState = {
 			name: "Contact",
 			components: [],
 			style: [],
+			styleFontStr: null,
+			hidden: false,
 			desp: null,
 			favicon: null,
 			seo: {
@@ -57,7 +61,6 @@ export default (state = initialState, action) => {
 			return stateCopy;
 
 		case "EDIT_PAGE":
-			console.log('aaaaaaaaaaaaaaaaaaaaaaa////////////////////////////////')
 			let pageNo = action.payload.pageIndex;
 			let pages = state.pages;
 			let pageInfo = { ...state.pages[pageNo], ...action.payload.change };

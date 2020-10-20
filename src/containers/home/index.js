@@ -38,7 +38,7 @@ function Home({ dispatch, loading, templates }) {
 					>
 						Edit this Layout
 	  </div>
-					<div
+					{/* <div
 						class="lead-btn"
 						onClick={() => {
 							dispatch(selectTemplate("inProgress"))
@@ -46,7 +46,7 @@ function Home({ dispatch, loading, templates }) {
 						}}
 					>
 						Continue where you left ?
-	  </div>
+	  </div> */}
 				</div>
 			</header>
 			<section id="i5ao9" class="flex-sect">

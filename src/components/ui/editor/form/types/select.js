@@ -47,10 +47,12 @@ class Select extends React.Component {
         if (match) {
             if (typeof (match.label) == 'function') {
                 return match.label()
+            } else if (typeof (match.label) == 'string') {
+                return match.label.replace(/\+|'|"/gi, ' ').trim()
             }
             return match.label
         }
-        return value
+        return value.replace(/\+|'|"/gi, ' ').trim()
     }
     render() {
         const {
@@ -67,7 +69,7 @@ class Select extends React.Component {
         return (
             <div ref={this.listRef} className={'select-container'}>
                 <div className={'input'} onClick={() => { this.setState({ open: !this.state.open }) }}>
-                    <div style={{ display: 'flex' }}>{`${this.showLabel(value)}`.replace(/\+|'|"/gi,'')}</div>
+                    <div style={{ display: 'flex' }}>{this.showLabel(value)}</div>
                     <Icons.Dropdown className={'down-arrow'} style={{ width: '6.75px', height: '3.38px' }} />
                 </div>
                 {

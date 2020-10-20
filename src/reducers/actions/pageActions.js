@@ -7,7 +7,7 @@ export const createPage = (name, components, style, details) => (dispatch) => {
 };
 
 export const saveChanges = (pageIndex, pageObj) => (dispatch) => {
-	_grapesEditor.pages[pageIndex] = { ...pageObj }
+	// _grapesEditor.pages[pageIndex] = { ...pageObj }
 	dispatch({
 		type: "SAVE_CHANGES",
 		payload: { pageIndex, pageObj },
