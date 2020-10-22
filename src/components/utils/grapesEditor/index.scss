@@ -961,11 +961,13 @@ button {
       svg {
         margin-right: 4px;
         margin-left: 5px;
-        .theme-dark & {
-          fill: map-get($dark, "icon3") !important;
-        }
-        .theme-light & {
-          fill: map-get($light, "icon3") !important;
+        path {
+          .theme-dark & {
+            fill: map-get($dark, "icon3") !important;
+          }
+          .theme-light & {
+            fill: map-get($light, "icon3") !important;
+          }
         }
       }
     }
