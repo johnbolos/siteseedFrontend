@@ -574,7 +574,7 @@ export const customEvents = {
 	saveStyleInfo: (meta, options, cb = () => { }) => {
 		//options = { pseudoClass: 'hover' }
 		const { elem, node } = meta;
-		if (typeof elem.className == "object") {
+		if (!elem || typeof elem.className == "object") {
 			return;
 		}
 		let className = elem.className.split(" ");
