@@ -238,6 +238,17 @@ class DesignerStudio extends React.Component {
 			// reset page manager here =========================================
 			if (html && style) {
 				let { pages, currentPage } = pageReducer
+				if (pages.length > 1) {
+					// this.props.saveCurrentChanges(0, {
+					// 	...pages[0],
+					// 	components: html,
+					// 	style: style,
+					// 	// styleFontStr
+					// });
+
+					// reset pages
+					this.props.dispatch({type: 'RESET_PAGES'})
+				}
 				this.props.saveCurrentChanges(0, {
 					...pages[0],
 					components: html,

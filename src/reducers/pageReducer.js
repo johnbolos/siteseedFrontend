@@ -69,6 +69,9 @@ export default (state = initialState, action) => {
 				...state,
 				pages: pages
 			};
+
+		case "RESET_PAGES":
+			return initialState;
 		default:
 			return state;
 	}
