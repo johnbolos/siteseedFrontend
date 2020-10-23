@@ -52,7 +52,7 @@ class Select extends React.Component {
             }
             return match.label
         }
-        return value.replace(/\+|'|"/gi, ' ').trim()
+        return value && value.replace(/\+|'|"/gi, ' ').trim()
     }
     render() {
         const {
