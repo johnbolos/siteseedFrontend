@@ -235,7 +235,7 @@ class DesignerStudio extends React.Component {
 					break;
 			}
 
-			// set page manager here =========================================
+			// reset page manager here =========================================
 			if (html && style) {
 				let { pages, currentPage } = pageReducer
 				this.props.saveCurrentChanges(0, {
@@ -340,15 +340,17 @@ class DesignerStudio extends React.Component {
 		editor.on("storage:start", () => {
 			let { currentPage, pages } = this.props.pageReducer;
 			let components = JSON.parse(JSON.stringify(editor.getComponents()));
-			// let style = JSON.parse(JSON.stringify(editor.getCss()));
+			let styleGrapejs = JSON.parse(JSON.stringify(editor.getCss()));
 			// save all ss style tag in page manager
 			let frame = document.getElementsByClassName("gjs-frame")
 			let doc = frame[0].contentWindow.document
 			let style = doc.getElementById("ss-style")
 			style = (style && style.innerHTML) || ''
+			style = style + styleGrapejs
 			// let customStyles = doc.getElementById("ss-customStyles")
 			// let styleAssets = doc.getElementById("ss-style-assets")
 			// ======================================
+			console.log('aaa.ddd', style)
 			this.props.saveCurrentChanges(currentPage, {
 				...pages[currentPage],
 				name: pages[currentPage].name,
