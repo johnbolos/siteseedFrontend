@@ -130,7 +130,7 @@ class LeftBlock extends Component {
 						// marginTop: "94px",
 					}}
 				/>
-				<div id='layers' style={{ display: this.state.layers }}>
+				<div id='layers' style={{ display: this.state.layers, width: 'auto', minWidth: '242px' }}>
 					<Tabs>
 						<TabList style={{ display: "flex" }}>
 							<Tab onClick={this.openLayers}>

@@ -33,7 +33,7 @@ function Home({ dispatch, loading, templates }) {
 						class="lead-btn"
 						onClick={() => {
 							dispatch(selectTemplate("template1"))
-							dispatch(getPushPathWrapper("designerStudio"));
+							dispatch(getPushPathWrapper("designerStudio"))
 						}}
 					>
 						Edit this Layout
@@ -56,77 +56,20 @@ function Home({ dispatch, loading, templates }) {
 					<div class="flex-desc">With flexbox system you're able to build complex layouts easily and with free responsivity
 	  </div>
 					<div id="ifnlj" class="cards">
-						<div class="card">
-							<div class="card-header">
-							</div>
-							<div class="card-body">
-								<div class="card-title">Title one
-			</div>
-								<div class="card-sub-title">Subtitle one
-			</div>
-								<div class="card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-			</div>
-							</div>
+						<div class="card" style={{ backgroundImage: 'url("/assets/templates/restaurant1/thumbnail.jpg")' }} onClick={() => {
+							// dispatch(selectTemplate("restaurant1"))
+							// dispatch(getPushPathWrapper("designerStudio"))
+						}}>
 						</div>
 						<div class="card">
-							<div id="i236r" class="card-header ch2">
-							</div>
-							<div id="iq6ya" class="card-body">
-								<div id="i7hop" class="card-title">Title two
-			</div>
-								<div class="card-sub-title">Subtitle two
-			</div>
-								<div class="card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-			</div>
-							</div>
 						</div>
 						<div class="card">
-							<div id="idq0f" class="card-header ch3">
-							</div>
-							<div class="card-body">
-								<div class="card-title">Title three
-			</div>
-								<div class="card-sub-title">Subtitle three
-			</div>
-								<div class="card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-			</div>
-							</div>
 						</div>
 						<div class="card">
-							<div class="card-header ch4">
-							</div>
-							<div class="card-body">
-								<div class="card-title">Title four
-			</div>
-								<div class="card-sub-title">Subtitle four
-			</div>
-								<div class="card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-			</div>
-							</div>
 						</div>
 						<div class="card">
-							<div class="card-header ch5">
-							</div>
-							<div class="card-body">
-								<div class="card-title">Title five
-			</div>
-								<div id="it4jh" class="card-sub-title">Subtitle five
-			</div>
-								<div class="card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-			</div>
-							</div>
 						</div>
 						<div class="card">
-							<div class="card-header ch6">
-							</div>
-							<div class="card-body">
-								<div class="card-title">Title six
-			</div>
-								<div class="card-sub-title">Subtitle six
-			</div>
-								<div class="card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-			</div>
-							</div>
 						</div>
 					</div>
 				</div>

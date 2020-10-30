@@ -1471,6 +1471,9 @@ export const template1StyleMedia = `
 export const template1StyleCss = `
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');  
+img {
+	max-width: 100%;
+}
 .container.mobi-container {
 	max-width: 1326px !important;
 }

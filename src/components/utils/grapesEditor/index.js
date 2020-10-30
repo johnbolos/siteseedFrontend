@@ -516,6 +516,12 @@ const _grapesEditor = {
 				"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css",
 				"https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap",
 				"https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap",
+				
+				"https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap",
+				"https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap",
+				"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
+				"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
+				"https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css",
 			],
 			scripts: [
 				"https://code.jquery.com/jquery-3.3.1.slim.min.js",
@@ -716,7 +722,7 @@ const _grapesEditor = {
 		});
 
 		//init style manager
-		styleManager.init(config.styles, dispatch, config.styleFontStr);
+		styleManager.init(config.styles, dispatch, config.styleFontStr, config.customCss);
 		if (cb) {
 			cb();
 		}

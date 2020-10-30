@@ -365,6 +365,11 @@ export default function (editor, opt = {}) {
 								{ value: "button", name: c.labelTypeButton },
 							],
 						},
+						{
+							type: 'text-area',
+							label: 'onClick',
+							name: 'onClick'
+						}
 					],
 				},
 			},

@@ -13,7 +13,7 @@ const styleManager = {
 		//options = { pseudoClass: 'hover' }
 		customEvents.saveStyleInfo(meta, options);
 	},
-	init: (styleStr, dispatch, styleFontStr) => {
+	init: (styleStr, dispatch, styleFontStr, customCss) => {
 		//create object
 		let styleObj = styleManager.strToObj(styleStr);
 		if (styleObj.error) {
@@ -72,7 +72,7 @@ const styleManager = {
 					style.id = "ss-customStyles";
 					// style.innerHTML = styleObj.data.stylesObj[0].styles;	//adds custom stylesss
 
-					style.innerHTML = template1StyleMedia;
+					style.innerHTML = customCss;
 					// ===========================================================
 					// gjsCssRules.appendChild(style);
 					// ===========================================================
@@ -334,8 +334,10 @@ const styleManager = {
 		// }
 		let { styleInfo } = selected;
 		let resp = styleInfo.styles[key];
-		if (resp)
-			resp = resp.trim()
+		if (resp) {
+			console.log(resp, 'aaaa')
+			resp = `${resp}`.trim()
+		}
 			
 		if (key.includes("font-family") && styleInfo.styles[key]) {
 			if (resp.includes(",")) {

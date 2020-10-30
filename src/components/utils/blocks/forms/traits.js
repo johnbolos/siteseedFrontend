@@ -3,7 +3,7 @@ export default function (editor, opt = {}) {
   const textTrat = trm.getType('text');
 
   trm.addType('content', {
-    events:{
+    events: {
       'keyup': 'onChange',
     },
 
@@ -13,8 +13,8 @@ export default function (editor, opt = {}) {
       target.set('content', md.get('value'));
     },
 
-    getInputEl: function() {
-      if(!this.inputEl) {
+    getInputEl: function () {
+      if (!this.inputEl) {
         this.inputEl = textTrat.prototype.getInputEl.bind(this)();
         this.inputEl.value = this.target.get('content');
       }
@@ -24,7 +24,7 @@ export default function (editor, opt = {}) {
 
 
   trm.addType('select-options', {
-    events:{
+    events: {
       'keyup': 'onChange',
     },
 
@@ -40,7 +40,7 @@ export default function (editor, opt = {}) {
           tagName: 'option',
           attributes: {}
         };
-        if(option[1]) {
+        if (option[1]) {
           opt.content = option[1];
           opt.attributes.value = option[0];
         } else {
@@ -55,13 +55,13 @@ export default function (editor, opt = {}) {
       this.target.view.render();
     },
 
-    getInputEl: function() {
+    getInputEl: function () {
       if (!this.$input) {
         var md = this.model;
         var trg = this.target;
         var name = md.get('name');
         var optionsStr = '';
-        var opts = {placeholder: ''};
+        var opts = { placeholder: '' };
         var options = trg.get('components');
 
         for (var i = 0; i < options.length; i++) {
@@ -75,6 +75,29 @@ export default function (editor, opt = {}) {
         this.$input.value = optionsStr;
       }
       return this.$input;
-  	},
+    },
   });
+
+  trm.addType('text-area', {
+    // events: {
+    //   'keyup': 'onChange', // trigger parent onChange method on keyup
+    // },
+
+    /**
+     * Triggered when the value of the model is changed
+     */
+    onValueChange() {
+      var traitModel = this.model;
+      var selectedComponent = this.target;
+      var inputValue = traitModel.get('value');
+      //... eg. update attributes 
+      selectedComponent.set('attributes', { onclick: inputValue });
+    },
+
+    getInputEl() {
+      var input = document.createElement('textarea');
+      // ...
+      return input;
+    },
+  })
 }

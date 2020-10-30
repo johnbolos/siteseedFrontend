@@ -15,9 +15,11 @@ import { setGoogleFonts } from "../../reducers/actions/editor"
 import { updateAssets } from '../../reducers/actions/userActions'
 import { saveChanges } from "../../reducers/actions/pageActions";
 import { closestElement } from "../../components/utils/index";
+import { setCustomCss } from "../../reducers/actions/templateActions";
 // import { /* html, */ template1Html, template1Style } from "./dummie";
 // import { /* html, */ template1Html, template1Style } from "./dummieTemp";
-import { /* html, */ template1Html, template1Style, template1StyleCss } from "./dummiev3";
+import { /* html, */ template1Html, template1Style, template1StyleCss, template1StyleMedia } from "./dummiev3";
+import restaurant1 from "../../assets/templates/restaurant1";
 import { landingHtml, landingStyle } from "./templates/landing";
 import { landing2Html, landing2Style } from "./templates/landing2";
 import {
@@ -118,8 +120,8 @@ class DesignerStudio extends React.Component {
 		this.setGoogleFonts()
 		this.apiRequest();
 		setTimeout(() => {
-			this.setScrollBarStyle()
-			this.temp();
+			// this.setScrollBarStyle()
+			// this.temp();
 		}, 5000);
 	}
 	componentDidUpdate(prevProps) {
@@ -207,23 +209,28 @@ class DesignerStudio extends React.Component {
 
 	apiRequest = () => {
 		return new Promise((resolve) => {
-			const { pageReducer } = this.props
+			const { pageReducer, dispatch } = this.props
 			const { templateName: projectType } = this.props.templates;
-			let style, html;
+			let style, html, customCss;
 			console.log(projectType, 'aaa.templateName')
 			switch (projectType) {
 				case "template1":
 					html = template1Html
-					style = template1StyleCss;
-					// styleFontStr = ''
+					style = template1StyleCss
+					customCss = template1StyleMedia
 					break;
 				case "template2":
 					html = landing2Html
-					style = landing2Style;
+					style = landing2Style
 					break;
 				case "template3":
 					html = landingHtml
-					style = landingStyle;
+					style = landingStyle
+					break;
+				case "restaurant1":
+					html = restaurant1.html
+					style = restaurant1.baseCss
+					customCss = restaurant1.customCss
 					break;
 				case "myProject1":
 					// html = xyzHtml
@@ -247,7 +254,7 @@ class DesignerStudio extends React.Component {
 					// });
 
 					// reset pages
-					this.props.dispatch({type: 'RESET_PAGES'})
+					this.props.dispatch({ type: 'RESET_PAGES' })
 				}
 				this.props.saveCurrentChanges(0, {
 					...pages[0],
@@ -255,11 +262,12 @@ class DesignerStudio extends React.Component {
 					style: style,
 					// styleFontStr
 				});
+				dispatch(setCustomCss(customCss))
 			}
 
 			// ===============================================================
 
-			this.setState({ templateStyle: '' }, () => {
+			this.setState({ customCss }, () => {
 				this.StartEditor();
 			});
 			return resolve();
@@ -291,24 +299,8 @@ class DesignerStudio extends React.Component {
 
 	StartEditor = () => {
 		const { dispatch, pageReducer } = this.props;
-		const { templateName } = this.props.templates;
-		// let tempHtml, tempStyle;
-		// switch (templateName) {
-		// 	case "template1":
-		// 		tempHtml = template1Html;
-		// 		tempStyle = template1Style;
-		// 		break;
-		// 	case "template2":
-		// 		tempHtml = landing2Html;
-		// 		tempStyle = landing2Style;
-		// 		break;
-		// 	case "template3":
-		// 		tempHtml = landingHtml;
-		// 		tempStyle = landingStyle;
-		// 		break;
-		// 	default:
-		// 		break;
-		// }
+		const { templateName, customCss } = this.props.templates;
+		// const { customCss } = this.state
 		// set template html and style from page manager
 		let html = pageReducer.pages[pageReducer.currentPage].components
 		let style = `<style> ${pageReducer.pages[pageReducer.currentPage].style} </style>`
@@ -318,7 +310,8 @@ class DesignerStudio extends React.Component {
 			{
 				components: html,
 				styles: style,
-				styleFontStr
+				styleFontStr,
+				customCss
 			},
 			dispatch,
 			() => {
@@ -429,8 +422,11 @@ class DesignerStudio extends React.Component {
 				customEvents.saveStyleInfo({ elem: selected, node: this }, { pseudoClass: this.props.pseudoClass })
 			}
 		});
+		editor.on('load', () => {
+			this.setScrollBarStyle()
+			this.temp();
+		});
 		// =========================================
-
 	};
 	@Debounce(500)
 	fun(mouse) {

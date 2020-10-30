@@ -4,3 +4,10 @@ export const selectTemplate = templateName => dispatch => {
     payload: templateName,
   })
 }
+
+export const setCustomCss = value => dispatch => {
+  dispatch({
+    type: "SET_CUSTOM_CSS",
+    payload: value,
+  })
+}
