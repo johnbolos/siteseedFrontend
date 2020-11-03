@@ -133,6 +133,11 @@ class StyleManager extends React.Component {
             item.value = item.value.trim()
             item.value = item.value.replace(/\+/gi, ' ')
         }
+
+        if (pseudoClass == 'normal') {  // using !important css rule for normal pseudoclass
+            item.value = item.value + ' !important'
+        }
+
         if (!selected.node) {
             return
         }

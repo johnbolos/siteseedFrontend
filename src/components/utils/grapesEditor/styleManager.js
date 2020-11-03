@@ -334,11 +334,26 @@ const styleManager = {
 		// }
 		let { styleInfo } = selected;
 		let resp = styleInfo.styles[key];
+
+		console.log('pseudo', pseudoClass)
+		if (pseudoClass == 'normal') {
+			resp = getComputedStyle(selected.node)[key];
+			resp = resp.replace(' !important', '')
+			if (key == 'font-family') {
+				if (resp.includes(",")) {
+					// keep data before comma
+					resp = (resp.split(','))[0]
+					resp = _.startCase(resp);
+				}
+				resp = resp.replace(/ /gi, "+");
+			}
+			console.log('pseudo', resp)
+		}
 		if (resp) {
 			console.log(resp, 'aaaa')
 			resp = `${resp}`.trim()
 		}
-			
+
 		if (key.includes("font-family") && styleInfo.styles[key]) {
 			if (resp.includes(",")) {
 				return _.startCase(resp);
