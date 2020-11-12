@@ -108,6 +108,20 @@ class StyleManager extends React.Component {
         // if (item.key.includes('transform')) {
         //     status = 'style'
         // }
+        if (item.key == 'margin' || item.key == 'padding') {
+            let val = item.value.trim()
+            val = val.split(' ')
+            let change = false
+            _.each(val, (x, key) => {
+                if (x.replace('px', '').trim() == '') {
+                    change = true
+                    val[key] = '0px'
+                }
+            })
+            if (change) {
+                item.value = val.join(' ')
+            }
+        }
         if (new RegExp(/X|Y|Z/).test(item.key)) {
             transformValue[`${this.state.transformKey}${item.key}`] = item.value
             item.key = 'transform'

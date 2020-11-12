@@ -206,6 +206,7 @@ export default function (editor, opt = {}) {
 								{ value: "email", name: c.labelTypeEmail },
 								{ value: "password", name: c.labelTypePassword },
 								{ value: "number", name: c.labelTypeNumber },
+								{ value: "file", name: c.labelTypeUpload },
 							],
 						},
 						requiredTrait,
@@ -366,8 +367,8 @@ export default function (editor, opt = {}) {
 							],
 						},
 						{
-							type: 'text-area',
-							label: 'onClick',
+							type: 'urlInput',
+							label: 'URL',
 							name: 'onClick'
 						}
 					],
@@ -420,5 +421,110 @@ export default function (editor, opt = {}) {
 			}
 		),
 		view: textView,
+	});
+
+
+	domc.addType("upload-btn", {
+		model: defaultModel.extend(
+			{
+				defaults: {
+					...defaultModel.prototype.defaults,
+					name: 'upload-btn',
+					tagName: "div",
+					draggable: true,
+					droppable: true,
+					traits: [
+						idTrait,
+						{
+							type: 'linked-name-trt',
+							label: 'Name',
+						},
+						requiredTrait,
+					],
+				},
+			},
+			{
+				isComponent(el) {
+					if (el.tagName == "DIV" && el.type == 'upload-btn') {
+						return { type: "upload-btn" };
+					}
+				},
+			}
+		),
+		view: defaultView,
+	});
+
+	domc.addType("drop-down", {
+		model: defaultModel.extend(
+			{
+				defaults: {
+					...defaultModel.prototype.defaults,
+					name: 'drop-down',
+					tagName: "div",
+					draggable: true,
+					droppable: true,
+					traits: [
+						idTrait,
+						{
+							type: 'input',
+							label: 'Title',
+							name: 'title'
+						},
+						// {
+						// 	type: 'interaction-switch',
+						// 	label: 'open menu on hover',
+						// },
+					],
+				},
+			},
+			{
+				isComponent(el) {
+					if (el.tagName == "DIV" && el.type == 'drop-down') {
+						return { type: "drop-down" };
+					}
+				},
+			}
+		),
+		view: defaultView,
+	});
+
+
+	domc.addType("pop-up", {
+		model: defaultModel.extend(
+			{
+				defaults: {
+					...defaultModel.prototype.defaults,
+					name: 'pop-up',
+					tagName: "div",
+					draggable: true,
+					droppable: true,
+					traits: [
+						idTrait,
+						{
+							type: 'input',
+							label: 'Title',
+							name: 'title'
+						},
+						{
+							type: 'checkbox',
+							label: 'Open on page Load',
+							name: 'ss-pop-up'
+						},
+						{
+							type: 'show-popup',
+							label: '',
+						},
+					],
+				},
+			},
+			{
+				isComponent(el) {
+					if (el.tagName == "DIV" && el.type == 'pop-up') {
+						return { type: "pop-up" };
+					}
+				},
+			}
+		),
+		view: defaultView,
 	});
 }

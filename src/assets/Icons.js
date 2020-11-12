@@ -62,6 +62,29 @@ import { ReactComponent as ModalCross } from "./modal/cross.svg";
 import { ReactComponent as Loading } from "./modal/loading.svg";
 import { ReactComponent as CircularTick } from "./modal/tick.svg";
 
+// ==============================================================================================
+import Container from "./layersTitle/container.js";
+import Form from "./layersTitle/form.js";
+import Button from "./layersTitle/button.js";
+import Column from "./layersTitle/column.js";
+import H1 from "./layersTitle/h1.js";
+import H2 from "./layersTitle/h2.js";
+import H3 from "./layersTitle/h3.js";
+import H4 from "./layersTitle/h4.js";
+import H5 from "./layersTitle/h5.js";
+import H6 from "./layersTitle/h6.js";
+import Link from "./layersTitle/link.js";
+import StickyNav from "./layersTitle/stickyNav.js";
+import Video from "./layersTitle/video.js";
+import Image from "./layersTitle/image.js";
+import Text from "./layersTitle/text.js";
+import Cell from "./layersTitle/cell.js";
+import Input from "./layersTitle/input.js";
+import Map from "./layersTitle/map.js";
+import Section from "./layersTitle/section.js";
+
+// ==============================================================================================
+
 export default {
 	Dropdown,
 	Plus,
@@ -109,4 +132,26 @@ export default {
 	ModalCross,
 	Loading,
 	CircularTick,
+}
+
+export const layerTitleIcons = {
+	Container,
+	Form,
+	Button,
+	Column,
+	H1,
+	H2,
+	H3,
+	H4,
+	H5,
+	H6,
+	Link,
+	StickyNav,
+	Video,
+	Image,
+	Text,
+	Cell,
+	Input,
+	Map,
+	Section,
 }

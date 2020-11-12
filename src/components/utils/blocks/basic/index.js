@@ -72,7 +72,45 @@ export const basicBlocks = (editor) => {
 		attributes: {
 			class: "upload-elem",
 		},
-		content: `<input type="file">`,
+		content: {
+			content: `<div id="ss-upload-container">
+			<div class="ss-upload-btn btn" onclick="(function(e) {
+				let input = e.getElementsByTagName('input')[0];
+				input.click();
+				})(this)"
+			 >
+				<i class="fa fa-upload"></i> Upload
+				<input type="file" id="ss-fileupload" name="filename" onchange="showUploaded(this)">
+			</div>
+			<div class="uploades-container">
+			</div>
+			<script>
+			function showUploaded(e) {
+				if (e.files.length == 0) return
+				let tag = \`<div class="ss-uploaded-file" style="display: flex; flex-direction: row; align-items: center; margin-left: 10px">
+					\$\{e.files[0].name\}
+				</div>\`
+			let elem = e.parentNode.parentNode.getElementsByClassName('uploaded-file');
+			elem[0].innerHTML = tag
+			}
+			</script>
+			<style>
+				.ss-upload-btn {
+					background-color: #006cff;
+					color: #ffffff;
+				}
+				#ss-upload-container {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+				}
+				#ss-fileupload {
+					display: none;
+				}
+			</style>
+		</div>`,
+			type: 'upload-btn'
+		},
 	});
 	editor.BlockManager.add("search", {
 		label: `${search}
@@ -81,6 +119,10 @@ export const basicBlocks = (editor) => {
 		attributes: {
 			class: "search-elem",
 		},
+		// content: `<div class="wrapper"><script async src="https://cse.google.com/cse.js?cx=85f9b8cdddd1238ef"></script>
+		// <div class="gcse-search"></div>
+		// </div>
+		// `,
 		content: `<form onsubmit="event.preventDefault()">
 		<input type="text" placeholder="Search.." name="search">
 	  </form>

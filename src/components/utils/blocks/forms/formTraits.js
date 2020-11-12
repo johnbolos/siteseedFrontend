@@ -35,6 +35,7 @@ export default (editor, opts = {}) => {
 		labelTypeText: "Text",
 		labelTypeEmail: "Email",
 		labelTypePassword: "Password",
+		labelTypeUpload: "Upload",
 		labelTypeNumber: "Number",
 		labelTypeSubmit: "Submit",
 		labelTypeReset: "Reset",

@@ -39,6 +39,7 @@ import TopPanel from "./toppanel/TopPanel";
 import assetsManager from "./assetsManager";
 import { customEvents } from "../../components/utils/grapesEditor/styleManager";
 import { selectTemplate } from "../../reducers/actions/templateActions";
+import attachIconsToElem from '../../components/utils/grapesEditor/elementIcons'
 
 
 class HelpNSupport extends React.Component {
@@ -341,6 +342,13 @@ class DesignerStudio extends React.Component {
 			}
 		);
 		const { editor } = _grapesEditor;
+
+		let components = this.getAllComponents(editor.DomComponents.getWrapper());
+		let navComp = components[54]
+		console.log(components, navComp, 'aaa.p components')
+		// navComp.set({ icon: '<i class="fa fa-arrows"></i>' })
+		attachIconsToElem(components)
+		
 		editor.on("storage:start", () => {
 			let { currentPage, pages } = this.props.pageReducer;
 			let components = JSON.parse(JSON.stringify(editor.getComponents()));
@@ -354,7 +362,6 @@ class DesignerStudio extends React.Component {
 			// let customStyles = doc.getElementById("ss-customStyles")
 			// let styleAssets = doc.getElementById("ss-style-assets")
 			// ======================================
-			console.log('aaa.ddd', style)
 			this.props.saveCurrentChanges(currentPage, {
 				...pages[currentPage],
 				name: pages[currentPage].name,
@@ -458,6 +465,12 @@ class DesignerStudio extends React.Component {
 		})
 	};
 
+	getAllComponents = (model, result = []) => {
+		result.push(model);
+		model.components().each(mod => this.getAllComponents(mod, result))
+		return result;
+	}
+
 	addStyleData = () => {
 		const { dispatch } = this.props;
 		this.setState({ key: this.state.key + 1 }, () => {
@@ -489,9 +502,9 @@ class DesignerStudio extends React.Component {
 	};
 	render() {
 		const { selected } = this.state;
-		const { assetsManager } = this.props
+		const { assetsManager, dispatch } = this.props
 		return (
-			<div className={`theme-${this.props.theme}`}>
+			<div className={`theme-${this.props.theme}`} style={{ height: '100%' }}>
 				<div
 					style={{
 						display: "flex",
@@ -504,14 +517,17 @@ class DesignerStudio extends React.Component {
 						style={{
 							height: "100%",
 							width: "100%" /* backgroundColor: "red"  */,
+							display: 'flex',
+							flexDirection: 'column'
 						}}>
 						<div className='panel__top'>
-							<TopPanel />
+							<TopPanel dispatch={dispatch} />
 						</div>
 
 						<div
 							className='body-container'
-							style={{ height: `${window.innerHeight - 40}px` }}>
+							// style={{ height: `${window.innerHeight - 40}px` }}
+							>
 							<LeftBlock />
 							<div id='grapesEditor'></div>
 							<div id='zoom'>
@@ -530,6 +546,7 @@ class DesignerStudio extends React.Component {
 									width: "240px",
 									display: "flex",
 									flexDirection: "column",
+									height: 'calc(100vh - 40px)',
 								}}>
 								{/* <button onClick={this.addStyleData}>Add Data</button> */}
 								{/* <button onClick={() => { this.historyChange('undo') }}>Undo</button>

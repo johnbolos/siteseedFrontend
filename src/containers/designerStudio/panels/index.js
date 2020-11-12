@@ -131,7 +131,7 @@ export default (editor, config) => {
 				{
 					id: "publish",
 					//className: "fa fa-trash",
-					label: `<button type="button" class="publish">Publish Now</button>`,
+					label: `<button type="button" class="publish" onclick="window.open('/')">Publish Now</button>`,
 					command: (e) => {
 						// e.runCommand(cmdClear)
 					},

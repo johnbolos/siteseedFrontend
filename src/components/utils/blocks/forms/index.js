@@ -1,20 +1,20 @@
 import {
-	checkbox,
-	toggle,
-	textarea,
-	selectIcon,
-	radio,
-	inputIcon,
-	formicon,
-	dropdown,
+  checkbox,
+  toggle,
+  textarea,
+  selectIcon,
+  radio,
+  inputIcon,
+  formicon,
+  dropdown,
 } from "./icons";
 
 export const formBlocks = (editor) => {
-	editor.BlockManager.add("form-block", {
-		label: `${formicon}
+  editor.BlockManager.add("form-block", {
+    label: `${formicon}
         <div>Form Block</div>`,
-		category: "Forms",
-		content: `<form>
+    category: "Forms",
+    content: `<form>
     <label for="fname">First Name</label>
     <input type="text" id="fname" name="firstname" placeholder="Your name..">
 
@@ -50,13 +50,13 @@ export const formBlocks = (editor) => {
   }
   </style>
   `,
-	});
+  });
 
-	editor.BlockManager.add("input-block", {
-		label: `${inputIcon}
+  editor.BlockManager.add("input-block", {
+    label: `${inputIcon}
               <div>Input</div>`,
-		category: "Forms",
-		content: `<input type="text" class="form-control" id="" >
+    category: "Forms",
+    content: `<input type="text" class="form-control" id="" >
     <style>
     input[type=text], select {
       width: 100%;
@@ -69,13 +69,13 @@ export const formBlocks = (editor) => {
     }
     </style>
     `,
-	});
+  });
 
-	editor.BlockManager.add("textarea-block", {
-		label: `${textarea}
+  editor.BlockManager.add("textarea-block", {
+    label: `${textarea}
               <div>Text Area</div>`,
-		category: "Forms",
-		content: ` <div class="form-group">
+    category: "Forms",
+    content: ` <div class="form-group">
     <label for="exampleFormControlTextarea1">Example textarea</label>
     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
   </div>
@@ -93,12 +93,12 @@ export const formBlocks = (editor) => {
   }</style>
   
   `,
-	});
-	editor.BlockManager.add("select-block", {
-		label: `${selectIcon}
+  });
+  editor.BlockManager.add("select-block", {
+    label: `${selectIcon}
               <div>Select</div>`,
-		category: "Forms",
-		content: `<div class="form-group">
+    category: "Forms",
+    content: `<div class="form-group">
     <label for="exampleFormControlSelect1">Example select</label>
     <select class="form-control" id="exampleFormControlSelect1">
       <option>1</option>
@@ -118,93 +118,129 @@ export const formBlocks = (editor) => {
   }
   </style>
   `,
-	});
-	editor.BlockManager.add("dropdown-block", {
-		label: `${dropdown}
+  });
+  editor.BlockManager.add("dropdown-block", {
+    label: `${dropdown}
               <div>Dropdown</div>`,
-		category: "Forms",
-		content: `<div class="dropdown">
-    <button class="dropbtn">Dropdown</button>
-    <div class="dropdown-content">
-    <a href="#">Link 1</a>
-    <a href="#">Link 2</a>
-    <a href="#">Link 3</a>
+    category: "Forms",
+    content: {
+      content: `<div class="dropdown">
+      <button class="dropdownbtn" onclick="${`
+      let content = this.getElementsByClassName('content-effect-toggle');
+      if (content.length == 0) {
+        return;
+      };
+      content[0].style.display = content[0].style.display == 'block' ? 'none' : 'block';
+      `}" onblur="${`
+      let content = this.getElementsByClassName('content-effect-toggle');
+          if (content.length == 0) {
+            return;
+          };
+          content[0].style.display = 'none';
+      `}">
+        Dropdown
+        <i class="fa fa-chevron-down" aria-hidden="true"></i>
+        <div class="dropdown-content content-effect-toggle">
+          <a href="#">Link 1</a>
+          <a href="#">Link 2</a>
+          <a href="#">Link 3</a>
+        </div>
+      </button>
+      <script>
+        function dropdownToggle(e) {
+          let content = e.getElementsByClassName("content-effect-toggle")
+          if (content.length == 0) {
+            return
+          }
+          content[0].style.display = content[0].style.display == 'block' ? 'none' : 'block'
+        }
+        function dropdownHide(e) {
+          let content = e.getElementsByClassName("content-effect-toggle")
+          if (content.length == 0) {
+            return
+          }
+          content[0].style.display = 'none'
+        }
+      </script>
+    <style>
+    .dropdownbtn {
+      background-color: #d983a6;
+      color: white;
+      padding: 16px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 100%;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+    
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+    
+    .dropdown-content a:hover {background-color: #f1f1f1}
+    
+    .dropdown:hover .content-effect-hover {
+      display: block !important;
+    }
+    
+    .dropdown:hover .dropdownbtn {
+      background-color: #d983a6;
+    }
+    </style>
     </div>
-  </div>
-  
-  
-  <style>
-.dropbtn {
-  background-color: #d983a6;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown-content a:hover {background-color: #f1f1f1}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-.dropdown:hover .dropbtn {
-  background-color: #d983a6;
-}
-</style>
-  
-  `,
-	});
-	editor.BlockManager.add("checkbox-block", {
-		label: `${checkbox}
+    
+    `,
+      type: 'drop-down'
+    },
+  });
+  editor.BlockManager.add("checkbox-block", {
+    label: `${checkbox}
               <div>Checkbox</div>`,
-		category: "Forms",
-		content: `<div class="form-group form-check">
+    category: "Forms",
+    content: `<div class="form-group form-check">
     <input type="checkbox" class="form-check-input" id="exampleCheck1">
     <label class="form-check-label" for="exampleCheck1">I agree, to receiving updates on my email.</label>
   </div>`,
-	});
-	editor.BlockManager.add("radio-block", {
-		label: `${radio}
+  });
+  editor.BlockManager.add("radio-block", {
+    label: `${radio}
               <div>Radio</div>`,
-		category: "Forms",
-		content: `<input type="radio" id="male" name="gender" value="male">
-    <label for="male">Male </label> 
-    <input type="radio" id="female" name="gender" value="female">
-    <label for="female">Female </label> 
-    <input type="radio" id="other" name="gender" value="other">
-    <label for="other">Other </label> `,
-	});
-	editor.BlockManager.add("toggle-block", {
-		label: `${toggle}
+    category: "Forms",
+    content: `<div class="ss-radio-btn">
+      <input type="radio" id="male" name="gender" value="male">
+      <label for="male">Male </label> 
+      <input type="radio" id="female" name="gender" value="female">
+      <label for="female">Female </label> 
+      <input type="radio" id="other" name="gender" value="other">
+      <label for="other">Other </label> 
+    </div>`,
+  });
+  editor.BlockManager.add("toggle-block", {
+    label: `${toggle}
               <div>Toggle</div>`,
-		category: "Forms",
-		content: `
+    category: "Forms",
+    content: `
     <label class="switch" onclick="checkToggle(this)">
     <input type="checkbox" id="checkbox" >
-    <span class="slider round"></span>
+    <span data-gjs-selectable="false" data-gjs-hoverable="false" class="slider round"></span>
   </label>
 
     <script>
@@ -278,5 +314,5 @@ function checkToggle(checkbox) {
 
 
     `,
-	});
+  });
 };

@@ -334,8 +334,6 @@ const styleManager = {
 		// }
 		let { styleInfo } = selected;
 		let resp = styleInfo.styles[key];
-
-		console.log('pseudo', pseudoClass)
 		if (pseudoClass == 'normal') {
 			resp = getComputedStyle(selected.node)[key];
 			resp = resp.replace(' !important', '')
@@ -347,10 +345,29 @@ const styleManager = {
 				}
 				resp = resp.replace(/ /gi, "+");
 			}
-			console.log('pseudo', resp)
+			resp = `${resp}`.trim()
+			if (key == "text-shadow") {
+				resp = resp.split(/,(?![^(]*\))/);
+				_.each(resp, (element, index) => {
+					element = element.trim().split(/ (?![^(]*\))/);
+					let color = element.pop();
+					element.unshift(color);
+					resp[index] = element.join(" ");
+				});
+				resp = resp.join(", ");
+			} else if (key == "box-shadow") {
+				resp = resp.split(/,(?![^(]*\))/);
+				_.each(resp, (element, index) => {
+					element = element.trim().split(/ (?![^(]*\))/);
+					let color = element.pop();
+					element.unshift(color);
+					resp[index] = element.join(" ");
+				});
+				resp = resp.join(", ");
+			}
+			return resp
 		}
 		if (resp) {
-			console.log(resp, 'aaaa')
 			resp = `${resp}`.trim()
 		}
 

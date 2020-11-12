@@ -5195,7 +5195,7 @@ grapesjs-blocks-basic@^0.1.7, grapesjs-blocks-basic@^0.1.8:
   resolved "https://registry.yarnpkg.com/grapesjs-blocks-basic/-/grapesjs-blocks-basic-0.1.8.tgz#9eab7c8fd7bc30537143677320b07d85b9bd2e8f"
   integrity sha512-Iy5M4qGkEE2llb5ZFxitDolRJ3CrQkcK1SQIjRRlkWIAC99On3T/09iFR7NkpTBfsgfdNwcwnSVOMOhSnVLDtw==
 
-grapesjs-component-countdown@^0.1.2:
+grapesjs-component-countdown@^0.1.2, grapesjs-component-countdown@^0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/grapesjs-component-countdown/-/grapesjs-component-countdown-0.1.3.tgz#7df54b2a6c0bdf3275370f974ac9bd732188aae3"
   integrity sha512-TmxDETedUDv1jGqNLn6E768iyp+xAK/XcTId5WpLrmKPFB6aCuWqfTowhtSvyRJJs83OAFMiQIwIu+tEtSWOeA==
@@ -5249,10 +5249,15 @@ grapesjs-preset-webpage@^0.1.11:
     grapesjs-plugin-filestack "^0.1.1"
     grapesjs-plugin-forms "^0.3.5"
 
-grapesjs@^0.16.18:
-  version "0.16.18"
-  resolved "https://registry.yarnpkg.com/grapesjs/-/grapesjs-0.16.18.tgz#a3e599d81baf952068ebaeb29d43652f306d7150"
-  integrity sha512-8uUSWQuuXKcWGUYbX/WDhLfjS4Z3jN4j8LI7qKIVsVjDjd/4p9UCdA9m7ewgjK6QrCXyaj/RXKSWS1iLSDJJ/g==
+grapesjs-tabs@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/grapesjs-tabs/-/grapesjs-tabs-0.2.2.tgz#40ea0c9998f053d01f4689d3de106901124f2ac8"
+  integrity sha512-hAozNnY658Qe3aVmCgp++3OU7/cXIYRk8n+t5BggrFvuPNsll6XjLm5Li882XBHDMHwMnF477IkTpCtGjhhoyg==
+
+grapesjs@^0.16.27:
+  version "0.16.27"
+  resolved "https://registry.yarnpkg.com/grapesjs/-/grapesjs-0.16.27.tgz#485f4e0c4796fda3c8a58a131203559f42260b39"
+  integrity sha512-atZdWwWtLr55ngUUxSRVQgKjJnHkKS1qOkZHqJPLRrRD0CDVtIzec/saqtq7sU4GWkCgKGRoyZpbOVfrfVCC8g==
   dependencies:
     "@babel/runtime" "^7.9.2"
     backbone "1.3.3"

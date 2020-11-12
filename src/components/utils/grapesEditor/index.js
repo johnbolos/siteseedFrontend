@@ -3,6 +3,8 @@ import _ from "lodash";
 import grapesjs from "grapesjs";
 //import "grapesjs-blocks-basic";
 import exportPlugin from "grapesjs-plugin-export";
+import 'grapesjs-component-countdown'
+import 'grapesjs-navbar'
 import panels from "../../../containers/designerStudio/panels";
 //import "grapesjs-preset-webpage";
 import $, { parseHTML } from "jquery";
@@ -484,8 +486,17 @@ const _grapesEditor = {
 			formBlocks,
 			extras,
 			formTraits,
+			'gjs-component-countdown',
+			'gjs-navbar'
 		],
 		pluginsOpts: {
+			'gjs-component-countdown': {
+				labelCountdownCategory: 'Extras',
+				labelCountdown: 'Countdown'
+			},
+			'gjs-navbar': {
+				labelNavbarCategory: 'Extras'
+			},
 			"grapesjs-lory-slider": {
 				sliderBlock: {
 					label: `${slider}
@@ -516,7 +527,7 @@ const _grapesEditor = {
 				"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css",
 				"https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap",
 				"https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap",
-				
+
 				"https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap",
 				"https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap",
 				"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
@@ -548,7 +559,7 @@ const _grapesEditor = {
 		//fires for every change in the canvas
 		// editor.on("component:update", (some) => {
 		// 	// do something
-	
+
 		// });
 		editor.on("run:preview", () => {
 			$("#grapesEditor").addClass("left-pane-preview");
@@ -575,8 +586,8 @@ const _grapesEditor = {
 			run: (editor) => editor.setDevice("tablet"),
 		});
 		editor.on("modal:open", () => {
-		
-		
+
+
 			let component = editor.getComponents()//.toHTML();
 			//component = JSON.parse(JSON.stringify(component))
 			let html = '';
@@ -642,7 +653,7 @@ const _grapesEditor = {
 				const lm = editor.LayerManager;
 				setTimeout(() => {
 					const newPanels = document.getElementById("layer-manager");
-				
+
 					const layers = document.createElement("div");
 					layers.appendChild(lm.render());
 					newPanels.appendChild(layers);

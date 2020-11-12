@@ -23,8 +23,10 @@ class LayerManager extends React.Component {
 		if (query) {
 			$("#layer-manager .gjs-layer").addClass("open"); //for opening all layers but looks bad
 			let result = $("#layer-manager span").filter(function () {
-				if ($(this).text().toLowerCase().indexOf(query) === -1) {
+				if (!$(this).text().toLowerCase().includes(query)) {
 					return $(this).parent().parent().addClass("change-opacity");
+				} else {
+					return $(this).parent().parent().removeClass("change-opacity");
 				}
 			});
 			/* $("#layer-manager .gjs-layer").addClass("open"); //for opening all layers but looks bad
@@ -46,7 +48,18 @@ class LayerManager extends React.Component {
 	};
 
 	render() {
+		
+	// 	$(".gjs-layer-caret").before(`<div data-toggle-move="true" style="
+	// 	display: flex;
+	// 	height: 100%;
+	// 	width: 110%;
+	// 	position: absolute;
+	// 	left: -10px;
+	// 	top: 0;
+	// "></div>` );
+		$(".gjs-layer__icon").attr("data-toggle-move", "true");
 		$(".gjs-layer-name").attr("data-toggle-move", "true");
+		// $(".gjs-layer-caret").attr("onclick", "this.stopPropagation();");
 		$(".gjs-layer-move").remove();
 		$(".gjs-layer-count").remove();
 		return (

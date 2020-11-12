@@ -14,7 +14,7 @@
   justify-content: space-between;
   > .styles-container {
     flex: 1;
-    overflow: overlay;
+    overflow: auto;
   }
   .theme-light & {
     background-color: map-get($light, "background");
@@ -1026,6 +1026,7 @@
 
   .view-mode-container {
     display: flex;
+    cursor: pointer;
     flex-direction: row;
     padding: 12.5px 0px 12.5px 22.5px;
     font-family: "Source Sans Pro";
@@ -1087,6 +1088,7 @@
           font-weight: 600;
         }
         .close-icon {
+          cursor: pointer;
           path {
             .theme-dark & {
               fill: map-get($dark, "icon1");
@@ -1161,6 +1163,17 @@
           }
         }
       }
+    }
+  }
+}
+
+.style-manager-container {
+  .category-label {
+    cursor: pointer;
+  }
+  .picker-field-container {
+    .preview-color {
+      cursor: pointer;
     }
   }
 }
