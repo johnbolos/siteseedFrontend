@@ -12,6 +12,7 @@ import undo from "../../../assets/header/Undo.svg";
 import play from "../../../assets/header/Play.svg";
 import { ReactComponent as logo } from "../../../assets/header/Logo.svg";
 import { ReactComponent as addElem } from "../../../assets/left-pane/add-elements.svg";
+import { ReactComponent as pages } from "../../../assets/left-pane/pages.svg";
 import { ReactComponent as components } from "../../../assets/left-pane/component.svg";
 import { ReactComponent as layers } from "../../../assets/left-pane/layers.svg";
 import comment from "../../../assets/left-pane/Comment.svg";
@@ -38,6 +39,7 @@ export {
 	play,
 	logo,
 	addElem,
+	pages,
 	components,
 	layers,
 	comment,

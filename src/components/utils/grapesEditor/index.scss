@@ -454,7 +454,8 @@ svg {
 #blocks,
 #components,
 #comment,
-#layers {
+#layers,
+#page-manager {
   position: absolute;
   z-index: 3;
   width: 242px;
@@ -553,6 +554,7 @@ svg {
   //   background-color: $primaryColor;
   //   color: #5e5e5e;
   padding: 6px 5px;
+  z-index: auto;
   .theme-dark & {
     color: map-get($dark, "color");
     background-color: map-get($dark, "background");
@@ -577,6 +579,7 @@ svg {
   position: initial;
   margin-left: 9%;
   display: flex;
+  z-index: auto;
 }
 
 .gjs-pn-buttons {
@@ -759,7 +762,7 @@ button {
   }
 }
 
-.add-element {
+.add-element, .pages-title, .layers-title {
   margin-left: 15px;
 }
 

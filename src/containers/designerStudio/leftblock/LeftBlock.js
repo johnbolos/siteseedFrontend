@@ -4,6 +4,7 @@ import {
 	components as Components,
 	layers as Layers,
 	tip as Tip,
+	pages as PagesIcon,
 } from "../../designerStudio/panels/icons";
 import $ from "jquery";
 //import _grapesEditor from "../../../components/utils/grapesEditor";
@@ -17,6 +18,7 @@ import LayerManager from "./LayerManager";
 const initialState = {
 	blocks: "none",
 	component: "none",
+	pages: "none",
 	layers: "none",
 	comment: "none",
 	openComponents: false
@@ -72,7 +74,7 @@ class LeftBlock extends Component {
 		editor.runCommand("ss-save-section")
 	}
 	render() {
-		const { blocks, component, layers } = this.state
+		const { blocks, component, layers, pages } = this.state
 		//const { pageReducer } = this.props;
 		//let { editor } = _grapesEditor;
 		return (
@@ -93,6 +95,11 @@ class LeftBlock extends Component {
 						<Layers />
 						<span className='tooltiptext-left'>Add Layers</span>
 					</div>
+					<div className={`tooltip-left ${pages != 'none' ? 'tooltip-left-selected' : ''}`} name='pages' onClick={(e) => { this.drawerToggleClickHandler('pages') }}>
+
+						<PagesIcon />
+						<span className='tooltiptext-left'>Page Manager</span>
+					</div>
 				</div>
 				<Tip
 					width='15px'
@@ -107,46 +114,59 @@ class LeftBlock extends Component {
 					<h4 className='add-element'>Add Elements</h4>
 					<button type="button" className="save-section" onClick={this.saveSection}>Save Section</button>
 				</div>
-				<Tip
+				{/* <Tip
 					width='15px'
 					height='9px'
 					className='tip'
 					style={{
 						display: this.state.component,
-						marginTop: "55px",
+						marginTop: "53px",
 					}}
 				/>
 				<div id='components' style={{ display: this.state.component }}>
 					<h4 className='add-element'>Add Components</h4>
 
-				</div>
+				</div> */}
 				<Tip
 					width='15px'
 					height='9px'
 					className='tip'
 					style={{
 						display: this.state.layers,
-						marginTop: "55px",
+						marginTop: "53px",
 						// marginTop: "94px",
 					}}
 				/>
 				<div id='layers' style={{ display: this.state.layers, width: 'auto', minWidth: '242px' }}>
-					<Tabs>
+								<h4 className="layers-title">Layers</h4>
+							<LayerManager />
+					{/* <Tabs>
 						<TabList style={{ display: "flex" }}>
 							<Tab onClick={this.openLayers}>
-								<h4>Layers</h4>
 							</Tab>
 							<Tab onClick={this.closeLayers}>
 								<h4>Pages</h4>
 							</Tab>
 						</TabList>
 						<TabPanel>
-							<LayerManager />
 						</TabPanel>
 						<TabPanel>
 							<PageManager />
 						</TabPanel>
-					</Tabs>
+					</Tabs> */}
+				</div>
+				<Tip
+					width='15px'
+					height='9px'
+					className='tip'
+					style={{
+						display: this.state.pages,
+						marginTop: "90px",
+					}}
+				/>
+				<div id='page-manager' style={{ display: this.state.pages }}>
+					<h4 className='pages-title'>Page Manager</h4>
+					<PageManager />
 				</div>
 			</>
 		);

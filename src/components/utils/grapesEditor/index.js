@@ -24,6 +24,7 @@ import { slider } from "../blocks/basic/icons";
 import "grapesjs-lory-slider";
 import { useStore } from "react-redux";
 import { store } from "../../../store";
+import viewCode from "./viewCode/viewCode";
 
 
 const _grapesEditor = {
@@ -621,6 +622,12 @@ const _grapesEditor = {
 				$(".gjs-layer-count").remove();
 			}, 110);
 		});
+		editor.on("run:export-template", () => {
+			console.log('aaaaaaaaaaa.p')
+			// =========================View Code===================================
+			viewCode()
+			// =====================================================================
+		})
 		let saveSection = 1
 		editor.Commands.add("ss-save-section", {
 			run(editor) {

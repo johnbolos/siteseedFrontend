@@ -40,6 +40,7 @@ import assetsManager from "./assetsManager";
 import { customEvents } from "../../components/utils/grapesEditor/styleManager";
 import { selectTemplate } from "../../reducers/actions/templateActions";
 import attachIconsToElem from '../../components/utils/grapesEditor/elementIcons'
+import viewCode from "../../components/utils/grapesEditor/viewCode/viewCode";
 
 
 class HelpNSupport extends React.Component {

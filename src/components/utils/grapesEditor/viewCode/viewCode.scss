@@ -1,0 +1,123 @@
+.gjs-mdl-dialog {
+  background-color: #373737;
+  color: #ffffff;
+  margin: auto;
+  max-width: 850px;
+  width: 90%;
+  height: 78%;
+
+  .gjs-mdl-header {
+    height: 50px;
+    border-bottom: 1px solid #444444;
+    padding: 15px 20px 15px 20px;
+
+    .gjs-mdl-title {
+      font-family: Source Sans Pro;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 20px;
+    }
+
+    .gjs-mdl-btn-close {
+      right: 20px;
+      top: 10px;
+      font-size: 25px;
+      color: #ffffff;
+      opacity: 1;
+    }
+  }
+  .gjs-mdl-content {
+    padding: 15px 20px;
+    height: calc(100% - 50px);
+
+    #gjs-mdl-c {
+      height: 100%;
+      display: flex;
+      flex: 1;
+
+      .gjs-export-dl {
+        position: relative;
+        height: 100%;
+        width: 100%;
+
+        .gjs-cm-editor-c {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+
+          #gjs-cm-htmlmixed {
+            padding-right: 0px;
+            border-right: 0px solid rgba(0, 0, 0, 0.2);
+            height: 100%;
+
+            #gjs-cm-title {
+              z-index: 2;
+            }
+          }
+          .CodeMirror {
+            height: 100%;
+            background-color: #272727;
+            border: 1px solid #444444;
+
+            .CodeMirror-linenumber {
+              color: #444444;
+            }
+            .CodeMirror-gutters {
+              background: #272727;
+              border-right: 0px;
+            }
+          }
+          #gjs-cm-css {
+            padding-left: 0px;
+
+            #gjs-cm-code {
+              //   initial css
+              opacity: 0;
+              visibility: hidden;
+            }
+
+            #gjs-cm-title {
+              margin-left: 55px;
+            }
+          }
+
+          #gjs-cm-code {
+            height: calc((100% - 20px) - 15px);
+            display: block;
+            margin-top: 35px;
+          }
+
+          #gjs-cm-title {
+            position: absolute;
+            top: 0;
+            background-color: transparent;
+            padding: 0px;
+            text-align: unset;
+            height: 20px;
+            margin-bottom: 15px;
+            font-family: "Source Sans Pro";
+            font-style: normal;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 20px;
+            color: #ffffff !important;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+
+.gjs-editor-cont {
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-thumb {
+      background-color: #6a6a6a;
+  }
+  ::-webkit-scrollbar-track {
+      background-color: transparent;
+  }
+}
