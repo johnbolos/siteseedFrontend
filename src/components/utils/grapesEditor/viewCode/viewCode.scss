@@ -70,6 +70,7 @@
           }
           #gjs-cm-css {
             padding-left: 0px;
+            height: 100%;
 
             #gjs-cm-code {
               //   initial css
@@ -120,4 +121,8 @@
   ::-webkit-scrollbar-track {
       background-color: transparent;
   }
+}
+
+.gjs-mdl-container {
+  overflow-y: hidden;
 }
