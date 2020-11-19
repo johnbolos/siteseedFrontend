@@ -794,13 +794,15 @@ button {
 }
 
 .gjs-blocks-c {
-  svg {
-    path {
-      .theme-dark & {
-        fill: map-get($dark, "icon1");
-      }
-      .theme-light & {
-        fill: map-get($light, "icon1");
+  :not(.inherit-color-svg)> {
+    svg {
+      path {
+        .theme-dark & {
+          fill: map-get($dark, "icon1");
+        }
+        .theme-light & {
+          fill: map-get($light, "icon1");
+        }
       }
     }
   }

@@ -51,11 +51,11 @@ const routes = [
 ];
 
 //<editor-fold desc="Functions Exports">
-export const getUrlPushWrapper = (keyString, query) => {
+export const getUrlPushWrapper = (keyString, query) => {	// to push to another page
 	return push(getUrlPath(keyString, query));
 };
 
-export const getUrlPath = (keyString, params) => {
+export const getUrlPath = (keyString, params) => {	// generate url from page key
 	if (!params) params = {};
 
 	let keyArr = keyString.split(".");
@@ -81,7 +81,7 @@ export const getUrlPath = (keyString, params) => {
 	return `${val.path}?${queryString}`;
 };
 
-export const getPushPathWrapper = (keyString, params) => {
+export const getPushPathWrapper = (keyString, params) => {	
 	let obj = getUrlObject(keyString);
 	if (obj) {
 		const path = new Path(obj.path);

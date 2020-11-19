@@ -5,7 +5,9 @@ import {
 	show as Show,
 	Hide,
 	setting as Setting,
-	search as Search
+	search as Search,
+	DeletePage,
+	HomePage
 } from "./icons";
 import _grapesEditor from "../../../components/utils/grapesEditor";
 import { connect } from "react-redux";
@@ -38,15 +40,20 @@ class PageManager extends Component {
 		let style = "";
 		this.props.createNewPage(title, components, style, details);
 	};
-	changeTemplate = async (index) => {
-		const { editor } = _grapesEditor;
-		let { pageReducer } = this.props;
-		if (pageReducer.currentPage == index) {
-			return
-		}
-		await this.props.changeCurrentPage(pageReducer.currentPage, index);
-		editor.setComponents(pageReducer.pages[index].components);
-		// editor.setStyle(pageReducer.pages[index].style);
+	changePage = (index, changeCurrentPageState = true) => {
+		return new Promise(async resolve => {
+			const { editor } = _grapesEditor;
+			let { pageReducer } = this.props;
+			if (pageReducer.currentPage == index) {
+				return
+			}
+			if (changeCurrentPageState) {
+				await this.props.changeCurrentPage(pageReducer.currentPage, index);
+			}
+			editor.setComponents(pageReducer.pages[index].components);
+			// editor.setStyle(pageReducer.pages[index].style);
+			return resolve()
+		})
 	};
 	closeModal = () => {
 		this.setState({
@@ -115,6 +122,19 @@ class PageManager extends Component {
 			hidden: !pages[index].hidden
 		}))
 	}
+	deletePage = async (index) => {
+		const { pageReducer: { currentPage, pages }, dispatch } = this.props
+		if (index == currentPage) {
+			let switchPage = (index == pages.length - 1) ? index - 1 : index + 1
+			await this.changePage(switchPage, false)
+		}
+		pages.splice(index, 1)
+		await dispatch({ type: 'DELETE_PAGE', payload: pages })
+	}
+	setHomePage = (index) => {
+		const { dispatch } = this.props
+		dispatch({ type: 'SET_HOME', payload: index })
+	}
 	render() {
 		const { filteredPages } = this.state;
 		const { pageReducer } = this.props
@@ -145,14 +165,25 @@ class PageManager extends Component {
 						filteredPages.map((pageElem, index) => (
 							<li key={index} className={`pages ${pageReducer.pages[index].hidden && 'hide-page'}`} onClick={() => {
 								if (pageReducer.pages[index].hidden) return
-								
-								this.changeTemplate(index)
+
+								this.changePage(index)
 							}}>
 								<div>
 									<Page className='page' />
 									{pageElem.name}
 								</div>
 								<div>
+									<HomePage style={{ height: '14px', width: '14px' }}
+										id={pageElem.homePage ? 'home-page-icon' : ''}
+										onClick={(e) => {
+											e.stopPropagation()
+											if (pageElem.homePage) {
+												return
+											}
+											// this.showHide(index)
+											this.setHomePage(index)
+										}}
+									/>
 									<Setting
 										className='setting'
 										onClick={(e) => {
@@ -160,7 +191,7 @@ class PageManager extends Component {
 											this.openSettings(index)
 										}}
 									/>
-									{!pageReducer.pages[index].hidden && <Show style={{ marginRight: '0px' }}
+									{/* {!pageReducer.pages[index].hidden && <Show style={{ marginRight: '0px' }}
 										onClick={(e) => {
 											e.stopPropagation()
 											this.showHide(index)
@@ -171,7 +202,17 @@ class PageManager extends Component {
 											e.stopPropagation()
 											this.showHide(index)
 										}}
-									/>}
+									/>} */}
+									<DeletePage style={{ marginRight: '0px', height: '14px', width: '14px', opacity: (pageReducer.pages.length == 1 || pageElem.homePage) ? 0.55 : 1 }}
+										onClick={(e) => {
+											e.stopPropagation()
+											if (pageReducer.pages.length == 1 || pageElem.homePage) {
+												return
+											}
+											// this.showHide(index)
+											this.deletePage(index)
+										}}
+									/>
 								</div>
 							</li>
 						))}

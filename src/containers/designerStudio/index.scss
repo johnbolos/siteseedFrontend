@@ -88,7 +88,12 @@
 .on-scrollbar::-webkit-scrollbar-thumb {
   // -webkit-box-shadow: inset 0 0 6px #ffffff;
   // box-shadow: inset 0 0 6px #ffffff;
-  background: #6a6a6a;
+  .theme-light & {
+    background-color: map-get($light, "scrollBarThumb");
+  }
+  .theme-dark & {
+    background-color: map-get($dark, "scrollBarThumb");
+  }
   border-radius: 150px;
   // background-color: rgba(255,255,255,0.2);
   // opacity: 0.5;
@@ -124,5 +129,14 @@
   // background-color: rgba(255,255,255,0.2);
   // opacity: 0.5;
 }
+
+// .inherit-color-svg {
+//   svg {
+//     path {
+//       fill: inherit !important;
+//       color: inherit;
+//     }
+//   }
+// }
 
 // ========================================================================================

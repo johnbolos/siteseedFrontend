@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import _ from 'lodash'
 import {
 	addElem as AddElem,
 	components as Components,
@@ -32,6 +33,21 @@ class LeftBlock extends Component {
 		this.reset(elem);
 		this.setState({
 			[name]: this.state[name] === "none" ? "block" : "none",
+		}, () => {
+			if (['blocks', 'component'].includes(name)) {
+				let first6Categ = 'block'
+				if (name == 'component') {
+					first6Categ = 'none'
+				}
+				let getAllCategories = document.querySelectorAll('.gjs-block-category')
+				_.each(getAllCategories, (category, index) => {
+					if (index < 6) {
+						category.style.display = first6Categ
+					} else {
+						category.style.display = first6Categ == 'block' ? 'none' : 'block'
+					}
+				})
+			}
 		});
 	};
 	reset = (elem) => {
@@ -85,11 +101,11 @@ class LeftBlock extends Component {
 						<AddElem />
 						<span className='tooltiptext-left'>Add Elements</span>
 					</div>
-					{/* <div className={`tooltip-left ${component != 'none' ? 'tooltip-left-selected' : ''}`} onClick={(e) => { this.drawerToggleClickHandler('component'); this.openComponents(); }}>
+					<div className={`tooltip-left ${component != 'none' ? 'tooltip-left-selected' : ''}`} onClick={(e) => { this.drawerToggleClickHandler('component'); }}>
 
 						<Components />
 						<span className='tooltiptext-left'>Add Components</span>
-					</div> */}
+					</div>
 					<div className={`tooltip-left ${layers != 'none' ? 'tooltip-left-selected' : ''}`} onClick={() => { this.drawerToggleClickHandler('layers') }}>
 
 						<Layers />
@@ -110,11 +126,17 @@ class LeftBlock extends Component {
 						marginTop: "15px",
 					}}
 				/>
-				<div id='blocks' style={{ display: this.state.blocks }}>
-					<h4 className='add-element'>Add Elements</h4>
-					<button type="button" className="save-section" onClick={this.saveSection}>Save Section</button>
+				<div id='blocks' style={{ display: (this.state.blocks == 'block' || this.state.component == 'block') ? 'block' : 'none' }}>
+					<div>
+						{blocks == 'block' && <h4 className='add-element'>Add Elements</h4>}
+						{component == 'block' && (<>
+							<h4 className='add-element'>Add Layout</h4>
+							{/* <button type="button" className="save-section" onClick={this.saveSection}>Save Section</button> */}
+						</>)}
+					</div>
+
 				</div>
-				{/* <Tip
+				<Tip
 					width='15px'
 					height='9px'
 					className='tip'
@@ -123,7 +145,7 @@ class LeftBlock extends Component {
 						marginTop: "53px",
 					}}
 				/>
-				<div id='components' style={{ display: this.state.component }}>
+				{/* <div id='components' style={{ display: this.state.component }}>
 					<h4 className='add-element'>Add Components</h4>
 
 				</div> */}
@@ -133,13 +155,13 @@ class LeftBlock extends Component {
 					className='tip'
 					style={{
 						display: this.state.layers,
-						marginTop: "53px",
+						marginTop: "90px",
 						// marginTop: "94px",
 					}}
 				/>
 				<div id='layers' style={{ display: this.state.layers, width: 'auto', minWidth: '242px' }}>
-								<h4 className="layers-title">Layers</h4>
-							<LayerManager />
+					<h4 className="layers-title">Layers</h4>
+					<LayerManager />
 					{/* <Tabs>
 						<TabList style={{ display: "flex" }}>
 							<Tab onClick={this.openLayers}>
@@ -161,7 +183,7 @@ class LeftBlock extends Component {
 					className='tip'
 					style={{
 						display: this.state.pages,
-						marginTop: "90px",
+						marginTop: "127px",
 					}}
 				/>
 				<div id='page-manager' style={{ display: this.state.pages }}>

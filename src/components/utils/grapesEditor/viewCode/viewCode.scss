@@ -1,3 +1,4 @@
+@import "../../../../assets/theme/editorTheme.scss";
 .gjs-mdl-dialog {
   background-color: #373737;
   color: #ffffff;
@@ -116,10 +117,15 @@
     width: 6px;
   }
   ::-webkit-scrollbar-thumb {
-      background-color: #6a6a6a;
+    .theme-light & {
+      background-color: map-get($light, "scrollBarThumb");
+    }
+    .theme-dark & {
+      background-color: map-get($dark, "scrollBarThumb");
+    }
   }
   ::-webkit-scrollbar-track {
-      background-color: transparent;
+    background-color: transparent;
   }
 }
 

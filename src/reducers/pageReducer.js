@@ -5,6 +5,7 @@ const initialState = {
 			name: "Home",
 			components: [],
 			style: [],
+			homePage: true,
 			styleFontStr: null,
 			hidden: false,
 			desp: null,
@@ -18,6 +19,7 @@ const initialState = {
 			name: "Contact",
 			components: [],
 			style: [],
+			homePage: false,
 			styleFontStr: null,
 			hidden: false,
 			desp: null,
@@ -70,8 +72,55 @@ export default (state = initialState, action) => {
 				pages: pages
 			};
 
+		case "DELETE_PAGE":
+			return {
+				...state,
+				pages: action.payload
+			};
+
+		case "SET_HOME":
+			state.pages.map(a => a.homePage = false);
+			state.pages[action.payload].homePage = true
+			return {
+				...state,
+				pages: state.pages
+			};
+
 		case "RESET_PAGES":
-			return initialState;
+			console.log(initialState, 'aaa.p reset')
+			return {
+				currentPage: 0,
+				pages: [
+					{
+						name: "Home",
+						components: [],
+						style: [],
+						homePage: true,
+						styleFontStr: null,
+						hidden: false,
+						desp: null,
+						favicon: null,
+						seo: {
+							name: null,
+							desp: null
+						}
+					},
+					{
+						name: "Contact",
+						components: [],
+						style: [],
+						homePage: false,
+						styleFontStr: null,
+						hidden: false,
+						desp: null,
+						favicon: null,
+						seo: {
+							name: null,
+							desp: null
+						}
+					},
+				],
+			};
 		default:
 			return state;
 	}

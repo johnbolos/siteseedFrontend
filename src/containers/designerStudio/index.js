@@ -247,21 +247,27 @@ class DesignerStudio extends React.Component {
 			// reset page manager here =========================================
 			if (html && style) {
 				let { pages, currentPage } = pageReducer
-				if (pages.length > 1) {
-					// this.props.saveCurrentChanges(0, {
-					// 	...pages[0],
-					// 	components: html,
-					// 	style: style,
-					// 	// styleFontStr
-					// });
-
-					// reset pages
-					this.props.dispatch({ type: 'RESET_PAGES' })
-				}
+				// if (pages.length > 1) {
+				// 	// reset pages
+				// 	this.props.dispatch({ type: 'RESET_PAGES' })
+				// }
+				// reset pages
+				this.props.dispatch({ type: 'RESET_PAGES' })
+				console.log(this.props.pageReducer.pages[0], 'aaa.p restting')
 				this.props.saveCurrentChanges(0, {
-					...pages[0],
+					// ...this.props.pageReducer.pages[0],
 					components: html,
 					style: style,
+					name: "Home",
+					homePage: true,
+					styleFontStr: null,
+					hidden: false,
+					desp: null,
+					favicon: null,
+					seo: {
+						name: null,
+						desp: null
+					}
 					// styleFontStr
 				});
 				dispatch(setCustomCss(customCss))
@@ -352,7 +358,7 @@ class DesignerStudio extends React.Component {
 		
 		editor.on("storage:start", () => {
 			let { currentPage, pages } = this.props.pageReducer;
-			let components = JSON.parse(JSON.stringify(editor.getComponents()));
+			let components = JSON.parse(JSON.stringify(editor.getHtml()));
 			let styleGrapejs = JSON.parse(JSON.stringify(editor.getCss()));
 			// save all ss style tag in page manager
 			let frame = document.getElementsByClassName("gjs-frame")
@@ -363,6 +369,7 @@ class DesignerStudio extends React.Component {
 			// let customStyles = doc.getElementById("ss-customStyles")
 			// let styleAssets = doc.getElementById("ss-style-assets")
 			// ======================================
+			console.log(currentPage, 'aaa.p storage', pages)
 			this.props.saveCurrentChanges(currentPage, {
 				...pages[currentPage],
 				name: pages[currentPage].name,

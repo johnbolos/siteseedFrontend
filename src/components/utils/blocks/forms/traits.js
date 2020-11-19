@@ -100,6 +100,10 @@ export default function (editor, opt = {}) {
     getInputEl() {
       var input = document.createElement('input');
       // ...
+      let value = (this.target.attributes && this.target.attributes.attributes.onclick) || ''
+      value = value.replace(`window.open('`, '')
+      value = value.replace(`')`, '')
+      input.value = value
       return input;
     },
   })

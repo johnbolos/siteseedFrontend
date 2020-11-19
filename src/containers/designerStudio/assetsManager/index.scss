@@ -184,7 +184,7 @@
         }
       }
       .all-images {
-        overflow: scroll;
+        overflow-y: overlay;
         display: flex;
         flex-direction: row;
         // justify-content: space-between;
@@ -214,6 +214,23 @@
             top: 2px;
           }
         }
+      }
+      .all-images::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .all-images::-webkit-scrollbar-track {
+        background-color: transparent;
+      }
+
+      .all-images::-webkit-scrollbar-thumb {
+        .theme-light & {
+          background-color: map-get($light, "scrollBarThumb");
+        }
+        .theme-dark & {
+          background-color: map-get($dark, "scrollBarThumb");
+        }
+        border-radius: 150px;
       }
     }
   }

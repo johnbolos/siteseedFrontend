@@ -1596,6 +1596,7 @@ class StyleManager extends React.Component {
                 value: (selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'font-family')) || 'Auto',
                 // width: '100%',
                 // labelClass: 'custom-label',
+                containerClass: 'font-family-container',
                 onChange: (value, item, pastValue) => {
                     if (!item.url) {
                         _grapesEditor.styleManager.removeFontsBlock(pastValue)

@@ -148,8 +148,13 @@
       align-items: center;
       //margin-right: 26px;
 
+      svg:hover {
+        path {
+          fill: map-get($primary, "icon") !important;
+        }
+      }
       svg {
-        margin: 2px 10px 2px 0px;
+        margin: 2px 7px 2px 0px;
         path {
           .theme-dark & {
             fill: map-get($dark, "icon1");
@@ -165,6 +170,12 @@
   .search-icon {
     position: absolute;
     margin-left: 14px;
+  }
+
+  #home-page-icon {
+    path {
+      fill: map-get($primary, "background") !important; 
+    }
   }
 }
 

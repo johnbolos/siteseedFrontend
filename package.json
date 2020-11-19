@@ -25,6 +25,7 @@
 		"grapesjs-plugin-export": "^1.0.7",
 		"grapesjs-preset-webpage": "^0.1.11",
 		"grapesjs-tabs": "^0.2.2",
+		"is-image-url": "^1.1.8",
 		"jquery": "^3.5.1",
 		"jquery-nearest": "^1.4.0",
 		"lodash": "^4.17.19",

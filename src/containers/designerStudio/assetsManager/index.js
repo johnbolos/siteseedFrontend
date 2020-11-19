@@ -2,7 +2,7 @@ import React from "react"
 import { connect } from "react-redux"
 import _ from 'lodash'
 import shortid from 'shortid'
-
+import isImageUrl from 'is-image-url'
 import "./index.scss"
 import Request from '../../../request'
 import _grapesEditor from "../../../components/utils/grapesEditor"
@@ -80,7 +80,7 @@ class AssetsManager extends React.Component {
     }
     handleAddImage = (value) => {
         const { assets, dispatch } = this.props
-        if (value == '') {
+        if (value == '' || !isImageUrl(value)) {
             return
         }
         assets.image.push(value)
@@ -307,7 +307,7 @@ class AssetsManager extends React.Component {
                                     <input
                                         type="text"
                                         className={'add-image-input'}
-                                        placeholder={'http://path/to/the/image.jpg'}
+                                        placeholder={'Enter Image Web URL (http://www.image.com/path/to/the/image.jpg)'}
                                         value={inputUrl}
                                         onChange={(e) => { this.setState({ inputUrl: e.target.value }) }}
                                         onKeyDown={(e) => {

@@ -25,16 +25,15 @@ import "grapesjs-lory-slider";
 import { useStore } from "react-redux";
 import { store } from "../../../store";
 import viewCode from "./viewCode/viewCode";
+import mediaTraits from "../blocks/media/mediaTraits";
+import { prebuiltBlocks } from "../blocks/prebuilt layout";
 
 
 const _grapesEditor = {
 	editor: null,
 	styleManager,
-	exportConfig: {
-		addExportBtn: false,
-		btnLabel: "Export ZIP",
-		filename: (editor) => "my-file.zip",
-		root: {
+	exportConfigData: () => {
+		let resp = {
 			css: {
 				'style.css': ed => {
 					let resp = ed.getCss()
@@ -55,26 +54,42 @@ const _grapesEditor = {
 					return resp
 				},
 			},
-			'index.html': ed => {
-				let storeState = store.getState()
-				const page = storeState.pageReducer.pages[storeState.pageReducer.currentPage]
+		}
+		let storeState = store.getState()
+		_.each(storeState.pageReducer.pages, (page, pageNo) => {
+			let title = (page.seo && page.seo.name) || page.name
+			let desp = (page.seo && page.seo.desp) || page.desp
+			let favicon = page.favicon == '' || !page.favicon ? 'https://siteseed-dev.s3.amazonaws.com/gXdwAR4hx/ssFavicon.svg' : page.favicon
+			let pageFunc = ed => {
 				let title = (page.seo && page.seo.name) || page.name
 				let desp = (page.seo && page.seo.desp) || page.desp
 				let favicon = page.favicon == '' || !page.favicon ? 'https://siteseed-dev.s3.amazonaws.com/gXdwAR4hx/ssFavicon.svg' : page.favicon
+				// const page = storeState.pageReducer.pages[storeState.pageReducer.currentPage]
 				return `<!doctype html>
-			  <html lang="en">
-				<head>
-				<title>${title}</title>
-				<link rel="icon" href="${favicon}" />
-				<meta name=”description” content=”${desp == '' || !desp ? '' : desp}”>
-				  <meta charset="utf-8">
-				  ${_grapesEditor.getTags()}
-				  <link rel="stylesheet" href="./css/style.css">
-				</head>
-				<body>${ed.getHtml()}</body>
-			  <html>`
-			},
-		},
+				  <html lang="en">
+					<head>
+					<title>${title}</title>
+					<link rel="icon" href="${favicon}" />
+					<meta name=”description” content=”${desp == '' || !desp ? '' : desp}”>
+					  <meta charset="utf-8">
+					  ${_grapesEditor.getTags()}
+					  <link rel="stylesheet" href="./css/style.css">
+					</head>
+					<body>${page.components}</body>
+				  <html>`
+			}
+			if (page.homePage) {
+				title = 'index'
+			}
+			resp[_.camelCase(title) + '.html'] = pageFunc
+		})
+		return resp
+	},
+	exportConfig: {
+		addExportBtn: false,
+		btnLabel: "Export ZIP",
+		filename: (editor) => "my-site.zip",
+		root: () => _grapesEditor.exportConfigData()
 	},
 	styleSectors: [
 		{
@@ -486,7 +501,9 @@ const _grapesEditor = {
 			"grapesjs-lory-slider",
 			formBlocks,
 			extras,
+			prebuiltBlocks,
 			formTraits,
+			mediaTraits,
 			'gjs-component-countdown',
 			'gjs-navbar'
 		],

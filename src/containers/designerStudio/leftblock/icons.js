@@ -1,5 +1,7 @@
 import { ReactComponent as addPage } from "../../../assets/left-pane/pageManager/addPage.svg";
 import { ReactComponent as page } from "../../../assets/left-pane/pageManager/page.svg";
+import { ReactComponent as HomePage } from "../../../assets/left-pane/pageManager/homePage.svg";
+import { ReactComponent as DeletePage } from "../../../assets/left-pane/pageManager/deletePage.svg";
 import { ReactComponent as search } from "../../../assets/left-pane/pageManager/search.svg";
 import { ReactComponent as setting } from "../../../assets/left-pane/pageManager/Setting.svg";
 import { ReactComponent as show } from "../../../assets/left-pane/pageManager/Show.svg";
@@ -12,6 +14,8 @@ import favicon from "../../../assets/left-pane/pageManager/favicon.svg";
 export {
 	addPage,
 	page,
+	HomePage,
+	DeletePage,
 	search,
 	setting,
 	Hide,
