@@ -36,7 +36,8 @@ class PageSettingModal extends Component {
 			previewDescription,
 			favicon
 		} = this.state
-		if (this.props.pageSetting.name) {
+		console.log('bbb.p', editPageIndex)
+		if (!_.isUndefined(editPageIndex)) {
 			// this.props.sendEditPageReq(this.state.title);
 			let pageObj = pageReducer.pages[editPageIndex]
 			pageObj = {
@@ -133,7 +134,17 @@ class PageSettingModal extends Component {
 		})
 	}
 	render() {
-		const { theme } = this.props
+		const { theme, pageReducer } = this.props
+		const isInvalid = (e) => {
+			let pageExists = _.find(pageReducer.pages, (item) => {
+				return _.startCase(e.target.value) == item.name
+			})
+			if (pageExists) {
+				e.target.setCustomValidity('Please enter a unique Page Name')
+			} else {
+				e.target.setCustomValidity('')
+			}
+		}
 		return (
 			<Modal {...this.props} className={`Modal modal-theme-${theme}`} onAfterOpen={this.setFormFields} contentLabel='Example Modal'>
 				<header>
@@ -144,6 +155,8 @@ class PageSettingModal extends Component {
 					<form onSubmit={this.handleFormSubmit} autoComplete='off'>
 						<label htmlFor='page-title'>Page Title</label>
 						<input
+							required
+							onInput={isInvalid}
 							type='text'
 							name='title'
 							value={this.state.title}

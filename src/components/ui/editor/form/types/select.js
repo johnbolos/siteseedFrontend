@@ -34,7 +34,7 @@ class Select extends React.Component {
         const { meta: { onChange }, globalOnChange } = this.props
         onChange && onChange(item.value ? item.value : item, item, this.state.value)
         this.setState({ value: item.value ? item.value : item, optionKey: key, open: false }, () => {
-            globalOnChange(this.state.value, item)
+            globalOnChange && globalOnChange(this.state.value, item)
         })
     }
     _onBlur = (e) => { this.setState({ open: false }) }
@@ -42,7 +42,7 @@ class Select extends React.Component {
         const { meta: { options } } = this.props
         const match = _.find(options, (item) => {
 
-            return item == value || item.value == value
+            return item.value == value
         })
         if (match) {
             if (typeof (match.label) == 'function') {

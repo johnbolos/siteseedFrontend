@@ -1,4 +1,4 @@
-import { image, link, youtube } from "./icons";
+import { image, link, video } from "./icons";
 
 export const media = (editor) => {
 	editor.BlockManager.add("image", {
@@ -11,9 +11,9 @@ export const media = (editor) => {
 			}),
 		content: `<img></img>`,
 	});
-	editor.BlockManager.add("youtube", {
-		label: `${youtube}
-        <div>Youtube</div>`,
+	editor.BlockManager.add("video", {
+		label: `${video}
+        <div>Video</div>`,
 		category: "Media",
 		content: `<iframe width="200px" height="200px"
 		src="https://www.youtube.com/embed/tgbNymZ7vqY">

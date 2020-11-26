@@ -12,6 +12,11 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
   > .styles-container {
     flex: 1;
     overflow: auto;
@@ -47,7 +52,7 @@
     font-family: "Source Sans Pro";
     font-style: normal;
     position: relative;
-    font-weight: 400;
+    font-weight: bold;
     font-size: 13px;
     line-height: 16px;
     letter-spacing: 0.04em;
@@ -317,7 +322,7 @@
       align-items: center;
       font-family: "Source Sans Pro";
       font-style: normal;
-      font-weight: 400;
+      font-weight: 600;
       font-size: 13px;
       line-height: 16px;
       // color: #ffffff;
@@ -376,6 +381,16 @@
       .select-container {
         .input {
           padding: 2px 7px 2px 7px !important;
+        }
+      }
+      .blend-mode-field {
+        .list-container {
+          max-height: 250px;
+        }
+      }
+      .position-field {
+        .list-container {
+          max-height: 180px;
         }
       }
       .choose-image-btn {
@@ -1083,6 +1098,8 @@
       }
       .theme-light & {
         background-color: map-get($light, "background1");
+        border: 1px solid #e6e6e6;
+        border-color: map-get($light, "background3");
       }
       border-radius: 5px;
       position: absolute;
@@ -1199,4 +1216,23 @@
       cursor: pointer;
     }
   }
+}
+
+
+.list-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.list-container::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.list-container::-webkit-scrollbar-thumb {
+  .theme-light & {
+    background-color: map-get($light, "scrollBarThumb");
+  }
+  .theme-dark & {
+    background-color: map-get($dark, "scrollBarThumb");
+  }
+  border-radius: 150px;
 }

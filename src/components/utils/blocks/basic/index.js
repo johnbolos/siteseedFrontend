@@ -73,13 +73,13 @@ export const basicBlocks = (editor) => {
 			class: "upload-elem",
 		},
 		content: {
-			content: `<div id="ss-upload-container">
+			components: `<div id="ss-upload-container" data-gjs-selectable="false" data-gjs-hoverable="false">
 			<div class="ss-upload-btn btn" onclick="(function(e) {
 				let input = e.getElementsByTagName('input')[0];
 				input.click();
 				})(this)"
 			 >
-				<i class="fa fa-upload"></i> Upload
+				<i class="fa fa-upload ss-upload-icon"></i> <div>Upload</div>
 				<input type="file" id="ss-fileupload" name="filename" onchange="showUploaded(this)">
 			</div>
 			<div class="uploades-container">
@@ -90,7 +90,7 @@ export const basicBlocks = (editor) => {
 				let tag = \`<div class="ss-uploaded-file" style="display: flex; flex-direction: row; align-items: center; margin-left: 10px">
 					\$\{e.files[0].name\}
 				</div>\`
-			let elem = e.parentNode.parentNode.getElementsByClassName('uploaded-file');
+			let elem = e.parentNode.parentNode.getElementsByClassName('uploades-container');
 			elem[0].innerHTML = tag
 			}
 			</script>
@@ -98,6 +98,11 @@ export const basicBlocks = (editor) => {
 				.ss-upload-btn {
 					background-color: #006cff;
 					color: #ffffff;
+					display: flex;
+					flex-direction: row;
+				}
+				.ss-upload-icon {
+					padding: 5px;
 				}
 				#ss-upload-container {
 					display: flex;
@@ -109,7 +114,7 @@ export const basicBlocks = (editor) => {
 				}
 			</style>
 		</div>`,
-			type: 'upload-btn'
+		type: 'upload-btn'
 		},
 	});
 	editor.BlockManager.add("search", {
@@ -145,7 +150,7 @@ export const basicBlocks = (editor) => {
 		attributes: {
 			class: "map-elem",
 		},
-		content: `<div class="mapouter"><div class="gmap_canvas"><iframe width="600" height="100%" id="gmap_canvas" src="https://maps.google.com/maps?q=Ghrix%20&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe></div>
+		content: `<div class="mapouter"><div class="gmap_canvas"><iframe width="600" height="100%" id="gmap_canvas" src="https://maps.google.com/maps?q%20&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe></div>
 		
 		<style>.mapouter{position:relative;text-align:right;height:500px;width:100%;}.gmap_canvas {overflow:hidden;background:none!important;height:500px;width:100%;}</style></div>`,
 	});

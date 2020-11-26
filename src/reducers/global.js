@@ -28,9 +28,30 @@ const initialState = {
             'Cardo',
             'Changa One',
             'Raleway',
-            'Playfair Display'
+            'Playfair Display',
+            'Open Sans'
         ]
     },
+    recentColors: [
+        '#C70039',
+        '#FF5733',
+        '#FF8D1A',
+        '#FFC300',
+        '#EDDD53',
+        '#ADD45C',
+        '#57C785',
+        '#00BAAD',
+        '#2A7B9B',
+        '#000000',
+        '#000000',
+        '#000000',
+        '#000000',
+        '#000000',
+        '#000000',
+        '#000000',
+        '#000000',
+        '#000000',
+    ],
     token: null,
     buttonLoading: false,
     loading: false,
@@ -43,6 +64,15 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 currentUser: action.user
+            }
+            
+        case 'APPEND_COLOR':
+            let recentColors = state.recentColors
+            recentColors.pop()
+            recentColors.unshift(action.value)
+            return {
+                ...state,
+                recentColors: recentColors
             }
 
         case 'SET_S3_DIR':

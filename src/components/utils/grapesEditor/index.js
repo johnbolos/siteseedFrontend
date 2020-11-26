@@ -26,7 +26,9 @@ import { useStore } from "react-redux";
 import { store } from "../../../store";
 import viewCode from "./viewCode/viewCode";
 import mediaTraits from "../blocks/media/mediaTraits";
-import { prebuiltBlocks } from "../blocks/prebuilt layout";
+import { prebuiltBlocks } from "../blocks/prebuilt";
+import { appUrl } from "../../../settings";
+import { countdown } from "../blocks/extras/icons";
 
 
 const _grapesEditor = {
@@ -39,11 +41,15 @@ const _grapesEditor = {
 					let resp = ed.getCss()
 					let frame = document.getElementsByClassName("gjs-frame")
 					let doc = frame[0].contentWindow.document
+					let styleGrapejs = ed.getCss()
 					let style = doc.getElementById("ss-style")
 					let customStyles = doc.getElementById("ss-customStyles")
 					let styleAssets = doc.getElementById("ss-style-assets")
 					if (styleAssets) {
 						resp = styleAssets.innerHTML + '\n\n' + resp
+					}
+					if (styleGrapejs.trim() != '') {
+						resp = '\n\n' + styleGrapejs
 					}
 					if (style) {
 						resp += '\n\n' + style.innerHTML
@@ -477,7 +483,7 @@ const _grapesEditor = {
 	config: {
 		container: "#grapesEditor",
 		height: "100%",
-		storageManager: { type: "none" },
+		// storageManager: { type: "none" },
 		// richTextEditor: {
 		// 	stylePrefix: 'rte-',
 		// 	// If true, moves the toolbar below the element when the top canvas
@@ -505,16 +511,19 @@ const _grapesEditor = {
 			formTraits,
 			mediaTraits,
 			'gjs-component-countdown',
-			'gjs-navbar'
+			// 'gjs-navbar'
 		],
 		pluginsOpts: {
 			'gjs-component-countdown': {
-				labelCountdownCategory: 'Extras',
-				labelCountdown: 'Countdown'
+				labelCountdownCategory: 'Prebuilt',
+				labelCountdown: `
+				${countdown}
+				Countdown
+				`
 			},
-			'gjs-navbar': {
-				labelNavbarCategory: 'Extras'
-			},
+			// 'gjs-navbar': {
+			// 	labelNavbarCategory: 'Extras'
+			// },
 			"grapesjs-lory-slider": {
 				sliderBlock: {
 					label: `${slider}
@@ -551,6 +560,7 @@ const _grapesEditor = {
 				"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
 				"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
 				"https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css",
+				`${appUrl}/assets/Fonts/default.css`,
 			],
 			scripts: [
 				"https://code.jquery.com/jquery-3.3.1.slim.min.js",
@@ -585,6 +595,13 @@ const _grapesEditor = {
 			$("#style-manager").addClass("hide-top");
 			$("#zoom").addClass("hide-top");
 			$("#question").addClass("hide-top");
+			// Turn off editor on preview
+			editor.DomComponents.getWrapper().onAll(comp => 
+				comp.is('text') && comp.set({ editable: false })
+			);
+			// set zIndex of canvas to 3
+			let canvas = document.querySelector(".gjs-cv-canvas")
+			canvas.style.zIndex = 3
 		});
 		editor.on("stop:preview", () => {
 			$("#grapesEditor").removeClass("left-pane-preview");
@@ -592,6 +609,13 @@ const _grapesEditor = {
 			$("#style-manager").removeClass("hide-top");
 			$("#zoom").removeClass("hide-top");
 			$("#question").removeClass("hide-top");
+			// Turn on editor after preview
+			editor.DomComponents.getWrapper().onAll(comp => 
+				comp.is('text') && comp.set({ editable: true })
+			);
+			// set zIndex of canvas to 1
+			let canvas = document.querySelector(".gjs-cv-canvas")
+			canvas.style.zIndex = 1
 		});
 		editor.Commands.add("set-device-mobile", (e) => {
 			e.setDevice("Mobile portrait");
@@ -604,8 +628,6 @@ const _grapesEditor = {
 			run: (editor) => editor.setDevice("tablet"),
 		});
 		editor.on("modal:open", () => {
-
-
 			let component = editor.getComponents()//.toHTML();
 			//component = JSON.parse(JSON.stringify(component))
 			let html = '';
@@ -738,23 +760,25 @@ const _grapesEditor = {
 				components && (components.style.display = "none");
 			},
 		});   */
-		let domComps = editor.DomComponents;
-		let dType = domComps.getType("video");
-		let dModel = dType.model;
-		const yt = "yt";
-		domComps.addType("video", {
-			model: dModel.extend({
-				getProviderTrait() {
-					return {
-						type: "select",
-						label: "Provider",
-						name: "provider",
-						changeProp: 1,
-						options: [{ value: yt, name: "Youtube" }],
-					};
-				},
-			}),
-		});
+		// =======================================Restricting video block to youtube===========================================
+		// let domComps = editor.DomComponents;
+		// let dType = domComps.getType("video");
+		// let dModel = dType.model;
+		// const yt = "yt";
+		// domComps.addType("video", {
+		// 	model: dModel.extend({
+		// 		getProviderTrait() {
+		// 			return {
+		// 				type: "select",
+		// 				label: "Provider",
+		// 				name: "provider",
+		// 				changeProp: 1,
+		// 				options: [{ value: yt, name: "Youtube" }],
+		// 			};
+		// 		},
+		// 	}),
+		// });
+		// =====================================================================================================================
 
 		//init style manager
 		styleManager.init(config.styles, dispatch, config.styleFontStr, config.customCss);

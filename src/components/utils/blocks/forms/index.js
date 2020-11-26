@@ -124,7 +124,7 @@ export const formBlocks = (editor) => {
               <div>Dropdown</div>`,
     category: "Forms",
     content: {
-      content: `<div class="dropdown">
+      components: `<div class="dropdown">
       <button class="dropdownbtn" onclick="${`
       let content = this.getElementsByClassName('content-effect-toggle');
       if (content.length == 0) {

@@ -47,7 +47,7 @@ const layerIconMap = [
         icon: `${layerTitleIcons.H6}`
     },
     {
-        type: 'image',
+        type: 'img',
         icon: `${layerTitleIcons.Image}`
     },
     {
@@ -82,6 +82,10 @@ const layerIconMap = [
         type: 'map',
         icon: `${layerTitleIcons.Map}`
     },
+    {
+        id: 'ss-upload-container',
+        icon: `${layerTitleIcons.Column}`
+    }
 ]
 
 const findByMap = (searchKey, value) => {

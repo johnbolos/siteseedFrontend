@@ -402,6 +402,197 @@
           // background-blend-mode: overlay;
           // background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==);
         }
+
+        div.chrome-picker > div:nth-child(1) {
+          height: 200px;
+          padding-bottom: unset !important;
+        }
+        div.chrome-picker > div:nth-child(2) {
+          padding: 16px 0px !important;
+        }
+        .chrome-picker > div:nth-child(2) > div:nth-child(2) {
+          opacity: 0;
+          visibility: hidden;
+        }
+        div.chrome-picker > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > div > div:nth-child(1) {
+          background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==);
+        }
+        div.chrome-picker
+          > div:nth-child(2)
+          > div:nth-child(1)
+          > div:nth-child(2)
+          > div:nth-child(1)
+          > div
+          > div
+          > div
+          > div {
+          cursor: pointer;
+          width: 6px !important;
+          border-radius: 2px !important;
+          border: 1px solid !important;
+          background-color: transparent !important;
+        }
+        div.chrome-picker
+          > div:nth-child(2)
+          > div:nth-child(1)
+          > div:nth-child(2)
+          > div:nth-child(2)
+          > div
+          > div:nth-child(3)
+          > div
+          > div {
+          cursor: pointer;
+          width: 6px !important;
+          border-radius: 2px !important;
+          border: 1px solid !important;
+          background-color: transparent !important;
+        }
+        .pickerTool-inputs {
+          display: flex;
+          flex-direction: row;
+          height: 30px;
+          position: absolute;
+          left: 0;
+          top: 295px;
+          z-index: 6;
+          align-items: center;
+          width: 100%;
+
+          .select-container {
+            width: 33%;
+            .input {
+              padding: 7px 10px;
+            }
+            div {
+              svg.down-arrow {
+                height: 4.38px !important;
+              }
+              div {
+                margin-right: 6px;
+              }
+            }
+          }
+          .hex-input-container {
+            display: flex;
+            flex: 1;
+            height: 30px;
+            margin-left: 10px;
+            border: 1px solid #444444;
+            border-radius: 5px;
+            // background-color: #272727;
+            .theme-light & {
+              color: map-get($light, "color");
+              background-color: map-get($light, "background2");
+              border-color: map-get($light, "background3");
+            }
+            .theme-dark & {
+              color: map-get($dark, "color");
+              background-color: map-get($dark, "background2");
+              border-color: map-get($dark, "background3");
+            }
+            input {
+              background: transparent;
+              outline: none;
+              border: none;
+              .theme-light & {
+                color: map-get($light, "color");
+              }
+              .theme-dark & {
+                color: map-get($dark, "color");
+              }
+            }
+
+            input[type="text"] {
+              width: 60%;
+              padding: 7px 10px;
+            }
+
+            input[type="number"] {
+              width: 36%;
+              .theme-light & {
+                border-color: map-get($light, "background3") !important;
+              }
+              .theme-dark & {
+                border-color: map-get($dark, "background3") !important;
+              }
+            }
+          }
+          .rgba-input-container {
+            display: flex;
+            margin-left: 10px;
+            height: 30px;
+            border: 1px solid red;
+            .theme-light & {
+              background-color: map-get($light, "background2");
+              border-color: map-get($light, "background3");
+            }
+            .theme-dark & {
+              background-color: map-get($dark, "background2");
+              border-color: map-get($dark, "background3");
+            }
+            border-radius: 5px;
+            overflow: hidden;
+            input {
+              width: 25%;
+              background: transparent;
+              outline: none;
+              border: none;
+              border-left: 1px solid red;
+              text-align: center;
+              padding: 7px 0px 7px 3px;
+              .theme-light & {
+                color: map-get($light, "color");
+                border-color: map-get($light, "background3");
+              }
+              .theme-dark & {
+                color: map-get($dark, "color");
+                border-color: map-get($dark, "background3");
+              }
+            }
+          }
+        }
+
+        .recent-colors-container {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          left: 0;
+          top: 332px;
+          z-index: 5;
+          width: 100%;
+          .divider {
+            height: 1px;
+            // background: #444444;
+            .theme-light & {
+              background-color: map-get($light, "background3");
+            }
+            .theme-dark & {
+              background-color: map-get($dark, "background3");
+            }
+            margin-bottom: 10px;
+          }
+          .colors-pallet {
+            display: flex;
+            margin: 8px 0px;
+            flex-direction: row;
+            flex-wrap: wrap;
+            .color-thumbs {
+              width: 16px;
+              height: 16px;
+              border: 1px solid #444444;
+              cursor: pointer;
+              .theme-light & {
+                border-color: map-get($light, "background3");
+              }
+              .theme-dark & {
+                border-color: map-get($dark, "background3");
+              }
+              border-radius: 2px;
+              margin: 3px;
+            }
+          }
+        }
+
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button,
         select {
@@ -546,14 +737,22 @@
 .chrome-picker {
   position: absolute;
   top: 100%;
-  left: 0;
+  left: -12px;
   z-index: 5;
   font-family: "Source Sans Pro" !important;
   font-style: normal;
   font-weight: normal;
   font-size: 13px;
   line-height: 16px;
+  padding: 12px;
   width: 100% !important;
+  height: 370px !important;
+  .theme-light & {
+    background: map-get($light, "background7") !important;
+  }
+  .theme-dark & {
+    background: map-get($dark, "background7") !important;
+  }
   // background-color: #1e1e1e !important;
   // input, span {
   //   color: #ffffff !important;

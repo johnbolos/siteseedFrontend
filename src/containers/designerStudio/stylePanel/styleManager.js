@@ -151,7 +151,7 @@ class StyleManager extends React.Component {
         if (pseudoClass == 'normal') {  // using !important css rule for normal pseudoclass
             item.value = item.value + ' !important'
         }
-
+        console.log(item, 'bbb.p globalonchange')
         if (!selected.node) {
             return
         }
@@ -560,6 +560,7 @@ class StyleManager extends React.Component {
             type: 'select', //required
             value: value && value.blendMode,
             // width: '48%',
+            fieldClass: 'field-class blend-mode-field',
             options: [  //optional type: Array of string, Array of objects
                 {
                     label: 'Normal',
@@ -697,6 +698,7 @@ class StyleManager extends React.Component {
                 type: 'select', //required
                 value: value ? extractPropertyValue(state.position) : 'center center',
                 width: '48%',
+                fieldClass: 'field-class position-field',
                 options: [  //optional type: Array of string, Array of objects
                     {
                         label: 'Left Top',
@@ -1544,7 +1546,12 @@ class StyleManager extends React.Component {
                             val = val.replace(unit, '')
                         }
                         let handleFocus = (event) => event.target.select()
-                        return <input onFocus={handleFocus} type={'number'} value={val || 0} onChange={(e) => { handleOnChange(`${e.target.value}${unit}`, key) }} />
+                        return <input onFocus={handleFocus} type={'number'} value={val || 0} onChange={(e) => {
+                            if ( e.target.value < -9999 || e.target.value > 9999) {
+                                return
+                            }
+                            handleOnChange(`${e.target.value}${unit}`, key)
+                        }} />
                     }
                     // extract margin and padding values
                     return <div className={'margin-padding'}>
@@ -1836,7 +1843,7 @@ class StyleManager extends React.Component {
 
                     return <>
                         <div className={'border-radius-integer'}>
-                            <Integer meta={{ defaultUnit: '%', value: value, disabled: !integratedBorderRadius }} globalOnChange={(val) => {
+                            <Integer meta={{ defaultUnit: unit, unit: ['px', '%'], value: value, disabled: !integratedBorderRadius }} globalOnChange={(val) => {
                                 globalOnChange(`${val}`)
                             }} />
                             <div className={integratedBorderRadius ? 'independent-border-radius-btn' : 'independent-border-radius-btn-selected'} onClick={() => { this.setState({ integratedBorderRadius: !integratedBorderRadius }) }}>
@@ -1894,11 +1901,13 @@ class StyleManager extends React.Component {
                                 key: 'border-radius',
                                 value: `${border.topL}`
                             })
+                            console.log(`${border.topL}`, 'bbb.p result')
                         } else {
                             this.globalOnChange({
                                 key: 'border-radius',
                                 value: `${border.topL} ${border.topR} ${border.bottomR} ${border.bottomL}`
                             })
+                            console.log(`${border.topL} ${border.topR} ${border.bottomR} ${border.bottomL}`, 'bbb.p result')
                         }
                     }
                     let inputFunc = (val, key) => {
@@ -1908,7 +1917,18 @@ class StyleManager extends React.Component {
                             val = val.replace(unit, '')
                         }
                         let handleFocus = (event) => event.target.select()
-                        return <input onFocus={handleFocus} style={key == 'topL' ? {} : { borderLeft: '1px solid #444444' }} className={'border-radius-input'} type={'number'} value={val || 0} onChange={(e) => { handleOnChange(`${e.target.value}${unit}`, key) }} />
+                        return <input
+                            onFocus={handleFocus}
+                            style={key == 'topL' ? {} : { borderLeft: '1px solid #444444' }}
+                            className={'border-radius-input'} type={'number'} value={val || 0}
+                            onChange={(e) => {
+                                let value = e.target.value
+                                if (value == '') {
+                                    value = 0
+                                }
+                                handleOnChange(`${value}${unit}`, key)
+                            }}
+                        />
                     }
                     return <div className={'border-radius-independent-container'}>
                         {inputFunc(border.topL, 'topL')}

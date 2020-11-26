@@ -153,14 +153,15 @@ export default function (editor, opt = {}) {
       var selectedElem = this.target.view.el
       var value = event.target.checked;
       //... eg. update attributes
-      let child = selectedComponent.find('button')
-      let btnElem = component.find('button .dropdown-content')
-      console.log(child, btnElem, this, component, 'aaaaaaaaaaaaaaaaaaaaa...p')
-      let dropdown = selectedElem.querySelector('.dropdown-content')
+      let dropdown = (selectedComponent.find('.dropdown-content'))[0]
+      console.log(dropdown, 'aaaaaaaaaaaaaaaaaaaaa...p')
+      // let dropdown = selectedElem.querySelector('.dropdown-content')
       if (value) {
-        dropdown.className = 'dropdown-content content-effect-hover'
+        dropdown.setClass('dropdown-content content-effect-hover');
+        // dropdown.className = 'dropdown-content content-effect-hover'
       } else {
-        dropdown.className = 'dropdown-content content-effect-toggle'
+        dropdown.setClass('dropdown-content content-effect-toggle')
+        // dropdown.className = 'dropdown-content content-effect-toggle'
       }
       _grapesEditor.editor.runCommand("storage:start")
 
@@ -170,7 +171,14 @@ export default function (editor, opt = {}) {
     },
     getInputEl() {
       // input.value = (this.target.attributes && this.target.attributes.attributes.name) || ''
-      return `<label class="gjs-field gjs-field-checkbox" data-input=""><input type="checkbox">
+      var selectedElem = this.target.view.el
+      let dropdown = selectedElem.querySelector('.dropdown-content')
+      console.log(dropdown.classList, 'aaaaaaa...p')
+      let value = ''
+      if (dropdown.classList.value.includes('content-effect-hover')) {
+        value = 'checked'
+      }
+      return `<label class="gjs-field gjs-field-checkbox" data-input=""><input type="checkbox" ${value}>
       <i class="gjs-chk-icon"></i>
     </label>`;
     },

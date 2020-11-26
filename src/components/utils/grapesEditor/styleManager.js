@@ -203,7 +203,6 @@ const styleManager = {
 		customStyleIndices.forEach((item, key) => {
 			let subStr = str.substring(item.start, item.end + 1);
 			response.customCode += "\n" + subStr;
-			console.log(subStr, 'aaa.extractBlock')
 			str = str.replace(subStr, "");
 			if (customStyleIndices[key + 1]) {
 				customStyleIndices[key + 1].start -= subStr.length;
@@ -356,14 +355,13 @@ const styleManager = {
 				});
 				resp = resp.join(", ");
 			} else if (key == "box-shadow") {
-				resp = resp.split(/,(?![^(]*\))/);
-				_.each(resp, (element, index) => {
-					element = element.trim().split(/ (?![^(]*\))/);
-					let color = element.pop();
-					element.unshift(color);
-					resp[index] = element.join(" ");
-				});
-				resp = resp.join(", ");
+				// no need to alter as the logic is made in compatible for this already (for getComputerStyles)
+			}else if (key == 'border-radius') {
+				console.log(resp, 'bbb.p styles')
+				if (resp.split(' ').length == 3 ) {
+					let initialValueArr = resp.split(' ')
+					resp = `${initialValueArr[0]} ${initialValueArr[1]} ${initialValueArr[1]} ${initialValueArr[2]}`
+				}
 			}
 			return resp
 		}

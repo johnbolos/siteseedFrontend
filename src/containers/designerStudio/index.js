@@ -253,6 +253,11 @@ class DesignerStudio extends React.Component {
 				// }
 				// reset pages
 				this.props.dispatch({ type: 'RESET_PAGES' })
+				window.localStorage.removeItem("gjs-styles")
+				window.localStorage.removeItem("gjs-css")
+				window.localStorage.removeItem("gjs-components")
+				window.localStorage.removeItem("gjs-html")
+				window.localStorage.removeItem("gjs-assets")
 				console.log(this.props.pageReducer.pages[0], 'aaa.p restting')
 				this.props.saveCurrentChanges(0, {
 					// ...this.props.pageReducer.pages[0],
@@ -365,11 +370,12 @@ class DesignerStudio extends React.Component {
 			let doc = frame[0].contentWindow.document
 			let style = doc.getElementById("ss-style")
 			style = (style && style.innerHTML) || ''
-			style = style + styleGrapejs
+			// style = style + styleGrapejs
+			style = style
 			// let customStyles = doc.getElementById("ss-customStyles")
 			// let styleAssets = doc.getElementById("ss-style-assets")
 			// ======================================
-			console.log(currentPage, 'aaa.p storage', pages)
+			console.log(currentPage, 'aaa.p storage', editor.getCss(), pages)
 			this.props.saveCurrentChanges(currentPage, {
 				...pages[currentPage],
 				name: pages[currentPage].name,
@@ -410,6 +416,10 @@ class DesignerStudio extends React.Component {
 				// ================================================================
 			}
 		});
+		editor.on('block:drag:stop', model => {
+			console.log('dropped ', model, 'aaa.p')
+
+		})
 		editor.Commands.add("ss-style-redo", async editor => {
 			let times = 1
 			if (this.props.future && this.props.future.length > 0 && this.props.future[0].status == 'style') {

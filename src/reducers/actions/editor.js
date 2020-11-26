@@ -18,3 +18,7 @@ export const setbackgroundImage = (value) => {
 export const setGoogleFonts = (value) => {
   return { type: 'SET_GOOGLE_FONTS', value }
 }
+
+export const appendColor = (value) => {
+  return { type: 'APPEND_COLOR', value }
+}

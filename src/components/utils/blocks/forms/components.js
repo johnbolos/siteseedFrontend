@@ -470,10 +470,10 @@ export default function (editor, opt = {}) {
 							label: 'Title',
 							name: 'title'
 						},
-						// {
-						// 	type: 'interaction-switch',
-						// 	label: 'open menu on hover',
-						// },
+						{
+							type: 'interaction-switch',
+							label: 'open menu on hover',
+						},
 					],
 				},
 			},

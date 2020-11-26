@@ -35,16 +35,16 @@ class LeftBlock extends Component {
 			[name]: this.state[name] === "none" ? "block" : "none",
 		}, () => {
 			if (['blocks', 'component'].includes(name)) {
-				let first6Categ = 'block'
+				let first5Categ = 'block'
 				if (name == 'component') {
-					first6Categ = 'none'
+					first5Categ = 'none'
 				}
 				let getAllCategories = document.querySelectorAll('.gjs-block-category')
 				_.each(getAllCategories, (category, index) => {
-					if (index < 6) {
-						category.style.display = first6Categ
+					if (index < 5) {
+						category.style.display = first5Categ
 					} else {
-						category.style.display = first6Categ == 'block' ? 'none' : 'block'
+						category.style.display = first5Categ == 'block' ? 'none' : 'block'
 					}
 				})
 			}
@@ -109,12 +109,12 @@ class LeftBlock extends Component {
 					<div className={`tooltip-left ${layers != 'none' ? 'tooltip-left-selected' : ''}`} onClick={() => { this.drawerToggleClickHandler('layers') }}>
 
 						<Layers />
-						<span className='tooltiptext-left'>Add Layers</span>
+						<span className='tooltiptext-left'>Layers</span>
 					</div>
 					<div className={`tooltip-left ${pages != 'none' ? 'tooltip-left-selected' : ''}`} name='pages' onClick={(e) => { this.drawerToggleClickHandler('pages') }}>
 
 						<PagesIcon />
-						<span className='tooltiptext-left'>Page Manager</span>
+						<span className='tooltiptext-left'>Pages</span>
 					</div>
 				</div>
 				<Tip
@@ -130,7 +130,7 @@ class LeftBlock extends Component {
 					<div>
 						{blocks == 'block' && <h4 className='add-element'>Add Elements</h4>}
 						{component == 'block' && (<>
-							<h4 className='add-element'>Add Layout</h4>
+							<h4 className='components-title'>Add Components</h4>
 							{/* <button type="button" className="save-section" onClick={this.saveSection}>Save Section</button> */}
 						</>)}
 					</div>
@@ -187,7 +187,7 @@ class LeftBlock extends Component {
 					}}
 				/>
 				<div id='page-manager' style={{ display: this.state.pages }}>
-					<h4 className='pages-title'>Page Manager</h4>
+					<h4 className='pages-title'>Pages</h4>
 					<PageManager />
 				</div>
 			</>

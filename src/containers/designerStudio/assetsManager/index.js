@@ -25,7 +25,9 @@ class AssetsManager extends React.Component {
         selected: '',
         inputUrl: '',
         lastFontKey: 20,
-        styleTag: null
+        styleTag: null,
+        fontSearch: '',
+        invalidUrl: false
     }
     componentDidMount() {
         const { assetsManager } = this.props
@@ -81,11 +83,12 @@ class AssetsManager extends React.Component {
     handleAddImage = (value) => {
         const { assets, dispatch } = this.props
         if (value == '' || !isImageUrl(value)) {
+            this.setState({ invalidUrl: true })
             return
         }
         assets.image.push(value)
         dispatch(updateAssets(assets))
-        this.setState({ assets, inputUrl: '' }, () => {
+        this.setState({ assets, inputUrl: '', invalidUrl: false }, () => {
             let allImages = document.querySelector('.all-images')
             allImages.scrollTop = allImages.scrollHeight
         })
@@ -225,11 +228,15 @@ class AssetsManager extends React.Component {
     }
     mapLimitedFonts = (index) => {
         const { googleFonts, assets } = this.props
-        const { styleTag } = this.state
+        const { styleTag, fontSearch: searchTerm } = this.state
         let resp = []
         styleTag.innerHTML = ''
         let familyArr = []
-        _.each(googleFonts, (item, key) => {
+        let filteredFonts = googleFonts
+        if (searchTerm.trim() != '') {
+            filteredFonts = filteredFonts.filter((obj) => { return _.lowerCase(obj.family).includes(_.lowerCase(searchTerm)) })
+        }
+        _.each(filteredFonts, (item, key) => {
             if (key >= index) {
                 return false
             }
@@ -258,7 +265,7 @@ class AssetsManager extends React.Component {
         }
     }
     render() {
-        const { assets, loading, selected, inputUrl, lastFontKey, styleTag } = this.state
+        const { assets, loading, selected, inputUrl, lastFontKey, styleTag, fontSearch, invalidUrl } = this.state
         const { assetsManager, googleFonts } = this.props
         return (
             <div className={'assets-manager'} onClick={(e) => {
@@ -309,7 +316,12 @@ class AssetsManager extends React.Component {
                                         className={'add-image-input'}
                                         placeholder={'Enter Image Web URL (http://www.image.com/path/to/the/image.jpg)'}
                                         value={inputUrl}
-                                        onChange={(e) => { this.setState({ inputUrl: e.target.value }) }}
+                                        onChange={(e) => {
+                                            if (e.target.value == '') {
+                                                this.setState({ invalidUrl: false })
+                                            }
+                                            this.setState({ inputUrl: e.target.value })
+                                        }}
                                         onKeyDown={(e) => {
                                             if (e.key != 'Enter' || e.target.value == '') {
                                                 return
@@ -320,6 +332,7 @@ class AssetsManager extends React.Component {
                                     <label className={'add-image-btn'} onClick={() => { this.handleAddImage(this.state.inputUrl) }}>
                                         Add Image
                                     </label>
+                                    { invalidUrl && <div className={'warning-label'}>Please Enter a valid Image URL</div>}
                                 </div>
                                 <div className={'all-images'}>
                                     {
@@ -348,7 +361,15 @@ class AssetsManager extends React.Component {
                         }
                         <style id={'style-assets-manager'}></style>
                         {
-                            assetsManager == 'font' && styleTag && this.state.fontsArr
+                            assetsManager == 'font' && (<div className="fonts-search-container">
+                                <div className="searchbox">
+                                    <Icons.Search style={{ height: '16px', width: '16px' }} />
+                                    <input type="text" value={fontSearch} placeholder={"Search"} onChange={(e) => { this.setState({ fontSearch: e.target.value }, () => { this.mapLimitedFonts(lastFontKey) }) }} />
+                                </div>
+                            </div>)
+                        }
+                        {
+                            assetsManager == 'font' && styleTag && <div className={"font-tiles-container"}>{this.state.fontsArr}</div>
                         }
                     </div>
                 </div>

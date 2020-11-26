@@ -61,6 +61,7 @@ import { ReactComponent as OpenLink } from "./right-pane/openLink.svg";
 import { ReactComponent as ModalCross } from "./modal/cross.svg";
 import { ReactComponent as Loading } from "./modal/loading.svg";
 import { ReactComponent as CircularTick } from "./modal/tick.svg";
+import { ReactComponent as Search } from "./modal/search.svg";
 
 // ==============================================================================================
 import Container from "./layersTitle/container.js";
@@ -82,6 +83,7 @@ import Cell from "./layersTitle/cell.js";
 import Input from "./layersTitle/input.js";
 import Map from "./layersTitle/map.js";
 import Section from "./layersTitle/section.js";
+import Upload from "./layersTitle/upload.js";
 
 // ==============================================================================================
 
@@ -132,6 +134,7 @@ export default {
 	ModalCross,
 	Loading,
 	CircularTick,
+	Search,
 }
 
 export const layerTitleIcons = {
@@ -154,4 +157,5 @@ export const layerTitleIcons = {
 	Input,
 	Map,
 	Section,
+	Upload,
 }
