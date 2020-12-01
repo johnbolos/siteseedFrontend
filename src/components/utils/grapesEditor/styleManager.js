@@ -53,53 +53,54 @@ const styleManager = {
 			"DOMNodeInserted",
 			function (evt) {
 				if (evt.target.className == "gjs-css-rules") {
-					// const gjsCssRules = frame[0].contentWindow.document.querySelector(
-					// 	".gjs-css-rules"
-					// );
-					const gjsCssRules = evt.target;
-					//add the style tag in dom
-					let styleId = "ss-style";
-					let style = document.createElement("style");
-					style.id = styleId;
-					style.innerHTML = styleObj.data.filteredStr;
-					// ===========================================================
-					// gjsCssRules.appendChild(style);
-					// ===========================================================
-					body[0].appendChild(style);
-					// body.insertBefore(style, body.firstChild);
-
-					style = document.createElement("style");
-					style.id = "ss-customStyles";
-					// style.innerHTML = styleObj.data.stylesObj[0].styles;	//adds custom stylesss
-
-					style.innerHTML = customCss;
-					// ===========================================================
-					// gjsCssRules.appendChild(style);
-					// ===========================================================
-					body[0].appendChild(style);
-
-					// -------------------------------------------Style-font-assets------------------------------------------------
-					if (styleFontStr) {
-						style = document.createElement("style");
-						style.id = "ss-style-assets";
-						style.innerHTML = styleFontStr;
+						// const gjsCssRules = frame[0].contentWindow.document.querySelector(
+						// 	".gjs-css-rules"
+						// );
+						const gjsCssRules = evt.target;
+						//add the style tag in dom
+						let styleId = "ss-style";
+						let style = document.createElement("style");
+						style.id = styleId;
+						style.innerHTML = styleObj.data.filteredStr;
+						// ===========================================================
+						// gjsCssRules.appendChild(style);
+						// ===========================================================
 						body[0].appendChild(style);
-					}
-					// ------------------------------------------------------------------------------------------------------------
+						console.log(body, grapesDocument.querySelector(".gjs-css-rules"), 'ccc.p')
+						// body.insertBefore(style, body.firstChild);
 
-					// if (
-					// 	styleObj.data &&
-					// 	styleObj.data.stylesObj[0] &&
-					// 	styleObj.data.stylesObj[0].custom
-					// ) {
-					// 	let style = document.createElement("style");
-					// 	style.id = "ss-customStyles";
-					// 	// style.innerHTML = styleObj.data.stylesObj[0].styles;	//adds custom stylesss
+						style = document.createElement("style");
+						style.id = "ss-customStyles";
+						// style.innerHTML = styleObj.data.stylesObj[0].styles;	//adds custom stylesss
 
-					// 	style.innerHTML = template1StyleMedia;
-					// 	gjsCssRules.appendChild(style);
-					// 	// body.insertBefore(style, body.firstChild);
-					// }
+						style.innerHTML = customCss;
+						// ===========================================================
+						// gjsCssRules.appendChild(style);
+						// ===========================================================
+						body[0].appendChild(style);
+
+						// -------------------------------------------Style-font-assets------------------------------------------------
+						if (styleFontStr) {
+							style = document.createElement("style");
+							style.id = "ss-style-assets";
+							style.innerHTML = styleFontStr;
+							body[0].appendChild(style);
+						}
+						// ------------------------------------------------------------------------------------------------------------
+
+						// if (
+						// 	styleObj.data &&
+						// 	styleObj.data.stylesObj[0] &&
+						// 	styleObj.data.stylesObj[0].custom
+						// ) {
+						// 	let style = document.createElement("style");
+						// 	style.id = "ss-customStyles";
+						// 	// style.innerHTML = styleObj.data.stylesObj[0].styles;	//adds custom stylesss
+
+						// 	style.innerHTML = template1StyleMedia;
+						// 	gjsCssRules.appendChild(style);
+						// 	// body.insertBefore(style, body.firstChild);
+						// }
 				}
 			},
 			false
@@ -334,6 +335,13 @@ const styleManager = {
 		let { styleInfo } = selected;
 		let resp = styleInfo.styles[key];
 		if (pseudoClass == 'normal') {
+			if (key == 'width') {
+				console.log(resp, 'ccc.p')
+			}
+			if (resp && resp.trim() != '' && ['width', 'height', 'maxWidth', 'maxHeight'].includes(key)) {
+				resp = resp.trim().replace(' !important', '')
+				return resp
+			}
 			resp = getComputedStyle(selected.node)[key];
 			resp = resp.replace(' !important', '')
 			if (key == 'font-family') {
@@ -346,19 +354,21 @@ const styleManager = {
 			}
 			resp = `${resp}`.trim()
 			if (key == "text-shadow") {
-				resp = resp.split(/,(?![^(]*\))/);
-				_.each(resp, (element, index) => {
-					element = element.trim().split(/ (?![^(]*\))/);
-					let color = element.pop();
-					element.unshift(color);
-					resp[index] = element.join(" ");
-				});
-				resp = resp.join(", ");
+				// no need to alter as the logic is made in compatible for this already (for getComputerStyles)
+
+				// resp = resp.split(/,(?![^(]*\))/);
+				// _.each(resp, (element, index) => {
+				// 	element = element.trim().split(/ (?![^(]*\))/);
+				// 	let color = element.pop();
+				// 	element.unshift(color);
+				// 	resp[index] = element.join(" ");
+				// });
+				// resp = resp.join(", ");
 			} else if (key == "box-shadow") {
 				// no need to alter as the logic is made in compatible for this already (for getComputerStyles)
-			}else if (key == 'border-radius') {
+			} else if (key == 'border-radius') {
 				console.log(resp, 'bbb.p styles')
-				if (resp.split(' ').length == 3 ) {
+				if (resp.split(' ').length == 3) {
 					let initialValueArr = resp.split(' ')
 					resp = `${initialValueArr[0]} ${initialValueArr[1]} ${initialValueArr[1]} ${initialValueArr[2]}`
 				}

@@ -36,8 +36,8 @@ class PageSettingModal extends Component {
 			previewDescription,
 			favicon
 		} = this.state
-		console.log('bbb.p', editPageIndex)
-		if (!_.isUndefined(editPageIndex)) {
+		console.log('bbb.p', editPageIndex, !_.isUndefined(editPageIndex), !_.isNull(editPageIndex))
+		if (!_.isUndefined(editPageIndex) && !_.isNull(editPageIndex)) {
 			// this.props.sendEditPageReq(this.state.title);
 			let pageObj = pageReducer.pages[editPageIndex]
 			pageObj = {
@@ -61,6 +61,7 @@ class PageSettingModal extends Component {
 					desp: previewDescription
 				}
 			}
+			console.log('bbb.p creating new page')
 			this.props.createPage(this.state.title, pageObj);
 		}
 		this.setState({

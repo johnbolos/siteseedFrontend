@@ -7,6 +7,7 @@ import footer from "../../../../assets/blocks/prebuilt/footer";
 import cta from "../../../../assets/blocks/prebuilt/cta";
 import pricing from "../../../../assets/blocks/prebuilt/pricing";
 import faq from "../../../../assets/blocks/prebuilt/faq";
+import popUp from "../../../../assets/blocks/prebuilt/popUp";
 
 export {
     header,
@@ -18,4 +19,5 @@ export {
     cta,
     pricing,
     faq,
+    popUp,
 };

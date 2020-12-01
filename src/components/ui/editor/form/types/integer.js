@@ -33,12 +33,19 @@ class Integer extends React.Component {
             return
         }
         unit.forEach((item) => {
+            console.log(value.includes(item), item, value, 'ccc.p condition for unit settings')
             if (value && value.includes(item)) {
                 defaultUnit = item
-                this.setState({ unitValue: defaultUnit })
+                this.setState({ unitValue: item }, () => {
+                    console.log(this.state.unitValue, item, 'ccc.p')
+                    this.setState({ unitValue: item })
+                })
             }
         })
-        this.setState({ value: value.replace(defaultUnit, '') })
+        this.setState({ value: value.replace(defaultUnit, '') }, () => {
+            
+            console.log(this.state.value, this.state.unitValue, 'ccc.p integer')
+        })
     }
     componentDidUpdate(prevProps) {
         if (prevProps.meta.value != this.props.meta.value) {
@@ -84,7 +91,12 @@ class Integer extends React.Component {
                     className={stopScrollValue ? 'no-scroll' : ''}
                     placeholder={(value == '' || disabled) ? 'Auto' : (isNaN(value) ? _.startCase(value) : '')}
                     onChange={(e) => {
-                        this.onChange(e.target.value)
+                        let value = e.target.value
+                        console.log(value, 'ccc.p')
+                        if(value == '') {
+                            value = 0
+                        }
+                        this.onChange(value)
                     }}
                     style={disabled ? { background: 'rgba(59, 59, 59, 0.3)', paddingRight: unit || defaultUnit ? '30px' : '15px' } : { paddingRight: unit || defaultUnit ? '30px' : '15px' }}
                 />

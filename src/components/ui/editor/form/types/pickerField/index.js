@@ -34,7 +34,6 @@ class PickerField extends React.Component {
         didEdited: false,
     }
     componentDidMount() {
-        console.log('mounting picker... aa.p')
         this.initValue(this.props.meta.value)
         this.setState({ unitWidth: document.querySelector('.unit-select > select') && document.querySelector('.unit-select > select').clientWidth })
         window.addEventListener('mousedown', this.onClickOutsideHandler);
@@ -103,7 +102,7 @@ class PickerField extends React.Component {
         this.setState({ [key]: val }, () => {
             if (key == 'value') { this.setState({ didEdited: true }) }
             let rgb = convert.hex.rgb(this.state.value)
-            let updatedVal = `rgba(${rgb.join(',')}, ${alphaValue / 100})`
+            let updatedVal = `rgba(${rgb.join(',')}, ${this.state.alphaValue / 100})`
             onchange && onChange(updatedVal)
             globalOnChange && globalOnChange(updatedVal)
         })
@@ -132,6 +131,14 @@ class PickerField extends React.Component {
             recentColors,
         } = this.props
         const { value, alphaValue, openPicker } = this.state
+        const isInvalid = (e) => {
+            let isInvalid = (e.target.min < e.target.value && e.target.value < e.target.max)
+            if (isInvalid) {
+                e.target.setCustomValidity(`Please Enter a value between ${e.target.min} and ${e.target.max}`)
+            } else {
+                e.target.setCustomValidity('')
+            }
+        }
         return (
             <div ref={this.PickerRef} className={'picker-field-container'}>
                 <div className={'preview-color'} style={{
@@ -140,10 +147,10 @@ class PickerField extends React.Component {
                     zIndex: 0,
                     height: '20px',
                     width: '20x',
-                    borderRadius: '4px',
+                    borderRadius: '6px',
                     backgroundImage: 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==)'
                 }}></div>
-                <div className={'preview-color'} onClick={() => { this.setState({ openPicker: true }) }} style={{ backgroundColor: this.calcFinalValue(value), zIndex: 1 }}></div>
+                <div className={'preview-color'} onClick={() => { this.setState({ openPicker: !openPicker }) }} style={{ backgroundColor: this.calcFinalValue(value), zIndex: 1 }}></div>
                 {
                     openPicker && <div onBlur={() => { }}>
                         <ChromePicker
@@ -154,7 +161,7 @@ class PickerField extends React.Component {
                         {/* render color inputs */}
                         <div className="pickerTool-inputs">
                             <Select meta={{
-                                options: ['Hex', 'RGBA'],
+                                options: ['Hex', 'RGB'],
                                 value: this.state.pickerInputType,
                                 onChange: (val) => { this.setState({ pickerInputType: val }) }
                             }} />
@@ -185,11 +192,11 @@ class PickerField extends React.Component {
                                             this.onChange(value, 'value')
                                         }}
                                         onChange={(e) => { this.setState({ value: e.target.value }) }}
-                                        value={(metaVal && (metaVal == '')) ? '#006CFF' : value}
+                                        value={(metaVal && (metaVal == '')) ? '#006CFF' : (value.includes('#')) ? value : `#${value}`}
                                     />
                                     <input type="number"
                                         onFocus={this.handleFocus}
-                                        value={(alphaValue === '') ? '100' : parseFloat(alphaValue).toFixed(0)}
+                                        value={_.round(this.state.rgb.a * 100, 0)}
                                         style={{ textAlign: 'end', paddingRight: this.state.unitWidth + 6, borderLeft: '1px solid white' }}
                                         // onChange={(e) => {
                                         //     let val = e.target.value
@@ -208,7 +215,7 @@ class PickerField extends React.Component {
                                             let { rgb } = this.state
                                             rgb.a = e.target.value / 100
                                             this.setState({ rgb })
-                                            this.onChange(e.target.value, 'alphaValue')
+                                            // this.onChange(e.target.value, 'alphaValue')
                                         }}
                                     />
                                     <div className={'unit-select'} ref={this.unitRef}>
@@ -221,27 +228,45 @@ class PickerField extends React.Component {
                                 </div>)
                             }
                             {
-                                this.state.pickerInputType == 'RGBA' && (<div className="rgba-input-container">
+                                this.state.pickerInputType == 'RGB' && (<div className="rgba-input-container">
                                     <input type="number" min={0} max={255} value={this.state.rgb.r} onChange={(e) => {
+                                        if (!(e.target.min < e.target.value && e.target.value < e.target.max)) { return }
                                         let { rgb } = this.state
                                         rgb.r = e.target.value
-                                        this.setState({ rgb })
+                                        let value = [rgb.r, rgb.g, rgb.b]
+                                        value = convert.rgb.hex(value)
+                                        this.onChange(value, 'value')
+                                        // this.setState({ rgb })
                                     }} />
                                     <input type="number" min={0} max={255} value={this.state.rgb.g} onChange={(e) => {
+                                        if (!(e.target.min < e.target.value && e.target.value < e.target.max)) { return }
                                         let { rgb } = this.state
                                         rgb.g = e.target.value
-                                        this.setState({ rgb })
+                                        let value = [rgb.r, rgb.g, rgb.b]
+                                        value = convert.rgb.hex(value)
+                                        this.onChange(value, 'value')
+                                        // this.setState({ rgb })
                                     }} />
                                     <input type="number" min={0} max={255} value={this.state.rgb.b} onChange={(e) => {
+                                        if (!(e.target.min < e.target.value && e.target.value < e.target.max)) { return }
                                         let { rgb } = this.state
                                         rgb.b = e.target.value
-                                        this.setState({ rgb })
+                                        let value = [rgb.r, rgb.g, rgb.b]
+                                        value = convert.rgb.hex(value)
+                                        this.onChange(value, 'value')
+                                        // this.setState({ rgb })
                                     }} />
-                                    <input type="number" min={0} max={100} value={this.state.rgb.a} onChange={(e) => {
-                                        let { rgb } = this.state
-                                        rgb.a = e.target.value
-                                        this.setState({ rgb })
-                                    }} />
+                                    {/* <input type="number" min={0} max={1} value={this.state.rgb.a} onChange={(e) => {
+                                        if (!(e.target.min < e.target.value && e.target.value < e.target.max)) { return }
+                                        let value = e.target.value
+                                        if (`${e.target.value}` == '' || `${e.target.value}` == '0.') {
+                                            value = 0
+                                        }
+                                        // let { rgb } = this.state
+                                        // rgb.a = e.target.value
+                                        this.onChange(value * 100, 'alphaValue')
+                                        // this.setState({ rgb })
+                                    }} /> */}
                                 </div>)
                             }
                         </div>
@@ -289,7 +314,13 @@ class PickerField extends React.Component {
                     onBlur={(e) => {
                         this.onChange(e.target.value, 'alphaValue')
                     }}
-                    onChange={(e) => { this.setState({ alphaValue: e.target.value }) }}
+                    onChange={(e) => {
+                        let value = e.target.value
+                        if (e.target.value == '') {
+                            value = 0
+                        }
+                        this.setState({ alphaValue: value })
+                    }}
                 />
                 {
                     <div className={'unit-select'} ref={this.unitRef}>
@@ -306,7 +337,6 @@ class PickerField extends React.Component {
 }
 
 const mapStateToProps = ({ global, layout, templates, editor, editorHistory }) => {
-    console.log(global, 'aaa.p')
     return {
         recentColors: global.recentColors
     }

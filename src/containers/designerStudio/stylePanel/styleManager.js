@@ -1487,7 +1487,7 @@ class StyleManager extends React.Component {
                 width: '48%',
             },
             {
-                label: 'Heigth',
+                label: 'Height',
                 key: 'height',
                 type: 'integer',
                 value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'height'),

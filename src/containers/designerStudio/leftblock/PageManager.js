@@ -163,7 +163,7 @@ class PageManager extends Component {
 				<ul>
 					{filteredPages &&
 						filteredPages.map((pageElem, index) => (
-							<li key={index} className={`pages ${pageReducer.pages[index].hidden && 'hide-page'}`} onClick={() => {
+							<li key={index} className={`pages ${pageReducer.pages[index] && pageReducer.pages[index].hidden && 'hide-page'} ${pageReducer.currentPage == index && 'current-page'}`} onClick={() => {
 								if (pageReducer.pages[index].hidden) return
 
 								this.changePage(index)

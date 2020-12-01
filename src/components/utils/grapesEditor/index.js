@@ -596,12 +596,15 @@ const _grapesEditor = {
 			$("#zoom").addClass("hide-top");
 			$("#question").addClass("hide-top");
 			// Turn off editor on preview
-			editor.DomComponents.getWrapper().onAll(comp => 
-				comp.is('text') && comp.set({ editable: false })
-			);
+			// editor.DomComponents.getWrapper().onAll(comp => {
+			// 		comp.is('text') && comp.set({ editable: false })
+			// 		comp.is('link') && comp.set({ editable: false })
+			// 		comp.is('textnode') && comp.set({ editable: false })
+			// 	}
+			// );
 			// set zIndex of canvas to 3
 			let canvas = document.querySelector(".gjs-cv-canvas")
-			canvas.style.zIndex = 3
+			canvas.style.zIndex = 9
 		});
 		editor.on("stop:preview", () => {
 			$("#grapesEditor").removeClass("left-pane-preview");
@@ -610,10 +613,13 @@ const _grapesEditor = {
 			$("#zoom").removeClass("hide-top");
 			$("#question").removeClass("hide-top");
 			// Turn on editor after preview
-			editor.DomComponents.getWrapper().onAll(comp => 
-				comp.is('text') && comp.set({ editable: true })
-			);
+			// editor.DomComponents.getWrapper().onAll(comp =>
+			// 	comp.is('text') && comp.set({ editable: true })
+			// );
 			// set zIndex of canvas to 1
+			const um = editor.UndoManager
+			um.undo()
+			um.redo()
 			let canvas = document.querySelector(".gjs-cv-canvas")
 			canvas.style.zIndex = 1
 		});

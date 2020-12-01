@@ -360,7 +360,7 @@ class DesignerStudio extends React.Component {
 		console.log(components, navComp, 'aaa.p components')
 		// navComp.set({ icon: '<i class="fa fa-arrows"></i>' })
 		attachIconsToElem(components)
-		
+
 		editor.on("storage:start", () => {
 			let { currentPage, pages } = this.props.pageReducer;
 			let components = JSON.parse(JSON.stringify(editor.getHtml()));
@@ -401,6 +401,7 @@ class DesignerStudio extends React.Component {
 			if (this.props.past && this.props.past.length > 2) {
 				await this.historyChange("undo", times)
 			}
+			_grapesEditor.editor.store(res => {});
 			// ==============
 		});
 		editor.on('change:changesCount', e => {
@@ -436,6 +437,7 @@ class DesignerStudio extends React.Component {
 			if (this.props.future && this.props.future.length > 0) {
 				await this.historyChange("redo", times)
 			}
+			_grapesEditor.editor.store(res => {});
 		});
 		// =============Toolbar events==============
 		editor.on('run', (cmdId, res) => {
@@ -450,6 +452,9 @@ class DesignerStudio extends React.Component {
 		editor.on('load', () => {
 			this.setScrollBarStyle()
 			this.temp();
+			// let frame = document.getElementsByClassName("gjs-frame");
+			// const grapesDocument = frame[0].contentWindow.document;
+			// console.log(grapesDocument.querySelector(".gjs-css-rules"), 'ccc.p')
 		});
 		// =========================================
 	};
@@ -544,8 +549,8 @@ class DesignerStudio extends React.Component {
 
 						<div
 							className='body-container'
-							// style={{ height: `${window.innerHeight - 40}px` }}
-							>
+						// style={{ height: `${window.innerHeight - 40}px` }}
+						>
 							<LeftBlock />
 							<div id='grapesEditor'></div>
 							<div id='zoom'>

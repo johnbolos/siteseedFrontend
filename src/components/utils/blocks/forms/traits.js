@@ -126,7 +126,7 @@ export default function (editor, opt = {}) {
       selectedComponent.set('attributes', { name: inputValue.trim() });
       let input = selectedElem.getElementsByTagName('input')[0]
       input.name = inputValue
-      _grapesEditor.editor.runCommand("storage:start")
+      _grapesEditor.editor.store(res => {});
     },
 
     getInputEl() {
@@ -163,7 +163,7 @@ export default function (editor, opt = {}) {
         dropdown.setClass('dropdown-content content-effect-toggle')
         // dropdown.className = 'dropdown-content content-effect-toggle'
       }
-      _grapesEditor.editor.runCommand("storage:start")
+      _grapesEditor.editor.store(res => {});
 
       // selectedComponent.set('attributes', { name: value.trim() });
       // let input = selectedElem.getElementsByTagName('input')[0]

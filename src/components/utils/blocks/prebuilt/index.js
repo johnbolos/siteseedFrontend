@@ -1,6 +1,102 @@
-import { header } from "./icons";
+import { header, gallery, popUp, faq } from "./icons";
 
 export const prebuiltBlocks = (editor) => {
+
+    editor.BlockManager.add("gallery", {
+        label: `<div class="inherit-color-svg">${gallery}
+            <div style="margin-top: 4.14px">Gallery</div>
+        </div>`,
+        category: "Prebuilt",
+        content: `
+        <div class="ss-gallery-container" data-gjs-custom-name="ss-gallery">
+            <div class="ss-gallery-header">
+                <H1>Portfolio</H1>
+                <p>Failure will never overtake me if my determination to succeed is strong enough.</p>
+            </div>
+            <div class="ss-gallery-main">
+                <div class="ss-gallery-card ss-img-spacing">
+                    <img/>
+                </div>
+                
+                <div class="ss-gallery-card col">
+                    <div class="ss-gallery-card">
+                        <div class="ss-gallery-card ss-img-spacing">
+                            <img/>
+                        </div>
+                        <div class="ss-gallery-card ss-img-spacing">
+                            <img/>
+                        </div>
+                    </div>
+                    <div class="ss-gallery-card">
+                        <div class="ss-gallery-card ss-img-spacing">
+                            <img/>
+                        </div>
+                        <div class="ss-gallery-card ss-img-spacing">
+                            <img/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <style>
+                .ss-gallery-container {
+                    padding: 100px;
+                    background-color: #FFFFFF;
+                }
+                .ss-gallery-header {
+                    text-align: center;
+                    margin-bottom: 20px;
+                    font-family: Open Sans;
+                    font-style: normal;
+                }
+                .ss-gallery-header H1 {
+                    font-weight: 600;
+                    font-size: 36px;
+                    line-height: 43px;
+                    color: #363940;
+                    margin-bottom: 20px;
+                }
+                .ss-gallery-header P {
+                    font-weight: normal;
+                    font-size: 16px;
+                    line-height: 22px;
+                    color: #95A1BB;
+                }
+                .ss-gallery-main {
+                    display: flex;
+                    align-items: center;
+                    padding: 5px 5px;
+                }
+                .ss-gallery-card {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-wrap: wrap;
+                    flex: 1;
+                }
+                .ss-gallery-card.ss-img-spacing {
+                    padding: 15px;
+                }
+                img {
+                    width: 100%;
+                }
+                .col {
+                    flex-direction: column;
+                }
+            </style>
+            <style>
+            @media screen and (max-width: 1024px) {
+                
+            }
+            @media screen and (min-width: 1024px) {
+                
+            }
+            @media screen and (max-width: 640px) {
+                
+            }
+            </style>
+        </div>
+        `
+    })
 
     editor.BlockManager.add("header", {
         label: `<div class="inherit-color-svg">${header}
@@ -193,8 +289,178 @@ export const prebuiltBlocks = (editor) => {
         `
     })
 
+
+    editor.BlockManager.add("faq", {
+        label: `<div class="inherit-color-svg">${faq}
+            <div style="margin-top: 4.14px">FAQ</div>
+        </div>`,
+        category: "Prebuilt",
+        content: `
+        <div class="ss-faq-container" data-gjs-custom-name="ss-faq">
+            <div class="ss-faq-header">
+                <H1>FAQ</H1>
+            </div>
+            <div class="ss-faq-main">
+                <div class="accordion">
+                    Do you help with relocation?
+					<svg class="plus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M15.8333 10.8334H10.8333V15.8334H9.16666V10.8334H4.16666V9.16675H9.16666V4.16675H10.8333V9.16675H15.8333V10.8334Z" fill="#006CFF"/>
+					</svg>
+
+					<svg class="minus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M4.16666 10.8334V9.16675H15.8333V10.8334H4.16666Z" fill="#006CFF"/>
+					</svg>
+				</div>
+                <div class="panel">
+                    <p>Do you sometimes have the feeling that you’re running into the same obstacles over and over again? Many of my conflicts have the same feel to them, like “Hey, I think I’ve been here before,” but I can’t figure out how I wound up in the same place. 
+
+                    The situation is different, but the conflict feels the same. I first read this poem in “The Tibetan Book of Living and Dying” by Sogyal Rinpoche. When I “Googled” it, I found fourteen pages of links. It’s clearly a favorite with many people; I know it speaks volumes to me. “Autobiography in Five Chapters”</p>
+                </div>
+
+                <div class="accordion">
+                    How does your hiring process work?
+					<svg class="plus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M15.8333 10.8334H10.8333V15.8334H9.16666V10.8334H4.16666V9.16675H9.16666V4.16675H10.8333V9.16675H15.8333V10.8334Z" fill="#006CFF"/>
+					</svg>
+
+					<svg class="minus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M4.16666 10.8334V9.16675H15.8333V10.8334H4.16666Z" fill="#006CFF"/>
+					</svg>
+				</div>
+                <div class="panel">
+                    <p>Do you sometimes have the feeling that you’re running into the same obstacles over and over again? Many of my conflicts have the same feel to them, like “Hey, I think I’ve been here before,” but I can’t figure out how I wound up in the same place. 
+
+                    The situation is different, but the conflict feels the same. I first read this poem in “The Tibetan Book of Living and Dying” by Sogyal Rinpoche. When I “Googled” it, I found fourteen pages of links. It’s clearly a favorite with many people; I know it speaks volumes to me. “Autobiography in Five Chapters”</p>
+                </div>
+
+                <div class="accordion">
+                    Do you have an internship program?
+					<svg class="plus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M15.8333 10.8334H10.8333V15.8334H9.16666V10.8334H4.16666V9.16675H9.16666V4.16675H10.8333V9.16675H15.8333V10.8334Z" fill="#006CFF"/>
+					</svg>
+
+					<svg class="minus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M4.16666 10.8334V9.16675H15.8333V10.8334H4.16666Z" fill="#006CFF"/>
+					</svg>
+				</div>
+                <div class="panel">
+                    <p>Do you sometimes have the feeling that you’re running into the same obstacles over and over again? Many of my conflicts have the same feel to them, like “Hey, I think I’ve been here before,” but I can’t figure out how I wound up in the same place. 
+
+                    The situation is different, but the conflict feels the same. I first read this poem in “The Tibetan Book of Living and Dying” by Sogyal Rinpoche. When I “Googled” it, I found fourteen pages of links. It’s clearly a favorite with many people; I know it speaks volumes to me. “Autobiography in Five Chapters”</p>
+                </div>
+                
+                <div class="accordion">
+                    What are your working hours?
+					<svg class="plus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M15.8333 10.8334H10.8333V15.8334H9.16666V10.8334H4.16666V9.16675H9.16666V4.16675H10.8333V9.16675H15.8333V10.8334Z" fill="#006CFF"/>
+					</svg>
+
+					<svg class="minus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M4.16666 10.8334V9.16675H15.8333V10.8334H4.16666Z" fill="#006CFF"/>
+					</svg>
+				</div>
+                <div class="panel">
+                    <p>Do you sometimes have the feeling that you’re running into the same obstacles over and over again? Many of my conflicts have the same feel to them, like “Hey, I think I’ve been here before,” but I can’t figure out how I wound up in the same place. 
+
+                    The situation is different, but the conflict feels the same. I first read this poem in “The Tibetan Book of Living and Dying” by Sogyal Rinpoche. When I “Googled” it, I found fourteen pages of links. It’s clearly a favorite with many people; I know it speaks volumes to me. “Autobiography in Five Chapters”</p>
+                </div>
+            </div>
+            <style>
+                .ss-faq-container {
+                    padding: 100px 250px;
+                    background-color: #FFFFFF;
+                    font-family: Open Sans;
+                    font-style: normal;
+                    font-weight: 600;
+                    color: #363940;
+                }
+                .ss-faq-container .ss-faq-header {
+                    font-size: 36px;
+                    line-height: 43px;
+                    text-align: center;
+                    margin-bottom: 50px;
+                }
+                .ss-faq-container .accordion {
+                    position: relative;
+                    pointer: cursor;
+                    padding: 20px;
+                    border: 1px solid #E1E5EE;
+					background: transparent;
+					border-radius: 4px;
+                    margin-top: 20px;
+                    box-sizing: border-box;
+					transition: 0.4s;
+                }
+                .ss-faq-container .accordion svg {
+                    position: absolute;
+                    right: 20px;
+                    top: 20px;
+                }
+                .ss-faq-container .accordion.active .plus {
+                	display: none;
+                }
+                .ss-faq-container .accordion.active .minus {
+                	display: block;
+                }
+                .ss-faq-container .panel {
+                    font-weight: 400;
+					background: transparent;
+					border-radius: 4px;
+                    box-sizing: border-box;
+					max-height: 0;
+					overflow: hidden;
+					transition: max-height 0.2s ease-out;
+                }
+                .ss-faq-container .panel p {
+                    margin: 20px;
+                }
+                .ss-faq-container .accordion:hover {
+                	background: transparent;
+                }
+                .ss-faq-container .accordion.active {
+                	border: 1px solid #006CFF;
+                    border-bottom: none;
+					border-radius: 4px 4px 0px 0px;
+                }
+                .ss-faq-container .panel.active {
+                	border: 1px solid #006CFF;
+                    border-top: none;
+					border-radius: 0px 0px 4px 4px;
+                }
+            </style>
+            <style>
+                @media screen and (max-width: 1024px) {
+                }
+                @media screen and (min-width: 1024px) {
+                }
+                @media screen and (max-width: 640px) {
+                }
+            </style>
+            <script>
+            	var main = document.getElementsByClassName("ss-faq-main")[0];
+                var acc = main.getElementsByClassName("accordion");
+                var i;
+                for (i = 0; i < acc.length; i++) {
+                  acc[i].addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    var panel = this.nextElementSibling;
+                    panel.classList.toggle("active");
+                    if (panel.style.maxHeight) {
+                      panel.style.maxHeight = null;
+                    } else {
+                      panel.style.maxHeight = panel.scrollHeight + "px";
+                    } 
+                  });
+                }
+            </script>
+        </div>`
+    })
+
+
     editor.BlockManager.add("pop-up", {
-        label: `<div>Pop Up</div>`,
+        label: `<div class="inherit-color-svg">${popUp}
+            <div style="margin-top: 4.14px">Pop Up</div>
+        </div>`,
         category: "Prebuilt",
         // editable: false,
         draggable: true,
@@ -354,6 +620,5 @@ export const prebuiltBlocks = (editor) => {
         </script>`
         },
     });
-
 
 };
