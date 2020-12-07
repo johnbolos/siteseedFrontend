@@ -29,7 +29,8 @@ const initialState = {
             'Changa One',
             'Raleway',
             'Playfair Display',
-            'Open Sans'
+            'Open Sans',
+            'Rubik'
         ]
     },
     recentColors: [

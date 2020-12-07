@@ -1,4 +1,5 @@
-import { header, gallery, popUp, faq } from "./icons";
+import { appUrl } from "../../../../settings";
+import { header, gallery, popUp, faq, team, form, testimonials, footer, cta, pricing } from "./icons";
 
 export const prebuiltBlocks = (editor) => {
 
@@ -15,24 +16,24 @@ export const prebuiltBlocks = (editor) => {
             </div>
             <div class="ss-gallery-main">
                 <div class="ss-gallery-card ss-img-spacing">
-                    <img/>
+                    <img src="${appUrl}/assets/images/imagePlaceholder.png"/>
                 </div>
                 
                 <div class="ss-gallery-card col">
                     <div class="ss-gallery-card">
                         <div class="ss-gallery-card ss-img-spacing">
-                            <img/>
+                            <img src="${appUrl}/assets/images/imagePlaceholder.png"/>
                         </div>
                         <div class="ss-gallery-card ss-img-spacing">
-                            <img/>
+                            <img src="${appUrl}/assets/images/imagePlaceholder.png"/>
                         </div>
                     </div>
                     <div class="ss-gallery-card">
                         <div class="ss-gallery-card ss-img-spacing">
-                            <img/>
+                            <img src="${appUrl}/assets/images/imagePlaceholder.png"/>
                         </div>
                         <div class="ss-gallery-card ss-img-spacing">
-                            <img/>
+                            <img src="${appUrl}/assets/images/imagePlaceholder.png"/>
                         </div>
                     </div>
                 </div>
@@ -83,17 +84,6 @@ export const prebuiltBlocks = (editor) => {
                     flex-direction: column;
                 }
             </style>
-            <style>
-            @media screen and (max-width: 1024px) {
-                
-            }
-            @media screen and (min-width: 1024px) {
-                
-            }
-            @media screen and (max-width: 640px) {
-                
-            }
-            </style>
         </div>
         `
     })
@@ -107,7 +97,7 @@ export const prebuiltBlocks = (editor) => {
         <div class="ss-header-container">
                 <div class="ss-nav">
                     <div class="ss-logo">
-                        <a href="#"><img class="ss-logo-img" att="" /></a>
+                        <a href="#"><img src"${appUrl}/assets/images/imagePlaceholder.png" class="ss-logo-img" att="" /></a>
                     </div>
                     <div class="ss-nav-items">
                         <ul class="ss-nav-items-list">
@@ -289,6 +279,1009 @@ export const prebuiltBlocks = (editor) => {
         `
     })
 
+    editor.BlockManager.add("team", {
+        label: `<div class="inherit-color-svg">${team}
+            <div style="margin-top: 4.14px">Team</div>
+        </div>`,
+        category: "Prebuilt",
+        content: `
+        <div class="ss-team-container" data-gjs-custom-name="ss-team">
+            <div class="ss-team-header">
+                <H1>Our Team</H1>
+                <p>Failure will never overtake me if my determination to succeed is strong enough.</p>
+            </div>
+            <div class="ss-team-main">
+                <div class="ss-team-card ss-img-spacing">
+                    <img src="${appUrl}/assets/images/imagePlaceholder.png"/>
+                    <div class="ss-card-details">
+                    	<H2 class="ss-card-title">Andrei Masharin</H2>
+                        <P class="ss-card-description">CEO</P>
+                    </div>
+                </div>
+                <div class="ss-team-card ss-img-spacing">
+                <img src="${appUrl}/assets/images/imagePlaceholder.png"/>
+                    <div class="ss-card-details">
+                    	<H2 class="ss-card-title">Stina Gunnarsdottir</H2>
+                        <P class="ss-card-description">Co- founder</P>
+                    </div>
+                </div>
+                <div class="ss-team-card ss-img-spacing">
+                <img src="${appUrl}/assets/images/imagePlaceholder.png"/>
+                    <div class="ss-card-details">
+                    	<H2 class="ss-card-title">Dai Jiang</H2>
+                        <P class="ss-card-description">Developer</P>
+                    </div>
+                </div>
+                <div class="ss-team-card ss-img-spacing">
+                <img src="${appUrl}/assets/images/imagePlaceholder.png"/>
+                    <div class="ss-card-details">
+                    	<H2 class="ss-card-title">Xun Guiying</H2>
+                        <P class="ss-card-description">Developer</P>
+                    </div>
+                </div>
+            </div>
+            <style>
+                .ss-team-container {
+                    padding: 100px;
+                    background-color: #FFFFFF;
+                    font-family: Open Sans;
+                    font-style: normal;
+                }
+                .ss-team-header {
+                    text-align: center;
+                    margin-bottom: 20px;
+                    font-family: Open Sans;
+                    font-style: normal;
+                }
+                .ss-team-header H1 {
+                    font-weight: 600;
+                    font-size: 36px;
+                    line-height: 43px;
+                    color: #363940;
+                    margin-bottom: 20px;
+                }
+                .ss-team-header P {
+                    font-weight: normal;
+                    font-size: 16px;
+                    line-height: 22px;
+                    color: #95A1BB;
+                }
+                .ss-team-main {
+                    display: flex;
+                    align-items: baseline;
+                    flex-wrap: wrap;
+                    padding: 5px 5px;
+                }
+                .ss-team-card {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-wrap: wrap;
+                    flex: 1;
+                    min-width: 150px;
+                }
+                .ss-team-card.ss-img-spacing {
+                    padding: 15px;
+                }
+                .ss-team-card img {
+                    width: 100%;
+                }
+                .ss-team-card .ss-card-details {
+                	width: 100%;
+                }
+                .ss-team-card .ss-card-details .ss-card-title {
+					margin: 15px 0px 6px 0px;
+              		font-size: 18px;
+					line-height: 22px;
+					color: #363940;
+                }
+                .ss-team-card .ss-card-details .ss-card-description {
+                	margin: 0px;
+                	font-size: 12px;
+					line-height: 20px;
+					letter-spacing: 2px;
+                    text-transform: uppercase;
+					color: #95A1BB;
+                }
+            </style>
+            <style>
+            @media screen and (max-width: 640px) {
+                .ss-team-container {
+                    padding: 100px 70px;
+                }
+            }
+            </style>
+        </div>
+        `
+    })
+
+    editor.BlockManager.add("form", {
+        label: `<div class="inherit-color-svg">${form}
+            <div style="margin-top: 4.14px">Form</div>
+        </div>`,
+        category: "Prebuilt",
+        content: `
+        <div class="ss-contact-container" data-gjs-custom-name="ss-contact-us">
+            <div class="ss-contact-main">
+                <form class="ss-contact-form" action="/action_page.php" method="get">
+                	<H1>Contact Us</H1>
+                    <P>The harder you work for something, the greater you’ll feel when you achieve it.</P>
+                    <select name="type">
+                    	<option>Technical</option>
+                    	<option>Complaint</option>
+                    	<option>Custom</option>
+                    </select>
+                    <input name="firstname" placeholder="First Name"/>
+                    <input name="lastname" placeholder="Last Name"/>
+                    <textarea id="w3review" name="w3review" rows="5" placeholder="Description (optional)"></textarea>
+                    <button type="submit">Send Request</button>
+                </form>
+            </div>
+            <div class="ss-contact-map">
+                <div class="mapouter"><div class="gmap_canvas"><iframe width="600" height="100%" id="gmap_canvas" src="https://maps.google.com/maps?q%20&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe></div>
+                <style>.mapouter{position:relative;text-align:right;height:500px;width:100%;}.gmap_canvas {overflow:hidden;background:none!important;height:500px;width:100%;}</style></div>
+            </div>
+            <style>
+            	.ss-contact-container {
+                	display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    align-items: center;
+					font-family: Open Sans;
+					font-style: normal;
+					font-weight: normal;
+					font-size: 16px;
+					line-height: 22px;
+                    color: #363940;
+                    background-color: #ffffff;
+                }
+				.ss-contact-main {
+                	padding: 100px 0px;
+                    width: 50%;
+                }
+				.ss-contact-main .ss-contact-form {
+					padding: 0px 120px;
+					justify-content: space-between;
+					display: flex;
+					flex-wrap: wrap;
+                }
+				.ss-contact-main .ss-contact-form H1, .ss-contact-main .ss-contact-form P, .ss-contact-main .ss-contact-form select, .ss-contact-main .ss-contact-form textarea {
+                	width: 100%;
+                    margin-bottom: 20px;
+                    padding: 12px 15px;
+                    color: #363940;
+                }
+				.ss-contact-main .ss-contact-form H1 {
+					font-weight: 600;
+					font-size: 36px;
+					line-height: 43px;
+                    margin: 0px;
+                    padding: 0px;
+                }
+                .ss-contact-main .ss-contact-form P {
+                	color: #95A1BB;
+                    margin: 20px 0px 30px 0px;
+                    padding: 0px;
+                }
+				.ss-contact-main .ss-contact-form input {
+                	width: 43%;
+                    padding: 12px 15px;
+                    margin-bottom: 20px;
+                    color: #363940;
+                }
+				.ss-contact-main .ss-contact-form button {
+                    padding: 13px 25px;
+                    background: #006CFF;
+                    font-weight: 600;
+					font-size: 12px;
+					line-height: 20px;
+                    text-align: center;
+					letter-spacing: 2px;
+					text-transform: uppercase;
+                    color: #ffffff;
+                    border: none;
+                }
+                .ss-contact-map {
+                    padding: 5px;
+                	width: 50%;
+                    display: flex;
+					justify-content: center;
+					align-items: center;
+                }
+                .ss-contact-map img {
+                	width: 100%;
+                }
+            </style>
+            <style>
+            @media screen and (max-width: 1300px) {
+				.ss-contact-main, .ss-contact-map {
+                    width: 100%;
+                }
+				.ss-contact-main .ss-contact-form {
+                    padding: 0px 40px;
+                }
+            }
+            </style>
+        </div>
+        `
+    })
+
+    editor.BlockManager.add("testimonials", {
+        label: `<div class="inherit-color-svg">${testimonials}
+            <div style="margin-top: 4.14px">Testimonials</div>
+        </div>`,
+        category: "Prebuilt",
+        content: `
+        <div class="ss-testimonials-container" data-gjs-custom-name="ss-testimonials">
+            	<H1>Testimonials</H1>
+                <div class="main-container">
+                    <div class="testimonials-prev">
+                        <img src="${appUrl}/assets/images/leftArrow.png"/>
+                    </div>
+                	<div class="testimonials-main">
+                    	<div class="slider">
+                        	<div class="slide">
+                            	<div class="slider-card">
+                                	<P>Although this is well intentioned and the goal certainly is to reduce the quantity of these bothersome thoughts, the technique is inherently flawed. Requiring the individual to remember what not to think of infers that they have already thought it. It is akin to telling them to not think of a blue banana.</P>
+                                    <div class="card-info">
+                                        <img src="${appUrl}/assets/images/imagePlaceholderCircle.png"/>
+                                        <div class="card-details">
+                                        	<H2>Melissa Morillo</H2>
+                                            <P>CO-Founder</P>
+                                        </div>
+                                    </div>
+                                </div>
+                            	<div class="slider-card">
+                                	<P>Although this is well intentioned and the goal certainly is to reduce the quantity of these bothersome thoughts, the technique is inherently flawed. Requiring the individual to remember what not to think of infers that they have already thought it. It is akin to telling them to not think of a blue banana.</P>
+                                    <div class="card-info">
+                                        <img src="${appUrl}/assets/images/imagePlaceholderCircle.png"/>
+                                        <div class="card-details">
+                                        	<H2>Melissa Morillo</H2>
+                                            <P>CO-Founder</P>
+                                        </div>
+                                    </div>
+                                </div>
+                            	<div class="slider-card">
+                                	<P>Although this is well intentioned and the goal certainly is to reduce the quantity of these bothersome thoughts, the technique is inherently flawed. Requiring the individual to remember what not to think of infers that they have already thought it. It is akin to telling them to not think of a blue banana.</P>
+                                    <div class="card-info">
+                                        <img src="${appUrl}/assets/images/imagePlaceholderCircle.png"/>
+                                        <div class="card-details">
+                                        	<H2>Melissa Morillo</H2>
+                                            <P>CO-Founder</P>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        	<div class="slide">
+                            	<div class="slider-card">
+                                	<P>Although this is well intentioned and the goal certainly is to reduce the quantity of these bothersome thoughts, the technique is inherently flawed. Requiring the individual to remember what not to think of infers that they have already thought it. It is akin to telling them to not think of a blue banana.</P>
+                                    <div class="card-info">
+                                        <img src="${appUrl}/assets/images/imagePlaceholderCircle.png"/>
+                                        <div class="card-details">
+                                        	<H2>Arnold</H2>
+                                            <P>CO-Founder</P>
+                                        </div>
+                                    </div>
+                                </div>
+                            	<div class="slider-card">
+                                	<P>Although this is well intentioned and the goal certainly is to reduce the quantity of these bothersome thoughts, the technique is inherently flawed. Requiring the individual to remember what not to think of infers that they have already thought it. It is akin to telling them to not think of a blue banana.</P>
+                                    <div class="card-info">
+                                        <img src="${appUrl}/assets/images/imagePlaceholderCircle.png"/>
+                                        <div class="card-details">
+                                        	<H2>Arnold</H2>
+                                            <P>CO-Founder</P>
+                                        </div>
+                                    </div>
+                                </div>
+                            	<div class="slider-card">
+                                	<P>Although this is well intentioned and the goal certainly is to reduce the quantity of these bothersome thoughts, the technique is inherently flawed. Requiring the individual to remember what not to think of infers that they have already thought it. It is akin to telling them to not think of a blue banana.</P>
+                                    <div class="card-info">
+                                        <img src="${appUrl}/assets/images/imagePlaceholderCircle.png"/>
+                                        <div class="card-details">
+                                        	<H2>Arnold</H2>
+                                            <P>CO-Founder</P>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                	<div class="testimonials-next">
+                        <img src="${appUrl}/assets/images/rightArrow.png"/>
+                    </div>
+                </div>
+            <style>
+            	.ss-testimonials-container {
+                	display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    align-items: center;
+					font-family: Open Sans;
+					font-style: normal;
+					font-weight: normal;
+                    color: #363940;
+                    background-color: #ffffff;
+                    padding: 100px 30px;
+                }
+            	.ss-testimonials-container H1 {
+                	font-weight: 600;
+					font-size: 36px;
+                    line-height: 43px;
+                }
+            	.ss-testimonials-container .main-container {
+                	display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: row;
+                    width: 100%;
+                }
+            	.ss-testimonials-container .main-container .testimonials-prev {
+                	cursor: pointer
+                }
+            	.ss-testimonials-container .main-container .testimonials-next {
+                	cursor: pointer
+                }
+            	.ss-testimonials-container .main-container .testimonials-main {
+                	position: relative;
+                	width: 100%;
+                    height: 410px;
+                    overflow: hidden;
+                }
+            	.ss-testimonials-container .slider {
+                	position: absolute;
+                    left: 0;
+                    top: 0;
+                    /*width: 100%;*/
+                    height: 100%;
+                    transition: all 0.5s ease-in-out;
+                    display: flex;
+                }
+            	.ss-testimonials-container .slide {
+                    /*width: 100%;*/
+                    height: 100%;
+                    display: flex;
+                }
+            	.ss-testimonials-container .slider-card {
+                    margin: 15px;
+                    padding: 0px 30px;
+                    background-color: #F6F7FA;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    overflow: hidden;
+                    width: 380px;
+                    transition: all 0.5s ease-in-out;
+                }
+            	.ss-testimonials-container .slider-card P {
+                    margin: 0px 0px 40px 0px;
+                    font-size: 16px;
+					line-height: 24px;
+                }
+            	.ss-testimonials-container .slider-card .card-info {
+                    display: flex;
+                }
+            	.ss-testimonials-container .slider-card .card-info img {
+                    margin: 0px 20px 20px 0px;
+                }
+            	.ss-testimonials-container .slider-card .card-info .card-details H2 {
+                    margin: 0px 20px 0px 2px;
+                    font-weight: 500;
+					font-size: 18px;
+					line-height: 22px;
+                }
+            	.ss-testimonials-container .slider-card .card-info .card-details P {
+                    margin: 0px;
+                    font-weight: 500;
+					font-size: 12px;
+                    line-height: 20px;
+                    letter-spacing: 2px;
+                    text-transform: uppercase;
+                    color: #95A1BB;
+                }
+            </style>
+            <style>
+            @media screen and (max-width: 640px) {
+            	.ss-testimonials-container .slider-card {
+                    width: 200px;
+                }
+            	.ss-testimonials-container .slider-card P {
+                    margin: 0px 0px 10px 0px;
+                }
+            }
+            @media screen and (max-width: 440px) {
+            	.ss-testimonials-container {
+                    padding: 100px 0px;
+                }
+                .ss-testimonials-container .main-container .testimonials-prev {
+                	margin-left: -10px;
+                }
+                .ss-testimonials-container .main-container .testimonials-next {
+                	margin-right: -10px;
+                }
+                .ss-testimonials-container .main-container .testimonials-main {
+                	height: 450px;
+                }
+            	.ss-testimonials-container .slider-card {
+                    width: 200px;
+                    margin: 5px;
+                    padding: 0px 10px;
+                }
+            	.ss-testimonials-container .slider-card P {
+                    margin: 0px 0px 10px 0px;
+                }
+            }
+            </style>
+            <script>
+            	let parentNode = document.currentScript.parentNode;
+                let navIcon = parentNode.querySelector(".testimonials-prev");
+                navIcon.addEventListener('click', (e) => {
+                	console.log(parentNode, 'ccc.p');
+                    let sliderNode = parentNode.querySelector(".ss-testimonials-container .slider");
+                    let singleSlideNode = parentNode.querySelector(".ss-testimonials-container .slide");
+                    let sliderCard = parentNode.querySelector(".ss-testimonials-container .slide .slider-card");
+                    if (getComputedStyle(sliderNode).left == '0px') {
+                    	return;
+                    }
+                    
+                    if (Math.abs(parseFloat(getComputedStyle(sliderNode).left)) < Math.abs(parseFloat(sliderCard.clientWidth))) {
+                    	let move = parseFloat(getComputedStyle(sliderNode).left) + Math.abs(parseFloat(getComputedStyle(sliderNode).left));
+                        sliderNode.style.left = move + 'px';
+                        return;
+                    }
+                    
+                    let move = parseFloat(getComputedStyle(sliderNode).left) + parseFloat(sliderCard.clientWidth) + 30;
+                    sliderNode.style.left = move + 'px';
+                });
+                navIcon = parentNode.querySelector(".testimonials-next");
+                navIcon.addEventListener('click', (e) => {
+                	console.log(parentNode, 'ccc.p');
+                    let sliderNode = parentNode.querySelector(".ss-testimonials-container .slider");
+                    let singleSlideNode = parentNode.querySelector(".ss-testimonials-container .slide");
+                    let sliderCard = parentNode.querySelector(".ss-testimonials-container .slide .slider-card");
+                    if (getComputedStyle(sliderNode).width == getComputedStyle(sliderNode).left) {
+                    	return;
+                    }
+                    
+                    if (Math.abs(parseFloat(getComputedStyle(sliderNode).right)) < Math.abs(parseFloat(sliderCard.clientWidth))) {
+                    	let move = parseFloat(getComputedStyle(sliderNode).left) - Math.abs(parseFloat(getComputedStyle(sliderNode).right));
+                        sliderNode.style.left = move + 'px';
+                        return;
+                    }
+                    
+                    let move = parseFloat(getComputedStyle(sliderNode).left) - parseFloat(sliderCard.clientWidth) - 30;
+                    sliderNode.style.left = move + 'px';
+                });
+            </script>
+        </div>
+        `
+    })
+
+    editor.BlockManager.add("footer", {
+        label: `<div class="inherit-color-svg">${footer}
+            <div style="margin-top: 4.14px">Footer</div>
+        </div>`,
+        category: "Prebuilt",
+        content: `
+        <div class="ss-footer-container" data-gjs-custom-name="ss-footer">
+                <div class="main-container">
+                	<div class="footer-head">
+                        <img class="footer-head-logo" src="${appUrl}/assets/images/imagePlaceholder.png"/>
+						<P>All Rights Reserved. © 2020 SiteSeed.</P>
+                    </div>
+                	<div class="footer-nav">
+                    	<div class="footer-nav-col">
+                        	<H2>First Column</H2>
+                            <a>Text Link</a>
+                            <a>Text Link</a>
+                            <a>Text Link</a>
+                            <a>Text Link</a>
+                        </div>
+                    	<div class="footer-nav-col">
+                        	<H2>Second Column</H2>
+                            <a>Text Link</a>
+                            <a>Text Link</a>
+                            <a>Text Link</a>
+                            <a>Text Link</a>
+                        </div>
+                    	<div class="footer-nav-col">
+                        	<H2>Third Column</H2>
+                            <a>Text Link</a>
+                            <a>Text Link</a>
+                            <a>Text Link</a>
+                            <a>Text Link</a>
+                        </div>
+                    </div>
+                	<div class="footer-newsletter">
+                    	<H2>Subscribe</H2>
+                        <div class="newsletter-form">
+                            <form>
+                        	    <input type="text" placeholder="Placeholder"/>
+                                <button class="newsletter-submit-button">
+                                    <img src="${appUrl}/assets/images/send.png"/>
+                                </button>
+                            </form>
+                        </div>
+                        <P>Depending on the company, a suer experience designer may need to be a jack of all trades</P>
+                    </div>
+                </div>
+            <style>
+            	.ss-footer-container {
+                	display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    align-items: center;
+					font-family: Open Sans;
+					font-style: normal;
+					font-weight: normal;
+                    font-size: 16px;
+                    line-height: 22px;
+                    color: #363940;
+                    background-color: #ffffff;
+                    padding: 100px 120px;
+                }
+            	.ss-footer-container .main-container {
+                	display: flex;
+                    justify-content: space-between;
+                    flex-direction: row;
+                    width: 100%;
+                }
+            	.ss-footer-container .main-container .footer-head {
+                    width: 146px;
+                }
+            	.ss-footer-container .main-container .footer-head .footer-head-logo {
+                    width: 73px;
+                    height: 73px;
+                }
+            	.ss-footer-container .main-container .footer-head P {
+                    color: #95A1BB;
+                    margin: 20px 0px;
+                }
+            	.ss-footer-container .main-container .footer-nav {
+                	display: flex;
+                    flex-direction: row;
+                    justify-content: space-evenly;
+                    flex: 1;
+                    margin: 0px 5px;
+                }
+            	.ss-footer-container .main-container .footer-nav .footer-nav-col {
+                	display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    margin: 0px 10px;
+                }
+            	.ss-footer-container .main-container .footer-nav .footer-nav-col H2 {
+                	text-align: center;
+                    font-weight: 600;
+                    font-size: 16px;
+                    margin: 0px 0px 20px 0px;
+                }
+            	.ss-footer-container .main-container .footer-nav .footer-nav-col a {
+                	margin: 0px 0px 22px 0px;
+                    color: #95A1BB;
+                    cursor: pointer;
+                }
+            	.ss-footer-container .main-container .footer-newsletter {
+                	width: 283px;
+                }
+            	.ss-footer-container .main-container .footer-newsletter H2 {
+                	font-weight: 600;
+               		font-size: 16px;
+					margin: 0px 0px 20px 0px;
+                }
+            	.ss-footer-container .main-container .footer-newsletter .newsletter-form {
+                	background-color: #F6F7FA;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+            	.ss-footer-container .main-container .footer-newsletter .newsletter-form form {
+                    padding: 12px 15px;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                    flex: 1;
+                    margin: 0px;
+                }
+            	.ss-footer-container .main-container .footer-newsletter .newsletter-form input {
+                	flex: 1;
+                    background-color: transparent;
+                    border: none;
+                    font-family: Open Sans;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 16px;
+                    line-height: 22px;
+                    color: #95A1BB;
+                }
+            	.ss-footer-container .main-container .footer-newsletter .newsletter-form input::placeholder {
+                    color: #95A1BB;
+                }
+            	.ss-footer-container .main-container .footer-newsletter .newsletter-form .newsletter-submit-button {
+                	border: none;
+                    background: transparent;
+                    cursor: pointer;
+                }
+            	.ss-footer-container .main-container .footer-newsletter P {
+               		font-size: 13px;
+                    line-height: 18px;
+                    color: #95A1BB;
+                    margin: 20px 0px 20px 0px;
+                }
+            </style>
+            <style>
+            @media screen and (max-width: 960px) {
+            	.ss-footer-container {
+                	padding: 100px 20px;
+                }
+            	
+            }
+            @media screen and (max-width: 760px) {
+            	.ss-footer-container .main-container .footer-nav {
+                	display: none;
+                }
+            }
+            @media screen and (max-width: 530px) {
+            	.ss-footer-container .main-container .footer-head {
+                    width: auto;
+                }
+            	.ss-footer-container .main-container .footer-newsletter {
+                    width: auto;
+                }
+            	.ss-footer-container .main-container {
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                    text-align: center;
+                }
+            }
+            </style>
+        </div>
+        `
+    })
+
+    editor.BlockManager.add("cta", {
+        label: `<div class="inherit-color-svg">${cta}
+            <div style="margin-top: 4.14px">CTA</div>
+        </div>`,
+        category: "Prebuilt",
+        content: `
+        <div class="ss-action-container" data-gjs-custom-name="ss-cta">
+                <H1>Your world will never be the same</H1>
+                <P>There are many reasons to get down and start to get depressed about your situation. </P>
+                <button>Get Started</button>
+            <style>
+            	.ss-action-container {
+                	display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+					font-family: Open Sans;
+					font-style: normal;
+                    text-align: center;
+                    background-color: #ffffff;
+                    padding: 100px 120px;
+                }
+            	.ss-action-container H1 {
+                	font-weight: 600;
+					font-size: 36px;
+                    line-height: 43px;
+                    color: #363940;
+                    margin: 0px;
+                }
+            	.ss-action-container P {
+                	font-weight: normal;
+                    font-size: 16px;
+                    line-height: 22px;
+                    color: #95A1BB;
+                    margin: 20px 0px 40px 0px;
+                    width: 366px;
+                }
+            	.ss-action-container button {
+                	font-weight: 600;
+                    font-size: 12px;
+                    line-height: 20px;
+                    letter-spacing: 2px;
+                    text-transform: uppercase;
+                    color: #FFFFFF;
+                    background-color: #006CFF;
+                    height: 46px;
+                    width: 160px;
+                    border: none;
+                }
+            </style>
+            <style>
+            @media screen and (max-width: 600px) {
+            	.ss-action-container {
+                    padding: 100px 20px;
+                }
+            }
+            @media screen and (max-width: 390px) {
+            	.ss-action-container P {
+                    width: auto;
+                }
+            }
+            </style>
+        </div>
+        `
+    })
+
+    editor.BlockManager.add("pricing", {
+        label: `<div class="inherit-color-svg">${pricing}
+            <div style="margin-top: 4.14px">Pricing</div>
+        </div>`,
+        category: "Prebuilt",
+        content: `
+        <div class="ss-pricing-container" data-gjs-custom-name="ss-pricing">
+            <div class="pricing-header">
+                <H1>Choose your plan</H1>
+                <p>There are many reasons to get down and start to get depressed about your situation.</p>
+            </div>
+            <div class="pricing-main">
+                <div class="pricing-card card-spacing">
+                    <div class="card-details">
+                        <img class="footer-head-logo" src="${appUrl}/assets/images/avatar.png"/>
+                    	<H2 class="card-title">Standard</H2>
+                        <div class="card-price">
+                        	<H1>$59</H1><P>/month</P>
+                        </div>
+                        <P class="card-description">
+                        	When applied to building block a website or similar work product, a Visual Guide
+						</P>
+                        <H3 class="card-about-list-title">First Column</H3>
+                        <P class="card-about-list-item">
+                            <img class="footer-head-logo" src="${appUrl}/assets/images/tick.png"/>
+                            Create Messages
+                        </P>
+                        <P class="card-about-list-item">
+                            <img class="footer-head-logo" src="${appUrl}/assets/images/tick.png"/>
+                            Manage conversations from email
+                        </P>
+                        <P class="card-about-list-item">
+                            <img class="footer-head-logo" src="${appUrl}/assets/images/tick.png"/>
+                            View customer profiles
+                        </P>
+                    </div>
+                    <div class="card-actions">
+                    	<button>Button</button>
+                    	<div class="card-actions-subscript">Includes Free Trials of Source <a>Link</a></div>
+                    </div>
+                </div>
+                <div class="pricing-card card-spacing">
+                    <div class="card-details">
+                        <img class="footer-head-logo" src="${appUrl}/assets/images/avatar.png"/>
+                    	<H2 class="card-title">Individual</H2>
+                        <div class="card-price">
+                        	<H1>$9.99</H1><P>/month</P>
+                        </div>
+                        <P class="card-description">
+                        	When applied to building block a website or similar work product, a Visual Guide
+						</P>
+                        <H3 class="card-about-list-title">First Column</H3>
+                        <P class="card-about-list-item">
+                            <img class="footer-head-logo" src="${appUrl}/assets/images/tick.png"/>
+                            Create Messages
+                        </P>
+                        <P class="card-about-list-item">
+                            <img class="footer-head-logo" src="${appUrl}/assets/images/tick.png"/>
+                            Manage conversations from email
+                        </P>
+                        <P class="card-about-list-item">
+                            <img class="footer-head-logo" src="${appUrl}/assets/images/tick.png"/>
+                            View customer profiles
+                        </P>
+                    </div>
+                    <div class="card-actions">
+                    	<button>Button</button>
+                    	<div class="card-actions-subscript">Includes Free Trials of Source <a>Link</a></div>
+                    </div>
+                </div>
+                <div class="pricing-card card-spacing">
+                    <div class="card-details">
+                        <img class="footer-head-logo" src="${appUrl}/assets/images/avatar.png"/>
+                    	<H2 class="card-title">Enterprise</H2>
+                        <div class="card-price">
+                        	<H1>$199</H1><P>/month</P>
+                        </div>
+                        <P class="card-description">
+                        	When applied to building block a website or similar work product, a Visual Guide
+						</P>
+                        <H3 class="card-about-list-title">First Column</H3>
+                        <P class="card-about-list-item">
+                            <img class="footer-head-logo" src="${appUrl}/assets/images/tick.png"/>
+                            Create Messages
+                        </P>
+                        <P class="card-about-list-item">
+                            <img class="footer-head-logo" src="${appUrl}/assets/images/tick.png"/>
+                            Manage conversations from email
+                        </P>
+                        <P class="card-about-list-item">
+                            <img class="footer-head-logo" src="${appUrl}/assets/images/tick.png"/>
+                            View customer profiles
+                        </P>
+                        <P class="card-about-list-item">
+                            <img class="footer-head-logo" src="${appUrl}/assets/images/tick.png"/>
+                        	Integrate with Stripe
+                        </P>
+                    </div>
+                    <div class="card-actions">
+                    	<button>Button</button>
+                    	<div class="card-actions-subscript">Includes Free Trials of Source <a>Link</a></div>
+                    </div>
+                </div>
+            </div>
+            <style>
+                .ss-pricing-container {
+                    padding: 100px;
+                    background-color: #FFFFFF;
+                    font-family: Rubik;
+                    font-style: normal;
+                }
+                .pricing-header {
+                    text-align: center;
+                    margin-bottom: 20px;
+                    font-family: Open Sans;
+                    font-style: normal;
+                }
+                .pricing-header H1 {
+                    font-weight: 600;
+                    font-size: 36px;
+                    line-height: 43px;
+                    color: #363940;
+                    margin-bottom: 20px;
+                    text-align: center;
+                }
+                .pricing-header P {
+                    font-weight: normal;
+                    font-size: 16px;
+                    line-height: 22px;
+                    color: #95A1BB;
+                }
+                .pricing-main {
+                    display: flex;
+                    align-items: baseline;
+                    flex-wrap: wrap;
+                    padding: 5px 5px;
+                }
+                .pricing-card {
+                    display: flex;
+                    align-content: space-between;
+                    justify-content: center;
+                    flex-wrap: wrap;
+                    flex: 1;
+                    min-width: 150px;
+                    height: 570px;
+                    border: 1px solid #E1E5EE;
+                    box-sizing: border-box;
+                    border-radius: 4px;
+                    margin: 0px 15px;
+                }
+                .pricing-card.card-spacing {
+                    padding: 50px 30px;
+                }
+                .pricing-card img {
+                    /*width: 100%;*/
+                }
+                .pricing-card .card-details {
+                	width: 100%;
+                    position: relative;
+                }
+                .pricing-card .card-details > img {
+                	position: absolute;
+                    right: 0px;
+                    top: -10px;
+                }
+                .pricing-card .card-details .card-title {
+					margin: 0px 0px 20px 0px;
+                    font-weight: 500;
+                    font-size: 24px;
+                    line-height: 28px;
+                }
+                .pricing-card .card-details .card-price {
+                	display: flex;
+                    align-items: baseline;
+                }
+                .pricing-card .card-details .card-price H1 {
+                	font-weight: 500;
+                    font-size: 48px;
+                    line-height: 57px;
+                    margin: 0;
+                }
+                .pricing-card .card-details .card-price P {
+                	font-weight: 500;
+                    font-size: 18px;
+                    line-height: 22px;
+                    color: #95A1BB;
+                    margin: 0;
+                }
+                .pricing-card .card-details .card-description {
+                	border-bottom: 1px solid #E1E5EE;
+                    margin: 0px;
+                    font-weight: normal;
+                    font-size: 16px;
+                    line-height: 22px;
+                    color: #95A1BB;
+                    padding: 10px 0px 30px 0px;
+                }
+                .pricing-card .card-details .card-about-list-title {
+                	font-weight: 500;
+                    font-size: 18px;
+                    line-height: 22px;
+                    color: #363940;
+                    margin: 30px 0px 0px 0px;
+                }
+                .pricing-card .card-details .card-about-list-item {
+               		margin: 10px 0px 0px 0px;
+                    display: flex;
+                    align-items: center;
+                }
+                .pricing-card .card-details .card-about-list-item img {
+               		margin-right: 7px;
+                }
+                .pricing-card .card-actions {
+                    width: 100%;
+                }
+                .pricing-card .card-actions button {
+                	background-color: #006CFF;
+                    border: none;
+                    color: #ffffff;
+                    width: 100%;
+                    height: 46px;
+                }
+                .pricing-card .card-actions .card-actions-subscript {
+                	font-weight: normal;
+                    font-size: 13px;
+                    line-height: 22px;
+                    color: #95A1BB;
+                    margin-top: 10px;
+                }
+                .pricing-card .card-actions .card-actions-subscript a {
+                	font-weight: normal;
+                    font-size: 13px;
+                    line-height: 22px;
+                    color: #4091ff;
+                }
+            </style>
+            <style>
+            @media screen and (max-width: 1260px) {
+                .ss-pricing-container {
+                    padding: 100px 20px;
+                }
+            }
+            @media screen and (max-width: 1100px) {
+                .ss-pricing-container {
+                    padding: 100px 20px;
+                }
+                .pricing-card.card-spacing {
+                    padding: 30px 10px;
+                }
+            }
+            @media screen and (max-width: 800px) {
+                .pricing-main {
+                    flex-direction: column;
+                }
+                .pricing-card.card-spacing {
+                    margin: 5px 15px;
+                    padding: 50px 30px;
+                }
+                .pricing-card .card-actions {
+                	margin-top: 20px;
+                }
+            }
+            @media screen and (max-width: 420px) {
+            	.ss-pricing-container {
+                    padding: 100px 0px;
+                }
+                .pricing-card.card-spacing {
+                    margin: 5px 0px;
+                    padding: 50px 10px;
+                }
+            }
+            </style>
+        </div>
+        `
+    })
 
     editor.BlockManager.add("faq", {
         label: `<div class="inherit-color-svg">${faq}
@@ -428,14 +1421,6 @@ export const prebuiltBlocks = (editor) => {
 					border-radius: 0px 0px 4px 4px;
                 }
             </style>
-            <style>
-                @media screen and (max-width: 1024px) {
-                }
-                @media screen and (min-width: 1024px) {
-                }
-                @media screen and (max-width: 640px) {
-                }
-            </style>
             <script>
             	var main = document.getElementsByClassName("ss-faq-main")[0];
                 var acc = main.getElementsByClassName("accordion");
@@ -455,7 +1440,6 @@ export const prebuiltBlocks = (editor) => {
             </script>
         </div>`
     })
-
 
     editor.BlockManager.add("pop-up", {
         label: `<div class="inherit-color-svg">${popUp}
