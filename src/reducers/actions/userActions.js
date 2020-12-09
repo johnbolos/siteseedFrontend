@@ -22,4 +22,8 @@ export const updateAssets = (value) => {
   return { type: 'UPDATE_ASSETS', value }
 }
 
+export const setLocalFonts = (value) => {
+  return { type: 'SET_LOCAL_FONTS', value }
+}
+
 // export default login

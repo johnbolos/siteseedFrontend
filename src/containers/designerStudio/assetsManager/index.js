@@ -9,7 +9,7 @@ import _grapesEditor from "../../../components/utils/grapesEditor"
 // import { Select } from '../../../components/ui/editor'
 import { undo, redo, setEditorStyleData } from "../../../reducers/actions/editorHistoryActions"
 import { setPseudoClass, closeAssets, setbackgroundImage } from "../../../reducers/actions/editor"
-import { setS3Dir, updateAssets } from "../../../reducers/actions/userActions"
+import { setS3Dir, updateAssets, setLocalFonts } from "../../../reducers/actions/userActions"
 import { customEvents } from '../../../components/utils/grapesEditor/styleManager'
 import Icons from '../../../assets/Icons'
 import editor from "../../../reducers/editor"
@@ -27,7 +27,8 @@ class AssetsManager extends React.Component {
         lastFontKey: 20,
         styleTag: null,
         fontSearch: '',
-        invalidUrl: false
+        invalidUrl: false,
+        localFontsArr: null
     }
     componentDidMount() {
         const { assetsManager } = this.props
@@ -41,6 +42,7 @@ class AssetsManager extends React.Component {
             if (!this.state.styleTag) {
                 this.setState({ styleTag: document.getElementById('style-assets-manager') }, () => {
                     this.mapLimitedFonts(this.state.lastFontKey)
+                    this.createLocalFonts()
                 })
             }
         }
@@ -93,6 +95,12 @@ class AssetsManager extends React.Component {
             allImages.scrollTop = allImages.scrollHeight
         })
     }
+    handleAddFont = (fontObj) => {
+        let { dispatch, localFonts } = this.props
+        localFonts.push(fontObj)
+        dispatch(setLocalFonts(localFonts))
+        this.createLocalFonts()
+    }
     handleUpload = async (e, mouseDrop) => {
         let { dispatch, assets, userS3Dir } = this.props
         let files = []
@@ -143,23 +151,89 @@ class AssetsManager extends React.Component {
         // }
         // this.handleAddImage(apiRequest.secure_url)
     }
+    handleFontsUpload = async (e, mouseDrop) => {
+        let { dispatch, assets, userS3Dir } = this.props
+        let files = []
+        files = e.target.files
+        if (files && files.length == 0) {
+            return
+        }
+        if (files[0].size > 2000000) {
+            console.log('please upload a file smaller than 2MB')
+            return
+        }
+        // handle multiple files upload instead of one
+        this.setState({ loading: true })
+        _.each(files, (file, index) => {
+            if (!['woff', 'woff2', 'ttf'].includes(/(?:\.([^.]+))?$/.exec(file.name)[1])) {
+                console.log('Invalid File format')
+                return
+            }
+            let s3Dir = userS3Dir
+            if (!s3Dir) {
+                // create new userS3Dir
+                s3Dir = shortid.generate()  //replace this with user _id
+                dispatch(setS3Dir(s3Dir))
+            }
+            _s3.uploadFile(file, s3Dir + '/fonts', (resp) => {
+                if (index == files.length - 1) {
+                    this.setState({ loading: false })
+                }
+                if (resp.error) {
+                    if (resp.message) {
+                        console.error(resp.message)
+                    }
+                    return
+                }
+                // this.handleAddImage(resp.data.location)
+                let payload = {
+                    family: file.name.replace(/(?:\.([^.]+))?$/, ''),
+                    url: resp.data.location
+                }
+                this.handleAddFont(payload)
+            })
+        })
+
+        // this.setState({ loading: true })
+        // let form = new FormData()
+        // form.append('file', files[0])
+        // form.append('upload_preset', 'ybygtzty')
+        // const apiRequest = await Request.uploadImage(form)
+        // this.setState({ loading: false })
+        // if (!apiRequest.secure_url) {
+        //     return
+        // }
+        // this.handleAddImage(apiRequest.secure_url)
+    }
     handleClose = () => {
         const { dispatch, assets } = this.props
         dispatch(closeAssets())
     }
-    toggleFont = (family) => {
+    toggleFont = (family, type = 'google') => {
         let { assets, dispatch } = this.props
         let { fonts } = assets
-        let index = fonts.indexOf(family)
+        if (type == 'google') {
+            let index = fonts.indexOf(family)
+            if (index == -1) {
+                // not present
+                fonts.unshift(family)
+            } else {
+                fonts.splice(index, 1)
+            }
+            dispatch(updateAssets(assets))
+            this.mapLimitedFonts(this.state.lastFontKey)
+            return
+        }
+        // local
+        let index = _.findIndex(fonts, (item) => typeof (item) != 'string' && item.family == family.family)
         if (index == -1) {
             // not present
             fonts.unshift(family)
         } else {
             fonts.splice(index, 1)
         }
-        console.log(family, fonts)
         dispatch(updateAssets(assets))
-        this.mapLimitedFonts(this.state.lastFontKey)
+        this.createLocalFonts()
     }
     getIndicesOf = (searchStr, str, caseSensitive) => {
         var searchStrLen = searchStr.length;
@@ -184,22 +258,51 @@ class AssetsManager extends React.Component {
         let str = styleTag.innerHTML, findPhrase = ''
         if (type == 'google') {
             findPhrase = 'https://fonts.googleapis.com/css?family='
+            let indices = this.getIndicesOf(findPhrase, str)
+            if (indices.length == 0) {
+                // not present yet
+                str = `\n\t@import url("${'https://fonts.googleapis.com/css?family=display=swap'}");\n` + str	//14
+                indices.push(15)
+            }
+            if (typeof (name) === 'string') {
+                str = [str.slice(0, ((indices[0] + findPhrase.length))), `${name}:100,200,300,400,500,600,700,800,900|`, str.slice((indices[0] + findPhrase.length))].join('') 	// -6 due to family
+            } else {
+                let familyRule = name.map(val => `${val}:100,200,300,400,500,600,700,800,900|`).join('')
+                str = [str.slice(0, ((indices[0] + findPhrase.length))), `${familyRule}`, str.slice((indices[0] + findPhrase.length))].join('') 	// -6 due to family
+            }
+            styleTag.innerHTML = str
+            return
         }
+        findPhrase = '/* local fonts */\n'
         let indices = this.getIndicesOf(findPhrase, str)
         if (indices.length == 0) {
             // not present yet
-            str = `\n\t@import url("${'https://fonts.googleapis.com/css?family=display=swap'}");\n` + str	//14
-            indices.push(15)
+            str = str + `\n\t/* local fonts */\n`
+            indices = this.getIndicesOf(findPhrase, str)
         }
-        if (typeof (name) === 'string') {
-            str = [str.slice(0, ((indices[0] + findPhrase.length))), `${name}:100,200,300,400,500,600,700,800,900|`, str.slice((indices[0] + findPhrase.length))].join('') 	// -6 due to family
-        } else {
-            let familyRule = name.map(val => `${val}:100,200,300,400,500,600,700,800,900|`).join('')
-            str = [str.slice(0, ((indices[0] + findPhrase.length))), `${familyRule}`, str.slice((indices[0] + findPhrase.length))].join('') 	// -6 due to family
-        }
+        let fontObj = name
+        let familyRule = fontObj.filter((item) => ['woff', 'woff2', 'ttf'].includes(/(?:\.([^.]+))?$/.exec(item.url)[1])).map(item => {
+            let format = ''
+            switch (/(?:\.([^.]+))?$/.exec(item.url)[1]) {
+                case 'woff2':
+                    format = 'format("woff2")'
+                    break;
+                case 'woff':
+                    format = 'format("woff")'
+                    break;
+                case 'ttf':
+                    format = 'format("truetype")'
+                    break;
+            }
+            return `\n@font-face {
+                font-family: "${item.family}";
+                src: url("${item.url}") ${format};
+            }\n`
+        }).join('')
+        str = [str.slice(0, ((indices[0] + findPhrase.length))), `${familyRule}`, str.slice((indices[0] + findPhrase.length))].join('')
         styleTag.innerHTML = str
     }
-    removeFontsBlock = (name, type = 'google') => {
+    removeFontsBlock = (name, type = 'google') => { //not in use
         const styleTag = document.getElementById('style-assets-manager')
         if (!styleTag) {
             return
@@ -251,6 +354,26 @@ class AssetsManager extends React.Component {
         this.importFontsBlock(familyArr)
         this.setState({ fontsArr: resp })
     }
+    createLocalFonts = () => {
+        const { localFonts, assets } = this.props
+        const { fontSearch: searchTerm } = this.state
+        let resp = []
+        // let familyArrObj = []
+        let filteredFonts = localFonts
+        if (searchTerm.trim() != '') {
+            filteredFonts = filteredFonts.filter((obj) => { return _.lowerCase(obj.family).includes(_.lowerCase(searchTerm)) })
+        }
+        _.each(filteredFonts, (item, key) => {
+            let imported = _.find(assets.fonts, (obj) => item.family == obj.family)
+            resp[key] = (<div className={'preview-font'} style={{ fontFamily: `${item.family}` }} onClick={() => { this.toggleFont(item, 'local') }}>
+                {imported && <Icons.CircularTick style={{ width: '25px', height: '25px' }} className={'selected-icon'} />}
+                <div className={'preview-heading'}>Axg</div>
+                <div className={'font-name'}>{item.family}</div>
+            </div>)
+        })
+        this.importFontsBlock(filteredFonts, 'local')
+        this.setState({ localFontsArr: resp })
+    }
     handleScroll = (e) => {
         if (this.props.assetsManager != 'font') {
             return
@@ -258,9 +381,9 @@ class AssetsManager extends React.Component {
         const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
         if (bottom) {
             e.target.scrollTop = e.target.scrollTop - 2
-            console.log('bottom reached')
             this.setState({ lastFontKey: this.state.lastFontKey + 20 }, () => {
                 this.mapLimitedFonts(this.state.lastFontKey)
+                this.createLocalFonts()
             })
         }
     }
@@ -332,7 +455,7 @@ class AssetsManager extends React.Component {
                                     <label className={'add-image-btn'} onClick={() => { this.handleAddImage(this.state.inputUrl) }}>
                                         Add Image
                                     </label>
-                                    { invalidUrl && <div className={'warning-label'}>Please Enter a valid Image URL</div>}
+                                    {invalidUrl && <div className={'warning-label'}>Please Enter a valid Image URL</div>}
                                 </div>
                                 <div className={'all-images'}>
                                     {
@@ -361,15 +484,48 @@ class AssetsManager extends React.Component {
                         }
                         <style id={'style-assets-manager'}></style>
                         {
-                            assetsManager == 'font' && (<div className="fonts-search-container">
+                            assetsManager == 'font' && (<div className="fonts-actions-container">
+                                <div>
+                                    <label className={'assets-upload-btn'} for="ss-assets-manager-upload">
+                                        {loading && <Icons.Loading style={{ width: '16px', height: '16px', marginRight: '5px' }} />}
+                                    Upload Local Fonts
+                                </label>
+                                    <input
+                                        type="file"
+                                        id="ss-assets-manager-upload"
+                                        accept=".woff, .woff2, .ttf"
+                                        multiple
+                                        style={{ display: 'none' }}
+                                        onChange={this.handleFontsUpload}
+                                    />
+                                </div>
                                 <div className="searchbox">
                                     <Icons.Search style={{ height: '16px', width: '16px' }} />
-                                    <input type="text" value={fontSearch} placeholder={"Search"} onChange={(e) => { this.setState({ fontSearch: e.target.value }, () => { this.mapLimitedFonts(lastFontKey) }) }} />
+                                    <input type="text" value={fontSearch} placeholder={"Search"} onChange={(e) => {
+                                        this.setState({
+                                            fontSearch: e.target.value
+                                        }, () => {
+                                            this.mapLimitedFonts(lastFontKey)
+                                            this.createLocalFonts()
+                                        })
+                                    }} />
                                 </div>
                             </div>)
                         }
                         {
-                            assetsManager == 'font' && styleTag && <div className={"font-tiles-container"}>{this.state.fontsArr}</div>
+                            assetsManager == 'font' && styleTag && <div className={"font-tiles-container"}>
+                                {this.state.localFontsArr && <>
+                                    <div className="fonts-type">Local</div>
+                                    <div className="fonts-type-divider"></div>
+                                    {this.state.localFontsArr}
+                                </>
+                                }
+                                {this.state.fontsArr && <>
+                                    <div className="fonts-type">Google</div>
+                                    <div className="fonts-type-divider"></div>
+                                    {this.state.fontsArr}
+                                </>}
+                            </div>
                         }
                     </div>
                 </div>
@@ -383,6 +539,7 @@ const mapStateToProps = ({ global, layout, templates, editor, editorHistory }) =
         templates,
         assetsManager: editor.assetsManager,
         assets: global.assets,
+        localFonts: global.localFonts,
         imageAssetsTarget: editor.imageAssetsTarget,
         backgroundImage: editor.backgroundImage,
         googleFonts: editor.googleFonts,

@@ -43,7 +43,7 @@ class Integer extends React.Component {
             }
         })
         this.setState({ value: value.replace(defaultUnit, '') }, () => {
-            
+
             console.log(this.state.value, this.state.unitValue, 'ccc.p integer')
         })
     }
@@ -74,6 +74,8 @@ class Integer extends React.Component {
                 step,
                 disabled,
                 stopScrollValue,
+                min,
+                max,
                 onChange, //form item specific change
                 // rules,
                 // multiple,
@@ -92,10 +94,19 @@ class Integer extends React.Component {
                     placeholder={(value == '' || disabled) ? 'Auto' : (isNaN(value) ? _.startCase(value) : '')}
                     onChange={(e) => {
                         let value = e.target.value
-                        console.log(value, 'ccc.p')
-                        if(value == '') {
+                        console.log(parseInt(value), min, parseInt(value) < min, 'ccc.p')
+                        if (!isNaN(parseInt(min)) && parseInt(value) < min) {
+                            value = min
+                        }
+                        if (!isNaN(parseInt(max)) && value > max) {
+                            value = max
+                        }
+                        if (value == '' && (this.props.meta.key == 'max-height' || this.props.meta.key == 'max-width')) {
+                            value = 'none'
+                        } else if (value == '') {
                             value = 0
                         }
+                        console.log(value, 'ccc.p changed')
                         this.onChange(value)
                     }}
                     style={disabled ? { background: 'rgba(59, 59, 59, 0.3)', paddingRight: unit || defaultUnit ? '30px' : '15px' } : { paddingRight: unit || defaultUnit ? '30px' : '15px' }}

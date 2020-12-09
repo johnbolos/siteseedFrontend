@@ -30,9 +30,15 @@ const initialState = {
             'Raleway',
             'Playfair Display',
             'Open Sans',
-            'Rubik'
+            'Rubik',
+            // {
+            //     font: 'demo',
+            //     url: ''
+            // }
         ]
     },
+    localFonts: [
+    ],
     recentColors: [
         '#C70039',
         '#FF5733',
@@ -66,7 +72,7 @@ export default (state = initialState, action) => {
                 ...state,
                 currentUser: action.user
             }
-            
+
         case 'APPEND_COLOR':
             let recentColors = state.recentColors
             recentColors.pop()
@@ -80,6 +86,12 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 userS3Dir: action.value
+            }
+        
+        case 'SET_LOCAL_FONTS':
+            return {
+                ...state,
+                localFonts: action.value
             }
 
         case 'UPDATE_ASSETS':

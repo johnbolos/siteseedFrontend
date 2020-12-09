@@ -41,16 +41,17 @@ const _grapesEditor = {
 					let resp = ed.getCss()
 					let frame = document.getElementsByClassName("gjs-frame")
 					let doc = frame[0].contentWindow.document
-					let styleGrapejs = ed.getCss()
+					// let styleGrapejs = ed.getCss()
 					let style = doc.getElementById("ss-style")
 					let customStyles = doc.getElementById("ss-customStyles")
 					let styleAssets = doc.getElementById("ss-style-assets")
+					console.log(styleAssets, 'sss.p exporting')
 					if (styleAssets) {
 						resp = styleAssets.innerHTML + '\n\n' + resp
 					}
-					if (styleGrapejs.trim() != '') {
-						resp = '\n\n' + styleGrapejs
-					}
+					// if (styleGrapejs.trim() != '') {
+					// 	resp = '\n\n' + styleGrapejs
+					// }
 					if (style) {
 						resp += '\n\n' + style.innerHTML
 					}

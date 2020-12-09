@@ -145,7 +145,9 @@ class StyleManager extends React.Component {
         }
         if (item.key == 'font-family') {
             item.value = item.value.trim()
-            item.value = item.value.replace(/\+/gi, ' ')
+            if (item.type != 'local') {
+                item.value = item.value.replace(/\+/gi, ' ')
+            }
         }
 
         if (pseudoClass == 'normal') {  // using !important css rule for normal pseudoclass
@@ -1286,6 +1288,14 @@ class StyleManager extends React.Component {
             },
         ]
         let resp = fonts.map((item) => {
+            if (item.family) {
+                return {
+                    type: 'url',    //link from s3 uploaded by user
+                    label: item.family,
+                    value: item.family,
+                    url: item.url
+                }
+            }
             return {
                 label: item,
                 value: item.replace(/ /gi, '+')
@@ -1297,7 +1307,7 @@ class StyleManager extends React.Component {
                 render: () => {
                     return (
                         <div className={'typography-fonts-googlefonts'} onClick={() => { dispatch(openAssets({ type: 'font' })) }}>
-                            Google Fonts
+                            Fonts Library
                             <Icons.OpenLink style={{ width: '10px', height: '10px', marginLeft: '6px' }} />
                         </div>
                     )
@@ -1547,7 +1557,7 @@ class StyleManager extends React.Component {
                         }
                         let handleFocus = (event) => event.target.select()
                         return <input onFocus={handleFocus} type={'number'} value={val || 0} onChange={(e) => {
-                            if ( e.target.value < -9999 || e.target.value > 9999) {
+                            if (e.target.value < -9999 || e.target.value > 9999) {
                                 return
                             }
                             handleOnChange(`${e.target.value}${unit}`, key)
@@ -1605,8 +1615,9 @@ class StyleManager extends React.Component {
                 // labelClass: 'custom-label',
                 containerClass: 'font-family-container',
                 onChange: (value, item, pastValue) => {
+                    _grapesEditor.styleManager.removeFontsBlock(pastValue)
+
                     if (!item.url) {
-                        _grapesEditor.styleManager.removeFontsBlock(pastValue)
                         const data = _grapesEditor.styleManager.importFontsBlock(value)
                         if (data.error) {
                             return
@@ -1614,7 +1625,17 @@ class StyleManager extends React.Component {
                         this.props.saveCurrentChanges(this.props.pageReducer.currentPage, {
                             styleFontStr: data.data
                         });
+                        return
                     }
+                    console.log(item, 'sss.p')
+                    // _grapesEditor.styleManager.removeFontsBlock(pastValue)
+                    const data = _grapesEditor.styleManager.importFontsBlock(item, 'url')
+                    if (data.error) {
+                        return
+                    }
+                    this.props.saveCurrentChanges(this.props.pageReducer.currentPage, {
+                        styleFontStr: data.data
+                    });
                 },
                 options: this.state.fontOptions,
             },
@@ -1814,6 +1835,8 @@ class StyleManager extends React.Component {
                 value: (((selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'opacity')) || 0) * 100),
                 defaultUnit: '%',
                 integerEdit: true,
+                min: 0,
+                max: 100,
                 // width: '48%',
             },
             {

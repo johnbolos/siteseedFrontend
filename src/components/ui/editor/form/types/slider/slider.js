@@ -124,7 +124,14 @@ class Slider extends React.Component {
                 <input type="range" ref={this.sliderRef} className={'slider'} min={min ? `${min}` : "0"} max={max ? `${max}` : "100"} value={value} onChange={(e) => { this.onChange(e.target.value) }} />
                 <div className={'value'}>
                     {
-                        integerEdit && <Integer meta={{ defaultUnit: defaultUnit, value: `${value}`, onChange: (value) => { this.onChange(value) } }} />
+                        integerEdit && <Integer meta={{ defaultUnit: defaultUnit, value: `${value}`, min, max, onChange: (val) => { 
+                            let value = val
+                            // console.log(value, parseInt(value), 'sss.p oapcity')
+                            // if (parseInt(value) > 100) {
+                            //     value = '100%'
+                            // }
+                            this.onChange(value)
+                         } }} />
                     }
                     {
                         !integerEdit && <div>{value + ' ' + `${showDegSign ? (unitValue == 'deg' ? '°' : unitValue) : unitValue }`}</div>

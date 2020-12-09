@@ -261,6 +261,14 @@
       position: absolute;
       right: 11px;
       top: 11px;
+      path {
+        .theme-light & {
+          fill: map-get($light, "color1");
+        }
+        .theme-dark & {
+          fill: map-get($dark, "color1");
+        }
+      }
     }
     > svg:hover {
       cursor: pointer;
@@ -291,12 +299,31 @@
       flex-direction: row;
       flex-wrap: wrap;
 
-      .fonts-search-container {
+      .fonts-actions-container {
         width: 100%;
         display: flex;
         justify-content: flex-end;
+        align-items: center;
         margin: 0px 34px;
         height: 30px;
+        .assets-upload-btn {
+          border-radius: 5px;
+          padding: 8px 16px;
+          font-weight: normal;
+          font-size: 13px;
+          line-height: 16px;
+          margin-right: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: map-get($primary, "background");
+          color: map-get($primary, "color");
+          > svg {
+            circle {
+              stroke: map-get($primary, "color");
+            }
+          }
+        }
         .searchbox {
           width: 220px;
           padding: 7px 10px;
@@ -310,6 +337,16 @@
             background-color: map-get($dark, "background6");
           }
           border-radius: 5px;
+          svg {
+            path {
+              .theme-light & {
+                fill: map-get($light, "color1");
+              }
+              .theme-dark & {
+                fill: map-get($dark, "color1");
+              }
+            }
+          }
           input {
             background: transparent;
             outline: none;
@@ -333,6 +370,24 @@
         padding: 0px 0px 0px 30px;
         overflow-y: scroll;
         height: calc(100% - 30px);
+      }
+      .fonts-type {
+        width: 100%;
+        margin: 0px 0px;
+        padding: 0px 0px 10px 8px;
+        color: #9b9b9b;
+      }
+      .fonts-type-divider {
+        height: 1px;
+        width: 150%;
+        margin: 0px 30px 0px 8px;
+        // background: #444444;
+        .theme-light & {
+          background-color: map-get($light, "background3");
+        }
+        .theme-dark & {
+          background-color: map-get($dark, "background3");
+        }
       }
       .font-tiles-container::-webkit-scrollbar {
         width: 6px;

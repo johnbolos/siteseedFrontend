@@ -53,54 +53,54 @@ const styleManager = {
 			"DOMNodeInserted",
 			function (evt) {
 				if (evt.target.className == "gjs-css-rules") {
-						// const gjsCssRules = frame[0].contentWindow.document.querySelector(
-						// 	".gjs-css-rules"
-						// );
-						const gjsCssRules = evt.target;
-						//add the style tag in dom
-						let styleId = "ss-style";
-						let style = document.createElement("style");
-						style.id = styleId;
-						style.innerHTML = styleObj.data.filteredStr;
-						// ===========================================================
-						// gjsCssRules.appendChild(style);
-						// ===========================================================
-						body[0].appendChild(style);
-						console.log(body, grapesDocument.querySelector(".gjs-css-rules"), 'ccc.p')
-						// body.insertBefore(style, body.firstChild);
+					// const gjsCssRules = frame[0].contentWindow.document.querySelector(
+					// 	".gjs-css-rules"
+					// );
+					const gjsCssRules = evt.target;
+					//add the style tag in dom
+					let styleId = "ss-style";
+					let style = document.createElement("style");
+					style.id = styleId;
+					style.innerHTML = styleObj.data.filteredStr;
+					// ===========================================================
+					// gjsCssRules.appendChild(style);
+					// ===========================================================
+					body[0].appendChild(style);
+					console.log(body, grapesDocument.querySelector(".gjs-css-rules"), 'ccc.p')
+					// body.insertBefore(style, body.firstChild);
 
+					style = document.createElement("style");
+					style.id = "ss-customStyles";
+					// style.innerHTML = styleObj.data.stylesObj[0].styles;	//adds custom stylesss
+
+					style.innerHTML = customCss;
+					// ===========================================================
+					// gjsCssRules.appendChild(style);
+					// ===========================================================
+					body[0].appendChild(style);
+
+					// -------------------------------------------Style-font-assets------------------------------------------------
+					if (styleFontStr) {
 						style = document.createElement("style");
-						style.id = "ss-customStyles";
-						// style.innerHTML = styleObj.data.stylesObj[0].styles;	//adds custom stylesss
-
-						style.innerHTML = customCss;
-						// ===========================================================
-						// gjsCssRules.appendChild(style);
-						// ===========================================================
+						style.id = "ss-style-assets";
+						style.innerHTML = styleFontStr;
 						body[0].appendChild(style);
+					}
+					// ------------------------------------------------------------------------------------------------------------
 
-						// -------------------------------------------Style-font-assets------------------------------------------------
-						if (styleFontStr) {
-							style = document.createElement("style");
-							style.id = "ss-style-assets";
-							style.innerHTML = styleFontStr;
-							body[0].appendChild(style);
-						}
-						// ------------------------------------------------------------------------------------------------------------
+					// if (
+					// 	styleObj.data &&
+					// 	styleObj.data.stylesObj[0] &&
+					// 	styleObj.data.stylesObj[0].custom
+					// ) {
+					// 	let style = document.createElement("style");
+					// 	style.id = "ss-customStyles";
+					// 	// style.innerHTML = styleObj.data.stylesObj[0].styles;	//adds custom stylesss
 
-						// if (
-						// 	styleObj.data &&
-						// 	styleObj.data.stylesObj[0] &&
-						// 	styleObj.data.stylesObj[0].custom
-						// ) {
-						// 	let style = document.createElement("style");
-						// 	style.id = "ss-customStyles";
-						// 	// style.innerHTML = styleObj.data.stylesObj[0].styles;	//adds custom stylesss
-
-						// 	style.innerHTML = template1StyleMedia;
-						// 	gjsCssRules.appendChild(style);
-						// 	// body.insertBefore(style, body.firstChild);
-						// }
+					// 	style.innerHTML = template1StyleMedia;
+					// 	gjsCssRules.appendChild(style);
+					// 	// body.insertBefore(style, body.firstChild);
+					// }
 				}
 			},
 			false
@@ -226,23 +226,72 @@ const styleManager = {
 		}
 		let str = styleTag.innerHTML,
 			findPhrase = "";
+
 		if (type == "google") {
 			findPhrase = "https://fonts.googleapis.com/css?family=";
+			let indices = styleManager.getIndicesOf(findPhrase, str);
+			if (indices.length == 0) {
+				// not present yet
+				str =
+					`\n\t@import url("${"https://fonts.googleapis.com/css?family=display=swap"}");\n` +
+					str; //14
+				indices.push(15);
+			}
+			str = [
+				str.slice(0, indices[0] + findPhrase.length),
+				`${name}:100,200,300,400,500,600,700,800,900|`,
+				str.slice(indices[0] + findPhrase.length),
+			].join(""); // -6 due to family
+			styleTag.innerHTML = str;
+			return { error: false, data: str }
 		}
-		let indices = styleManager.getIndicesOf(findPhrase, str);
+		findPhrase = '/* local fonts */\n'
+		let indices = styleManager.getIndicesOf(findPhrase, str)
 		if (indices.length == 0) {
 			// not present yet
-			str =
-				`\n\t@import url("${"https://fonts.googleapis.com/css?family=display=swap"}");\n` +
-				str; //14
-			indices.push(15);
+			str = str + `\n\t/* local fonts */\n`
+			indices = styleManager.getIndicesOf(findPhrase, str)
 		}
-		str = [
-			str.slice(0, indices[0] + findPhrase.length),
-			`${name}:100,200,300,400,500,600,700,800,900|`,
-			str.slice(indices[0] + findPhrase.length),
-		].join(""); // -6 due to family
-		styleTag.innerHTML = str;
+		let fontObj = name
+		// find count
+		let countPhrase = `:count-${fontObj.value}`
+		let countIndexEnd = str.indexOf(countPhrase)
+		let countIndexStart = -1
+		if (countIndexEnd != -1) {
+			for (let i = 1; i < 4; i++) {	// 4 depicts max possible count digit => { 2 => 1 digit; 999 => 3 digits }
+				if (str[countIndexEnd - i] == '*') {
+					countIndexStart = countIndexEnd - i + 1
+					break;
+				}
+			}
+		}
+		let count = parseInt(str.substring(countIndexStart, countIndexEnd))
+		// if exists, update the count to + 1
+		if (!isNaN(count)) {
+			count++;
+			str = [str.slice(0, countIndexStart), `${count}`, str.slice(countIndexEnd)].join('')
+			styleTag.innerHTML = str
+		} else {
+			// else add new rule with count 1
+			let format = ''
+			switch (/(?:\.([^.]+))?$/.exec(fontObj.url)[1]) {
+				case 'woff2':
+					format = 'format("woff2")'
+					break;
+				case 'woff':
+					format = 'format("woff")'
+					break;
+				case 'ttf':
+					format = 'format("truetype")'
+					break;
+			}
+			let familyRule = `\n/*1:count-${fontObj.value}*/\n@font-face {
+					font-family: "${fontObj.value}";
+					src: url("${fontObj.url}") ${format};
+				}\n`
+			str = [str.slice(0, ((indices[0] + findPhrase.length))), `${familyRule}`, str.slice((indices[0] + findPhrase.length))].join('')
+			styleTag.innerHTML = str
+		}
 		return { error: false, data: str }
 	},
 	removeFontsBlock: (name, type = "google") => {
@@ -254,9 +303,38 @@ const styleManager = {
 		}
 		let str = styleTag.innerHTML,
 			findPhrase = "";
-		if (type == "google") {
-			findPhrase = "https://fonts.googleapis.com/css?family=";
+
+		let countPhrase = `:count-${name}`;
+		let countIndexEnd = str.indexOf(countPhrase)
+		let countIndexStart = -1
+		if (countIndexEnd != -1) {
+			for (let i = 1; i < 4; i++) {	// 4 depicts max possible count digit => { 2 => 1 digit; 999 => 3 digits }
+				if (str[countIndexEnd - i] == '*') {
+					countIndexStart = countIndexEnd - i + 1
+					break;
+				}
+			}
+			let count = parseInt(str.substring(countIndexStart, countIndexEnd))
+			// remove url font
+			if (count > 1) {
+				count--;
+				str = [str.slice(0, countIndexStart), `${count}`, str.slice(countIndexEnd)].join('')
+				console.log(str, 'sss.p slice')
+				styleTag.innerHTML = str
+			} else {
+				let braceIndices = styleManager.getIndicesOf('}\n', str);
+				let goal = countIndexEnd
+				let blockEnd = braceIndices.reduce(function (prev, curr) {
+					return (Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev);
+				});
+				console.log(blockEnd, str[blockEnd], 'sss.p closests')
+				str = [str.slice(0, countIndexStart - 3), `${count}`, str.slice(countIndexEnd + 1)].join('')
+				styleTag.innerHTML = str
+			}
+			return { error: false, data: str }
 		}
+		// remove google font
+		findPhrase = "https://fonts.googleapis.com/css?family=";
 		let indices = styleManager.getIndicesOf(findPhrase, str);
 		if (indices.length == 0) {
 			// not present yet
@@ -268,6 +346,7 @@ const styleManager = {
 		}
 		styleTag.innerHTML = str;
 		return { error: false, data: str }
+
 	},
 	getIndicesOf: (searchStr, str, caseSensitive) => {
 		var searchStrLen = searchStr.length;
