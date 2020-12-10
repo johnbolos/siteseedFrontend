@@ -66,7 +66,10 @@ const styleManager = {
 					// gjsCssRules.appendChild(style);
 					// ===========================================================
 					body[0].appendChild(style);
-					console.log(body, grapesDocument.querySelector(".gjs-css-rules"), 'ccc.p')
+					console.log(grapesDocument.querySelector('#ss-style'), styleObj, 'sss.p ')
+					if (!grapesDocument.querySelector('#ss-style')) {
+						body[0].appendChild(style);
+					}
 					// body.insertBefore(style, body.firstChild);
 
 					style = document.createElement("style");
@@ -78,7 +81,6 @@ const styleManager = {
 					// gjsCssRules.appendChild(style);
 					// ===========================================================
 					body[0].appendChild(style);
-
 					// -------------------------------------------Style-font-assets------------------------------------------------
 					if (styleFontStr) {
 						style = document.createElement("style");
@@ -319,7 +321,6 @@ const styleManager = {
 			if (count > 1) {
 				count--;
 				str = [str.slice(0, countIndexStart), `${count}`, str.slice(countIndexEnd)].join('')
-				console.log(str, 'sss.p slice')
 				styleTag.innerHTML = str
 			} else {
 				let braceIndices = styleManager.getIndicesOf('}\n', str);
@@ -327,7 +328,6 @@ const styleManager = {
 				let blockEnd = braceIndices.reduce(function (prev, curr) {
 					return (Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev);
 				});
-				console.log(blockEnd, str[blockEnd], 'sss.p closests')
 				str = [str.slice(0, countIndexStart - 3), `${count}`, str.slice(countIndexEnd + 1)].join('')
 				styleTag.innerHTML = str
 			}
@@ -415,7 +415,6 @@ const styleManager = {
 		let resp = styleInfo.styles[key];
 		if (pseudoClass == 'normal') {
 			if (key == 'width') {
-				console.log(resp, 'ccc.p')
 			}
 			if (resp && resp.trim() != '' && ['width', 'height', 'maxWidth', 'maxHeight'].includes(key)) {
 				resp = resp.trim().replace(' !important', '')
@@ -446,7 +445,6 @@ const styleManager = {
 			} else if (key == "box-shadow") {
 				// no need to alter as the logic is made in compatible for this already (for getComputerStyles)
 			} else if (key == 'border-radius') {
-				console.log(resp, 'bbb.p styles')
 				if (resp.split(' ').length == 3) {
 					let initialValueArr = resp.split(' ')
 					resp = `${initialValueArr[0]} ${initialValueArr[1]} ${initialValueArr[1]} ${initialValueArr[2]}`

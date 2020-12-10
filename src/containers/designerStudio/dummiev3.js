@@ -1846,7 +1846,7 @@ span.Call-sec {
 }
 
 a:hover {
-	text-decoration: none !important;
+	text-decoration: none;
 }
 
 .learn-txt:hover .R-arrow-img {
@@ -2050,13 +2050,13 @@ li a {
 	font-weight: bold;
 	font-size: 16px;
 	letter-spacing: 0.025em;
-	color: #494949 !important;
+	color: #494949;
 	font-style: normal;
 	line-height: 21px;
 }
 
 li a:hover {
-	color: #000 !important;
+	color: #000;
 }
 
 .content {

@@ -20,6 +20,7 @@ import { setCustomCss } from "../../reducers/actions/templateActions";
 // import { /* html, */ template1Html, template1Style } from "./dummieTemp";
 import { /* html, */ template1Html, template1Style, template1StyleCss, template1StyleMedia } from "./dummiev3";
 import restaurant1 from "../../assets/templates/restaurant1";
+import therapists from "../../assets/templates/therapists";
 import { landingHtml, landingStyle } from "./templates/landing";
 import { landing2Html, landing2Style } from "./templates/landing2";
 import {
@@ -41,6 +42,8 @@ import { customEvents } from "../../components/utils/grapesEditor/styleManager";
 import { selectTemplate } from "../../reducers/actions/templateActions";
 import attachIconsToElem from '../../components/utils/grapesEditor/elementIcons'
 import viewCode from "../../components/utils/grapesEditor/viewCode/viewCode";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 class HelpNSupport extends React.Component {
@@ -234,6 +237,11 @@ class DesignerStudio extends React.Component {
 					style = restaurant1.baseCss
 					customCss = restaurant1.customCss
 					break;
+				case "therapists":
+					html = therapists.html
+					style = therapists.baseCss
+					customCss = therapists.customCss
+					break;
 				case "myProject1":
 					// html = xyzHtml
 					// styles = xyzStyle;
@@ -258,7 +266,7 @@ class DesignerStudio extends React.Component {
 				window.localStorage.removeItem("gjs-components")
 				window.localStorage.removeItem("gjs-html")
 				window.localStorage.removeItem("gjs-assets")
-				console.log(this.props.pageReducer.pages[0], 'aaa.p restting')
+				console.log(style, 'aaa.p restting')
 				this.props.saveCurrentChanges(0, {
 					// ...this.props.pageReducer.pages[0],
 					components: html,
@@ -357,7 +365,6 @@ class DesignerStudio extends React.Component {
 
 		let components = this.getAllComponents(editor.DomComponents.getWrapper());
 		let navComp = components[54]
-		console.log(components, navComp, 'aaa.p components')
 		// navComp.set({ icon: '<i class="fa fa-arrows"></i>' })
 		attachIconsToElem(components)
 
@@ -375,7 +382,6 @@ class DesignerStudio extends React.Component {
 			// let customStyles = doc.getElementById("ss-customStyles")
 			// let styleAssets = doc.getElementById("ss-style-assets")
 			// ======================================
-			console.log(currentPage, 'aaa.p storage', editor.getCss(), pages)
 			this.props.saveCurrentChanges(currentPage, {
 				...pages[currentPage],
 				name: pages[currentPage].name,
@@ -401,7 +407,7 @@ class DesignerStudio extends React.Component {
 			if (this.props.past && this.props.past.length > 2) {
 				await this.historyChange("undo", times)
 			}
-			_grapesEditor.editor.store(res => {});
+			_grapesEditor.editor.store(res => { });
 			// ==============
 		});
 		editor.on('change:changesCount', e => {
@@ -437,7 +443,7 @@ class DesignerStudio extends React.Component {
 			if (this.props.future && this.props.future.length > 0) {
 				await this.historyChange("redo", times)
 			}
-			_grapesEditor.editor.store(res => {});
+			_grapesEditor.editor.store(res => { });
 		});
 		// =============Toolbar events==============
 		editor.on('run', (cmdId, res) => {
@@ -452,6 +458,7 @@ class DesignerStudio extends React.Component {
 		editor.on('load', () => {
 			this.setScrollBarStyle()
 			this.temp();
+			_grapesEditor.editor.runCommand('preview')
 			// let frame = document.getElementsByClassName("gjs-frame");
 			// const grapesDocument = frame[0].contentWindow.document;
 			// console.log(grapesDocument.querySelector(".gjs-css-rules"), 'ccc.p')
@@ -528,6 +535,7 @@ class DesignerStudio extends React.Component {
 		const { assetsManager, dispatch } = this.props
 		return (
 			<div className={`theme-${this.props.theme}`} style={{ height: '100%' }}>
+				<ToastContainer />
 				<div
 					style={{
 						display: "flex",

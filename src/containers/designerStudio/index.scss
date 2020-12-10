@@ -72,6 +72,60 @@
   // display: none;
 }
 
+
+.Toastify__toast.Toastify__toast--default {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+  padding: 8px 8px 8px 15px;
+  .theme-light & {
+    background-color: map-get($light, "background2");
+    color: map-get($light, "color1");
+  }
+  .theme-dark & {
+    background-color: map-get($dark, "background2");
+    color: map-get($dark, "color1");
+  }
+  .toast-icon-success {
+    margin-right: 10px;
+    color:  #02e05f;
+    font-size: 15px;
+  }
+  .toast-icon-warning {
+    margin-right: 10px;
+    color: #eaea00;
+    // color:  #02e05f;
+    font-size: 15px;
+  }
+  .toast-icon-error {
+    margin-right: 10px;
+    color: #eb5757;
+    // color:  #02e05f;
+    font-size: 15px;
+  }
+  .Toastify__close-button--default {
+    opacity: 0.5;
+    .theme-light & {
+      color: map-get($light, "color");
+    }
+    .theme-dark & {
+      color: map-get($dark, "color");
+    }
+  }
+  .Toastify__progress-bar--default {
+    .theme-light & {
+      background: map-get($light, "color");
+    }
+    .theme-dark & {
+      background: map-get($dark, "background4");
+    }
+  }
+}
+
+
+
 .on-scrollbar::-webkit-scrollbar {
   width: 6px;
   // height: 120px;

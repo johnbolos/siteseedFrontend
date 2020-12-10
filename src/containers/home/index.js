@@ -61,7 +61,10 @@ function Home({ dispatch, loading, templates }) {
 							// dispatch(getPushPathWrapper("designerStudio"))
 						}}>
 						</div>
-						<div class="card">
+						<div class="card" style={{ backgroundImage: 'url("/assets/templates/therapists/thumbnail.jpg")' }} onClick={() => {
+							dispatch(selectTemplate("therapists"))
+							dispatch(getPushPathWrapper("designerStudio"))
+						}}>
 						</div>
 						<div class="card">
 						</div>

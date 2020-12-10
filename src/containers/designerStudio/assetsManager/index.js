@@ -14,6 +14,8 @@ import { customEvents } from '../../../components/utils/grapesEditor/styleManage
 import Icons from '../../../assets/Icons'
 import editor from "../../../reducers/editor"
 import _s3 from "../../../components/utils/s3"
+import { toast } from "react-toastify"
+import { showToast } from "../../../components/utils"
 
 class AssetsManager extends React.Component {
     constructor(props) {
@@ -116,10 +118,14 @@ class AssetsManager extends React.Component {
         }
         if (files[0].size > 2000000) {
             console.log('please upload a file smaller than 2MB')
+            showToast({ type: 'warning', message: 'Please upload a file smaller than 2MB' })
+            // toast("please upload a file smaller than 2MB")
             return
         }
         if (!/jpeg|jpg|gif|png|svg/.test(files[0].type)) {
             console.log('Invalid File format')
+            showToast({ type: 'warning', message: 'Invalid File format' })
+            // toast("Invalid File format")
             return
         }
         this.setState({ loading: true })
@@ -134,6 +140,8 @@ class AssetsManager extends React.Component {
             if (resp.error) {
                 if (resp.message) {
                     console.error(resp.message)
+                    showToast({ type: 'warning', message: resp.message })
+                    // toast(resp.message)
                 }
                 return
             }
@@ -160,6 +168,8 @@ class AssetsManager extends React.Component {
         }
         if (files[0].size > 2000000) {
             console.log('please upload a file smaller than 2MB')
+            showToast({ type: 'warning', message: 'Please upload a file smaller than 2MB' })
+            // toast("please upload a file smaller than 2MB")
             return
         }
         // handle multiple files upload instead of one
@@ -167,6 +177,8 @@ class AssetsManager extends React.Component {
         _.each(files, (file, index) => {
             if (!['woff', 'woff2', 'ttf'].includes(/(?:\.([^.]+))?$/.exec(file.name)[1])) {
                 console.log('Invalid File format')
+                showToast({ type: 'warning', message: 'Invalid File format' })
+                // toast('Invalid File format')
                 return
             }
             let s3Dir = userS3Dir
@@ -182,6 +194,8 @@ class AssetsManager extends React.Component {
                 if (resp.error) {
                     if (resp.message) {
                         console.error(resp.message)
+                        showToast({ type: 'warning', message: resp.message })
+                        // toast(resp.message)
                     }
                     return
                 }

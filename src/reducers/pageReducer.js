@@ -44,6 +44,7 @@ export default (state = initialState, action) => {
 			let pageIndex = action.payload.pageIndex;
 			let newPages = state.pages;
 			// newState.currentPage = pageIndex;
+			console.log(newPages, 'aaa.p diatch')
 			newPages[pageIndex] = { ...state.pages[pageIndex], ...action.payload.pageObj };
 			return {
 				...state,

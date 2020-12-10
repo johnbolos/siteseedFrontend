@@ -97,7 +97,7 @@ export const prebuiltBlocks = (editor) => {
         <div class="ss-header-container">
                 <div class="ss-nav">
                     <div class="ss-logo">
-                        <a href="#"><img src"${appUrl}/assets/images/imagePlaceholder.png" class="ss-logo-img" att="" /></a>
+                        <a href="#"><img class="ss-logo-img" src="${appUrl}/assets/images/imagePlaceholder.png"/></a>
                     </div>
                     <div class="ss-nav-items">
                         <ul class="ss-nav-items-list">
@@ -168,6 +168,10 @@ export const prebuiltBlocks = (editor) => {
                         align-items: center;
                         justify-content: center;
                     }
+                    .ss-logo-img {
+                        width: 60px;
+                        height: 60px;
+                    }
                     .ss-toogler {
                         display: none;
                         position: absolute;
@@ -206,11 +210,21 @@ export const prebuiltBlocks = (editor) => {
                         display: flex;
                         align-items: center;
                         text-transform: uppercase;
-                        color: #95A1BB !important;
+                        color: #95A1BB;
+                    }
+                    .ss-cool-link::after {
+                        content: '';
+                        display: block;
+                        width: 0;
+                        height: 2px;
+                        background: #363940;
+                        transition: width .3s;
+                    }
+                    .ss-cool-link:hover::after {
+                        width: 100%;
                     }
                     .ss-nav-link:hover {
-                        color: #363940 !important;
-                        text-decoration-line: underline !important;
+                        color: #363940;
                     }
                     .ss-action-btn {
                         height: 50px;

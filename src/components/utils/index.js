@@ -1,4 +1,5 @@
 import React from 'react'
+import { toast } from 'react-toastify'
 export const svg = (path, options = {}) => {
     const { width, height } = options
     return (<img style={{ width: width ? width : '16px', height: height ? height : '16px' }} src={`${path}`}></img>)
@@ -45,4 +46,31 @@ export const closestElement = (mouse, wrapperSelector) => {
         return true
     })
     return closestElement
+}
+
+export const showToast = (data) => {
+    const { type, message } = data
+    let icon = ''
+    if (type) {
+        switch (type) {
+            case 'success':
+                icon = (<i class="fa fa-check toast-icon-success" aria-hidden="true"></i>)
+                break;
+            case 'warning':
+                icon = (<i class="fa fa-exclamation-triangle toast-icon-error" aria-hidden="true"></i>)
+                break;
+            case 'error':
+                icon = (<i class="fa fa-exclamation-triangle toast-icon-error" aria-hidden="true"></i>)
+                break;
+        }
+    }
+    toast(<>{icon}{message}</>, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+    });
 }
