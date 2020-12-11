@@ -489,6 +489,14 @@
         max-height: 310px;
         overflow-y: scroll;
       }
+      .list-container {
+        .theme-light & {
+          scrollbar-color: #c0c0c0 transparent;
+        }
+        .theme-dark & {
+          scrollbar-color: #6a6a6a transparent;
+        }
+      }
       .list-container::-webkit-scrollbar {
         width: 6px;
       }
@@ -978,7 +986,7 @@
       input[type="number"] {
         -moz-appearance: textfield;
         outline: none;
-        width: 100%;
+        width: calc(100% / 4);
         background: transparent;
         // box-sizing: border-box;
         // border-radius: 5px;
@@ -1218,7 +1226,14 @@
   }
 }
 
-
+.list-container {
+  .theme-light & {
+    scrollbar-color: #c0c0c0 transparent;
+  }
+  .theme-dark & {
+    scrollbar-color: #6a6a6a transparent;
+  }
+}
 .list-container::-webkit-scrollbar {
   width: 6px;
 }

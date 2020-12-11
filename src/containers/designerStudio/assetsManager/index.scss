@@ -221,6 +221,15 @@
           }
         }
       }
+      .all-images {
+        scrollbar-width: thin;
+        .theme-light & {
+          scrollbar-color: #c0c0c0 transparent;
+        }
+        .theme-dark & {
+          scrollbar-color: #6a6a6a transparent;
+        }
+      }
       .all-images::-webkit-scrollbar {
         width: 6px;
       }
@@ -387,6 +396,15 @@
         }
         .theme-dark & {
           background-color: map-get($dark, "background3");
+        }
+      }
+      .font-tiles-container {
+        scrollbar-width: thin;
+        .theme-light & {
+          scrollbar-color: #c0c0c0 transparent;
+        }
+        .theme-dark & {
+          scrollbar-color: #6a6a6a transparent;
         }
       }
       .font-tiles-container::-webkit-scrollbar {

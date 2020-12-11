@@ -33,18 +33,15 @@ class Integer extends React.Component {
             return
         }
         unit.forEach((item) => {
-            console.log(value.includes(item), item, value, 'ccc.p condition for unit settings')
             if (value && value.includes(item)) {
                 defaultUnit = item
                 this.setState({ unitValue: item }, () => {
-                    console.log(this.state.unitValue, item, 'ccc.p')
                     this.setState({ unitValue: item })
                 })
             }
         })
         this.setState({ value: value.replace(defaultUnit, '') }, () => {
 
-            console.log(this.state.value, this.state.unitValue, 'ccc.p integer')
         })
     }
     componentDidUpdate(prevProps) {
@@ -94,7 +91,6 @@ class Integer extends React.Component {
                     placeholder={(value == '' || disabled) ? 'Auto' : (isNaN(value) ? _.startCase(value) : '')}
                     onChange={(e) => {
                         let value = e.target.value
-                        console.log(parseInt(value), min, parseInt(value) < min, 'ccc.p')
                         if (!isNaN(parseInt(min)) && parseInt(value) < min) {
                             value = min
                         }
@@ -106,7 +102,6 @@ class Integer extends React.Component {
                         } else if (value == '') {
                             value = 0
                         }
-                        console.log(value, 'ccc.p changed')
                         this.onChange(value)
                     }}
                     style={disabled ? { background: 'rgba(59, 59, 59, 0.3)', paddingRight: unit || defaultUnit ? '30px' : '15px' } : { paddingRight: unit || defaultUnit ? '30px' : '15px' }}

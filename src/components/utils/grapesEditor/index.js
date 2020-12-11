@@ -45,7 +45,6 @@ const _grapesEditor = {
 					let style = doc.getElementById("ss-style")
 					let customStyles = doc.getElementById("ss-customStyles")
 					let styleAssets = doc.getElementById("ss-style-assets")
-					console.log(styleAssets, 'sss.p exporting')
 					if (styleAssets) {
 						resp = styleAssets.innerHTML + '\n\n' + resp
 					}
@@ -684,7 +683,6 @@ const _grapesEditor = {
 			}, 110);
 		});
 		editor.on("run:export-template", () => {
-			console.log('aaaaaaaaaaa.p')
 			// =========================View Code===================================
 			viewCode()
 			// =====================================================================

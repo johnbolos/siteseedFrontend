@@ -154,7 +154,6 @@ export default function (editor, opt = {}) {
       var value = event.target.checked;
       //... eg. update attributes
       let dropdown = (selectedComponent.find('.dropdown-content'))[0]
-      console.log(dropdown, 'aaaaaaaaaaaaaaaaaaaaa...p')
       // let dropdown = selectedElem.querySelector('.dropdown-content')
       if (value) {
         dropdown.setClass('dropdown-content content-effect-hover');
@@ -173,7 +172,6 @@ export default function (editor, opt = {}) {
       // input.value = (this.target.attributes && this.target.attributes.attributes.name) || ''
       var selectedElem = this.target.view.el
       let dropdown = selectedElem.querySelector('.dropdown-content')
-      console.log(dropdown.classList, 'aaaaaaa...p')
       let value = ''
       if (dropdown.classList.value.includes('content-effect-hover')) {
         value = 'checked'
@@ -200,7 +198,6 @@ export default function (editor, opt = {}) {
       var selectedElem = this.target.view.el
       var value = event.target.checked;
       let overlay = selectedElem.querySelector('#myModal');
-      console.log(value, 'aaa.pp 1234')
       if (!value) {
         overlay.style.visibility = 'hidden';
         overlay.style.opacity = 0;
@@ -215,9 +212,7 @@ export default function (editor, opt = {}) {
       let btn = document.createElement('button')
       btn.innerHTML = 'Show/Hide Pop Up'
       btn.onclick = () => {
-        console.log(overlay.style.visibility, 'aaa.pp checkbox clicked')
         let popVisible = true
-        console.log(overlay.style.visibility, 'aaa.pp checkbox')
         if (overlay.style.visibility == 'hidden' || overlay.style.visibility.trim() == '') {
           popVisible = false
         }

@@ -156,7 +156,10 @@ class DesignerStudio extends React.Component {
 		let stringLight = styleElem.innerHTML
 		stringDark += `
 		
-		
+			* {
+  				scrollbar-width: thin;
+  				scrollbar-color: #6a6a6a #272727;
+			}
 			* ::-webkit-scrollbar {
 				width: 6px;
 			}
@@ -173,7 +176,10 @@ class DesignerStudio extends React.Component {
 
 		stringLight += `
 		
-		
+			body {
+  				scrollbar-width: thin;
+  				scrollbar-color: #6a6a6a #272727;
+			}
 			* ::-webkit-scrollbar {
 				width: 6px;
 			}
@@ -217,7 +223,6 @@ class DesignerStudio extends React.Component {
 			const { pageReducer, dispatch } = this.props
 			const { templateName: projectType } = this.props.templates;
 			let style, html, customCss;
-			console.log(projectType, 'aaa.templateName')
 			switch (projectType) {
 				case "template1":
 					html = template1Html
@@ -266,7 +271,6 @@ class DesignerStudio extends React.Component {
 				window.localStorage.removeItem("gjs-components")
 				window.localStorage.removeItem("gjs-html")
 				window.localStorage.removeItem("gjs-assets")
-				console.log(style, 'aaa.p restting')
 				this.props.saveCurrentChanges(0, {
 					// ...this.props.pageReducer.pages[0],
 					components: html,
@@ -336,7 +340,6 @@ class DesignerStudio extends React.Component {
 			},
 			dispatch,
 			() => {
-				console.log("callback for grapesjs init");
 				const { editor } = _grapesEditor;
 				const keymaps = editor.Keymaps;
 				keymaps.remove('core:redo')
@@ -424,7 +427,6 @@ class DesignerStudio extends React.Component {
 			}
 		});
 		editor.on('block:drag:stop', model => {
-			console.log('dropped ', model, 'aaa.p')
 
 		})
 		editor.Commands.add("ss-style-redo", async editor => {
@@ -461,7 +463,7 @@ class DesignerStudio extends React.Component {
 			_grapesEditor.editor.runCommand('preview')
 			// let frame = document.getElementsByClassName("gjs-frame");
 			// const grapesDocument = frame[0].contentWindow.document;
-			// console.log(grapesDocument.querySelector(".gjs-css-rules"), 'ccc.p')
+		
 		});
 		// =========================================
 	};
@@ -601,7 +603,7 @@ const mapStateToProps = ({
 	editorHistory,
 	pageReducer,
 }) => {
-	// console.log(editorHistory.present.styleObj, 'aaaaaa..')
+
 	return {
 		loading: global.loading,
 		theme: layout.theme,

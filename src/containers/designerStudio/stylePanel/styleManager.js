@@ -153,7 +153,6 @@ class StyleManager extends React.Component {
         if (pseudoClass == 'normal') {  // using !important css rule for normal pseudoclass
             item.value = item.value + ' !important'
         }
-        console.log(item, 'bbb.p globalonchange')
         if (!selected.node) {
             return
         }
@@ -1627,7 +1626,6 @@ class StyleManager extends React.Component {
                         });
                         return
                     }
-                    console.log(item, 'sss.p')
                     // _grapesEditor.styleManager.removeFontsBlock(pastValue)
                     const data = _grapesEditor.styleManager.importFontsBlock(item, 'url')
                     if (data.error) {
@@ -1924,13 +1922,11 @@ class StyleManager extends React.Component {
                                 key: 'border-radius',
                                 value: `${border.topL}`
                             })
-                            console.log(`${border.topL}`, 'bbb.p result')
                         } else {
                             this.globalOnChange({
                                 key: 'border-radius',
                                 value: `${border.topL} ${border.topR} ${border.bottomR} ${border.bottomL}`
                             })
-                            console.log(`${border.topL} ${border.topR} ${border.bottomR} ${border.bottomL}`, 'bbb.p result')
                         }
                     }
                     let inputFunc = (val, key) => {

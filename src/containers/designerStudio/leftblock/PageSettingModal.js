@@ -36,7 +36,6 @@ class PageSettingModal extends Component {
 			previewDescription,
 			favicon
 		} = this.state
-		console.log('bbb.p', editPageIndex, !_.isUndefined(editPageIndex), !_.isNull(editPageIndex))
 		if (!_.isUndefined(editPageIndex) && !_.isNull(editPageIndex)) {
 			// this.props.sendEditPageReq(this.state.title);
 			let pageObj = pageReducer.pages[editPageIndex]
@@ -61,7 +60,6 @@ class PageSettingModal extends Component {
 					desp: previewDescription
 				}
 			}
-			console.log('bbb.p creating new page')
 			this.props.createPage(this.state.title, pageObj);
 		}
 		this.setState({
@@ -107,11 +105,9 @@ class PageSettingModal extends Component {
 			return
 		}
 		if (files[0].size > 2000000) {
-			console.log('please upload a file smaller than 2MB')
 			return
 		}
 		if (!/jpeg|jpg|gif|png|svg|ico/.test(files[0].type)) {
-			console.log('Invalid File Type')
 			return
 		}
 		this.setState({ loading: true })

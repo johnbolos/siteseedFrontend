@@ -24,7 +24,6 @@ class ViewMode extends React.Component {
         const { theme, dispatch } = this.props
         // set classs name
         let themeElem = document.querySelector(`.theme-${theme}`)
-        console.log(themeElem, `theme-${theme}`, 'aaaaaaaaaaaaaa')
         if (themeElem) {
             themeElem.setAttribute('class', `theme-${value}`)
             dispatch(setTheme(value))

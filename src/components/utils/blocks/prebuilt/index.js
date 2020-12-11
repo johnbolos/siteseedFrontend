@@ -124,7 +124,6 @@ export const prebuiltBlocks = (editor) => {
                     } else {
                     	nav.style.marginLeft = '100%'
                     }
-                    console.log(nav, nav.style.marginLeft, 'aaa.p');
                     let hamburger = document.querySelector('.ss-hamburger');
                     let close = document.querySelector('.ss-close');
                     hamburger.style.display = (hamburger.style.display == 'block' || hamburger.style.display == '') ? 'none' : 'block';
@@ -425,8 +424,8 @@ export const prebuiltBlocks = (editor) => {
                     	<option>Complaint</option>
                     	<option>Custom</option>
                     </select>
-                    <input name="firstname" placeholder="First Name"/>
-                    <input name="lastname" placeholder="Last Name"/>
+                    <input name="firstname" placeholder="First Name" value="First Name"/>
+                    <input name="lastname" placeholder="Last Name" value="Last Name"/>
                     <textarea id="w3review" name="w3review" rows="5" placeholder="Description (optional)"></textarea>
                     <button type="submit">Send Request</button>
                 </form>
@@ -729,7 +728,6 @@ export const prebuiltBlocks = (editor) => {
             	let parentNode = document.currentScript.parentNode;
                 let navIcon = parentNode.querySelector(".testimonials-prev");
                 navIcon.addEventListener('click', (e) => {
-                	console.log(parentNode, 'ccc.p');
                     let sliderNode = parentNode.querySelector(".ss-testimonials-container .slider");
                     let singleSlideNode = parentNode.querySelector(".ss-testimonials-container .slide");
                     let sliderCard = parentNode.querySelector(".ss-testimonials-container .slide .slider-card");
@@ -748,7 +746,6 @@ export const prebuiltBlocks = (editor) => {
                 });
                 navIcon = parentNode.querySelector(".testimonials-next");
                 navIcon.addEventListener('click', (e) => {
-                	console.log(parentNode, 'ccc.p');
                     let sliderNode = parentNode.querySelector(".ss-testimonials-container .slider");
                     let singleSlideNode = parentNode.querySelector(".ss-testimonials-container .slide");
                     let sliderCard = parentNode.querySelector(".ss-testimonials-container .slide .slider-card");

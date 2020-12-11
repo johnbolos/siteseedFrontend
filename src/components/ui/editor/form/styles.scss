@@ -547,6 +547,7 @@
             }
 
             input[type="number"] {
+              -moz-appearance: textfield;
               width: 36%;
               .theme-light & {
                 border-color: map-get($light, "background3") !important;

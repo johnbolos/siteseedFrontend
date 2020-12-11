@@ -65,11 +65,13 @@ const styleManager = {
 					// ===========================================================
 					// gjsCssRules.appendChild(style);
 					// ===========================================================
-					body[0].appendChild(style);
-					console.log(grapesDocument.querySelector('#ss-style'), styleObj, 'sss.p ')
-					if (!grapesDocument.querySelector('#ss-style')) {
-						body[0].appendChild(style);
-					}
+
+					// body[0].appendChild(style);
+					gjsCssRules.insertAdjacentElement("afterend", style);
+					
+					// if (!grapesDocument.querySelector('#ss-style')) {
+					// 	body[0].appendChild(style);
+					// }
 					// body.insertBefore(style, body.firstChild);
 
 					style = document.createElement("style");
@@ -80,13 +82,18 @@ const styleManager = {
 					// ===========================================================
 					// gjsCssRules.appendChild(style);
 					// ===========================================================
-					body[0].appendChild(style);
+					
+					// body[0].appendChild(style);
+					gjsCssRules.insertAdjacentElement("afterend", style);
+					
 					// -------------------------------------------Style-font-assets------------------------------------------------
 					if (styleFontStr) {
 						style = document.createElement("style");
 						style.id = "ss-style-assets";
 						style.innerHTML = styleFontStr;
-						body[0].appendChild(style);
+
+						// body[0].appendChild(style);
+						gjsCssRules.insertAdjacentElement("afterend", style);
 					}
 					// ------------------------------------------------------------------------------------------------------------
 
@@ -413,7 +420,8 @@ const styleManager = {
 		// }
 		let { styleInfo } = selected;
 		let resp = styleInfo.styles[key];
-		if (pseudoClass == 'normal') {
+		let chromeNNotBorder = window.chrome || !key.includes('border')
+		if (pseudoClass == 'normal' && chromeNNotBorder) {
 			if (key == 'width') {
 			}
 			if (resp && resp.trim() != '' && ['width', 'height', 'maxWidth', 'maxHeight'].includes(key)) {
@@ -454,6 +462,7 @@ const styleManager = {
 		}
 		if (resp) {
 			resp = `${resp}`.trim()
+			resp = resp.replace(' !important', '')
 		}
 
 		if (key.includes("font-family") && styleInfo.styles[key]) {

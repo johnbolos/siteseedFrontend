@@ -117,13 +117,11 @@ class AssetsManager extends React.Component {
             return
         }
         if (files[0].size > 2000000) {
-            console.log('please upload a file smaller than 2MB')
             showToast({ type: 'warning', message: 'Please upload a file smaller than 2MB' })
             // toast("please upload a file smaller than 2MB")
             return
         }
         if (!/jpeg|jpg|gif|png|svg/.test(files[0].type)) {
-            console.log('Invalid File format')
             showToast({ type: 'warning', message: 'Invalid File format' })
             // toast("Invalid File format")
             return
@@ -167,7 +165,6 @@ class AssetsManager extends React.Component {
             return
         }
         if (files[0].size > 2000000) {
-            console.log('please upload a file smaller than 2MB')
             showToast({ type: 'warning', message: 'Please upload a file smaller than 2MB' })
             // toast("please upload a file smaller than 2MB")
             return
@@ -176,7 +173,6 @@ class AssetsManager extends React.Component {
         this.setState({ loading: true })
         _.each(files, (file, index) => {
             if (!['woff', 'woff2', 'ttf'].includes(/(?:\.([^.]+))?$/.exec(file.name)[1])) {
-                console.log('Invalid File format')
                 showToast({ type: 'warning', message: 'Invalid File format' })
                 // toast('Invalid File format')
                 return
@@ -528,7 +524,7 @@ class AssetsManager extends React.Component {
                         }
                         {
                             assetsManager == 'font' && styleTag && <div className={"font-tiles-container"}>
-                                {this.state.localFontsArr && <>
+                                {this.state.localFontsArr && this.state.localFontsArr.length > 0 && <>
                                     <div className="fonts-type">Local</div>
                                     <div className="fonts-type-divider"></div>
                                     {this.state.localFontsArr}

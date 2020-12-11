@@ -152,6 +152,24 @@
   // background-color: rgba(255,255,255,0.2);
   // opacity: 0.5;
 }
+.on-scrollbar {
+  scrollbar-width: thin;
+  .theme-light & {
+    scrollbar-color: #c0c0c0 transparent;
+  }
+  .theme-dark & {
+    scrollbar-color: #6a6a6a transparent;
+  }
+}
+* {
+  scrollbar-width: none;
+  .theme-light & {
+    scrollbar-color: #c0c0c0 transparent;
+  }
+  .theme-dark & {
+    scrollbar-color: #6a6a6a transparent;
+  }
+}
 
 *::-webkit-scrollbar {
   width: 0px;
@@ -183,7 +201,6 @@
   // background-color: rgba(255,255,255,0.2);
   // opacity: 0.5;
 }
-
 // .inherit-color-svg {
 //   svg {
 //     path {

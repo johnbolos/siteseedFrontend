@@ -321,6 +321,13 @@
 }
 
 .gjs-editor-cont {
+  scrollbar-width: thin;
+  .theme-light & {
+    scrollbar-color: #c0c0c0 transparent;
+  }
+  .theme-dark & {
+    scrollbar-color: #6a6a6a transparent;
+  }
   ::-webkit-scrollbar {
     width: 6px;
   }

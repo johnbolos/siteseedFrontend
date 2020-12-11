@@ -126,7 +126,6 @@ class Slider extends React.Component {
                     {
                         integerEdit && <Integer meta={{ defaultUnit: defaultUnit, value: `${value}`, min, max, onChange: (val) => { 
                             let value = val
-                            // console.log(value, parseInt(value), 'sss.p oapcity')
                             // if (parseInt(value) > 100) {
                             //     value = '100%'
                             // }

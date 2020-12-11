@@ -86,7 +86,7 @@ export const getPushPathWrapper = (keyString, params) => {
 	if (obj) {
 		const path = new Path(obj.path);
 
-		console.log(obj, path.build(params));
+		// console.log(obj, path.build(params));
 		return push(path.build(params));
 	}
 

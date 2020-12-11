@@ -65,12 +65,9 @@ class DesignerStudio extends React.Component {
     }
     @Debounce(500)
     fun(mouse) {
-        console.log('mouse moved', mouse.pageX, mouse.pageY)
         const el = closestElement({ x: mouse.pageX, y: mouse.pageY }, 'draggable')
-        console.log(el, 'is closest to mouse')
     }
     temp = () => {
-        console.log('temporary function')
         const { editor } = _grapesEditor
         let wrapper = document.getElementsByClassName("body-container")
 
@@ -83,7 +80,7 @@ class DesignerStudio extends React.Component {
         // let totalNodes = []
         // const frame = document.getElementsByClassName("gjs-frame")
         // const wrapper = frame[0].contentWindow.document.getElementById("wrapper").children
-        // console.log(wrapper[0])
+        
         // for (let i = 0; i < wrapper.length; i++) {
         //         totalNodes.push(wrapper[i].tagName)
         //         styles.push(this.cssObjects(wrapper[i]))
@@ -93,7 +90,7 @@ class DesignerStudio extends React.Component {
         //     totalNodes.push(node.tagName)
         //     styles.push(this.cssObjects(node))
         // })
-        // console.log(totalNodes, styles, 'extracedddd')
+        
 
     }
     render() {

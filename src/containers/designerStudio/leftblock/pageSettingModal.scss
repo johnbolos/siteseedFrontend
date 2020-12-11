@@ -49,16 +49,20 @@
 .Modal > div::-webkit-scrollbar {
   width: 6px;
 }
-
+.modal-theme-dark > div {
+  scrollbar-color: #6a6a6a #272727;
+}
 .modal-theme-dark > div::-webkit-scrollbar-thumb {
   border-radius: 150px;
   background-color: map-get($dark, "scrollBarThumb");
 }
-
 .modal-theme-dark > div::-webkit-scrollbar-track {
   background-color: map-get($dark, "scrollBarTrack");
 }
 
+.modal-theme-light > div {
+  scrollbar-color: #c0c0c0 #e6e6e6;
+}
 .modal-theme-light > div::-webkit-scrollbar-thumb {
   border-radius: 150px;
   background-color: map-get($light, "scrollBarThumb");

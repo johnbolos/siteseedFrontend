@@ -17,7 +17,6 @@ export default function (editor, opt = {}) {
             var traitModel = this.model;
             var selectedComponent = this.target;
             var inputValue = traitModel.get('value');
-            console.log(selectedComponent, this, 'aaa.p')
             //... eg. update attributes
             selectedComponent.set('attributes', {
                 onclick: inputValue.trim() == '' ? '' : `window.open('${inputValue}')`,
