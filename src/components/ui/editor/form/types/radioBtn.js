@@ -66,6 +66,7 @@ class RadioBtn extends React.Component {
                         }
                         return <div
                             className={value == item.value ? 'btn-active' : 'btn'}
+                            title={item.htmlTitle}
                             style={value == item.value ? { borderRadius: `${index == 0 ? '4px 0px 0px 4px' : (index == options.length - 1 ? '0px 4px 4px 0px' : '0px')}`, height: '28px' } : { height: '28px' }}
                             onClick={() => { this.handleClick(item) }}
                         >

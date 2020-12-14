@@ -56,7 +56,7 @@ function Home({ dispatch, loading, templates }) {
 					<div class="flex-desc">With flexbox system you're able to build complex layouts easily and with free responsivity
 	  </div>
 					<div id="ifnlj" class="cards">
-						<div class="card" style={{ backgroundImage: 'url("/assets/templates/restaurant1/thumbnail.jpg")' }} onClick={() => {
+						<div class="card" onClick={() => {
 							// dispatch(selectTemplate("restaurant1"))
 							// dispatch(getPushPathWrapper("designerStudio"))
 						}}>

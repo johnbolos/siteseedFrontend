@@ -2256,19 +2256,23 @@ class StyleManager extends React.Component {
                 options: [  //optional type: Array of string, Array of objects
                     {
                         label: <Icons.FDirRow style={{ width: '20px', height: '20px' }} />,
+                        htmlTitle: 'Row',
                         value: 'row'
                     },
                     {
                         label: <Icons.FDirRowRev style={{ width: '20px', height: '20px' }} />,
-                        value: 'row-reverse'
+                        value: 'row-reverse',
+                        htmlTitle: 'Row-Reverse'
                     },
                     {
                         label: <Icons.FDirCol style={{ width: '20px', height: '20px' }} />,
-                        value: 'column'
+                        value: 'column',
+                        htmlTitle: 'Column'
                     },
                     {
                         label: <Icons.FDirColRev style={{ width: '20px', height: '20px' }} />,
-                        value: 'column-reverse'
+                        value: 'column-reverse',
+                        htmlTitle: 'Column-Reverse'
                     },
                 ],
             },
@@ -2281,23 +2285,28 @@ class StyleManager extends React.Component {
                 options: [  //optional type: Array of string, Array of objects
                     {
                         label: <Icons.JustifyStart style={{ width: '6.45px', height: '15px' }} />,
-                        value: 'start'
+                        value: 'start',
+                        htmlTitle: 'Start'
                     },
                     {
                         label: <Icons.JustifyEnd style={{ width: '6.45px', height: '15px' }} />,
-                        value: 'end'
+                        value: 'end',
+                        htmlTitle: 'End'
                     },
                     {
                         label: <Icons.JustifySpcBtw style={{ width: '12.86px', height: '15px' }} />,
-                        value: 'space-between'
+                        value: 'space-between',
+                        htmlTitle: 'Space-Between'
                     },
                     {
                         label: <Icons.JustifySpcArnd style={{ width: '15px', height: '15px' }} />,
-                        value: 'space-around'
+                        value: 'space-around',
+                        htmlTitle: 'Space-Around'
                     },
                     {
                         label: <Icons.JustifyCenter style={{ width: '15px', height: '15px' }} />,
-                        value: 'center'
+                        value: 'center',
+                        htmlTitle: 'Center'
                     },
                 ],
             },
@@ -2310,19 +2319,23 @@ class StyleManager extends React.Component {
                 options: [  //optional type: Array of string, Array of objects
                     {
                         label: <Icons.FAlignStart style={{ width: '15px', height: '15px' }} />,
-                        value: 'start'
+                        value: 'start',
+                        htmlTitle: 'Start'
                     },
                     {
                         label: <Icons.FAlignEnd style={{ width: '15px', height: '15px' }} />,
-                        value: 'end'
+                        value: 'end',
+                        htmlTitle: 'End'
                     },
                     {
                         label: <Icons.FAlignStretch style={{ width: '15px', height: '15px' }} />,
-                        value: 'stretch'
+                        value: 'stretch',
+                        htmlTitle: 'Stretch'
                     },
                     {
                         label: <Icons.FAlignCenter style={{ width: '15px', height: '15px' }} />,
-                        value: 'center'
+                        value: 'center',
+                        htmlTitle: 'Center'
                     },
                 ],
             },
