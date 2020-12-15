@@ -16,13 +16,18 @@ import { updateAssets } from '../../reducers/actions/userActions'
 import { saveChanges } from "../../reducers/actions/pageActions";
 import { closestElement } from "../../components/utils/index";
 import { setCustomCss } from "../../reducers/actions/templateActions";
+
+// Templates =========================================================================
 // import { /* html, */ template1Html, template1Style } from "./dummie";
 // import { /* html, */ template1Html, template1Style } from "./dummieTemp";
 import { /* html, */ template1Html, template1Style, template1StyleCss, template1StyleMedia } from "./dummiev3";
 import restaurant1 from "../../assets/templates/restaurant1";
 import therapists from "../../assets/templates/therapists";
+import spa from "../../assets/templates/spa";
 import { landingHtml, landingStyle } from "./templates/landing";
 import { landing2Html, landing2Style } from "./templates/landing2";
+// ===================================================================================
+
 import {
 	question,
 	minus as Minus,
@@ -247,6 +252,11 @@ class DesignerStudio extends React.Component {
 					style = therapists.baseCss
 					customCss = therapists.customCss
 					break;
+				case "spa":
+					html = spa.html
+					style = spa.baseCss
+					customCss = spa.customCss
+					break;
 				case "myProject1":
 					// html = xyzHtml
 					// styles = xyzStyle;
@@ -346,6 +356,14 @@ class DesignerStudio extends React.Component {
 				keymaps.remove('core:undo')
 				let frame = document.getElementsByClassName("gjs-frame");
 				let contentWindow = frame[0].contentWindow;
+				contentWindow.addEventListener("onclick", (e) => {
+					console.log(e.target, 'sss.p')
+					// _grapesEditor.styleManager.addEvents(
+					// 	{ elem: e.target, node: this },
+					// 	{ pseudoClass: this.props.pseudoClass }
+					// );
+					// _grapesEditor.styleManager.addEvents({ e, node: this }, { pseudoClass: 'hover' })
+				});
 				contentWindow.addEventListener("mousedown", (e) => {
 					_grapesEditor.styleManager.addEvents(
 						{ elem: e.target, node: this },
@@ -463,7 +481,7 @@ class DesignerStudio extends React.Component {
 			_grapesEditor.editor.runCommand('preview')
 			// let frame = document.getElementsByClassName("gjs-frame");
 			// const grapesDocument = frame[0].contentWindow.document;
-		
+
 		});
 		// =========================================
 	};

@@ -57,8 +57,12 @@ class Integer extends React.Component {
     onChange = (value) => {
         const { meta: { onChange }, globalOnChange } = this.props
         this.setState({ value: value }, () => {
-            onChange && onChange(`${this.state.value}${this.state.unitValue}`)
-            globalOnChange && globalOnChange(`${this.state.value}${this.state.unitValue}`)
+            let resp = `${this.state.value}${this.state.unitValue}`
+            if (resp.includes('none')) {
+                resp = 'none'
+            }
+            onChange && onChange(resp)
+            globalOnChange && globalOnChange(resp)
         })
     }
     handleFocus = (event) => event.target.select();
@@ -98,6 +102,7 @@ class Integer extends React.Component {
                             value = max
                         }
                         if (value == '' && (this.props.meta.key == 'max-height' || this.props.meta.key == 'max-width')) {
+                            console.log('sss.p sending none')
                             value = 'none'
                         } else if (value == '') {
                             value = 0

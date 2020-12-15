@@ -50,6 +50,7 @@
   width: 6px;
 }
 .modal-theme-dark > div {
+  scrollbar-width: thin;
   scrollbar-color: #6a6a6a #272727;
 }
 .modal-theme-dark > div::-webkit-scrollbar-thumb {
@@ -61,6 +62,7 @@
 }
 
 .modal-theme-light > div {
+  scrollbar-width: thin;
   scrollbar-color: #c0c0c0 #e6e6e6;
 }
 .modal-theme-light > div::-webkit-scrollbar-thumb {

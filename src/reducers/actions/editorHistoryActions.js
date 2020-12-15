@@ -24,6 +24,7 @@ export const setStyleStr = (data, options = {}) => {
     innerHTML = innerHTML.replace('<style>', '')
     innerHTML = innerHTML.replace('</style>', '')
     style.innerHTML = innerHTML
+    console.log('applied sss.p')
   }
   return { type: 'SET_STYLE_DATA', value: data, status: (options && options.status) || 'style' }
 }

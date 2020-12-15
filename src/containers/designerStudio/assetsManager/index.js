@@ -14,7 +14,6 @@ import { customEvents } from '../../../components/utils/grapesEditor/styleManage
 import Icons from '../../../assets/Icons'
 import editor from "../../../reducers/editor"
 import _s3 from "../../../components/utils/s3"
-import { toast } from "react-toastify"
 import { showToast } from "../../../components/utils"
 
 class AssetsManager extends React.Component {
@@ -138,7 +137,7 @@ class AssetsManager extends React.Component {
             if (resp.error) {
                 if (resp.message) {
                     console.error(resp.message)
-                    showToast({ type: 'warning', message: resp.message })
+                    showToast({ type: 'error', message: resp.message })
                     // toast(resp.message)
                 }
                 return
@@ -170,7 +169,6 @@ class AssetsManager extends React.Component {
             return
         }
         // handle multiple files upload instead of one
-        this.setState({ loading: true })
         _.each(files, (file, index) => {
             if (!['woff', 'woff2', 'ttf'].includes(/(?:\.([^.]+))?$/.exec(file.name)[1])) {
                 showToast({ type: 'warning', message: 'Invalid File format' })
@@ -178,6 +176,7 @@ class AssetsManager extends React.Component {
                 return
             }
             let s3Dir = userS3Dir
+            this.setState({ loading: true })
             if (!s3Dir) {
                 // create new userS3Dir
                 s3Dir = shortid.generate()  //replace this with user _id
@@ -190,7 +189,7 @@ class AssetsManager extends React.Component {
                 if (resp.error) {
                     if (resp.message) {
                         console.error(resp.message)
-                        showToast({ type: 'warning', message: resp.message })
+                        showToast({ type: 'error', message: resp.message })
                         // toast(resp.message)
                     }
                     return
@@ -203,6 +202,7 @@ class AssetsManager extends React.Component {
                 this.handleAddFont(payload)
             })
         })
+        this.setState({ loading: false })
 
         // this.setState({ loading: true })
         // let form = new FormData()

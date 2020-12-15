@@ -226,6 +226,15 @@
               background-color: map-get($dark, "background2");
               border-color: map-get($dark, "background3");
             }
+            .CodeMirror-vscrollbar {
+              scrollbar-width: thin;
+              .theme-light & {
+                scrollbar-color: #c0c0c0 transparent;
+              }
+              .theme-dark & {
+                scrollbar-color: #6a6a6a transparent;
+              }
+            }
 
             .CodeMirror-linenumber {
               // color: #444444;

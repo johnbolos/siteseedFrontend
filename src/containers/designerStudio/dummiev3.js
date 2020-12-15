@@ -1,45 +1,3 @@
-export const componentData = {
-	styleOb: [
-		{
-			selector: "",
-			styles: {
-				color: "red",
-				"background-color": "yellow",
-			},
-		},
-	],
-};
-
-export const layerData = [
-	{
-		tagName: "div",
-		id: "main",
-		children: [
-			{
-				tagName: "div",
-				id: "heading",
-				innerHtml: "Heading",
-			},
-			{
-				tagName: "div",
-				id: "caption",
-				innerHtml: "Caption",
-			},
-		],
-	},
-	{
-		tagName: "div",
-		id: "secondary",
-		children: [
-			{
-				tagName: "a",
-				id: "link",
-				innerHtml: "Link",
-			},
-		],
-	},
-];
-
 export const html = `<style>
       
   .badge-link{
@@ -1422,14 +1380,29 @@ export const template1StyleMedia = `
 	.experience-text-block {
 		margin-bottom: 20px;
 	}
-    
+}
+
+@media only screen and (max-width:992px) and (min-width:800px) {
     .navbar-collapse {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 100%;
-    width: 50% !important;
-    }
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 100%;
+		width: 50% !important;
+		z-index: 2;
+	}
+}
+@media only screen and (max-width: 992px) and (min-width: 800px) {
+	.offcanvas-header.mt-3 {
+		position: absolute;
+		float: right;
+		display: block !important;
+		top: 0em;
+    	right: 2em;
+	}
+	.navbar-collapse {
+		padding: 50px;
+	}
 }
 
 /*end 812 screen resolution*/

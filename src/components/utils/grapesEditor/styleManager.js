@@ -420,8 +420,9 @@ const styleManager = {
 		// }
 		let { styleInfo } = selected;
 		let resp = styleInfo.styles[key];
-		let chromeNNotBorder = window.chrome || !key.includes('border')
-		if (pseudoClass == 'normal' && chromeNNotBorder) {
+		let chromeNNotBorder = window.chrome || !key.includes('border')	// If browser is firefox then dont follow getComputedStyles approach for border property
+		let skipComputed = ['box-shadow'].includes(key)	// For css rules which shouldn't follow getComputedStyles approach
+		if (pseudoClass == 'normal' && chromeNNotBorder && !skipComputed) {
 			if (key == 'width') {
 			}
 			if (resp && resp.trim() != '' && ['width', 'height', 'maxWidth', 'maxHeight'].includes(key)) {

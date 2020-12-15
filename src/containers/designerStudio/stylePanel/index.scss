@@ -490,6 +490,7 @@
         overflow-y: scroll;
       }
       .list-container {
+        scrollbar-width: thin;
         .theme-light & {
           scrollbar-color: #c0c0c0 transparent;
         }
@@ -1227,6 +1228,7 @@
 }
 
 .list-container {
+  scrollbar-width: thin;
   .theme-light & {
     scrollbar-color: #c0c0c0 transparent;
   }
