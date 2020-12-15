@@ -97,6 +97,7 @@
           }
 
           .assets-upload-btn {
+            cursor: pointer;
             border-radius: 5px;
             padding: 12px 22px;
             font-weight: 600;
@@ -199,6 +200,7 @@
         margin-top: 15px;
         align-content: flex-start;
         .image-container {
+          cursor: pointer;
           width: 223px;
           height: 149px;
           border-radius: 5px;
@@ -316,6 +318,7 @@
         margin: 0px 34px;
         height: 30px;
         .assets-upload-btn {
+          cursor: pointer;
           border-radius: 5px;
           padding: 8px 16px;
           font-weight: normal;

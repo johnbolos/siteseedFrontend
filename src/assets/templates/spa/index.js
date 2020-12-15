@@ -1,14 +1,11 @@
 import { appUrl } from "../../../settings";
 
 export const customCss = `
-@import url('${appUrl}/assets/templates/spa/fonts/stylesheet.css');
-@media only screen and (max-width: 479px) {
-	.testimonial .testimonial-content:after {
-		content: "";
-	}
-}
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');  
+  
 
-@-webkit-keyframes fadeIn {
+  @-webkit-keyframes fadeIn {
 	from {
 		opacity: 0;
 	}
@@ -27,10 +24,18 @@ export const customCss = `
 		opacity: 1;
 	}
 }
+   
 
 /*ALL MEDIA QUERY*/
 
 /*Resolution 1680*/
+
+
+@media only screen and (max-width: 479px) {
+	.testimonial .testimonial-content:after {
+		content: "";
+	}
+}
 
 @media only screen and (max-width: 1680px) and (min-width: 1600px) {
 	.latest-services-block {
@@ -162,7 +167,7 @@ export const customCss = `
 	}
 
 	.percentge {
-		font-family: 'Raleway', sans-serif;
+		font-family: 'Raleway';
 		font-weight: 600;
 		font-size: 36px;
 		line-height: 42px;
@@ -172,7 +177,7 @@ export const customCss = `
 
 	p.descrpt {
 		text-transform: uppercase;
-		font-family: 'Raleway', sans-serif;
+		font-family: 'Raleway';
 		font-weight: 600;
 		font-size: 16px;
 		line-height: 19px;
@@ -326,7 +331,7 @@ export const customCss = `
 		margin-top: 2em;
 		background-color: #3b717b;
 		border: 0px;
-		font-family: 'Raleway', sans-serif;
+		font-family: 'Raleway';
 		font-size: 13px;
 		line-height: 22px;
 	}
@@ -396,7 +401,7 @@ export const customCss = `
 	}
 
 	.percentge {
-		font-family: 'Raleway', sans-serif;
+		font-family: 'Raleway';
 		font-weight: 600;
 		font-size: 36px;
 		line-height: 42px;
@@ -406,7 +411,7 @@ export const customCss = `
 
 	p.descrpt {
 		text-transform: uppercase;
-		font-family: 'Raleway', sans-serif;
+		font-family: 'Raleway';
 		font-weight: 600;
 		font-size: 16px;
 		line-height: 22px;
@@ -568,12 +573,6 @@ export const customCss = `
 		transition: 0.4s;
 	}
 
-	.Testimonial-bottom {
-		top: 0px !important;
-		position: relative;
-		right: 0px !important;
-	}
-
 	.testimonial {
 		padding: 0px !important;
 	}
@@ -581,6 +580,7 @@ export const customCss = `
 	iframe#cartoonVideo {
 		height: 180px;
 		width: 250px !important;
+		
 	}
 
 	.B-blog-heading-w {
@@ -601,7 +601,7 @@ export const customCss = `
 	}
 
 	.footer-heading {
-		font-family: 'Playfair Display', serif;
+		font-family: 'Playfair Display';
 		font-size: 29px;
 		line-height: 39px;
 		color: #000;
@@ -618,7 +618,7 @@ export const customCss = `
 	}
 
 	.percentge {
-		font-family: 'Raleway', sans-serif;
+		font-family: 'Raleway';
 		font-weight: 600;
 		font-size: 20px;
 		line-height: 42px;
@@ -628,7 +628,7 @@ export const customCss = `
 
 	p.descrpt {
 		text-transform: uppercase;
-		font-family: 'Raleway', sans-serif;
+		font-family: 'Raleway';
 		font-weight: 600;
 		font-size: 13px;
 		line-height: 19px;
@@ -673,11 +673,11 @@ export const customCss = `
 	}
 
 	.footer-sec-1 {
-		width: 49%;
+		width: 49% !important;
 	}
 
 	.footer-sec-1.insta-follow-sec {
-		width: 100%;
+		width: 100% !important;
 	}
 
 	.column {
@@ -917,11 +917,6 @@ export const customCss = `
 		font-size: 14px !important;
 	}
 
-	.Testimonial-bottom {
-		top: 18em !important;
-		position: relative;
-		right: 13em !important;
-	}
 
 	h1.B-services-heading {
 		font-size: 21px;
@@ -932,7 +927,7 @@ export const customCss = `
 	}
 
 	.percentge {
-		font-family: 'Raleway', sans-serif;
+		font-family: 'Raleway';
 		font-weight: 600;
 		font-size: 20px;
 		line-height: 42px;
@@ -942,7 +937,7 @@ export const customCss = `
 
 	p.descrpt {
 		text-transform: uppercase;
-		font-family: 'Raleway', sans-serif;
+		font-family: 'Raleway';
 		font-weight: 600;
 		font-size: 10px;
 		line-height: 19px;
@@ -958,18 +953,14 @@ export const customCss = `
 		height: 18em;
 	}
 
-	.testimonial-U-img {
-		margin-top: -3.7em;
-	}
-
 	.left-col {
 		float: left;
-		width: 78%;
+		width: 76%;
 	}
 
 	.right-col {
 		float: left;
-		width: 22%;
+		width: 24%;
 	}
 
 	.left-col-1 {
@@ -1022,7 +1013,7 @@ export const customCss = `
 	}
 
 	.percentge {
-		font-family: 'Raleway', sans-serif;
+		font-family: 'Raleway';
 		font-weight: 600;
 		font-size: 20px;
 		line-height: 42px;
@@ -1154,7 +1145,7 @@ export const customCss = `
 
 	.BOX-1 {
 		padding: 51px 20px 36px 20px;
-		!important;
+		// !important;
 	}
 
 	.testimonial-U-img {
@@ -1177,7 +1168,7 @@ export const customCss = `
 		border: 0px;
 		height: 49px;
 		width: 123px;
-		font-family: 'Raleway', sans-serif;
+		font-family: 'Raleway';
 		font-size: 13px;
 		color: #1B1B1B;
 		font-style: normal;
@@ -1190,7 +1181,7 @@ export const customCss = `
 		border: 0px;
 		height: 49px;
 		width: 123px;
-		font-family: 'Raleway', sans-serif;
+		font-family: 'Raleway';
 		font-size: 13px;
 		color: #fff;
 		font-style: normal;
@@ -1317,16 +1308,61 @@ export const customCss = `
 	.experience-text-block {
 		margin-bottom: 20px;
 	}
-    
-    .navbar-collapse {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 100%;
-    width: 50% !important;
-    }
 }
 
+@media only screen and (max-width:992px) and (min-width:800px) {
+    .navbar-collapse {
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 100%;
+		width: 50% !important;
+		z-index: 2;
+	}
+}
+@media only screen and (max-width: 992px) and (min-width: 800px) {
+	.offcanvas-header.mt-3 {
+		position: absolute;
+		float: right;
+		display: block !important;
+		top: 0em;
+    	right: 2em;
+	}
+	.navbar-collapse {
+		padding: 50px;
+	}
+}
+
+@media only screen and (max-width: 1279px) and (min-width: 992px) {
+	.testimonial-U-img {
+		margin-top: -3.7em;
+	}
+	.Testimonial-bottom {
+		top: 18em !important;
+		position: relative;
+		right: 13em !important;
+	}
+}
+
+@media only screen and (max-width: 992px) and (min-width: 0px) {
+	.Testimonial-bottom {
+		top: 0px !important;
+		position: relative;
+		right: 0px !important;
+		padding: 0px;
+	}
+}
+@media only screen and (max-width: 992px) and (min-width: 560px) {
+	.Testimonial-bottom {
+		display: flex;
+	}
+	.navbar-dark .navbar-toggler {
+		background-color: #f5dad1;
+	}
+	.container.mobi-container {
+		margin-top: -10px;
+	}
+}
 /*end 812 screen resolution*/
 
 
@@ -1355,17 +1391,29 @@ export const customCss = `
 		transform: translateX(-100%);
 	}
 }
-	
-`
 
-export const baseCss = `.container.mobi-container {
+
+/*END ALL MEDIA QUERY*/
+
+
+  
+  `
+
+export const baseCss = `
+img {
+	max-width: 100%;
+}
+.container.mobi-container {
 	max-width: 1326px !important;
 }
 
-.navbar-dark .navbar-nav .nav-link:hover {
-	color: #000 !important;
+.nav-link:hover {
+	color: #000;
 }
 
+.BOX-1 {	
+    background: #b4d6b1;
+}
 .cool-link {
 	display: inline-block;
 	color: #000;
@@ -1545,8 +1593,8 @@ p {
 	background-color: #ffffff!important;
 }
 
-.navbar-dark .navbar-nav .nav-link {
-	font-family: 'Playfair Display', serif;
+.nav-link {
+	font-family: 'Playfair Display';
 	font-weight: bold;
 	font-size: 16px;
 	letter-spacing: 0.025em;
@@ -1555,23 +1603,23 @@ p {
 	line-height: 21px;
 }
 
-nav.navbar.navbar-expand-lg.navbar-dark {
+.navbar-dark {
 	padding: 40px 10px;
 }
 
-button.Book-now-button {
+.Book-now-button {
 	background-color: #fff;
 	border: 0px;
 	height: 49px;
 	width: 123px;
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Raleway';
 	font-size: 13px;
 	color: #1B1B1B;
 	font-style: normal;
 	line-height: 15px;
 }
 
-button.Book-now-button:hover {
+.Book-now-button:hover {
 	background-color: #000;
 	color: #fff;
 }
@@ -1582,7 +1630,7 @@ button.Book-now-button:hover {
 	border: 0px;
 	height: 49px;
 	width: 123px;
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Raleway';
 	font-size: 13px;
 	color: #fff;
 	font-style: normal;
@@ -1599,7 +1647,7 @@ button.Book-now-button:hover {
 	top: 6em;
 }
 
-img.l-img {
+.l-img {
 	width: 100%;
 	max-width: 120pt;
 }
@@ -1615,22 +1663,22 @@ span.Call-sec {
 .bg-img {
 	background-image: url('http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/Banner.jpg');
 	min-height: 50em;
-	background-position: center;
+	background-position: left top;
 	background-repeat: no-repeat;
 	background-size: cover;
 	position: relative;
 }
 
-h1.top-heading {
-	font-family: 'Playfair Display', serif;
+.top-heading {
+	font-family: 'Playfair Display';
 	font-size: 52px;
 	line-height: 69px;
 	color: #000;
 	font-style: normal;
 }
 
-p.top-paragraph {
-	font-family: 'Raleway', sans-serif;
+.top-paragraph {
+	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
 	width: 67%;
@@ -1656,8 +1704,8 @@ p.top-paragraph {
 	padding: 100px 0px;
 }
 
-p.Abt-txt {
-	font-family: 'Raleway', sans-serif;
+.Abt-txt {
+	font-family: 'Raleway';
 	font-style: normal;
 	font-weight: 600;
 	font-size: 16px;
@@ -1671,24 +1719,25 @@ p.Abt-txt {
 /*our services section*/
 .latest-services-block {
 	padding: 67px;
+	background-color: #ffeed0;
 }
 
-section.Our.services {
+.services {
 	padding: 50px 0px;
 }
 
-h1.B-services-heading {
+.B-services-heading {
 	font-size: 22px;
 	text-align: left;
 	color: #000;
 	line-height: 29px;
 	font-weight: bold;
 	font-style: normal;
-	font-family: 'Playfair Display', serif;
+	font-family: 'Playfair Display';
 }
 
 .B-services-text {
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
 	color: #000;
@@ -1697,9 +1746,9 @@ h1.B-services-heading {
 	font-style: normal;
 }
 
-span.num-count {
+.num-count {
 	margin-left: -25px;
-	font-family: 'Playfair Display', serif;
+	font-family: 'Playfair Display';
 	font-size: 52px;
 	line-height: 69px;
 	color: #3b717b;
@@ -1721,12 +1770,12 @@ span.num-count {
 
 /*our blog section*/
 
-img.R-arrow-img {
+.R-arrow-img {
 	margin-top: -5px;
 }
 
 a:hover {
-	text-decoration: none !important;
+	text-decoration: none;
 }
 
 .learn-txt:hover .R-arrow-img {
@@ -1744,19 +1793,19 @@ a:hover {
 	line-height: 32px;
 	font-weight: bold;
 	font-style: normal;
-	font-family: 'Playfair Display', serif;
+	font-family: 'Playfair Display';
 }
 
 .B-blog-heading-w {
 	font-weight: bold;
 	font-style: normal;
-	font-family: 'Playfair Display', serif;
+	font-family: 'Playfair Display';
 	font-size: 24px;
 	line-height: 32px;
 }
 
 .P-blog-text {
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
 	line-height: 22px;
@@ -1766,7 +1815,7 @@ a:hover {
 }
 
 .learn-txt {
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
 	line-height: 22px;
@@ -1779,7 +1828,7 @@ a:hover {
 
 /*Testimonial section*/
 
-section.testimonial-section {
+.testimonial-section {
 	padding: 100px 50px;
 }
 
@@ -1798,7 +1847,7 @@ span.bio-org-box img {
 	border: 0px;
 	height: 40px;
 	width: 120px;
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Raleway';
 	font-size: 13px;
 	color: #fff;
 	font-style: normal;
@@ -1816,7 +1865,7 @@ span.bio-org-box img {
 }
 
 span.inner-follow-sec {
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Raleway';
 	font-weight: 600;
 	font-size: 16px;
 	line-height: 27px;
@@ -1843,8 +1892,8 @@ span.inner-follow-sec {
 	color: #000;
 }
 
-p.right-col {
-	font-family: 'Raleway', sans-serif;
+.right-col {
+	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
 	line-height: 15px;
@@ -1852,8 +1901,8 @@ p.right-col {
 	color: #000;
 }
 
-p.left-col {
-	font-family: 'Raleway', sans-serif;
+.left-col {
+	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
 	line-height: 15px;
@@ -1862,7 +1911,7 @@ p.left-col {
 }
 
 .footer-heading {
-	font-family: 'Playfair Display', serif;
+	font-family: 'Playfair Display';
 	font-size: 42px;
 	line-height: 69px;
 	color: #000;
@@ -1870,7 +1919,7 @@ p.left-col {
 }
 
 .F-blog-text {
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
 	line-height: 22px;
@@ -1883,23 +1932,23 @@ p.left-col {
 	width: 20%;
 }
 
-section.Footer-section {
+.Footer-section {
 	padding: 50px 0px;
 }
 
-button.search-more-button-B.text-center {
+.search-more-button-B {
 	background-color: #000000;
 	border: 0px;
 	height: 40px;
 	width: 88px;
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Raleway';
 	font-size: 13px;
 	color: #fff;
 	font-style: normal;
 	line-height: 15px;
 }
 
-button.search-more-button-B.text-center:hover {
+.search-more-button-B:hover {
 	background-color: #3b717b;
 	color: #fff;
 }
@@ -1921,22 +1970,22 @@ ul {
 	list-style-type: none;
 }
 
-ul li {
+li {
 	float: left;
 }
 
 li a {
-	font-family: 'Playfair Display', serif;
+	font-family: 'Playfair Display';
 	font-weight: bold;
 	font-size: 16px;
 	letter-spacing: 0.025em;
-	color: #494949 !important;
+	color: #494949;
 	font-style: normal;
 	line-height: 21px;
 }
 
 li a:hover {
-	color: #000 !important;
+	color: #000;
 }
 
 .content {
@@ -1969,7 +2018,7 @@ li.B-footer-1 {
 
 /*placeholder css*/
 :-ms-input-placeholder {
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Raleway';
 	color: #0000003b !important;
 }
 
@@ -1977,7 +2026,7 @@ li.B-footer-1 {
 input::-webkit-input-placeholder {
 	font-size: 13px;
 	line-height: 18px;
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Raleway';
 	font-weight: 600;
 	color: #0000003b !important;
 	opacity: 0.3;
@@ -1986,7 +2035,7 @@ input::-webkit-input-placeholder {
 input:-moz-placeholder {
 	font-size: 13px;
 	line-height: 18px;
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Raleway';
 	font-weight: 600;
 	color: #0000003b !important;
 	opacity: 0.3;
@@ -1995,7 +2044,7 @@ input:-moz-placeholder {
 :-ms-input-placeholder {
 	font-size: 13px;
 	line-height: 18px;
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Raleway';
 	font-weight: 600;
 	color: #0000003b !important;
 	opacity: 0.3;
@@ -2012,7 +2061,7 @@ input:-moz-placeholder {
 }
 
 .testimonial .title {
-	font-family: 'Playfair Display', serif;
+	font-family: 'Playfair Display';
 	font-weight: bold;
 	font-size: 24px;
 	line-height: 32px;
@@ -2022,7 +2071,7 @@ input:-moz-placeholder {
 
 .testimonial .description {
 	text-align: justify;
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
 	line-height: 22px;
@@ -2063,7 +2112,7 @@ input:-moz-placeholder {
 
 .testimonial .name {
 	margin-bottom: 0px;
-	font-family: 'Playfair Display', serif;
+	font-family: 'Playfair Display';
 	font-weight: bold;
 	font-size: 16px;
 	line-height: 21px;
@@ -2072,13 +2121,19 @@ input:-moz-placeholder {
 }
 
 .testimonial .post {
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Raleway';
 	font-weight: normal;
 	font-size: 13px;
 	line-height: 22px;
 	font-style: normal;
 	color: #000;
 	opacity: 0.7;
+}
+.testimonial-1 {	
+	border-right: 1px solid #e9e9e9;
+}
+.testimonial-3 {	
+	border-left: 1px solid #e9e9e9;
 }
 
 .owl-theme .owl-controls .owl-page span {
@@ -2089,8 +2144,10 @@ input:-moz-placeholder {
 	margin: 80px 0px;
 }
 
+
 .img-container {
 	position: relative;
+	display: flex
 }
 
 .img-container .overlay {
@@ -2147,7 +2204,7 @@ input:-moz-placeholder {
 	-webkit-animation: fadeIn 1s;
 	animation: fadeIn 1s;
 }
-   
+
 
 /*Mobile navbar */
 
@@ -2169,15 +2226,50 @@ input:-moz-placeholder {
 
 /*social icon hover*/
 
-.image_off, #hom:hover .image_on {
+.image_off, .hom:hover .image_on {
 	display: none;
 }
 
-.image_on, #hom:hover .image_off {
+.image_on, .hom:hover .image_off {
 	display: inline;
 }
 
+.img-responsive.image.video-img {
+	height: 474px;
+}
 
+#cartoonVideo {
+	height: 474px;
+	display: none;
+	flex: 1;
+}
+#music-marathon {
+	background-color: #f5dad1;
+}
+#music-marathon-2 {
+	background-color: #3b717b;
+}
+#music-marathon-2 h1 {
+	color : #fff
+}
+#music-marathon-2 p {
+	color : #fff
+}
+#music-marathon-3 {
+	background-color: #ffeed0;
+}
+#music-marathon-img {
+	background-color: #3b717b;
+}
+.testimonial-Text-sec{
+	background-color: #f5dad1; 
+}
+.inner-follow-sec img{
+	margin-bottom: 10px;
+}
+#insta-hashtag {
+	color : #000;
+}
 
 /* END social icon hover*/
 .offcanvas-header.mt-3 {
@@ -2188,6 +2280,7 @@ input:-moz-placeholder {
 	display: none;
 }
 /*-------end Nav mobile view----------*/
+
   `
 export const style = `
   <style>
@@ -2196,6 +2289,7 @@ export const style = `
   `
 
 export const html = `
+  
 <!-- Top section -->
 <div class="bg-img" id="home">
 	<nav class="navbar navbar-expand-lg navbar-dark" id="myHeader">
@@ -2336,29 +2430,15 @@ things.
 			</div>
 			<div class="row">
 				<div class="col-md-12 offset-lg-4 col-lg-8  offset-mb-0 mb-12 p-0">
-					<div class="img-container">
-						<img class="img-responsive image" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/vedio-imge.jpg">
-						<div class="overlay"> <span id="hom"><img class="popup image_on" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/play-button-B.png"><img class="popup image_off" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/play-button-G.png"></span>
+	  
+					<div class="img-container" style="display: flex;">
+						<img class="img-responsive image video-img" src="http://159.65.145.117:8090/SiteSeed/Spa&amp;Wellnss/images/vedio-imge.jpg" style="height: 474px;">
+						<div class="overlay"> <span id="hom"><img class="popup image_on" src="http://159.65.145.117:8090/SiteSeed/Spa&amp;Wellnss/images/play-button-B.png"><img class="popup image_off" src="http://159.65.145.117:8090/SiteSeed/Spa&amp;Wellnss/images/play-button-G.png"></span>
 						</div>
+						<iframe id="cartoonVideo" style="height: 474px; display: none; flex: 1;" width="560" height="315" src="https://www.youtube.com/embed/YE7VzlLtp-4?" frameborder="0" allowfullscreen="" >
+						</iframe>
 					</div>
 					<!--modal button-->
-					<div class="bs-example">
-						<!-- Button HTML (to Trigger Modal) -->
-						<button style="display: none;" class="btn btn-lg btn-primary play" data-target='#myModal' data-toggle="modal">Launch Demo Modal</button>
-						<!-- Modal HTML -->
-						<div id="myModal" class="modal fade">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-									</div>
-									<div class="modal-body">
-										<iframe id="cartoonVideo" width="560" height="315" src="https://www.youtube.com/embed/YE7VzlLtp-4" frameborder="0" allowfullscreen allow="autoplay;"></iframe>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -2403,7 +2483,7 @@ things.
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-6 col-md-6 mb-12 p-0" style="background-color: #f5dad1;">
+				<div class="col-lg-6 col-md-6 mb-12 p-0" id="music-marathon" style="background-color: #f5dad1;">
 					<div class="content">
 						<h1 class="B-blog-heading">Messmerising music maraton was create with spinning records & special</h1>
 						<p class="P-blog-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc malesuada vel urna sed luctus. Pellentesque leo erat, egestas scelerisque efficitur eget,</p>
@@ -2414,7 +2494,7 @@ things.
 						</a>
 					</div>
 				</div>
-				<div class="col-lg-6 col-md-6 mb-12 p-0" style="background-color: #3b717b;">
+				<div class="col-lg-6 col-md-6 mb-12 p-0" id="music-marathon-2" style="background-color: #3b717b;">
 					<div class="content">
 						<h1 class="B-blog-heading-w" style="color:#fff;">Messmerising music maraton was create with spinning records & special</h1>
 						<p class="P-blog-text" style="color:#fff; opacity: 0.7;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel urna sed luctus. Pellentesque leo erat, egestas scelerisque efficitur eget, vestibulum ac nunc.</p>
@@ -2427,7 +2507,7 @@ things.
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-6 col-md-6 mb-12 p-0" style="background-color: #ffeed0;">
+				<div class="col-lg-6 col-md-6 mb-12 p-0" id="music-marathon-3" style="background-color: #ffeed0;">
 					<div class="content">
 						<h1 class="B-blog-heading">Messmerising music maraton was create with spinning records & special</h1>
 						<p class="P-blog-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc malesuada vel urna sed luctus. Pellentesque leo erat, egestas scelerisque efficitur eget,</p>
@@ -2438,7 +2518,7 @@ things.
 						</a>
 					</div>
 				</div>
-				<div class="col-lg-6 col-md-6 mb-12 p-0" style="background-color: #3b717b;">
+				<div class="col-lg-6 col-md-6 mb-12 p-0" id="music-marathon-img" style="background-color: #3b717b;">
 					<div class="content content-img">
 						<img class="img-responsive exp-img" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/experience-img.jpg">
 					</div>
@@ -2461,7 +2541,7 @@ things.
 					<div class="row">
 						<div class="col-md-12">
 							<div id="testimonial-slider" class="owl-carousel">
-								<div class="testimonial" style="border-right: 1px solid #e9e9e9;">
+								<div class="testimonial testimonial-1" style="border-right: 1px solid #e9e9e9;">
 									<h3 class="title">Help us to improve our <br>productivity</h3>
 									<p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget vehicula nibh. Duis eu interdum dolor. Pellentesque mollis nisl vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget vehicula nibh. Duis eu interdum dolor. Pellentesque mollis nisl vitae.</p>
 									<div class="testimonial-content">
@@ -2474,7 +2554,7 @@ things.
 										</div>
 									</div>
 								</div>
-								<div class="testimonial">
+								<div class="testimonial testimonial-2">
 									<h3 class="title">Help us to improve our <br>productivity</h3>
 									<p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget vehicula nibh. Duis eu interdum dolor. Pellentesque mollis nisl vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget vehicula nibh. Duis eu interdum dolor. Pellentesque mollis nisl vitae.</p>
 									<div class="testimonial-content">
@@ -2487,7 +2567,7 @@ things.
 										</div>
 									</div>
 								</div>
-								<div class="testimonial" style="border-left: 1px solid #e9e9e9;">
+								<div class="testimonial testimonial-3" style="border-left: 1px solid #e9e9e9;">
 									<h3 class="title">Help us to improve our <br>productivity</h3>
 									<p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget vehicula nibh. Duis eu interdum dolor. Pellentesque mollis nisl vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget vehicula nibh. Duis eu interdum dolor. Pellentesque mollis nisl vitae.</p>
 									<div class="testimonial-content">
@@ -2562,7 +2642,7 @@ things.
 				</div>
 				<div class="footer-sec-1 insta-follow-sec"><span class="inner-follow-sec"><img src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/instagram-sketched.svg" alt="#" style="margin-bottom: 10px;"><br>
 			Follow us<br>
-			on instagram<br> <a href="#" style="color: #000;">#SiteSeed</a></span>
+			on instagram<br> <a href="#" id="insta-hashtag" style="color: #000;">#SiteSeed</a></span>
 				</div>
 			</div>
 			<div class="row bottom-nav">
@@ -2584,25 +2664,25 @@ things.
 				</ul>
 				<ul class="right-col">
 					<li class="B-footer-1">
-						<a id="hom" href="#">
+						<a id="hom" class="hom" href="#">
 							<img class="image_on" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/facebook%20(5).png" alt="#">
 							<img class="image_off" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/fb-B.png">
 						</a>
 					</li>
 					<li class="B-footer-1">
-						<a id="hom" href="#">
+						<a id="hom" class="hom" href="#">
 							<img class="image_on" class="Social-view" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/skype.png" alt="#">
 							<img class="image_off" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/skype-B.png">
 						</a>
 					</li>
 					<li class="B-footer-1">
-						<a id="hom" href="#">
+						<a id="hom" class="hom" href="#">
 							<img class="image_on" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/linkedin%20(2).png" alt="#">
 							<img class="image_off" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/linkedin-B.png">
 						</a>
 					</li>
 					<li class="B-footer-1">
-						<a id="hom" href="#">
+						<a id="hom" class="hom" href="#">
 							<img class="image_on" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/twitter.png" alt="#">
 							<img class="image_off" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/twite-B.png">
 						</a>
@@ -2622,9 +2702,6 @@ things.
 </div>
 <!-- Bootstrap core JavaScript -->
 <!-- Slider JavaScript -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js"></script>
-</body>
 <script>
 var url = $("#cartoonVideo").attr('src');
 	var player = document.getElementById("cartoonVideo");
@@ -2658,67 +2735,82 @@ function hide2()
   $('.rightsmall').hide();
 } 
 
+</script>
+<script>
+$(document).ready(function(){
+var url = $("#cartoonVideo").attr('src');
+var player = document.getElementById("cartoonVideo");
 $(".popup").click(function () {
-	player.src = url;
-	$('.play').click();
-	var symbol = $("#cartoonVideo")[0].src.indexOf("?") > -1 ? "&" : "?";
-	//modify source to autoplay and start video
-	$("#cartoonVideo")[0].src += symbol + "autoplay=1";
-}); 
-$(".close").click(function () {
-	player.src = "";
-	$('#myModal').hide();
+$('.video-img').css("display", "none");
+$('#cartoonVideo').css("display", "block");
+$('.overlay').css("display", "none");
+  player.src = url;
+  $('.play').click();
+  var symbol = $("#cartoonVideo")[0].src.indexOf("?") > -1 ? "&" : "?";
+  //modify source to autoplay and start video
+  $("#cartoonVideo")[0].src += symbol + "autoplay=1";
 });
+})
 </script>
 <!--navbar-->
 <script>
-window.onscroll = function() {myFunction()};
+
+$(document).ready(function(){
+let scriptNode = this.currentScript;
+window.addEventListener("scroll", ()=>{
+  myFunction();
+});
 
 var header = document.getElementById("myHeader");
 var sticky = header.offsetTop;
 
 function myFunction() {
-  if (window.pageYOffset > sticky) {
-	header.classList.add("sticky");
-  } else {
-	header.classList.remove("sticky");
-  }
+if (window.pageYOffset > sticky) {
+  header.classList.add("sticky");
+} else {
+  header.classList.remove("sticky");
 }
+}
+})
+
 </script>
 <script>
+$(document).ready(function(){
 $(".align-togg").click(function(){
 $("body").toggleClass("hidescrollbody");
 });
+  
+  function myFunction_1(x) {
+	  x.classList.toggle("change");
+	  } 
 
-function myFunction_1(x) {
-	x.classList.toggle("change");
-	} 
-
-	$(function () {
+	  $(function () {
   'use strict'
 
 $("[data-trigger]").on("click", function(){
-	var trigger_id =  $(this).attr('data-trigger');
-	$(trigger_id).toggleClass("show");
-	$('body').toggleClass("offcanvas-active");
-});
+	  var trigger_id =  $(this).attr('data-trigger');
+	  $(trigger_id).toggleClass("show");
+	  $('body').toggleClass("offcanvas-active");
+  });
 
-// close if press ESC button 
-$(document).on('keydown', function(event) {
-	if(event.keyCode === 27) {
-	   $(".navbar-collapse").removeClass("show");
-	   $("body").removeClass("overlay-active");
-	}
-});
-// close button 
-$(".btn-close").click(function(e){
-	$(".navbar-collapse").removeClass("show");
-	$("body").removeClass("offcanvas-active");
-}); 
+  // close if press ESC button 
+  $(document).on('keydown', function(event) {
+	  if(event.keyCode === 27) {
+		 $(".navbar-collapse").removeClass("show");
+		 $("body").removeClass("overlay-active");
+	  }
+  });
+  // close button 
+  $(".btn-close").click(function(e){
+	  $(".navbar-collapse").removeClass("show");
+	  $("body").removeClass("offcanvas-active");
+  }); 
+})
 })
 </script>
 
-  `
+
+`
 //   ===================================================
 
 /*
