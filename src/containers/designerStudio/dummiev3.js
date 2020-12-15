@@ -1457,9 +1457,6 @@ export const template1StyleMedia = `
   `;
 
 export const template1StyleCss = `
-img {
-	max-width: 100%;
-}
 .container.mobi-container {
 	max-width: 1326px !important;
 }

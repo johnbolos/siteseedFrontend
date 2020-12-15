@@ -1400,9 +1400,6 @@ export const customCss = `
   `
 
 export const baseCss = `
-img {
-	max-width: 100%;
-}
 .container.mobi-container {
 	max-width: 1326px !important;
 }

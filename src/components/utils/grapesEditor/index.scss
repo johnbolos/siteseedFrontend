@@ -1076,7 +1076,12 @@ button {
   font-style: normal;
   font-weight: normal;
   font-size: 11px;
-  line-height: 11px;
+  line-height: 11px;height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   // color: #ffffff;
   .theme-dark & {
     color: map-get($dark, "color");
