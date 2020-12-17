@@ -8,7 +8,7 @@ export const customCss = `
     }
     
     .f-tst{
-    padding-bottom: 0px !important    
+    padding-bottom: 0px !important;
     padding: 10px;
 }
     h1.footer-text{
@@ -369,7 +369,7 @@ display: none;
   .bottom-txt {
     right: 10px !important;
     position: absolute;
-    bottom: -33% !important;
+    bottom: -220px !important;
     padding-bottom: 50px;
 }
     .thumb{
@@ -471,46 +471,6 @@ color: #D6AFA4;
 .R-img{
     top: 246px;
     left: -196px;}
-}
-   li.nav-item {
-    padding: 0px 15px;
-} 
-    .top-text {
-    left: 133px;
-    position: absolute;
-    top: 330px;
-}
-      .shape-1{
-    z-index: 999;
-    right: 0px;
-    position: absolute;
-    top: 125%;
-}
-
-.shape-2 {
-    z-index: -1;
-    left: -140px;
-    position: absolute;
-}
-.allabout-image{
-    z-index: -1;
-    margin-top: -23px;
-}
-.shape-3 {
-    position: absolute;
-}
-    .bottom-shp{
-    right: -48%;
-    position: relative;
-    top: -299px;  
-    }
-    .allabout-image-1 {
-    margin-top: -30px;
-}
-    .F-1 {padding: 10px;}
-    .F-2 {padding: 10px;}
-    .F-3 {padding: 10px;}
-    .F-4 {padding: 10px;}
 }
 
   /*1600 resolution*/
@@ -1862,6 +1822,48 @@ img.allabout-image-22 {
 }
 /*Mobile view*/
 
+
+li.nav-item {
+    padding: 0px 15px;
+} 
+    .top-text {
+    left: 133px;
+    position: absolute;
+    top: 330px;
+}
+      .shape-1{
+    z-index: 999;
+    right: 0px;
+    position: absolute;
+    top: 125%;
+}
+
+.shape-2 {
+    z-index: -1;
+    left: -140px;
+    position: absolute;
+}
+.allabout-image{
+    z-index: -1;
+    margin-top: -23px;
+}
+.shape-3 {
+    position: absolute;
+}
+    .bottom-shp{
+    right: -48%;
+    position: relative;
+    top: -299px;  
+    }
+    .allabout-image-1 {
+    margin-top: -30px;
+}
+    .F-1 {padding: 10px;}
+    .F-2 {padding: 10px;}
+    .F-3 {padding: 10px;}
+    .F-4 {padding: 10px;}
+
+
   `
 export const style = `
   <style>
@@ -1990,7 +1992,7 @@ export const html = `
    </div>
   </div>  
   <div class="swiper-container">
-      <div class="swiper-wrapper">
+      <div class="swiper-wrapper" style="height: auto;">
           <div class="swiper-slide"><img class="img-fluid" alt="#"src="${appUrl}/assets/templates/therapists/images/2x/Service_Images_01.jpg">
           <p class="Therapy-name">Chiropratic Therapy</p>
           </div>

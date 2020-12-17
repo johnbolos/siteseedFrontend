@@ -57,10 +57,24 @@ const styleManager = {
 					// 	".gjs-css-rules"
 					// );
 					const gjsCssRules = evt.target;
-					//add the style tag in dom
-					let styleId = "ss-style";
+
+
+
 					let style = document.createElement("style");
-					style.id = styleId;
+					style.id = "ss-customStyles";
+					// style.innerHTML = styleObj.data.stylesObj[0].styles;	//adds custom stylesss
+
+					style.innerHTML = customCss;
+					// ===========================================================
+					// gjsCssRules.appendChild(style);
+					// ===========================================================
+					
+					// body[0].appendChild(style);
+					gjsCssRules.insertAdjacentElement("afterend", style);
+					
+					//add the style tag in dom
+					style = document.createElement("style");
+					style.id = "ss-style";
 					style.innerHTML = styleObj.data.filteredStr;
 					// ===========================================================
 					// gjsCssRules.appendChild(style);
@@ -73,18 +87,6 @@ const styleManager = {
 					// 	body[0].appendChild(style);
 					// }
 					// body.insertBefore(style, body.firstChild);
-
-					style = document.createElement("style");
-					style.id = "ss-customStyles";
-					// style.innerHTML = styleObj.data.stylesObj[0].styles;	//adds custom stylesss
-
-					style.innerHTML = customCss;
-					// ===========================================================
-					// gjsCssRules.appendChild(style);
-					// ===========================================================
-					
-					// body[0].appendChild(style);
-					gjsCssRules.insertAdjacentElement("afterend", style);
 					
 					// -------------------------------------------Style-font-assets------------------------------------------------
 					if (styleFontStr) {

@@ -23,6 +23,7 @@ import { setCustomCss } from "../../reducers/actions/templateActions";
 import { /* html, */ template1Html, template1Style, template1StyleCss, template1StyleMedia } from "./dummiev3";
 import restaurant1 from "../../assets/templates/restaurant1";
 import therapists from "../../assets/templates/therapists";
+import landingPageTemplate from "../../assets/templates/landingPage";
 import spa from "../../assets/templates/spa";
 import { landingHtml, landingStyle } from "./templates/landing";
 import { landing2Html, landing2Style } from "./templates/landing2";
@@ -167,6 +168,7 @@ class DesignerStudio extends React.Component {
 			}
 			* ::-webkit-scrollbar {
 				width: 6px;
+				height: 0px;
 			}
 
 			* ::-webkit-scrollbar-track {
@@ -187,6 +189,7 @@ class DesignerStudio extends React.Component {
 			}
 			* ::-webkit-scrollbar {
 				width: 6px;
+				height: 0px;
 			}
 
 			* ::-webkit-scrollbar-track {
@@ -256,6 +259,11 @@ class DesignerStudio extends React.Component {
 					html = spa.html
 					style = spa.baseCss
 					customCss = spa.customCss
+					break;
+				case "landingPage":
+					html = landingPageTemplate.html
+					style = landingPageTemplate.baseCss
+					customCss = landingPageTemplate.customCss
 					break;
 				case "myProject1":
 					// html = xyzHtml
@@ -365,8 +373,13 @@ class DesignerStudio extends React.Component {
 					// _grapesEditor.styleManager.addEvents({ e, node: this }, { pseudoClass: 'hover' })
 				});
 				contentWindow.addEventListener("mousedown", (e) => {
+					let elem = e.target
+					if (e.target.id == 'ss-upload-container') {	// Imp Workaround as selected elem is set data-gjs-selectable: false
+						console.log('issues sss.p')
+						elem = e.target.parentNode
+					}
 					_grapesEditor.styleManager.addEvents(
-						{ elem: e.target, node: this },
+						{ elem, node: this },
 						{ pseudoClass: this.props.pseudoClass }
 					);
 					// _grapesEditor.styleManager.addEvents({ e, node: this }, { pseudoClass: 'hover' })
@@ -445,7 +458,7 @@ class DesignerStudio extends React.Component {
 			}
 		});
 		editor.on('block:drag:stop', model => {
-
+			console.log('sss.p blockdrag')
 		})
 		editor.Commands.add("ss-style-redo", async editor => {
 			let times = 1
@@ -485,6 +498,48 @@ class DesignerStudio extends React.Component {
 		});
 		// =========================================
 	};
+
+	restrictDrag = (componentType) => {	//currently not in use / WORKING ==> change properties of components dynamically
+		const { editor } = _grapesEditor;
+		let wrapper = editor.getWrapper()
+		let component = wrapper.findType(componentType)
+		if (component[0]) {
+			let componentFirstChild = component[0].attributes.components.models[0]
+			componentFirstChild.set({
+				removable: false,
+				draggable: false,
+				propagate: ['draggable', 'removable']
+			})
+		}
+		// let bm = editor.BlockManager
+		// let pfx = 'countdown'
+		// let countdown = bm.get('countdown').set({
+		// 	removable: false,
+		// 	draggable: false,
+		// 	propagate: ['draggable', 'removable'],
+		// 	components: `
+		// 		<span data-js="countdown" data-gjs-draggable="false" data-gjs-removable="false" data-gjs-propagate='["draggable", "removable"]' class="${pfx}-cont">
+		// 		  <div class="${pfx}-block">
+		// 			<div data-js="countdown-day" class="${pfx}-digit"></div>
+		// 			<div class="${pfx}-label">${'days'}</div>
+		// 		  </div>
+		// 		  <div class="${pfx}-block">
+		// 			<div data-js="countdown-hour" class="${pfx}-digit"></div>
+		// 			<div class="${pfx}-label">${'hours'}</div>
+		// 		  </div>
+		// 		  <div class="${pfx}-block">
+		// 			<div data-js="countdown-minute" class="${pfx}-digit"></div>
+		// 			<div class="${pfx}-label">${'minutes'}</div>
+		// 		  </div>
+		// 		  <div class="${pfx}-block">
+		// 			<div data-js="countdown-second" class="${pfx}-digit"></div>
+		// 			<div class="${pfx}-label">${'seconds'}</div>
+		// 		  </div>
+		// 		</span>
+		// 		<span data-js="countdown-endtext" class="${pfx}-endtext"></span>
+		// 	  `
+		// })
+	}
 	@Debounce(500)
 	fun(mouse) {
 

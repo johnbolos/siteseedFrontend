@@ -3,7 +3,7 @@ import _ from "lodash";
 import grapesjs from "grapesjs";
 //import "grapesjs-blocks-basic";
 import exportPlugin from "grapesjs-plugin-export";
-import 'grapesjs-component-countdown'
+// import 'grapesjs-component-countdown'
 import 'grapesjs-navbar'
 import panels from "../../../containers/designerStudio/panels";
 //import "grapesjs-preset-webpage";
@@ -28,7 +28,7 @@ import viewCode from "./viewCode/viewCode";
 import mediaTraits from "../blocks/media/mediaTraits";
 import { prebuiltBlocks } from "../blocks/prebuilt";
 import { appUrl } from "../../../settings";
-import { countdown } from "../blocks/extras/icons";
+// import { countdown } from "../blocks/extras/icons";
 
 
 const _grapesEditor = {
@@ -511,17 +511,17 @@ const _grapesEditor = {
 			prebuiltBlocks,
 			formTraits,
 			mediaTraits,
-			'gjs-component-countdown',
+			// 'gjs-component-countdown',
 			// 'gjs-navbar'
 		],
 		pluginsOpts: {
-			'gjs-component-countdown': {
-				labelCountdownCategory: 'Prebuilt',
-				labelCountdown: `
-				${countdown}
-				Countdown
-				`
-			},
+			// 'gjs-component-countdown': {
+			// 	labelCountdownCategory: 'Prebuilt',
+			// 	labelCountdown: `
+			// 	${countdown}
+			// 	Countdown
+			// 	`
+			// },
 			// 'gjs-navbar': {
 			// 	labelNavbarCategory: 'Extras'
 			// },
@@ -563,10 +563,18 @@ const _grapesEditor = {
 				"https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css",
 				
 				// Therapists
-				"https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css",
+				"https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css", 
 				"https://unpkg.com/swiper/swiper-bundle.min.css",
 				// "https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css",
 				"https://unpkg.com/aos@2.3.1/dist/aos.css",
+
+				// landingPade template
+				"https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css",
+				`${appUrl}/assets/templates/landingPage/css/scroll.css`,
+				// "https://unpkg.com/aos@2.3.1/dist/aos.css"
+				"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css",	//diff version
+				// "https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css",
+				// "https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css",
 
 				`${appUrl}/assets/Fonts/default.css`,
 			],

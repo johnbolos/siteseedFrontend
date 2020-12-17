@@ -4,18 +4,29 @@ import { push } from "connected-react-router";
 import Path from "path-parser";
 
 import Home from "./containers/home";
+import AllTemplates from "./containers/allTemplates";
 import DesignerStudio from "./containers/designerStudio";
 // const Undercons = lazy(() => import('./containers/undercons'))
 
 const routes = [
 	{
 		path: "/home",
-		name: "Home Page",
+		name: "Home",
 		icon: "home",
 		key: "home",
-		showNavBar: true,
+		// showNavBar: true,
 		homepage: true,
 		component: Home,
+		authority: [],
+	},
+	{
+		path: "/allTemplates",
+		name: "All Templates",
+		icon: "allTemplates",
+		key: "allTemplates",
+		// showNavBar: true,
+		// homepage: true,
+		component: AllTemplates,
 		authority: [],
 	},
 	{
@@ -23,7 +34,7 @@ const routes = [
 		name: "Designer Studio",
 		icon: "pencil",
 		key: "designerStudio",
-		authority: [],
+		authority: ["client"],
 		// 'homepage': true,
 		component: DesignerStudio,
 	},
@@ -38,13 +49,13 @@ const routes = [
 				path: "/profile",
 				name: "Profile Settings",
 				key: "profile",
-				component: Home,
+				component: AllTemplates,
 			},
 			{
 				path: "/all",
 				name: "All Settings",
 				key: "all",
-				component: Home,
+				component: AllTemplates,
 			},
 		],
 	},

@@ -19,7 +19,8 @@ export const basicBlocks = (editor) => {
 	  .ss-tooltip {
 		position: relative;
 		display: inline-block;
-		border-bottom: 1px dotted black;
+		text-decoration: underline;
+    	text-decoration-style: dotted;
 	  }
 	  
 	  .ss-tooltip .ss-tooltiptext {
@@ -73,7 +74,7 @@ export const basicBlocks = (editor) => {
 			class: "upload-elem",
 		},
 		content: {
-			components: `<div id="ss-upload-container" data-gjs-selectable="false" data-gjs-hoverable="false">
+			components: `<div id="ss-upload-container" data-gjs-selectable="false" data-gjs-hoverable="false" data-gjs-draggable="false" data-gjs-propagate='["draggable"]'>
 			<div class="ss-upload-btn btn" onclick="(function(e) {
 				let input = e.getElementsByTagName('input')[0];
 				input.click();
