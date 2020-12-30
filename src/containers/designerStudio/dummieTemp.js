@@ -5408,7 +5408,7 @@ span.Call-sec {
 }
 
 .bg-img {
-	background-image: url('http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/Banner.jpg');
+	background-image: url('${assetsUrl}/templates/spa/images/Banner.jpg');
 	min-height: 50em;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -11724,13 +11724,13 @@ export const template1Html = `
 		<nav class="navbar navbar-expand-lg navbar-dark" id="myHeader">
 			<div class="container mobi-container">
 				<a href="#">
-					<img class="l-img" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/Logo.png" att="">
+					<img class="l-img" src="${assetsUrl}/templates/spa/images/Logo.png" att="">
 				</a>
 				<button class="navbar-toggler" type="button" data-trigger="#collapsibleNavbar"> <span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="f12 navbar-collapse" id="collapsibleNavbar">
 					<a href="#">
-						<img class="l-img mobi-logo" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/Logo-W.png" att="">
+						<img class="l-img mobi-logo" src="${assetsUrl}/templates/spa/images/Logo-W.png" att="">
 					</a>
 					<div class="offcanvas-header mt-3">	<i class="fa fa-times btn-close" aria-hidden="true"></i>
 					</div>
@@ -11782,7 +11782,7 @@ export const template1Html = `
 			<div class="offset-md-1 col-md-10 offset-lg-1 col-lg-10  offset-mb-0 mb-12 p-0 ">
 				<div class="row text-center">
 					<div class="col-lg-6 col-md-6 mb-12">
-						<img class="img-responsive" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/about-us-img.jpg">
+						<img class="img-responsive" src="${assetsUrl}/templates/spa/images/about-us-img.jpg">
 					</div>
 					<div class="col-lg-6 col-md-6 mb-12 text-left About-tet">
 						<p class="Abt-txt">About Us</p>
@@ -11810,7 +11810,7 @@ export const template1Html = `
 								<P class="top-paragraph">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</P>
 							</div>
 						</div>
-						<img class="img-responsive" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/Services-img.jpg">
+						<img class="img-responsive" src="${assetsUrl}/templates/spa/images/Services-img.jpg">
 					</div>
 					<div class=" latest-services-block col-lg-7 col-md-12 mb-12" style="background-color: #ffeed0;">
 						<div class="row">
@@ -11862,8 +11862,8 @@ export const template1Html = `
           
           <div class="img-container">
             
-							<img class="img-responsive image" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/vedio-imge.jpg">
-							<div class="overlay"> <span id="hom" class="hom"><img class="popup image_on" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/play-button-B.png"><img class="popup image_off" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/play-button-G.png"></span>
+							<img class="img-responsive image" src="${assetsUrl}/templates/spa/images/vedio-imge.jpg">
+							<div class="overlay"> <span id="hom" class="hom"><img class="popup image_on" src="${assetsUrl}/templates/spa/images/play-button-B.png"><img class="popup image_off" src="${assetsUrl}/templates/spa/images/play-button-G.png"></span>
 							</div>
 						</div>
 						<!--modal button-->
@@ -11904,14 +11904,14 @@ export const template1Html = `
 					</div>
 				</div>
 				<div class="col-lg-7 col-md-12 mb-12 p-0">
-					<img class="img-responsive" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/Gallery-img-1.jpg">
+					<img class="img-responsive" src="${assetsUrl}/templates/spa/images/Gallery-img-1.jpg">
 				</div>
 				<div class="col-lg-5 col-md-12 mb-12 p-0">
-					<img class="img-responsive G-img-bottom" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/O6RXL30.jpg">
-					<img class="img-responsive G-img-bottom-1" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/Gallery-img-4.jpg">
+					<img class="img-responsive G-img-bottom" src="${assetsUrl}/templates/spa/images/O6RXL30.jpg">
+					<img class="img-responsive G-img-bottom-1" src="${assetsUrl}/templates/spa/images/Gallery-img-4.jpg">
 				</div>
 				<div class="col-lg-7 col-md-12 mb-12 p-0">
-					<img class="img-responsive" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/Gallery-img-3.jpg">
+					<img class="img-responsive" src="${assetsUrl}/templates/spa/images/Gallery-img-3.jpg">
 				</div>
 			</div>
 		</section>
@@ -11934,7 +11934,7 @@ export const template1Html = `
 							<p class="P-blog-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc malesuada vel urna sed luctus. Pellentesque leo erat, egestas scelerisque efficitur eget,</p>
 							<a href="#">
 								<p class="learn-txt">Learn more
-									<img class="R-arrow-img" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/right-arrow-B.png">
+									<img class="R-arrow-img" src="${assetsUrl}/templates/spa/images/right-arrow-B.png">
 								</p>
 							</a>
 						</div>
@@ -11945,7 +11945,7 @@ export const template1Html = `
 							<p class="P-blog-text" style="color:#fff; opacity: 0.7;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel urna sed luctus. Pellentesque leo erat, egestas scelerisque efficitur eget, vestibulum ac nunc.</p>
 							<a href="#">
 								<p class="learn-txt" style="color:#fff;">Learn more
-									<img class="R-arrow-img" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/right-arrow-W.png">
+									<img class="R-arrow-img" src="${assetsUrl}/templates/spa/images/right-arrow-W.png">
 								</p>
 							</a>
 						</div>
@@ -11958,14 +11958,14 @@ export const template1Html = `
 							<p class="P-blog-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc malesuada vel urna sed luctus. Pellentesque leo erat, egestas scelerisque efficitur eget,</p>
 							<a href="#">
 								<p class="learn-txt">Learn more
-									<img class="R-arrow-img" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/right-arrow-B.png">
+									<img class="R-arrow-img" src="${assetsUrl}/templates/spa/images/right-arrow-B.png">
 								</p>
 							</a>
 						</div>
 					</div>
 					<div class="col-lg-6 col-md-6 mb-12 p-0" style="background-color: #3b717b;">
 						<div class="content content-img">
-							<img class="img-responsive exp-img" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/experience-img.jpg">
+							<img class="img-responsive exp-img" src="${assetsUrl}/templates/spa/images/experience-img.jpg">
 						</div>
 					</div>
 				</div>
@@ -11991,7 +11991,7 @@ export const template1Html = `
 										<p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget vehicula nibh. Duis eu interdum dolor. Pellentesque mollis nisl vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget vehicula nibh. Duis eu interdum dolor. Pellentesque mollis nisl vitae.</p>
 										<div class="testimonial-content">
 											<div class="pic">
-												<img src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/profile-1.png" alt="#">
+												<img src="${assetsUrl}/templates/spa/images/profile-1.png" alt="#">
 											</div>
 											<div class="content-t">
 												<h4 class="name">Samantha Willian</h4>
@@ -12004,7 +12004,7 @@ export const template1Html = `
 										<p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget vehicula nibh. Duis eu interdum dolor. Pellentesque mollis nisl vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget vehicula nibh. Duis eu interdum dolor. Pellentesque mollis nisl vitae.</p>
 										<div class="testimonial-content">
 											<div class="pic">
-												<img src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/profil-2.png" alt="#">
+												<img src="${assetsUrl}/templates/spa/images/profil-2.png" alt="#">
 											</div>
 											<div class="content-t">
 												<h4 class="name">Samantha Willian</h4>
@@ -12017,7 +12017,7 @@ export const template1Html = `
 										<p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget vehicula nibh. Duis eu interdum dolor. Pellentesque mollis nisl vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget vehicula nibh. Duis eu interdum dolor. Pellentesque mollis nisl vitae.</p>
 										<div class="testimonial-content">
 											<div class="pic">
-												<img src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/profile-1.png" alt="#">
+												<img src="${assetsUrl}/templates/spa/images/profile-1.png" alt="#">
 											</div>
 											<div class="content-t">
 												<h4 class="name">Samantha Willian</h4>
@@ -12042,19 +12042,19 @@ export const template1Html = `
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-12 mb-12 p-0">
-					<img class="img-responsive testimonial-U-img" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/testimonial-img-1.jpg" alt="#">
+					<img class="img-responsive testimonial-U-img" src="${assetsUrl}/templates/spa/images/testimonial-img-1.jpg" alt="#">
 					<div class="col-md-12 col-lg-12 mb-12 Testimonial-bottom">
 						<div class="column">
-							<img class="img-responsive" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/Testimonial-Services.jpg">
+							<img class="img-responsive" src="${assetsUrl}/templates/spa/images/Testimonial-Services.jpg">
 						</div>
-						<div class="column BOX-1"> <span class="bio-org-box"><img class="fb-icon" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/drop-leaf-table.svg" alt="#"><br>
+						<div class="column BOX-1"> <span class="bio-org-box"><img class="fb-icon" src="${assetsUrl}/templates/spa/images/drop-leaf-table.svg" alt="#"><br>
                 <p class="percentge">100%</p>
                 <p class="descrpt">bio & organic no <br>tasted on animals</p></span>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-12 mb-12 p-0">
-					<img class="img-responsive" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/testimonial-img-2.jpg" alt="#">
+					<img class="img-responsive" src="${assetsUrl}/templates/spa/images/testimonial-img-2.jpg" alt="#">
 				</div>
 			</div>
 		</div>
@@ -12074,18 +12074,18 @@ export const template1Html = `
 				</div>
 				<div class="row searc-section">
 					<div class="footer-sec-1">
-						<img class="img-responsive" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/Services-img-N.jpg" alt="#">
+						<img class="img-responsive" src="${assetsUrl}/templates/spa/images/Services-img-N.jpg" alt="#">
 					</div>
 					<div class="footer-sec-1">
-						<img class="img-responsive" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/Footer-img-2.jpg" alt="#">
+						<img class="img-responsive" src="${assetsUrl}/templates/spa/images/Footer-img-2.jpg" alt="#">
 					</div>
 					<div class="footer-sec-1">
-						<img class="img-responsive" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/footer-img-3.jpg" alt="#">
+						<img class="img-responsive" src="${assetsUrl}/templates/spa/images/footer-img-3.jpg" alt="#">
 					</div>
 					<div class="footer-sec-1">
-						<img class="img-responsive" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/footer-img-4.jpg" alt="#">
+						<img class="img-responsive" src="${assetsUrl}/templates/spa/images/footer-img-4.jpg" alt="#">
 					</div>
-					<div class="footer-sec-1 insta-follow-sec"><span class="inner-follow-sec"><img src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/instagram-sketched.svg" alt="#" style="margin-bottom: 10px;"><br>
+					<div class="footer-sec-1 insta-follow-sec"><span class="inner-follow-sec"><img src="${assetsUrl}/templates/spa/images/instagram-sketched.svg" alt="#" style="margin-bottom: 10px;"><br>
                 Follow us<br>
                 on instagram<br> <a href="#" style="color: #000;">#SiteSeed</a></span>
 					</div>
@@ -12110,26 +12110,26 @@ export const template1Html = `
 					<ul class="right-col">
 						<li class="B-footer-1">
 							<a id="hom" class="hom" href="#">
-								<img class="image_on" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/facebook%20(5).png" alt="#">
-								<img class="image_off" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/fb-B.png">
+								<img class="image_on" src="${assetsUrl}/templates/spa/images/facebook%20(5).png" alt="#">
+								<img class="image_off" src="${assetsUrl}/templates/spa/images/fb-B.png">
 							</a>
 						</li>
 						<li class="B-footer-1">
 							<a id="hom" class="hom" href="#">
-								<img class="image_on" class="Social-view" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/skype.png" alt="#">
-                                <img class="image_off" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/skype-B.png">
+								<img class="image_on" class="Social-view" src="${assetsUrl}/templates/spa/images/skype.png" alt="#">
+                                <img class="image_off" src="${assetsUrl}/templates/spa/images/skype-B.png">
 							</a>
 						</li>
 						<li class="B-footer-1">
 							<a id="hom" class="hom" href="#">
-								<img class="image_on" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/linkedin%20(2).png" alt="#">
-								<img class="image_off" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/linkedin-B.png">
+								<img class="image_on" src="${assetsUrl}/templates/spa/images/linkedin%20(2).png" alt="#">
+								<img class="image_off" src="${assetsUrl}/templates/spa/images/linkedin-B.png">
 							</a>
 						</li>
 						<li class="B-footer-1">
 							<a id="hom" class="hom" href="#">
-								<img class="image_on" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/twitter.png" alt="#">
-								<img class="image_off" src="http://159.65.145.117:8090/SiteSeed/Spa&Wellnss/images/twite-B.png">
+								<img class="image_on" src="${assetsUrl}/templates/spa/images/twitter.png" alt="#">
+								<img class="image_off" src="${assetsUrl}/templates/spa/images/twite-B.png">
 							</a>
 						</li>
 					</ul>

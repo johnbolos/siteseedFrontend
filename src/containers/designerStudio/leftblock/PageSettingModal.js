@@ -114,7 +114,7 @@ class PageSettingModal extends Component {
 		let s3Dir = userS3Dir
 		if (!s3Dir) {
 			// create new userS3Dir
-			s3Dir = shortid.generate()
+			s3Dir = 's3Dir' || shortid.generate()
 			dispatch(setS3Dir(s3Dir))
 		}
 		_s3.uploadFile(files[0], s3Dir, (resp) => {

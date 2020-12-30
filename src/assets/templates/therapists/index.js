@@ -1,4 +1,4 @@
-import { appUrl } from "../../../settings";
+import { assetsUrl } from "../../../settings";
 
 export const customCss = `
 @media only screen and (max-width: 720px) {
@@ -270,7 +270,7 @@ display: none;
 }
     .img-vedio{
         border-radius: 10px;
-    background-image: url(${appUrl}/assets/templates/therapists/images/2x/vedio-mobil-img.jpg);
+    background-image: url(${assetsUrl}/templates/therapists/images/2x/vedio-mobil-img.jpg);
     min-height: 700px;
     background-position: center;
     background-repeat: no-repeat;
@@ -694,7 +694,7 @@ color: #D6AFA4;
     .img-vedio {
     padding: 0px;
     border-radius: 20px;
-    background-image: url(${appUrl}/assets/templates/therapists/images/2x/vedio-ipad.jpg);
+    background-image: url(${assetsUrl}/templates/therapists/images/2x/vedio-ipad.jpg);
     min-height: 700px;
     background-position: center;
     background-repeat: no-repeat;
@@ -1030,7 +1030,7 @@ display: none;
 }
  .img-vedio {
     border-radius: 20px;
-    background-image: url(${appUrl}/assets/templates/therapists/images/2x/Hero%20Banner_02.jpg);
+    background-image: url(${assetsUrl}/templates/therapists/images/2x/Hero%20Banner_02.jpg);
     min-height: 900px !important;
     background-position: center;
     background-repeat: no-repeat;
@@ -1392,7 +1392,7 @@ color: #999999;
 .img-vedio {
     padding: 0px;
     border-radius: 20px;
-    background-image: url(${appUrl}/assets/templates/therapists/images/2x/Hero%20Banner_02.jpg);
+    background-image: url(${assetsUrl}/templates/therapists/images/2x/Hero%20Banner_02.jpg);
     min-height: 750px;
     background-position: center;
     background-repeat: no-repeat;
@@ -1875,7 +1875,7 @@ export const html = `
 <!-- Navigation -->
 <div class="nav-wrapper">
 <nav class="navbar p-0">
-  <img src="${appUrl}/assets/templates/therapists/SVG/Logo.svg" alt="Company Logo">
+  <img src="${assetsUrl}/templates/therapists/SVG/Logo.svg" alt="Company Logo">
   <div class="menu-toggle" id="mobile-menu">
     <span class="bar"></span>
     <span class="bar"></span>
@@ -1902,10 +1902,10 @@ export const html = `
 <div class="container-fluid p-0">
 <section id="section-one">      
 <div class="row top-banner ">
-<img class="img-fluid bg-img web-img" alt="#" src="${appUrl}/assets/templates/therapists/images/2x/Hero_Banner.jpg">
-<img class="img-fluid bg-img big-img" alt="#"src="${appUrl}/assets/templates/therapists/images/2x//banner-1920.jpg">       
-<img class="img-fluid bg-img mobi-img" alt="#"src="${appUrl}/assets/templates/therapists/images/2x/mobile-image.png">
-<img class="img-fluid bg-img topipad-img" alt="#"src="${appUrl}/assets/templates/therapists/images/2x/banner-ipad.jpg">      
+<img class="img-fluid bg-img web-img" alt="#" src="${assetsUrl}/templates/therapists/images/2x/Hero_Banner.jpg">
+<img class="img-fluid bg-img big-img" alt="#"src="${assetsUrl}/templates/therapists/images/2x//banner-1920.jpg">       
+<img class="img-fluid bg-img mobi-img" alt="#"src="${assetsUrl}/templates/therapists/images/2x/mobile-image.png">
+<img class="img-fluid bg-img topipad-img" alt="#"src="${assetsUrl}/templates/therapists/images/2x/banner-ipad.jpg">      
   <div class="top-text">
           <div data-aos="fade-right" class="col-lg-12 col-md-12 mb-12 Web-space p-0">
               <p class="top-subhead">Get your lifestyle back</p>
@@ -1918,7 +1918,7 @@ export const html = `
           </div>
       </div> 
     <div class="bottom-txt">
-   <span><img class="img-fluid" alt="#"src="${appUrl}/assets/templates/therapists/images/2x/line.png"></span>      
+   <span><img class="img-fluid" alt="#"src="${assetsUrl}/templates/therapists/images/2x/line.png"></span>      
     <span class="scroll-txt">SCROLL FOR MORE</span>
     </div>
 </div>    
@@ -1927,7 +1927,7 @@ export const html = `
     
  <!---Welcome section-->
  <div class="shape-1">
-  <img class="allabout-image" alt="#"src="${appUrl}/assets/templates/therapists/SVG/Vector%202.svg"><img class="allabout-image-22" alt="#"src="${appUrl}/assets/templates/therapists/SVG/Vector%203.svg">
+  <img class="allabout-image" alt="#"src="${assetsUrl}/templates/therapists/SVG/Vector%202.svg"><img class="allabout-image-22" alt="#"src="${assetsUrl}/templates/therapists/SVG/Vector%203.svg">
   </div>
   <section id="section-two" class="weour-section">   
   <div class="row text-center">
@@ -1946,32 +1946,32 @@ export const html = `
   <div class="row Gallery-section">
   <div class="col-lg-12 col-md-12 mb">
   <div class="gallery">
-<img class="img-fluid" alt="#"src="${appUrl}/assets/templates/therapists/images/2x/13015.png" />
-      <a class="popup-youtube"id="videoId"href="https://www.youtube.com/embed/pBFQdxA-apI"><div class="overlay-1"> <span id="hom-1"><img class="popup image_on" alt="#"src="${appUrl}/assets/templates/therapists/SVG/Polygon%201.svg"></span></div></a> 
+<img class="img-fluid" alt="#"src="${assetsUrl}/templates/therapists/images/2x/13015.png" />
+      <a class="popup-youtube"id="videoId"href="https://www.youtube.com/embed/pBFQdxA-apI"><div class="overlay-1"> <span id="hom-1"><img class="popup image_on" alt="#"src="${assetsUrl}/templates/therapists/SVG/Polygon%201.svg"></span></div></a> 
 <div class="G-detail">        
 <p class="G-name">Molly Nix</p>
 <p class="G-postion">Senior Product  Designer at Uber</p>      
 </div>
       
-<img class="img-fluid" alt="#"src="${appUrl}/assets/templates/therapists/images/2x/2783.png" />
+<img class="img-fluid" alt="#"src="${assetsUrl}/templates/therapists/images/2x/2783.png" />
 <div class="G-detail">        
 <p class="G-name">Molly Nix</p>
 <p class="G-postion">Senior Product  Designer at Uber</p>      
 </div>
       
-<img class="img-fluid" alt="#"src="${appUrl}/assets/templates/therapists/images/2x/136924%201.png" />
+<img class="img-fluid" alt="#"src="${assetsUrl}/templates/therapists/images/2x/136924%201.png" />
 <div class="G-detail">        
 <p class="G-name">Molly Nix</p>
 <p class="G-postion">Senior Product  Designer at Uber</p>      
 </div>
       
-<img class="img-fluid" alt="#"src="${appUrl}/assets/templates/therapists/images/2x/image%2015.png" />
+<img class="img-fluid" alt="#"src="${assetsUrl}/templates/therapists/images/2x/image%2015.png" />
 <div class="G-detail">        
 <p class="G-name">Molly Nix</p>
 <p class="G-postion">Senior Product  Designer at Uber</p>      
 </div>
       
-<img class="img-fluid" alt="#"src="${appUrl}/assets/templates/therapists/images/2x/image%2017.png" />
+<img class="img-fluid" alt="#"src="${assetsUrl}/templates/therapists/images/2x/image%2017.png" />
 <div class="G-detail">        
 <p class="G-name">Molly Nix</p>
 <p class="G-postion">Senior Product  Designer at Uber</p>      
@@ -1993,35 +1993,35 @@ export const html = `
   </div>  
   <div class="swiper-container">
       <div class="swiper-wrapper" style="height: auto;">
-          <div class="swiper-slide"><img class="img-fluid" alt="#"src="${appUrl}/assets/templates/therapists/images/2x/Service_Images_01.jpg">
+          <div class="swiper-slide"><img class="img-fluid" alt="#"src="${assetsUrl}/templates/therapists/images/2x/Service_Images_01.jpg">
           <p class="Therapy-name">Chiropratic Therapy</p>
           </div>
           
-          <div class="swiper-slide"><img class="img-fluid" alt="#" src="${appUrl}/assets/templates/therapists/images/2x/Service_Images_02.jpg">
+          <div class="swiper-slide"><img class="img-fluid" alt="#" src="${assetsUrl}/templates/therapists/images/2x/Service_Images_02.jpg">
           <p class="Therapy-name">Physiotherapy</p>
           </div>
           
-          <div class="swiper-slide"><img class="img-fluid" alt="#" src="${appUrl}/assets/templates/therapists/images/2x/Service_Images_03.jpg">
+          <div class="swiper-slide"><img class="img-fluid" alt="#" src="${assetsUrl}/templates/therapists/images/2x/Service_Images_03.jpg">
           <p class="Therapy-name">Massage Therapy</p>
           </div>
           
-          <div class="swiper-slide"><img class="img-fluid" alt="#" src="${appUrl}/assets/templates/therapists/images/2x/Service_Images_04.jpg">
+          <div class="swiper-slide"><img class="img-fluid" alt="#" src="${assetsUrl}/templates/therapists/images/2x/Service_Images_04.jpg">
           <p class="Therapy-name">Cold Laser Therapy</p>
           </div>
           
-          <div class="swiper-slide"><img class="img-fluid"alt="#" src="${appUrl}/assets/templates/therapists/images/2x/Service_Images_01.jpg">
+          <div class="swiper-slide"><img class="img-fluid"alt="#" src="${assetsUrl}/templates/therapists/images/2x/Service_Images_01.jpg">
           <p class="Therapy-name">Chiropratic Therapy</p>
           </div>
           
-          <div class="swiper-slide"><img class="img-fluid" alt="#"src="${appUrl}/assets/templates/therapists/images/2x/Service_Images_02.jpg">
+          <div class="swiper-slide"><img class="img-fluid" alt="#"src="${assetsUrl}/templates/therapists/images/2x/Service_Images_02.jpg">
           <p class="Therapy-name">Physiotherapy</p>
           </div>
           
-          <div class="swiper-slide"><img class="img-fluid" alt="#"src="${appUrl}/assets/templates/therapists/images/2x/Service_Images_03.jpg">
+          <div class="swiper-slide"><img class="img-fluid" alt="#"src="${assetsUrl}/templates/therapists/images/2x/Service_Images_03.jpg">
           <p class="Therapy-name">Massage Therapy</p>
           </div>
           
-          <div class="swiper-slide"><img class="img-fluid"alt="#"src="${appUrl}/assets/templates/therapists/images/2x/Service_Images_04.jpg">
+          <div class="swiper-slide"><img class="img-fluid"alt="#"src="${assetsUrl}/templates/therapists/images/2x/Service_Images_04.jpg">
           <p class="Therapy-name">Cold Laser Therapy</p>
           </div></div></div>
     </section>
@@ -2040,13 +2040,13 @@ export const html = `
           </div>
       </div>
        
-       <a class="popup-youtube"id="videoId"href="https://www.youtube.com/embed/WsptdUFthWI?showinfo=0"><div class="overlay"> <span id="hom"><img class="popup image_on"alt="#" src="${appUrl}/assets/templates/therapists/SVG/Polygon%201.svg"></span></div></a> 
+       <a class="popup-youtube"id="videoId"href="https://www.youtube.com/embed/WsptdUFthWI?showinfo=0"><div class="overlay"> <span id="hom"><img class="popup image_on"alt="#" src="${assetsUrl}/templates/therapists/SVG/Polygon%201.svg"></span></div></a> 
    </div>
   </div>
   </section>  
     
   <div class="shape-2">
-  <img class="allabout-image-1 img-fluid" alt="#" src="${appUrl}/assets/templates/therapists/SVG/Vector%207.svg"><img class="allabout-image-11 img-fluid" alt="#" src="${appUrl}/assets/templates/therapists/SVG/Vector%203.svg">
+  <img class="allabout-image-1 img-fluid" alt="#" src="${assetsUrl}/templates/therapists/SVG/Vector%207.svg"><img class="allabout-image-11 img-fluid" alt="#" src="${assetsUrl}/templates/therapists/SVG/Vector%203.svg">
   </div>
   <!---Care-help section-->
      <section id="section-six" class="Team-section">
@@ -2064,7 +2064,7 @@ export const html = `
              <div class="col-lg-7 col-md-7 mb-12 Team-right">
               <div class="row">
               <div class="col-md-6 F-1 ">
-                      <img class="img-fluid M-B box" alt="#"src="${appUrl}/assets/templates/therapists/images/2x/Team_Images_01.jpg">
+                      <img class="img-fluid M-B box" alt="#"src="${assetsUrl}/templates/therapists/images/2x/Team_Images_01.jpg">
                          <div class="img-text">
                          <h5 class="Team-name">Marie Jordan</h5>
                          <p class="Team-P">Psychologist</p>
@@ -2072,7 +2072,7 @@ export const html = `
                   </div>
                   
                   <div class="col-md-6 F-2">
-                      <img class="img-fluid M-B box" alt="#"src="${appUrl}/assets/templates/therapists/images/2x/Team_Images_02.jpg">
+                      <img class="img-fluid M-B box" alt="#"src="${assetsUrl}/templates/therapists/images/2x/Team_Images_02.jpg">
                       <div class="img-text">
                          <h5 class="Team-name">Marie Jordan</h5>
                          <p class="Team-P">Psychologist</p>
@@ -2080,7 +2080,7 @@ export const html = `
                   </div>
                   
                   <div class="col-md-6 F-3">
-                      <img class="img-fluid M-B box" alt="#"src="${appUrl}/assets/templates/therapists/images/2x/Team_Images_03.jpg">
+                      <img class="img-fluid M-B box" alt="#"src="${assetsUrl}/templates/therapists/images/2x/Team_Images_03.jpg">
                          <div class="img-text">
                          <h5 class="Team-name">Marie Jordan</h5>
                          <p class="Team-P">Psychologist</p>
@@ -2088,7 +2088,7 @@ export const html = `
                   </div>
                   
                   <div class="col-md-6 F-4">
-                      <img class="img-fluid M-B box" alt="#"src="${appUrl}/assets/templates/therapists/images/2x/Team_Images_04.jpg">
+                      <img class="img-fluid M-B box" alt="#"src="${assetsUrl}/templates/therapists/images/2x/Team_Images_04.jpg">
                         <div class="img-text">
                          <h5 class="Team-name">Marie Jordan</h5>
                          <p class="Team-P">Psychologist</p>
@@ -2099,7 +2099,7 @@ export const html = `
        
        </div>
          <div class="shape-3">
-  <img class="bottom-shp img-fluid"  alt="#"src="${appUrl}/assets/templates/therapists/SVG/Vector%206.svg">
+  <img class="bottom-shp img-fluid"  alt="#"src="${assetsUrl}/templates/therapists/SVG/Vector%206.svg">
   </div>
     </section>
     
@@ -2117,7 +2117,7 @@ export const html = `
       
   <div class="swiper-container">
       <div class="swiper-wrapper">
-          <div class="swiper-slide swiper-1"><img class="img-fluid" alt="#"src="${appUrl}/assets/templates/therapists/images/2x/Blog_01.jpg">
+          <div class="swiper-slide swiper-1"><img class="img-fluid" alt="#"src="${assetsUrl}/templates/therapists/images/2x/Blog_01.jpg">
           <div class="blog-cntx">
           <p class="B-date">09-Aug-2020</p>
           <p class="B-name">History of Chiropractic Care</p>
@@ -2125,7 +2125,7 @@ export const html = `
           </div>
           </div>
           
-          <div class="swiper-slide swiper-1"><img class="img-fluid" alt="#"src="${appUrl}/assets/templates/therapists/images/2x/Blog_02.jpg">
+          <div class="swiper-slide swiper-1"><img class="img-fluid" alt="#"src="${assetsUrl}/templates/therapists/images/2x/Blog_02.jpg">
           <div class="blog-cntx">
           <p class="B-date">09-Aug-2020</p>
           <p class="B-name">History of Chiropractic Care</p>
@@ -2133,7 +2133,7 @@ export const html = `
           </div>
           </div>
           
-          <div class="swiper-slide swiper-1"><img alt="#"class="img-fluid "src="${appUrl}/assets/templates/therapists/images/2x/Blog_03.jpg">
+          <div class="swiper-slide swiper-1"><img alt="#"class="img-fluid "src="${assetsUrl}/templates/therapists/images/2x/Blog_03.jpg">
           <div class="blog-cntx">
           <p class="B-date">09-Aug-2020</p>
           <p class="B-name">History of Chiropractic Care</p>
@@ -2141,7 +2141,7 @@ export const html = `
           </div>
           </div>
           
-          <div class="swiper-slide swiper-1"><img alt="#"class="img-fluid"src="${appUrl}/assets/templates/therapists/images/2x/Blog_01.jpg">
+          <div class="swiper-slide swiper-1"><img alt="#"class="img-fluid"src="${assetsUrl}/templates/therapists/images/2x/Blog_01.jpg">
           <div class="blog-cntx">
           <p class="B-date">09-Aug-2020</p>
           <p class="B-name">History of Chiropractic Care</p>
@@ -2149,7 +2149,7 @@ export const html = `
           </div>
           </div>
           
-          <div class="swiper-slide swiper-1"><img alt="#"class="img-fluid"src="${appUrl}/assets/templates/therapists/images/2x/Blog_02.jpg">
+          <div class="swiper-slide swiper-1"><img alt="#"class="img-fluid"src="${assetsUrl}/templates/therapists/images/2x/Blog_02.jpg">
           <div class="blog-cntx">
           <p class="B-date">09-Aug-2020</p>
           <p class="B-name">History of Chiropractic Care</p>
@@ -2157,7 +2157,7 @@ export const html = `
           </div>
           </div>
           
-          <div class="swiper-slide swiper-1"><img alt="#"class="img-fluid"src="${appUrl}/assets/templates/therapists/images/2x/Blog_03.jpg">
+          <div class="swiper-slide swiper-1"><img alt="#"class="img-fluid"src="${assetsUrl}/templates/therapists/images/2x/Blog_03.jpg">
           <div class="blog-cntx">
           <p class="B-date">09-Aug-2020</p>
           <p class="B-name">History of Chiropractic Care</p>
@@ -2185,10 +2185,10 @@ export const html = `
           <div class="container p-0">
               <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 mb-12 ts-testimonial-slide">
                   <div class="ts-testimonial-item text-center">
-                      <div class="pic text-center"><img class="client-img" src="${appUrl}/assets/templates/therapists/images/2x/Portrait%20Image.jpg" alt="#"></div>
-                      <span><img class="L-img"src="${appUrl}/assets/templates/therapists/SVG/quotes_01.svg"></span>
+                      <div class="pic text-center"><img class="client-img" src="${assetsUrl}/templates/therapists/images/2x/Portrait%20Image.jpg" alt="#"></div>
+                      <span><img class="L-img"src="${assetsUrl}/templates/therapists/SVG/quotes_01.svg"></span>
                       <p class="testi-content">"Osed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci sed quia non numquam qui ratione voluptatem sequi nesciunt. Neque porro quisquam est."</p>
-                      <span><img alt="#"class="R-img" src="${appUrl}/assets/templates/therapists/SVG/quotes_02.svg"></span>
+                      <span><img alt="#"class="R-img" src="${assetsUrl}/templates/therapists/SVG/quotes_02.svg"></span>
                          
                       <div class="infor-client">
                           <p class="client-name">Marie Jordan</p>
@@ -2197,10 +2197,10 @@ export const html = `
                   </div>
                   
                   <div class="ts-testimonial-item text-center">
-                      <div class="pic text-center"><img class="client-img" src="${appUrl}/assets/templates/therapists/images/2x/Portrait%20Image.jpg" alt="#"></div>
-                      <span><img class="L-img"src="${appUrl}/assets/templates/therapists/SVG/quotes_01.svg"></span>
+                      <div class="pic text-center"><img class="client-img" src="${assetsUrl}/templates/therapists/images/2x/Portrait%20Image.jpg" alt="#"></div>
+                      <span><img class="L-img"src="${assetsUrl}/templates/therapists/SVG/quotes_01.svg"></span>
                       <p class="testi-content">"Osed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci sed quia non numquam qui ratione voluptatem sequi nesciunt. Neque porro quisquam est."</p>
-                      <span><img class="R-img" alt="#"src="${appUrl}/assets/templates/therapists/SVG/quotes_02.svg"></span>
+                      <span><img class="R-img" alt="#"src="${assetsUrl}/templates/therapists/SVG/quotes_02.svg"></span>
                          
                       <div class="infor-client">
                           <p class="client-name">Marie Jordan</p>
@@ -2209,10 +2209,10 @@ export const html = `
                   </div>
                   
                   <div class="ts-testimonial-item text-center">
-                      <div class="pic text-center"><img class="client-img" src="${appUrl}/assets/templates/therapists/images/2x/Portrait%20Image.jpg" alt="#"></div>
-                      <span><img class="L-img"src="${appUrl}/assets/templates/therapists/SVG/quotes_01.svg"></span>
+                      <div class="pic text-center"><img class="client-img" src="${assetsUrl}/templates/therapists/images/2x/Portrait%20Image.jpg" alt="#"></div>
+                      <span><img class="L-img"src="${assetsUrl}/templates/therapists/SVG/quotes_01.svg"></span>
                       <p class="testi-content">"Osed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci sed quia non numquam qui ratione voluptatem sequi nesciunt. Neque porro quisquam est."</p>
-                      <span><img class="R-img" alt="#"src="${appUrl}/assets/templates/therapists/SVG/quotes_02.svg"></span>
+                      <span><img class="R-img" alt="#"src="${assetsUrl}/templates/therapists/SVG/quotes_02.svg"></span>
                          
                       <div class="infor-client">
                           <p class="client-name">Marie Jordan</p>
@@ -2229,7 +2229,7 @@ export const html = `
 <footer id="section-nine"class="footer-outer">
 <div class="row footer-inner">
 <div class="col-lg-5 col-md-5 mb-12 f-tst">
- <a href="#"><img class="footer-image img-fluid"alt="#"src="${appUrl}/assets/templates/therapists/SVG/Logo.svg"></a>   
+ <a href="#"><img class="footer-image img-fluid"alt="#"src="${assetsUrl}/templates/therapists/SVG/Logo.svg"></a>   
 </div>
  <div class="col-lg-7 col-md-7 mb-12 f-tst">
  <h1 class="footer-text">Ready to start your next project? Drop us a line or
@@ -2251,10 +2251,10 @@ export const html = `
 <div class="row bottom-footer">
 <div class="col-lg-5 col-md-5 mb-12 f-tst"><p class="copyright-txt">Copyright © SiteSeed 2020.  All rights reserved.</p></div>
 <div class="col-lg-7 col-md-7 mb-12 f-tst"><div class="social-spc" style="background-color: #D58F76;height: 80px;">
-  <span class="social-spn"><a href="#"><img alt="#"src="${appUrl}/assets/templates/therapists/SVG/facebook.svg"></a></span>   
-  <span class="social-spn-1"><a  href="#"><img alt="#"src="${appUrl}/assets/templates/therapists/SVG/twitter.svg"></a></span>   
-  <span class="social-spn-1"><a href="#"> <img alt="#"src="${appUrl}/assets/templates/therapists/SVG/instagram.svg"></a></span>   
-  <span class="social-spn-2"><a  href="#"><img alt="#"src="${appUrl}/assets/templates/therapists/SVG/youtube.svg"></a></span>   
+  <span class="social-spn"><a href="#"><img alt="#"src="${assetsUrl}/templates/therapists/SVG/facebook.svg"></a></span>   
+  <span class="social-spn-1"><a  href="#"><img alt="#"src="${assetsUrl}/templates/therapists/SVG/twitter.svg"></a></span>   
+  <span class="social-spn-1"><a href="#"> <img alt="#"src="${assetsUrl}/templates/therapists/SVG/instagram.svg"></a></span>   
+  <span class="social-spn-2"><a  href="#"><img alt="#"src="${assetsUrl}/templates/therapists/SVG/youtube.svg"></a></span>   
   </div></div>    
 </div>      
 </footer></div>

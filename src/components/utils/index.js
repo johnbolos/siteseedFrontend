@@ -1,5 +1,11 @@
 import React from 'react'
+import _ from 'lodash'
+import Async from 'async'
 import { toast } from 'react-toastify'
+import shortid from 'shortid'
+import { setS3Dir } from "../../reducers/actions/userActions"
+import _s3 from './s3'
+
 export const svg = (path, options = {}) => {
     const { width, height } = options
     return (<img style={{ width: width ? width : '16px', height: height ? height : '16px' }} src={`${path}`}></img>)
@@ -73,4 +79,78 @@ export const showToast = (data) => {
         draggable: true,
         progress: undefined,
     });
+}
+
+const previewContentToArray = (contentObj, index = '') => {
+    let resp = []
+    _.forEach(contentObj, (item, key) => {
+        if (typeof (item) === 'string' || typeof (item) === 'function') {
+            let type = 'text/plain'
+            if (key.includes('.html')) {
+                type = "text/html"
+            } else if (key.includes('.css')) {
+                type = "text/css"
+            }
+
+            if (typeof (item) === 'string') {
+                resp.push({ path: index, file: new File([item], key, { type }) })
+            } else if (typeof (item) === 'function') {
+                resp.push({ path: index, file: new File([item()], key, { type }) })
+            }
+        } else {
+            resp = [...resp, ...previewContentToArray(item, '/' + key)]
+        }
+    })
+    return resp
+}
+
+export const addStaticContent = (contentObj, props) => {
+    return new Promise(resolve => {
+        let { s3Dir, projectId, pagesStore, dispatch } = props
+        // contentObj = {
+        //     css: {
+        //         'styles.css': `asd`
+        //     },
+        //     'index.html': `<body>aasddd</body>`
+        // }
+
+        let uploadsArray = previewContentToArray(contentObj)
+        console.log(uploadsArray, contentObj, 'sss.p')
+        s3Dir = 'Z7c_6ak5A'
+        if (!s3Dir) {
+            // create new userS3Dir
+            s3Dir = shortid.generate() //replace this with user _id
+            dispatch(setS3Dir(s3Dir))
+        }
+
+        if (!projectId) {
+            projectId = 6 //replace this with project _id
+        }
+        s3Dir += `/preview/${projectId}`
+        let location = ''
+        const page = pagesStore.pages[pagesStore.currentPage]
+        let pageNameMatch = _.lowerCase((page.seo && page.seo.name) || page.name) + '.html'
+        if (page.homePage) {
+            pageNameMatch = 'index.html'
+        }
+        console.log(pageNameMatch, 'sss.p match')
+        Async.each(uploadsArray, (item, cb) => {
+            _s3.uploadFile(item.file, s3Dir + item.path, (resp) => {
+                console.log('sss.p', resp)
+                if (resp.error) {
+                    if (resp.message) {
+                        console.error(resp.message)
+                        showToast({ type: 'error', message: resp.message })
+                    }
+                }
+
+                if (item.file.name == pageNameMatch) {
+                    location = resp.data.location
+                }
+                cb()
+            })
+        }, (err) => {
+            return resolve(location)
+        })
+    })
 }

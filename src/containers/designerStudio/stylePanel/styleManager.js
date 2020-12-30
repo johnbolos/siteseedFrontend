@@ -151,7 +151,9 @@ class StyleManager extends React.Component {
         }
 
         if (pseudoClass == 'normal') {  // using !important css rule for normal pseudoclass
-            item.value = item.value + ' !important'
+            if (!["width", "height"].includes(item.key)) {
+                item.value = item.value + ' !important'
+            }
         }
         if (!selected.node) {
             return
@@ -1451,7 +1453,7 @@ class StyleManager extends React.Component {
                 type: 'integer',
                 value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'top'),
                 defaultUnit: 'px',
-                unit: ['px', '%'],
+                unit: ['px', '%', 'em', 'vw', 'vh'],
                 width: '48%',
             },
             {
@@ -1460,7 +1462,7 @@ class StyleManager extends React.Component {
                 type: 'integer',
                 value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'right'),
                 defaultUnit: 'px',
-                unit: ['px', '%'],
+                unit: ['px', '%', 'em', 'vw', 'vh'],
                 width: '48%',
             },
             {
@@ -1469,7 +1471,7 @@ class StyleManager extends React.Component {
                 type: 'integer',
                 value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'left'),
                 defaultUnit: 'px',
-                unit: ['px', '%'],
+                unit: ['px', '%', 'em', 'vw', 'vh'],
                 width: '48%',
             },
             {
@@ -1478,7 +1480,7 @@ class StyleManager extends React.Component {
                 type: 'integer',
                 value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'bottom'),
                 defaultUnit: 'px',
-                unit: ['px', '%'],
+                unit: ['px', '%', 'em', 'vw', 'vh'],
                 width: '48%',
             },
             {
@@ -1492,7 +1494,7 @@ class StyleManager extends React.Component {
                 type: 'integer',
                 value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'width'),
                 defaultUnit: 'px',
-                unit: ['px', '%'],
+                unit: ['px', '%', 'em', 'vw', 'vh'],
                 width: '48%',
             },
             {
@@ -1501,7 +1503,7 @@ class StyleManager extends React.Component {
                 type: 'integer',
                 value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'height'),
                 defaultUnit: 'px',
-                unit: ['px', '%'],
+                unit: ['px', '%', 'em', 'vw', 'vh'],
                 width: '48%',
             },
             {
@@ -1510,7 +1512,7 @@ class StyleManager extends React.Component {
                 type: 'integer',
                 value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'maxWidth'),
                 defaultUnit: 'px',
-                unit: ['px', '%'],
+                unit: ['px', '%', 'em', 'vw', 'vh'],
                 width: '48%',
             },
             {
@@ -1519,7 +1521,7 @@ class StyleManager extends React.Component {
                 type: 'integer',
                 value: selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'maxHeight'),
                 defaultUnit: 'px',
-                unit: ['px', '%'],
+                unit: ['px', '%', 'em', 'vw', 'vh'],
                 width: '48%',
             },
             {

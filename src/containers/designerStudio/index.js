@@ -50,6 +50,7 @@ import attachIconsToElem from '../../components/utils/grapesEditor/elementIcons'
 import viewCode from "../../components/utils/grapesEditor/viewCode/viewCode";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import CanvasActions from "./canvasActions";
 
 
 class HelpNSupport extends React.Component {
@@ -110,6 +111,7 @@ const initialState = {
 		node: null,
 		styleInfo: {},
 	},
+	gjsSelected: null,
 };
 
 class DesignerStudio extends React.Component {
@@ -135,7 +137,7 @@ class DesignerStudio extends React.Component {
 			// this.temp();
 		}, 5000);
 	}
-	componentDidUpdate(prevProps) {
+	componentDidUpdate(prevProps, prevState) {
 		if (prevProps.theme != this.props.theme) {
 			this.setScrollBarStyle()
 		}
@@ -364,18 +366,16 @@ class DesignerStudio extends React.Component {
 				keymaps.remove('core:undo')
 				let frame = document.getElementsByClassName("gjs-frame");
 				let contentWindow = frame[0].contentWindow;
-				contentWindow.addEventListener("onclick", (e) => {
-					console.log(e.target, 'sss.p')
+				// contentWindow.addEventListener("onclick", (e) => {
 					// _grapesEditor.styleManager.addEvents(
 					// 	{ elem: e.target, node: this },
 					// 	{ pseudoClass: this.props.pseudoClass }
 					// );
 					// _grapesEditor.styleManager.addEvents({ e, node: this }, { pseudoClass: 'hover' })
-				});
+				// });
 				contentWindow.addEventListener("mousedown", (e) => {
 					let elem = e.target
 					if (e.target.id == 'ss-upload-container') {	// Imp Workaround as selected elem is set data-gjs-selectable: false
-						console.log('issues sss.p')
 						elem = e.target.parentNode
 					}
 					_grapesEditor.styleManager.addEvents(
@@ -401,7 +401,11 @@ class DesignerStudio extends React.Component {
 		let navComp = components[54]
 		// navComp.set({ icon: '<i class="fa fa-arrows"></i>' })
 		attachIconsToElem(components)
-
+		let currentReactNode = this
+		editor.on("component:selected", function (args) {
+			// args.set("resizable", true);
+			currentReactNode.setState({ gjsSelected: editor.getSelected() })
+		});
 		editor.on("storage:start", () => {
 			let { currentPage, pages } = this.props.pageReducer;
 			let components = JSON.parse(JSON.stringify(editor.getHtml()));
@@ -491,7 +495,12 @@ class DesignerStudio extends React.Component {
 		editor.on('load', () => {
 			this.setScrollBarStyle()
 			this.temp();
+
+			// ==========================Workaround mandatory to run certain templates which uses aos script===============================
 			_grapesEditor.editor.runCommand('preview')
+			_grapesEditor.editor.stopCommand('preview')
+			// ============================================================================================================================
+
 			// let frame = document.getElementsByClassName("gjs-frame");
 			// const grapesDocument = frame[0].contentWindow.document;
 
@@ -645,6 +654,7 @@ class DesignerStudio extends React.Component {
 									<Plus />
 								</span>
 							</div>
+							<CanvasActions gjsSelected={this.state.gjsSelected}/>
 							<HelpNSupport />
 							<div
 								id='style-manager'

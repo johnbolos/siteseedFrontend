@@ -7,11 +7,11 @@ const authAxios = axios.create({
     timeout: 10000,
     // headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
 })
-const assetAxios = axios.create({
-    baseURL: assetsUrl,
-    timeout: 10000,
-    // headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
-})
+// const assetAxios = axios.create({
+//     baseURL: assetsUrl,
+//     timeout: 10000,
+//     // headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+// })
 const googleFontsAxios = axios.create({
     baseURL: fontsUrl,
     timeout: 10000,
@@ -36,17 +36,17 @@ class Request {
                 })
         })
     }
-    uploadImage = (data) => {
-        return new Promise((next) => {
-            assetAxios.post('/image/upload', data)
-                .then(d => {
-                    return next(d.data)
-                })
-                .catch(err => {
-                    return next({ error: true, err })
-                })
-        })
-    }
+    // uploadImage = (data) => {
+    //     return new Promise((next) => {
+    //         assetAxios.post('/image/upload', data)
+    //             .then(d => {
+    //                 return next(d.data)
+    //             })
+    //             .catch(err => {
+    //                 return next({ error: true, err })
+    //             })
+    //     })
+    // }
     getGoogleFonts = () => {
         return new Promise((next) => {
             googleFontsAxios.get('')

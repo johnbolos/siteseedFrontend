@@ -906,9 +906,15 @@
             cursor: pointer;
             // color: #ffffff;
 
-            // option {
-            //   color: #5e5e5e;
-            // }
+            option {
+              // color: #5e5e5e;
+              .theme-light & {
+                background-color: map-get($light, "background3");
+              }
+              .theme-dark & {
+                background-color: map-get($dark, "background3");
+              }
+            }
           }
         }
       }

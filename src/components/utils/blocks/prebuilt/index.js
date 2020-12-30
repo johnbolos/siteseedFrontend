@@ -1,4 +1,4 @@
-import { appUrl } from "../../../../settings";
+import { assetsUrl } from "../../../../settings";
 import { countdown } from "../extras/icons";
 import { header, gallery, popUp, faq, team, form, testimonials, footer, cta, pricing } from "./icons";
 
@@ -17,24 +17,24 @@ export const prebuiltBlocks = (editor) => {
             </div>
             <div class="ss-gallery-main">
                 <div class="ss-gallery-card ss-img-spacing">
-                    <img src="${appUrl}/assets/images/imagePlaceholder.png"/>
+                    <img src="${assetsUrl}/images/imagePlaceholder.png"/>
                 </div>
                 
                 <div class="ss-gallery-card col">
                     <div class="ss-gallery-card">
                         <div class="ss-gallery-card ss-img-spacing">
-                            <img src="${appUrl}/assets/images/imagePlaceholder.png"/>
+                            <img src="${assetsUrl}/images/imagePlaceholder.png"/>
                         </div>
                         <div class="ss-gallery-card ss-img-spacing">
-                            <img src="${appUrl}/assets/images/imagePlaceholder.png"/>
+                            <img src="${assetsUrl}/images/imagePlaceholder.png"/>
                         </div>
                     </div>
                     <div class="ss-gallery-card">
                         <div class="ss-gallery-card ss-img-spacing">
-                            <img src="${appUrl}/assets/images/imagePlaceholder.png"/>
+                            <img src="${assetsUrl}/images/imagePlaceholder.png"/>
                         </div>
                         <div class="ss-gallery-card ss-img-spacing">
-                            <img src="${appUrl}/assets/images/imagePlaceholder.png"/>
+                            <img src="${assetsUrl}/images/imagePlaceholder.png"/>
                         </div>
                     </div>
                 </div>
@@ -78,7 +78,7 @@ export const prebuiltBlocks = (editor) => {
                 .ss-gallery-card.ss-img-spacing {
                     padding: 15px;
                 }
-                img {
+                .ss-gallery-card > img {
                     width: 100%;
                 }
                 .col {
@@ -98,7 +98,7 @@ export const prebuiltBlocks = (editor) => {
         <div class="ss-header-container">
                 <div class="ss-nav">
                     <div class="ss-logo">
-                        <a href="#"><img class="ss-logo-img" src="${appUrl}/assets/images/imagePlaceholder.png"/></a>
+                        <a href="#"><img class="ss-logo-img" src="${assetsUrl}/images/imagePlaceholder.png"/></a>
                     </div>
                     <div class="ss-nav-items">
                         <ul class="ss-nav-items-list">
@@ -306,28 +306,28 @@ export const prebuiltBlocks = (editor) => {
             </div>
             <div class="ss-team-main">
                 <div class="ss-team-card ss-img-spacing">
-                    <img src="${appUrl}/assets/images/imagePlaceholder.png"/>
+                    <img src="${assetsUrl}/images/imagePlaceholder.png"/>
                     <div class="ss-card-details">
                     	<H2 class="ss-card-title">Andrei Masharin</H2>
                         <P class="ss-card-description">CEO</P>
                     </div>
                 </div>
                 <div class="ss-team-card ss-img-spacing">
-                <img src="${appUrl}/assets/images/imagePlaceholder.png"/>
+                <img src="${assetsUrl}/images/imagePlaceholder.png"/>
                     <div class="ss-card-details">
                     	<H2 class="ss-card-title">Stina Gunnarsdottir</H2>
                         <P class="ss-card-description">Co- founder</P>
                     </div>
                 </div>
                 <div class="ss-team-card ss-img-spacing">
-                <img src="${appUrl}/assets/images/imagePlaceholder.png"/>
+                <img src="${assetsUrl}/images/imagePlaceholder.png"/>
                     <div class="ss-card-details">
                     	<H2 class="ss-card-title">Dai Jiang</H2>
                         <P class="ss-card-description">Developer</P>
                     </div>
                 </div>
                 <div class="ss-team-card ss-img-spacing">
-                <img src="${appUrl}/assets/images/imagePlaceholder.png"/>
+                <img src="${assetsUrl}/images/imagePlaceholder.png"/>
                     <div class="ss-card-details">
                     	<H2 class="ss-card-title">Xun Guiying</H2>
                         <P class="ss-card-description">Developer</P>
@@ -530,7 +530,7 @@ export const prebuiltBlocks = (editor) => {
             	<H1>Testimonials</H1>
                 <div class="main-container">
                     <div class="testimonials-prev">
-                        <img src="${appUrl}/assets/images/leftArrow.png"/>
+                        <img src="${assetsUrl}/images/leftArrow.png"/>
                     </div>
                 	<div class="testimonials-main">
                     	<div class="slider">
@@ -538,7 +538,7 @@ export const prebuiltBlocks = (editor) => {
                             	<div class="slider-card">
                                 	<P>Although this is well intentioned and the goal certainly is to reduce the quantity of these bothersome thoughts, the technique is inherently flawed. Requiring the individual to remember what not to think of infers that they have already thought it. It is akin to telling them to not think of a blue banana.</P>
                                     <div class="card-info">
-                                        <img src="${appUrl}/assets/images/imagePlaceholderCircle.png"/>
+                                        <img src="${assetsUrl}/images/imagePlaceholderCircle.png"/>
                                         <div class="card-details">
                                         	<H2>Melissa Morillo</H2>
                                             <P>CO-Founder</P>
@@ -548,7 +548,7 @@ export const prebuiltBlocks = (editor) => {
                             	<div class="slider-card">
                                 	<P>Although this is well intentioned and the goal certainly is to reduce the quantity of these bothersome thoughts, the technique is inherently flawed. Requiring the individual to remember what not to think of infers that they have already thought it. It is akin to telling them to not think of a blue banana.</P>
                                     <div class="card-info">
-                                        <img src="${appUrl}/assets/images/imagePlaceholderCircle.png"/>
+                                        <img src="${assetsUrl}/images/imagePlaceholderCircle.png"/>
                                         <div class="card-details">
                                         	<H2>Melissa Morillo</H2>
                                             <P>CO-Founder</P>
@@ -558,7 +558,7 @@ export const prebuiltBlocks = (editor) => {
                             	<div class="slider-card">
                                 	<P>Although this is well intentioned and the goal certainly is to reduce the quantity of these bothersome thoughts, the technique is inherently flawed. Requiring the individual to remember what not to think of infers that they have already thought it. It is akin to telling them to not think of a blue banana.</P>
                                     <div class="card-info">
-                                        <img src="${appUrl}/assets/images/imagePlaceholderCircle.png"/>
+                                        <img src="${assetsUrl}/images/imagePlaceholderCircle.png"/>
                                         <div class="card-details">
                                         	<H2>Melissa Morillo</H2>
                                             <P>CO-Founder</P>
@@ -570,7 +570,7 @@ export const prebuiltBlocks = (editor) => {
                             	<div class="slider-card">
                                 	<P>Although this is well intentioned and the goal certainly is to reduce the quantity of these bothersome thoughts, the technique is inherently flawed. Requiring the individual to remember what not to think of infers that they have already thought it. It is akin to telling them to not think of a blue banana.</P>
                                     <div class="card-info">
-                                        <img src="${appUrl}/assets/images/imagePlaceholderCircle.png"/>
+                                        <img src="${assetsUrl}/images/imagePlaceholderCircle.png"/>
                                         <div class="card-details">
                                         	<H2>Arnold</H2>
                                             <P>CO-Founder</P>
@@ -580,7 +580,7 @@ export const prebuiltBlocks = (editor) => {
                             	<div class="slider-card">
                                 	<P>Although this is well intentioned and the goal certainly is to reduce the quantity of these bothersome thoughts, the technique is inherently flawed. Requiring the individual to remember what not to think of infers that they have already thought it. It is akin to telling them to not think of a blue banana.</P>
                                     <div class="card-info">
-                                        <img src="${appUrl}/assets/images/imagePlaceholderCircle.png"/>
+                                        <img src="${assetsUrl}/images/imagePlaceholderCircle.png"/>
                                         <div class="card-details">
                                         	<H2>Arnold</H2>
                                             <P>CO-Founder</P>
@@ -590,7 +590,7 @@ export const prebuiltBlocks = (editor) => {
                             	<div class="slider-card">
                                 	<P>Although this is well intentioned and the goal certainly is to reduce the quantity of these bothersome thoughts, the technique is inherently flawed. Requiring the individual to remember what not to think of infers that they have already thought it. It is akin to telling them to not think of a blue banana.</P>
                                     <div class="card-info">
-                                        <img src="${appUrl}/assets/images/imagePlaceholderCircle.png"/>
+                                        <img src="${assetsUrl}/images/imagePlaceholderCircle.png"/>
                                         <div class="card-details">
                                         	<H2>Arnold</H2>
                                             <P>CO-Founder</P>
@@ -601,7 +601,7 @@ export const prebuiltBlocks = (editor) => {
                         </div>
                     </div>
                 	<div class="testimonials-next">
-                        <img src="${appUrl}/assets/images/rightArrow.png"/>
+                        <img src="${assetsUrl}/images/rightArrow.png"/>
                     </div>
                 </div>
             <style>
@@ -726,9 +726,10 @@ export const prebuiltBlocks = (editor) => {
             }
             </style>
             <script>
-            	let parentNode = document.currentScript.parentNode;
-                let navIcon = parentNode.querySelector(".testimonials-prev");
+            	parentNode = document.currentScript.parentNode;
+                navIcon = parentNode.querySelector(".testimonials-prev");
                 navIcon.addEventListener('click', (e) => {
+                    parentNode = e.target.parentNode.parentNode
                     let sliderNode = parentNode.querySelector(".ss-testimonials-container .slider");
                     let singleSlideNode = parentNode.querySelector(".ss-testimonials-container .slide");
                     let sliderCard = parentNode.querySelector(".ss-testimonials-container .slide .slider-card");
@@ -747,6 +748,7 @@ export const prebuiltBlocks = (editor) => {
                 });
                 navIcon = parentNode.querySelector(".testimonials-next");
                 navIcon.addEventListener('click', (e) => {
+                    parentNode = e.target.parentNode.parentNode
                     let sliderNode = parentNode.querySelector(".ss-testimonials-container .slider");
                     let singleSlideNode = parentNode.querySelector(".ss-testimonials-container .slide");
                     let sliderCard = parentNode.querySelector(".ss-testimonials-container .slide .slider-card");
@@ -777,7 +779,7 @@ export const prebuiltBlocks = (editor) => {
         <div class="ss-footer-container" data-gjs-custom-name="ss-footer">
                 <div class="main-container">
                 	<div class="footer-head">
-                        <img class="footer-head-logo" src="${appUrl}/assets/images/imagePlaceholder.png"/>
+                        <img class="footer-head-logo" src="${assetsUrl}/images/imagePlaceholder.png"/>
 						<P>All Rights Reserved. © 2020 SiteSeed.</P>
                     </div>
                 	<div class="footer-nav">
@@ -809,7 +811,7 @@ export const prebuiltBlocks = (editor) => {
                             <form>
                         	    <input type="text" placeholder="Placeholder"/>
                                 <button class="newsletter-submit-button">
-                                    <img src="${appUrl}/assets/images/send.png"/>
+                                    <img src="${assetsUrl}/images/send.png"/>
                                 </button>
                             </form>
                         </div>
@@ -1033,7 +1035,7 @@ export const prebuiltBlocks = (editor) => {
             <div class="pricing-main">
                 <div class="pricing-card card-spacing">
                     <div class="card-details">
-                        <img class="footer-head-logo" src="${appUrl}/assets/images/avatar.png"/>
+                        <img class="footer-head-logo" src="${assetsUrl}/images/avatar.png"/>
                     	<H2 class="card-title">Standard</H2>
                         <div class="card-price">
                         	<H1>$59</H1><P>/month</P>
@@ -1043,15 +1045,15 @@ export const prebuiltBlocks = (editor) => {
 						</P>
                         <H3 class="card-about-list-title">First Column</H3>
                         <P class="card-about-list-item">
-                            <img class="footer-head-logo" src="${appUrl}/assets/images/tick.png"/>
+                            <img class="footer-head-logo" src="${assetsUrl}/images/tick.png"/>
                             Create Messages
                         </P>
                         <P class="card-about-list-item">
-                            <img class="footer-head-logo" src="${appUrl}/assets/images/tick.png"/>
+                            <img class="footer-head-logo" src="${assetsUrl}/images/tick.png"/>
                             Manage conversations from email
                         </P>
                         <P class="card-about-list-item">
-                            <img class="footer-head-logo" src="${appUrl}/assets/images/tick.png"/>
+                            <img class="footer-head-logo" src="${assetsUrl}/images/tick.png"/>
                             View customer profiles
                         </P>
                     </div>
@@ -1062,7 +1064,7 @@ export const prebuiltBlocks = (editor) => {
                 </div>
                 <div class="pricing-card card-spacing">
                     <div class="card-details">
-                        <img class="footer-head-logo" src="${appUrl}/assets/images/avatar.png"/>
+                        <img class="footer-head-logo" src="${assetsUrl}/images/avatar.png"/>
                     	<H2 class="card-title">Individual</H2>
                         <div class="card-price">
                         	<H1>$9.99</H1><P>/month</P>
@@ -1072,15 +1074,15 @@ export const prebuiltBlocks = (editor) => {
 						</P>
                         <H3 class="card-about-list-title">First Column</H3>
                         <P class="card-about-list-item">
-                            <img class="footer-head-logo" src="${appUrl}/assets/images/tick.png"/>
+                            <img class="footer-head-logo" src="${assetsUrl}/images/tick.png"/>
                             Create Messages
                         </P>
                         <P class="card-about-list-item">
-                            <img class="footer-head-logo" src="${appUrl}/assets/images/tick.png"/>
+                            <img class="footer-head-logo" src="${assetsUrl}/images/tick.png"/>
                             Manage conversations from email
                         </P>
                         <P class="card-about-list-item">
-                            <img class="footer-head-logo" src="${appUrl}/assets/images/tick.png"/>
+                            <img class="footer-head-logo" src="${assetsUrl}/images/tick.png"/>
                             View customer profiles
                         </P>
                     </div>
@@ -1091,7 +1093,7 @@ export const prebuiltBlocks = (editor) => {
                 </div>
                 <div class="pricing-card card-spacing">
                     <div class="card-details">
-                        <img class="footer-head-logo" src="${appUrl}/assets/images/avatar.png"/>
+                        <img class="footer-head-logo" src="${assetsUrl}/images/avatar.png"/>
                     	<H2 class="card-title">Enterprise</H2>
                         <div class="card-price">
                         	<H1>$199</H1><P>/month</P>
@@ -1101,19 +1103,19 @@ export const prebuiltBlocks = (editor) => {
 						</P>
                         <H3 class="card-about-list-title">First Column</H3>
                         <P class="card-about-list-item">
-                            <img class="footer-head-logo" src="${appUrl}/assets/images/tick.png"/>
+                            <img class="footer-head-logo" src="${assetsUrl}/images/tick.png"/>
                             Create Messages
                         </P>
                         <P class="card-about-list-item">
-                            <img class="footer-head-logo" src="${appUrl}/assets/images/tick.png"/>
+                            <img class="footer-head-logo" src="${assetsUrl}/images/tick.png"/>
                             Manage conversations from email
                         </P>
                         <P class="card-about-list-item">
-                            <img class="footer-head-logo" src="${appUrl}/assets/images/tick.png"/>
+                            <img class="footer-head-logo" src="${assetsUrl}/images/tick.png"/>
                             View customer profiles
                         </P>
                         <P class="card-about-list-item">
-                            <img class="footer-head-logo" src="${appUrl}/assets/images/tick.png"/>
+                            <img class="footer-head-logo" src="${assetsUrl}/images/tick.png"/>
                         	Integrate with Stripe
                         </P>
                     </div>
@@ -1577,14 +1579,14 @@ export const prebuiltBlocks = (editor) => {
           </style>
         <script>
         // Get the modal
-        var modal = document.getElementById("myModal");
+        parentNode = document.currentScript.parentNode;
+        //var modal = parentNode.querySelector('.ss-modal');
     
         // Get the button that opens the modal
-        var btn = document.getElementById("open-modal");
+        var btn = parentNode.querySelector(".btn");
     
         // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
-    
+        var span = parentNode.getElementsByClassName("close")[0];
         // When the user clicks the button, open the modal 
         // btn.ondblclick = function() {
         // modal.style.display = "block";
@@ -1592,25 +1594,36 @@ export const prebuiltBlocks = (editor) => {
     
         //open the modal on triple click
         btn.addEventListener('click', function (evt) {
-          if (evt.detail === 2) {
+        let parent = evt.target.parentNode;
+        let modal = parent.querySelector('.ss-modal');
+          if (evt.detail === 1) {
+            let isBuilder = document.querySelector("div[data-gjs-type='wrapper']")
+            if (isBuilder) { return; }
              // modal.style.display = "block";
              modal.style.visibility= "visible";
              modal.style.opacity= 1;
           }
+          if (evt.detail === 2) {
+              if (document.querySelector("div[data-gjs-type='wrapper']")){
+                modal.style.visibility= "visible";
+                modal.style.opacity= 1;
+            }
+        }
       });
     
     
         // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-        modal.style.opacity= 0;
-        modal.style.visibility= "hidden";
-        }
+        span.addEventListener('click', function (evt) {
+        let modal = evt.target.parentNode.parentNode;
+            modal.style.opacity= 0;
+            modal.style.visibility= "hidden";
+        });
     
         // When the user clicks anywhere outside of the modal, close it
         window.onclick = function(event) {
-        if (event.target == modal) {
-          modal.style.opacity= 0;
-          modal.style.visibility= "hidden";
+        if (event.target.className == 'ss-modal') {
+          event.target.style.opacity= 0;
+          event.target.style.visibility= "hidden";
         }
         }
         </script>`

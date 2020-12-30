@@ -27,7 +27,7 @@ import { store } from "../../../store";
 import viewCode from "./viewCode/viewCode";
 import mediaTraits from "../blocks/media/mediaTraits";
 import { prebuiltBlocks } from "../blocks/prebuilt";
-import { appUrl } from "../../../settings";
+import { appUrl, assetsUrl } from "../../../settings";
 // import { countdown } from "../blocks/extras/icons";
 
 
@@ -37,7 +37,8 @@ const _grapesEditor = {
 	exportConfigData: () => {
 		let resp = {
 			css: {
-				'style.css': ed => {
+				'style.css': () => {
+					let ed = _grapesEditor.editor
 					let resp = ed.getCss()
 					let frame = document.getElementsByClassName("gjs-frame")
 					let doc = frame[0].contentWindow.document
@@ -66,7 +67,7 @@ const _grapesEditor = {
 			let title = (page.seo && page.seo.name) || page.name
 			let desp = (page.seo && page.seo.desp) || page.desp
 			let favicon = page.favicon == '' || !page.favicon ? 'https://siteseed-dev.s3.amazonaws.com/gXdwAR4hx/ssFavicon.svg' : page.favicon
-			let pageFunc = ed => {
+			let pageFunc = () => {
 				let title = (page.seo && page.seo.name) || page.name
 				let desp = (page.seo && page.seo.desp) || page.desp
 				let favicon = page.favicon == '' || !page.favicon ? 'https://siteseed-dev.s3.amazonaws.com/gXdwAR4hx/ssFavicon.svg' : page.favicon
@@ -570,7 +571,7 @@ const _grapesEditor = {
 
 				// landingPade template
 				"https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css",
-				`${appUrl}/assets/templates/landingPage/css/scroll.css`,
+				`${assetsUrl}/templates/landingPage/css/scroll.css`,
 				// "https://unpkg.com/aos@2.3.1/dist/aos.css"
 				"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css",	//diff version
 				// "https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css",
@@ -591,6 +592,14 @@ const _grapesEditor = {
 				"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js",
 				"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.js",
 				"https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.js",
+
+				// // Landing Page
+				// "https://code.jquery.com/jquery-2.2.4.min.js",
+				// "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js",
+				// "https://unpkg.com/aos@2.3.1/dist/aos.js",
+				// `${assetsUrl}/templates/landingPage/js/scroll.js`,
+				// // "https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js",
+
 			],
 		},
 	},
@@ -647,6 +656,10 @@ const _grapesEditor = {
 			let canvas = document.querySelector(".gjs-cv-canvas")
 			canvas.style.zIndex = 1
 		});
+		// editor.DeviceManager.add("mobile", "px");
+		// editor.Commands.add("set-device-mobile", {
+		// 	run: (editor) => editor.setDevice("mobile"),
+		// });
 		editor.Commands.add("set-device-mobile", (e) => {
 			e.setDevice("Mobile portrait");
 		});

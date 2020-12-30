@@ -1,7 +1,7 @@
-import { appUrl } from "../../../settings";
+import { assetsUrl } from "../../../settings";
 
 export const customCss = `
-@import url('${appUrl}/assets/templates/restaurant1/fonts/stylesheet.css');
+@import url('${assetsUrl}/templates/restaurant1/fonts/stylesheet.css');
 
 @keyframes mymove {
 	from {right: 0px;}
@@ -1084,7 +1084,7 @@ export const html = `
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark" id="myHeader">
   <div class="container nav-container">
-	<img class="img-fluid" src="${appUrl}/assets/templates/restaurant1/images/Logo.png">
+	<img class="img-fluid" src="${assetsUrl}/templates/restaurant1/images/Logo.png">
 	
 	  
 	<div class="navbar-collapse hideshow content2 w100 " id="navbarResponsive">
@@ -1121,11 +1121,11 @@ export const html = `
    
 <div class="top-sec main-body Most-top-sec">
 	  <div class="top-header-shape">
-  <img class="img-fluid top-shape" src="${appUrl}/assets/templates/restaurant1/images/Vector_Outline_01.png">
+  <img class="img-fluid top-shape" src="${assetsUrl}/templates/restaurant1/images/Vector_Outline_01.png">
   </div>
 	
 	<div class="top-header-shape-1920">
-  <img class="img-fluid top-shape" src="${appUrl}/assets/templates/restaurant1/images/shp-11.png">
+  <img class="img-fluid top-shape" src="${assetsUrl}/templates/restaurant1/images/shp-11.png">
   </div>
 <div class="row"> 
 <div class="col-lg-9 col-md-9 mb-12">
@@ -1154,26 +1154,26 @@ export const html = `
 		  
 		  <div class="carousel-inner">
 			  <div class="carousel-item active">
-				  <img class="d-block img-fluid" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/image%2045.jpg" alt="">
+				  <img class="d-block img-fluid" src="${assetsUrl}/templates/restaurant1/images/image%2045.jpg" alt="">
 				  
 			  </div>
 			  <div class="carousel-item">
-				  <img class="d-block img-fluid" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/image%2045.jpg" alt="">
+				  <img class="d-block img-fluid" src="${assetsUrl}/templates/restaurant1/images/image%2045.jpg" alt="">
 				  
 			  </div>
 			  <div class="carousel-item">
-				  <img class="d-block img-fluid" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/image%2045.jpg" alt="">
+				  <img class="d-block img-fluid" src="${assetsUrl}/templates/restaurant1/images/image%2045.jpg" alt="">
 				  
 			  </div>
 			  
 		  </div><!-- /.carousel-inner -->
 		  
 		  <a href="#main-carousel" class="carousel-control-prev" data-slide="prev">
-			  <span><img class="img-fluid" src="${appUrl}/assets/templates/restaurant1/images/Next_Left.png"></span>
+			  <span><img class="img-fluid" src="${assetsUrl}/templates/restaurant1/images/Next_Left.png"></span>
 			  <span class="sr-only" aria-hidden="true">Prev</span>
 		  </a>
 		  <a href="#main-carousel" class="carousel-control-next" data-slide="next">
-			  <span><img class="img-fluid"src="${appUrl}/assets/templates/restaurant1/images/Next_Right.png"></span>
+			  <span><img class="img-fluid"src="${assetsUrl}/templates/restaurant1/images/Next_Right.png"></span>
 			  <span class="sr-only" aria-hidden="true">Next</span>
 		  </a>
 	  </div>
@@ -1184,11 +1184,11 @@ export const html = `
   
   <section class="tradition-sec main-body">
 	  <div class="F-left-shape">
-  <img class="img-fluid L-shape" src="${appUrl}/assets/templates/restaurant1/images/Vector_Outline_02.png">
+  <img class="img-fluid L-shape" src="${assetsUrl}/templates/restaurant1/images/Vector_Outline_02.png">
   </div>
 	  
   <div class="F-left-shape-1920">
-  <img class="img-fluid L-shape-1920" src="${appUrl}/assets/templates/restaurant1/images/shp-22.png">
+  <img class="img-fluid L-shape-1920" src="${assetsUrl}/templates/restaurant1/images/shp-22.png">
   </div>
 	  
   <div class="row">
@@ -1206,28 +1206,28 @@ export const html = `
 			  <section class="our-partner main-body">
 				  <div class="row mobil-space">
 					  <div class="col-md-3 b-w agency-partner-sec">
-						  <img class="l-1 img-fluid" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/Vimeo.png">
+						  <img class="l-1 img-fluid" src="${assetsUrl}/templates/restaurant1/images/Vimeo.png">
 					  </div>
 					  <div class="col-md-3 b-w agency-partner-sec no-border">
-						  <img class="l-1 img-fluid" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/Spotify.png">
+						  <img class="l-1 img-fluid" src="${assetsUrl}/templates/restaurant1/images/Spotify.png">
 					  </div>
 					  <div class="col-md-3 b-w agency-partner-sec">
-						  <img class="l-1 img-fluid" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/Woodendummy.png">
+						  <img class="l-1 img-fluid" src="${assetsUrl}/templates/restaurant1/images/Woodendummy.png">
 					  </div>
 					  <div class="col-md-3 b-w-2 agency-partner-sec">
-						  <img class="l-1 img-fluid" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/Max.png">
+						  <img class="l-1 img-fluid" src="${assetsUrl}/templates/restaurant1/images/Max.png">
 					  </div>
 					  <div class="col-md-3 b-w-1 agency-partner-sec">
-						  <img class="l-1 img-fluid" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/Aria.png">
+						  <img class="l-1 img-fluid" src="${assetsUrl}/templates/restaurant1/images/Aria.png">
 					  </div>
 					  <div class="col-md-3 b-w-1 agency-partner-sec no-border">
-						  <img class="l-1 img-fluid" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/Bauknecht.png">
+						  <img class="l-1 img-fluid" src="${assetsUrl}/templates/restaurant1/images/Bauknecht.png">
 					  </div>
 					  <div class="col-md-3 b-w-1 agency-partner-sec N-Border-m">
-						  <img class="l-1 img-fluid" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/Jeep.png">
+						  <img class="l-1 img-fluid" src="${assetsUrl}/templates/restaurant1/images/Jeep.png">
 					  </div>
 					  <div class="col-md-3 agency-partner-sec ">
-						  <img class="l-1 img-fluid" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/Placeholder.png">
+						  <img class="l-1 img-fluid" src="${assetsUrl}/templates/restaurant1/images/Placeholder.png">
 					  </div>
 				  </div></section>
 			  
@@ -1243,7 +1243,7 @@ He has absorbed his Italian-Argentinian cultural heritage and that of the chefs 
 <p class="top-paragraph">Inspired by the sea, the mountains and the fruit and vegetables grown in his own gardens, Mauro invents colourful, pictorial dishes that play with textures and bold contrasts.</p>  
 	</div>      
 	<div class="col-lg-6 col-md-6 mb-12 image-div">   
-	 <img class="img-fluid shadow-bg" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/image%2055.jpg">   
+	 <img class="img-fluid shadow-bg" src="${assetsUrl}/templates/restaurant1/images/image%2055.jpg">   
    </div>      
 	
 	</div></section>
@@ -1251,7 +1251,7 @@ He has absorbed his Italian-Argentinian cultural heritage and that of the chefs 
 	<section class="recipie-sec main-body">
 	<div class="row">
 	<div class="col-lg-12 col-md-12 mb-12">
-	 <img class="img-fluid shadow-bg" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/image%2057.jpg">   
+	 <img class="img-fluid shadow-bg" src="${assetsUrl}/templates/restaurant1/images/image%2057.jpg">   
 	</div> 
 	 <div class="col-lg-12 col-md-12 mb-12"> 
 	  <h1 class="recipe-head">Chateau Marguii Rose</h1>   
@@ -1263,13 +1263,13 @@ He has absorbed his Italian-Argentinian cultural heritage and that of the chefs 
 	
 	<div class="row inner-recipie-sec main-body"id="Gallery-section">
 	<div class="col-lg-6 col-md-6 mb-12 inner-mid-space">
-	<img class="img-fluid inner-full-width shadow-bg" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/image%2063.jpg">
+	<img class="img-fluid inner-full-width shadow-bg" src="${assetsUrl}/templates/restaurant1/images/image%2063.jpg">
    <h1 class="recipe-head">Aubry 1er Cru Brut </h1>
   <p class="recipe-para"> France (Champagne) Chardonnay, Pinot Noir </p>      
 	</div>
 		
 	<div class="col-lg-6 col-md-6 mb-12 inner-sec-mobi">
-	<img class="img-fluid shadow-bg" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/image%2062.jpg">
+	<img class="img-fluid shadow-bg" src="${assetsUrl}/templates/restaurant1/images/image%2062.jpg">
 	<h1 class="recipe-head POS-L">Niepoort ‘Redoma Branco’</h1>
    <p class="recipe-para POS-L">Portugal (Douro) Rabigato, Codéga de LarinhoFrance
   (Provence) Cinsault </p>      
@@ -1279,7 +1279,7 @@ He has absorbed his Italian-Argentinian cultural heritage and that of the chefs 
 	
 	<div class="row full-recipie-sec main-body">
 	<div class="offset-lg-2 col-lg-8 offset-md-2 col-md-8 mb-12 R-pading">      
-	<img class="img-fluid shadow-bg" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/image%2061.jpg">
+	<img class="img-fluid shadow-bg" src="${assetsUrl}/templates/restaurant1/images/image%2061.jpg">
    <h1 class="recipe-head">Guillot Broux ‘Genievrieres’ </h1>
   <p class="recipe-para">France (Burgundy) Chardonnay </p>      
 		</div></div>
@@ -1287,20 +1287,20 @@ He has absorbed his Italian-Argentinian cultural heritage and that of the chefs 
 	
 	<div class="row inner-recipie-sec main-body">
 		<div class="col-lg-6 col-md-6 mb-12 R-pading">
-		  <img class="img-fluid shadow-bg" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/image%2064.jpg">
+		  <img class="img-fluid shadow-bg" src="${assetsUrl}/templates/restaurant1/images/image%2064.jpg">
 		<h1 class="recipe-head">Day Wines ‘Cancilla Vineyard’ </h1>
 		<p class="recipe-para">France (Champagne) Chardonnay, Pinot Noir </p>      
 		</div>
 		
 		<div class="col-lg-6 col-md-6 mb-12 inner-mid-space s inner-sec-mobi">
-		  <img class="img-fluid shadow-bg" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/image%2058.jpg">
+		  <img class="img-fluid shadow-bg" src="${assetsUrl}/templates/restaurant1/images/image%2058.jpg">
 		<h1 class="recipe-head POS-L1">Chateau Marguii Rose </h1>
 		<p class="recipe-para POS-L1">France (Provence) Cinsault </p>      
 		</div>
 	  </div>
    
    <section class="menuoftheday">
-	<!--<img class ="img-fluid"src="${appUrl}/assets/templates/restaurant1/images/Menu%20of%20day.png">-->
+	<!--<img class ="img-fluid"src="${assetsUrl}/templates/restaurant1/images/Menu%20of%20day.png">-->
   <!--<div class="row"> 
    <div class="col-lg-6 col-md-6 mb-12 slide-right" style="padding-left: 0px">   
 	   <marquee width="100%" direction="right" scrollamount="20">
@@ -1344,11 +1344,11 @@ He has absorbed his Italian-Argentinian cultural heritage and that of the chefs 
 <a class="L-M tab" data-toggle="pill" href="#menu3">Beer</a></div>
 
 	<div class="menu-shape">
-  <img class="img-fluid menu-image" src="${appUrl}/assets/templates/restaurant1/images/Vector_Outline_03.png">
+  <img class="img-fluid menu-image" src="${assetsUrl}/templates/restaurant1/images/Vector_Outline_03.png">
   </div> 
 	  
   <div class="menu-shape-1920">
-  <img class="img-fluid menu-image" src="${appUrl}/assets/templates/restaurant1/images/shp-3.png">
+  <img class="img-fluid menu-image" src="${assetsUrl}/templates/restaurant1/images/shp-3.png">
   </div>    
 	  
 <div class="tab-content">
@@ -1422,8 +1422,8 @@ He has absorbed his Italian-Argentinian cultural heritage and that of the chefs 
 		
 	  </div>
 	  <div class="col-lg-6 col-md-6 mb-12 inner-image">
-	   <img class="img-fluid shadow-bg"src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/image%2054.jpg">
-	  <img class="img-fluid sub-image shadow-bg" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/image%2053.jpg">    
+	   <img class="img-fluid shadow-bg"src="${assetsUrl}/templates/restaurant1/images/image%2054.jpg">
+	  <img class="img-fluid sub-image shadow-bg" src="${assetsUrl}/templates/restaurant1/images/image%2053.jpg">    
 	  </div>
 	</div>
   </div>
@@ -1498,8 +1498,8 @@ He has absorbed his Italian-Argentinian cultural heritage and that of the chefs 
 		
 	  </div>
 	  <div class="col-lg-6 col-md-6 mb-12 inner-image">
-	   <img class="img-fluid shadow-bg"src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/image%2054.jpg">
-	  <img class="img-fluid sub-image shadow-bg" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/image%2053.jpg">    
+	   <img class="img-fluid shadow-bg"src="${assetsUrl}/templates/restaurant1/images/image%2054.jpg">
+	  <img class="img-fluid sub-image shadow-bg" src="${assetsUrl}/templates/restaurant1/images/image%2053.jpg">    
 	  </div>
 	</div>
   </div>
@@ -1574,8 +1574,8 @@ He has absorbed his Italian-Argentinian cultural heritage and that of the chefs 
 		
 	  </div>
 	  <div class="col-lg-6 col-md-6 mb-12 inner-image">
-	   <img class="img-fluid shadow-bg"src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/image%2054.jpg">
-	  <img class="img-fluid sub-image shadow-bg" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/image%2053.jpg">    
+	   <img class="img-fluid shadow-bg"src="${assetsUrl}/templates/restaurant1/images/image%2054.jpg">
+	  <img class="img-fluid sub-image shadow-bg" src="${assetsUrl}/templates/restaurant1/images/image%2053.jpg">    
 	  </div>
 	</div>
   </div>
@@ -1650,8 +1650,8 @@ He has absorbed his Italian-Argentinian cultural heritage and that of the chefs 
 		
 	  </div>
 	  <div class="col-lg-6 col-md-6 mb-12 inner-image">
-	   <img class="img-fluid shadow-bg"src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/image%2054.jpg">
-	  <img class="img-fluid sub-image shadow-bg" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/image%2053.jpg">    
+	   <img class="img-fluid shadow-bg"src="${assetsUrl}/templates/restaurant1/images/image%2054.jpg">
+	  <img class="img-fluid sub-image shadow-bg" src="${assetsUrl}/templates/restaurant1/images/image%2053.jpg">    
 	  </div>
 	</div>
   </div>
@@ -1726,8 +1726,8 @@ He has absorbed his Italian-Argentinian cultural heritage and that of the chefs 
 		
 	  </div>
 	  <div class="col-lg-6 col-md-6 mb-12 inner-image">
-	   <img class="img-fluid shadow-bg"src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/image%2054.jpg">
-	  <img class="img-fluid sub-image shadow-bg" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/image%2053.jpg">    
+	   <img class="img-fluid shadow-bg"src="${assetsUrl}/templates/restaurant1/images/image%2054.jpg">
+	  <img class="img-fluid sub-image shadow-bg" src="${assetsUrl}/templates/restaurant1/images/image%2053.jpg">    
 	  </div>
 	</div>
   </div>
@@ -1815,17 +1815,17 @@ He has absorbed his Italian-Argentinian cultural heritage and that of the chefs 
 	   <h5 class="follow-us-text">Follow us</h5>
 					  <ul class="list-unstyled quick-links">
 						  <li><a id="hom-1" href="#">
-						  <img class="social-icons img-fluid image_on" src="${appUrl}/assets/templates/restaurant1/images/Instagram.png">
-						  <img class="social-icons img-fluid image_off" src="${appUrl}/assets/templates/restaurant1/images/insta-hover.png">    
+						  <img class="social-icons img-fluid image_on" src="${assetsUrl}/templates/restaurant1/images/Instagram.png">
+						  <img class="social-icons img-fluid image_off" src="${assetsUrl}/templates/restaurant1/images/insta-hover.png">    
 						  </a>
 							  
-							  <a id="hom-2" href="#"><img class="social-icons img-fluid image_on" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/Facebook.png">
+							  <a id="hom-2" href="#"><img class="social-icons img-fluid image_on" src="${assetsUrl}/templates/restaurant1/images/Facebook.png">
 							  
-							  <img class="social-icons img-fluid image_off"src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/fb-hover.png">
+							  <img class="social-icons img-fluid image_off"src="${assetsUrl}/templates/restaurant1/images/fb-hover.png">
 							  </a>
 							  
-							  <a id="hom-3" href="#"><img class="social-icons img-fluid image_on" src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/Linkedin.png">
-							  <img class="social-icons img-fluid image_off"src="http://159.65.145.117:8090/SiteSeed/RESTAURANT/images/linkedin-hover.png">
+							  <a id="hom-3" href="#"><img class="social-icons img-fluid image_on" src="${assetsUrl}/templates/restaurant1/images/Linkedin.png">
+							  <img class="social-icons img-fluid image_off"src="${assetsUrl}/templates/restaurant1/images/linkedin-hover.png">
 							  
 							  </a>
 						  </li>

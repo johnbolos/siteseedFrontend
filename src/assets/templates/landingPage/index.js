@@ -1,39 +1,39 @@
-import { appUrl } from "../../../settings";
+import { assetsUrl } from "../../../settings";
 
 export const customCss = `
 @font-face {
   font-family: "Roboto-Bold";
-  src: url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Bold.eot"); /* IE9 Compat Modes */
-  src: url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Bold.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-    url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Bold.otf") format("opentype"), /* Open Type Font */
-    url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Bold.svg") format("svg"), /* Legacy iOS */
-    url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Bold.ttf") format("truetype"), /* Safari, Android, iOS */
-    url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Bold.woff") format("woff"), /* Modern Browsers */
-    url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Bold.woff2") format("woff2"); /* Modern Browsers */
+  src: url("${assetsUrl}/templates/landingPage/fonts/Roboto-Bold.eot"); /* IE9 Compat Modes */
+  src: url("${assetsUrl}/templates/landingPage/fonts/Roboto-Bold.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("${assetsUrl}/templates/landingPage/fonts/Roboto-Bold.otf") format("opentype"), /* Open Type Font */
+    url("${assetsUrl}/templates/landingPage/fonts/Roboto-Bold.svg") format("svg"), /* Legacy iOS */
+    url("${assetsUrl}/templates/landingPage/fonts/Roboto-Bold.ttf") format("truetype"), /* Safari, Android, iOS */
+    url("${assetsUrl}/templates/landingPage/fonts/Roboto-Bold.woff") format("woff"), /* Modern Browsers */
+    url("${assetsUrl}/templates/landingPage/fonts/Roboto-Bold.woff2") format("woff2"); /* Modern Browsers */
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "Roboto-Medium";
-  src: url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Medium.eot"); /* IE9 Compat Modes */
-  src: url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Medium.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-    url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Medium.otf") format("opentype"), /* Open Type Font */
-    url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Medium.svg") format("svg"), /* Legacy iOS */
-    url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Medium.ttf") format("truetype"), /* Safari, Android, iOS */
-    url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Medium.woff") format("woff"), /* Modern Browsers */
-    url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Medium.woff2") format("woff2"); /* Modern Browsers */
+  src: url("${assetsUrl}/templates/landingPage/fonts/Roboto-Medium.eot"); /* IE9 Compat Modes */
+  src: url("${assetsUrl}/templates/landingPage/fonts/Roboto-Medium.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("${assetsUrl}/templates/landingPage/fonts/Roboto-Medium.otf") format("opentype"), /* Open Type Font */
+    url("${assetsUrl}/templates/landingPage/fonts/Roboto-Medium.svg") format("svg"), /* Legacy iOS */
+    url("${assetsUrl}/templates/landingPage/fonts/Roboto-Medium.ttf") format("truetype"), /* Safari, Android, iOS */
+    url("${assetsUrl}/templates/landingPage/fonts/Roboto-Medium.woff") format("woff"), /* Modern Browsers */
+    url("${assetsUrl}/templates/landingPage/fonts/Roboto-Medium.woff2") format("woff2"); /* Modern Browsers */
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "Roboto-Regular";
-  src: url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Regular.eot"); /* IE9 Compat Modes */
-  src: url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Regular.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-    url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Regular.otf") format("opentype"), /* Open Type Font */
-    url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Regular.svg") format("svg"), /* Legacy iOS */
-    url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Regular.ttf") format("truetype"), /* Safari, Android, iOS */
-    url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Regular.woff") format("woff"), /* Modern Browsers */
-    url("${appUrl}/assets/templates/landingPage/fonts/Roboto-Regular.woff2") format("woff2"); /* Modern Browsers */
+  src: url("${assetsUrl}/templates/landingPage/fonts/Roboto-Regular.eot"); /* IE9 Compat Modes */
+  src: url("${assetsUrl}/templates/landingPage/fonts/Roboto-Regular.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("${assetsUrl}/templates/landingPage/fonts/Roboto-Regular.otf") format("opentype"), /* Open Type Font */
+    url("${assetsUrl}/templates/landingPage/fonts/Roboto-Regular.svg") format("svg"), /* Legacy iOS */
+    url("${assetsUrl}/templates/landingPage/fonts/Roboto-Regular.ttf") format("truetype"), /* Safari, Android, iOS */
+    url("${assetsUrl}/templates/landingPage/fonts/Roboto-Regular.woff") format("woff"), /* Modern Browsers */
+    url("${assetsUrl}/templates/landingPage/fonts/Roboto-Regular.woff2") format("woff2"); /* Modern Browsers */
   font-weight: normal;
   font-style: normal;
 }
@@ -54,34 +54,48 @@ export const customCss = `
 @media (min-width:0px) and (max-width:567px){
     .custom-sec9 .custom-sec9-row1 span.pmt-plan img {margin-top: -25px;margin-left: 5px;text-align: right;float: right;border: 0;height: 45px;}
     .custom-sec9 .custom-sec9-row1 label.switch {margin-left: 5px;margin-right: 5px;}
+    .custom-sec2 .sec2-col-left .custom-playbtn .left a {margin-right: 15px;   }
+    body .custom-sec2 h1 {width: 80%;}
+    .custom-sec12.custom-footer ul li {list-style-type: none;display: inline-block;text-align: center;padding: 0;width: 48%;margin-bottom: 20px;}
+    .custom-sec12.custom-footer ul li a {color: #6E6791;font-size: 16px;font-weight: normal;}
     }
     
     
     @media (min-width:0px) and (max-width:767px){	
+    body .l-18 {font-size: 13px;line-height:22px;}
+    body .l-16 {    font-size: 13px;    line-height: 22px;}
     html,body {overflow-x:hidden;}	
     body .navbar {padding: 15px 0px;}	
     .custom-sec2 .sec2-col-left {padding-left: 0;    padding-right: 0;}
-    body h1 {font-size: 30px;}
+    body h1 {font-size: 42px;line-height: 49.22px;}
     body h1 br {    display: none;}
     button.navbar-toggler {    color: #ffffff !important;    background: #23B682;    border-radius: 0;border: 0;}
     .navbar-collapse.collapse {background: #23B682;margin-top: -2px;border-radius: 0;padding-top: 5px;padding-bottom: 20px;}
     .custom-sec1 .navbar-light .navbar-nav a.nav-link {font-size: 14px;color: #ffffff;margin: 0;padding: 15px 15px 0px 15px;font-family: "Roboto-Regular";}
     body .custom-sec2 {margin-top: 0;padding-top: 0;background: transparent;}
     .custom-sec2 .sec2-col-right img {margin-bottom: 0;width: 100%;margin-top: 30px;}
-    .custom-sec3 {padding-top: 0;padding-bottom: 25px;}
+    body .sec2-col-left {padding-bottom: 50px;}
+    .sec2-col-right-mob {margin-top: 158px;padding-bottom: 50px;}
+    .sec2-col-right-mob img {margin-top: -122px;width: 107%;}
+    .sec2-col-right-mob {background: url(${assetsUrl}/templates/landingPage/images/top-gradient.png);background-size: cover;}
+    .sec2-col-right{display:none;}
+    .custom-sec3 {padding-top: 20px;padding-bottom: 45px;}
     .custom-sec4 .sec4-col-center {padding-left: 0px;padding-right: 0px;}
     .custom-sec4 .sec4-col-center p br {display: none;}
+    .custom-sec4 p.l-18 {font-size: 13px;line-height: 22px;}
+    .custom-sec4 .custom-sec4-row2 p.l-16 br {display: none;}
     .custom-sec3 ul {padding: 0;text-align: center;width: 100%;margin: 0 auto;}
-    .custom-sec3 ul li {list-style-type: none;float: left;padding: 30px 15px 5px 15px;width: 50%;text-align: center;min-height: 80px;}
-    .custom-sec4-row2 .col-md-3.col-lg-3.col-sm-12 {    margin-bottom: 15px;}
+    .custom-sec3 ul li {list-style-type: none;float: left;padding: 15px 15px 5px 15px;width: 50%;text-align: center;min-height: 80px;margin-top: 20px;}
+    .custom-sec3 ul li:last-child {width: 100%;}
+    .custom-sec4-row2 .col-md-3.col-lg-3.col-sm-12 {    margin-bottom: 30px;}
     .custom-sec4 {text-align: center;padding-top: 20px;}
-    .custom-sec4 h2 {font-size: 26px;}
+    .custom-sec4 h2 {font-size: 42px;}
     .custom-sec5 {margin-bottom: 45px;padding-top: 30px;}
     .custom-sec5 .custom-sec5-row1 .coll {padding-left: 0px;padding-right: 0px;}
-    .custom-sec5 .custom-sec5-row1 .coll img {width: 100%;}
-    body h2 {font-size: 26px;}
+    .custom-sec5 .custom-sec5-row1 .coll img {width: 107%;}
+    body h2 {font-size: 42px;} 
     .custom-sec5 .custom-sec5-row1 {width: 100%;margin: 0 auto;}
-    .custom-sec5 .custom-sec5-row1 .custom-sec5-colr {padding-right: 0px;padding-left: 0px;}
+    .custom-sec5 .custom-sec5-row1 .custom-sec5-colr {padding-right: 0px;padding-left: 0px;padding-top: 25px;}
     .custom-sec5 .custom-sec5-row1 .custom-sec5-colr br {display: none;}
     .custom-sec5 .custom-sec5-row1 .custom-sec5-colr .ullid li .right {float: left;width: 70%;}
     .custom-sec6 .row.custom-sec6-row1 {width: 100%;margin: 0 auto;}
@@ -89,12 +103,19 @@ export const customCss = `
     .custom-sec6-coll-inner {padding-right: 0;}
     .custom-sec6-coll-inner p br {display: none;}
     .custom-sec6 .custom-sec6-row1 .custom-sec6-colr {padding-right: 0;padding-left: 0px;padding-bottom: 45px;}
-    .custom-sec7 .row.custom-sec7-row1 {width: 100%;margin: 0 auto;flex-direction: column-reverse;}
+    .custom-sec6 .custom-sec6-row1 {    flex-direction: column-reverse;}
+    .custom-sec6 {margin-top: 80px;}
+    .custom-sec7 .row.custom-sec7-row1 {width: 100%;margin: 0 auto;}
+    .custom-sec7 {margin-top: 35px;}
     .custom-sec7 .row.custom-sec7-row1 .custom-sec7-coll {padding-left: 0;padding-right: 0px;padding-bottom: 45px;}
     .custom-sec7 .row.custom-sec7-row1 .custom-sec7-colr {padding-right: 0;padding-left: 0px;}
     .custom-sec7-colr-inner {padding-left: 0;}
+    .custom-sec8 .custom-sec8-row1{flex-direction: column-reverse;}
+    .custom-sec8 {padding-bottom: 60px;margin-top: 35px;}
     .custom-sec8 .row.custom-sec8-row1 {width: 100%;margin: 0 auto;}
-    .custom-sec8 .row.custom-sec8-row1 .custom-sec8-coll {padding-left: 0px;padding-right: 0px;text-align: left;}
+    .custom-sec8 .row.custom-sec8-row1 .custom-sec8-coll {padding-left: 0px;padding-right: 0px;text-align: left;padding-top: 55px;    padding-bottom: 25px;}
+    .custom-sec9 .custom-sec9-row2 p.p-usd, .custom-sec9 .custom-sec9-row3 p.p-usd {    display: none;}
+    .custom-sec9 .price-data {margin-top: 25px;position: relative;margin-bottom: 35px;}
     .custom-sec8-coll-inner {padding-right: 0;}
     .custom-sec8 .row.custom-sec8-row1 .custom-sec8-coll p br {display: none;}
     .custom-sec8 .row.custom-sec8-row1 .custom-sec8-colr {padding-right: 0;padding-left: 0px;}
@@ -102,31 +123,70 @@ export const customCss = `
     .custom-sec9 .custom-sec9-row1, .custom-sec9 .custom-sec9-row2, .custom-sec9 .custom-sec9-row3 {width: 100%;margin: 0 auto;}
     .custom-sec9 .sec9-col-center {padding: 0;}
     .custom-sec9 .sec9-col-center p br {display:none;}
-    .custom-sec9 .col-md-6.col-lg-6.col-sm-12 {padding: 7px 0px;}
-    .custom-sec10 {text-align: center;padding-top: 60px;padding-bottom: 60px;}
+    .custom-sec9 .col-md-6.col-lg-6.col-sm-12 {padding: 12px 0px;}
+    .custom-sec10 {text-align: center;padding-top: 90px;padding-bottom: 60px;}
+    .custom-sec10 h5.l-22 {font-size: 18px;line-height: 21.09px;}
+    .custom-sec11 .row .col-md-12.col-lg-12.col-sm-12 {padding: 0;}
+    .custom-sec11 .row .col-md-12.col-lg-12.col-sm-12 h2 br {display: none;}
+    .testimonial {text-align: center;margin: 0;}
     .custom-sec10 .custom-sec10-row1 {width: 100%;margin: 0 auto;}
+    .testimonial .description {font-size: 13px;line-height: 22px}
     .custom-sec10 .custom-sec10-row1 .sec10-col-center {padding-left: 0;padding-right: 0;}
     .custom-sec11 .row {width: 100%;margin: 0 auto;}
     .testimonial .description br {display: none;}
-    .custom-sec11 {padding-bottom: 60px;}
-    .custom-sec12.custom-footer {text-align: center;margin-top: 0;margin-bottom: 80px;}
+    .custom-sec11 {padding-bottom: 80px;}
+    body .owl-theme .owl-controls {margin-top: 30px;text-align: center;}
+    .testimonial .post {opacity: 0.7;}
+    .custom-sec12.custom-footer {text-align: center;margin-top: 0;margin-bottom: 45px;}
     .custom-sec12.custom-footer .sec12-col-center {padding-left: 0;padding-right: 0;}
     .f-images a {float: left;width: 48%;margin-left:1%;margin-right:1%;}
     .custom-sec12.custom-footer .f-images img {width: 100%;max-height:67px;max-width:180px;margin: 0;}
+    .wrapper.menu--is-revealed button.menu-toggle {padding-right: 10px;}
+    .custom-sec12 p.l-22 {font-size: 18px;}
+    .custom-sec12.custom-footer h2 {margin-top: 20px;margin-bottom: 45px;}
+    .ff {margin: 50px auto 35px auto;}
+    .custom-sec10 button.accordion::after {top: 21px;}
+    body .custom-sec2 {margin-top: 40px;padding-top: 0;}
     }
     
     
     @media (min-width:0px) and (max-width:991px){
     html,body {overflow-x:hidden;}	
-    body .navbar {padding: 15px 0px 35px 0px}
+    body .navbar {padding: 29px 0px 30px 0px;}
     .custom-nv-right { display: none;}
     .custom-sec1 .navbar-light .navbar-nav .custom-last-child a.nav-link {background: #ffffff;border-radius: 99px;font-size: 14px;width: 160px;padding: 12px;text-align: center;font-family: "Roboto-Bold";color: #23B682;margin-left: 15px;margin-top: 15px;}
-    button.navbar-toggler {    color: #ffffff !important;    background: #23B682;    border-radius: 0;border: 0;}
+    button.navbar-toggler {color: #ffffff !important;background: transparent;border: 1px solid rgb(38 29 86);border-color: rgba(38,29,86,1) !important;border-radius: 99px;padding: 0;width: 42px;height: 42px;}
     button.navbar-toggler span.navbar-toggler-icon {    filter: brightness(0) invert();}
     .navbar-collapse.collapse {background: #23B682;margin-top: -2px;border-radius: 0;padding-top: 5px;padding-bottom: 20px;}
     .custom-sec1 .navbar-light .navbar-nav a.nav-link {font-size: 14px;color: #ffffff;margin: 0;padding: 15px 15px 0px 15px;font-family: "Roboto-Regular";}
-    body .custom-sec2 {margin-top: 0;padding-top: 0;background: transparent;}
     .custom-sec2 .sec2-col-right img {margin-bottom: 0;width: 100%;margin-top: 30px;}
+    div#navbarNav {position: fixed;top: 100px;height: 100vh;background: url(${assetsUrl}/templates/landingPage/images/top-gradient.png);z-index: 99;left: 0;opacity: 1 !important;background-size: 100% 100%;transition: visibility .4s ease-in-out, transform .4s ease-in-out;transform: translateX(100%);padding: 0;margin: 0;}
+    button.navbar-toggler {z-index: 999;}
+    div#navbarNav.show {transform: translateX(0%);}
+    div#navbar_top {transform: unset;}
+    a.navbar-brand {z-index: 999;padding-top: 0;}
+    div#navbarNav ul#menu {height: 100vh;margin-top: 70px;}
+    body div#navbarNav ul#menu li a {color: #261D56;width: auto;text-align: center;font-size: 32px;font-family: "Roboto-Medium";margin: 0;padding: 0;}
+    body div#navbarNav ul#menu li.nav-item.custom-last-child {text-align: center;margin: 45px auto 0 auto;}
+    body div#navbarNav ul#menu li.nav-item.custom-last-child a {    background: #23B682;
+    color: #ffffff;
+    border-radius: 99px;
+    font-size: 14px;
+    width: 160px;
+    padding: 12px;
+    text-align: center;
+    font-family: "Roboto-Bold";}
+    body div#navbarNav ul#menu li {
+    margin-bottom: 30px;
+    }
+    body.scrollstuck {overflow:hidden;}
+    #nav-icon1 {width: 42px;height: 42px;position: relative; -webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-o-transform: rotate(0deg);transform: rotate(0deg);-webkit-transition: .5s ease-in-out;-moz-transition: .5s ease-in-out;-o-transition: .5s ease-in-out;transition: .5s ease-in-out;cursor: pointer;}
+    #nav-icon1 span {display: block;position: absolute;height: 1.68px;width: 21.84px;background: #261D56;border-radius: 9px;opacity: 1;left: 0;-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-o-transform: rotate(0deg);transform: rotate(0deg);-webkit-transition: .25s ease-in-out;-moz-transition: .25s ease-in-out;-o-transition: .25s ease-in-out;transition: .25s ease-in-out;}
+    #nav-icon1 span:nth-child(1) {top: 15px;left: 9px;}
+    #nav-icon1 span:nth-child(2) {top: 22px;left: 9px;}
+    #nav-icon1.open span:nth-child(1) {transition-delay: 0.4s;top: 19px;-webkit-transform: rotate(135deg);-moz-transform: rotate(135deg);-o-transform: rotate(135deg);transform: rotate(135deg);}
+    #nav-icon1.open span:nth-child(2) {transition-delay: 0.4s;top: 19px;-webkit-transform: rotate(-135deg);-moz-transform: rotate(-135deg);-o-transform: rotate(-135deg);transform: rotate(-135deg);}
+    body .container {padding-left: 25px;padding-right: 25px;}
     }
     
     
@@ -138,13 +198,15 @@ export const customCss = `
     body h1 {font-size: 40px;}
     .custom-sec4 .custom-sec4-row2 .col-md-3.col-lg-3.col-sm-12 {width: 50%;min-width: 50%;max-width: 50%;}
     .custom-sec4-row1 p br {display: none;}
-    .custom-sec5 .custom-sec5-row1 .custom-sec5-colr .ullid li:first-child .right {float: left;padding-top: 20px;width: 70%;}
+    .custom-sec5 .custom-sec5-row1 .custom-sec5-colr .ullid li:first-child .right {float: left;padding-top: 20px;width: 66%;}
+    .custom-sec5 .custom-sec5-row1 .custom-sec5-colr .ullid li .right {float: left;width: 66%;} 
     .custom-sec4 h2 {font-size: 35px;}
     body h2 {font-size: 35px;}
     .whole-plan h5 {font-family: "Roboto-Medium";color: #261D56;font-size: 35px;}
     .custom-sec9 .custom-sec9-row1, .custom-sec9 .custom-sec9-row2, .custom-sec9 .custom-sec9-row3 {width: 100%;margin: 0 auto;}
     .custom-sec10 .custom-sec10-row1 {width: 100%;margin: 0 auto;}
     .custom-sec11 .row {width: 100%;margin: 0 auto;}
+    .scrollstuck section.custom-sec2 {background: transparent;} 
     }
     
     
@@ -153,15 +215,17 @@ export const customCss = `
     .custom-sec2 .sec2-col-left {    padding-left: 30px;}
     }
     
-    
-    
     @media (min-width: 1024px) and (max-width: 1151px), (min-width: 768px) and (max-width: 1023px), (min-width: 667px) and (max-width: 767px), (max-width: 666px) {
-      .VideoHead-popup-video-container {width: calc(100% - 16px * 2);}
+    .VideoHead-popup-video-container {width: calc(100% - 16px * 2);}
     }
+    
     @media (min-width:992px) and (max-width:10000px){
     .custom-last-child { display: none;}
     }
-
+    
+    @media (min-width:768px) and (max-width:10000px){
+    .sec2-col-right-mob { display: none;}
+    }
 
 `
 
@@ -176,6 +240,7 @@ body h2 {font-size: 50px;}
 h5.l-22{color:#261D56;font-family: "Roboto-Regular";font-size:22px;margin: 0;}
 .l-22{color:#6E6791;font-family: "Roboto-Regular";font-size:22px;margin: 0;}
 
+
 body h1,body h2,body h3,body h4,body h5,body h6{color:#261D56;font-family: "Roboto-Medium";}
 #navbar_top {transform: translateZ(0);    transition:all 0.5s;}	
 .fixed-top {    background: #ffffff; box-shadow:0 2px 6px rgba(0,0,0,0.2);      padding:4px 0;       opacity:1;  animation:slide-down 1s;  }   
@@ -188,6 +253,8 @@ body .navbar .container-fluid {    padding-left: 0;    padding-right: 0;}
 .custom-sec1 .navbar-light .navbar-nav .selected a {font-weight: 700;color: #23B682;}
 .custom-sec1 .custom-nv-right a.nav-link:hover {background: #261D56;}
 
+
+
 .VideoHead-popup-video {display: none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(21, 20, 26, 0.8);z-index: 9999;transition: all 0.36s ease-in-out;opacity: 0;visibility: hidden;}
 .VideoHead-popup-video.show {transition: opacity 0.36s ease-in-out;opacity: 1;visibility: inherit;display:block;}
 .VideoHead-popup-video-container {position: relative;height: calc(100% - 60px * 2);width: calc(100% - 24px * 2);max-width: 1640px;margin: 60px auto;}
@@ -199,6 +266,8 @@ body .navbar .container-fluid {    padding-left: 0;    padding-right: 0;}
 .VideoHead-popup-video-exit-line-1 {top: 11px;left: 2px;position: absolute;width: 20px;height: 2px;transform: rotate(-45deg);background-color: #ffffff;}
 .VideoHead-popup-video-exit-line-2 {top: 11px;left: 2px;position: absolute;width: 20px;height: 2px;transform: rotate(45deg);background-color: #ffffff;}
 
+
+
 .custom-sec2 .sec2-col-left .custom-playbtn .left a:hover {background: #261D56;}
 .custom-sec2 .sec2-col-left p{padding-top: 7px;}
 .custom-sec2 .sec2-col-left .custom-playbtn {float: left;width: 100%;margin-top: 40px;}
@@ -206,7 +275,7 @@ body .navbar .container-fluid {    padding-left: 0;    padding-right: 0;}
 .custom-sec2 .custom-playbtn .right a {    float: left;    font-family: "Roboto-Regular";    font-size: 14px;    color: #6E6791;}
 .custom-sec2 .custom-playbtn .right a:hover{text-decoration:none;}
 .custom-sec2 .custom-playbtn .right a span {padding-top: 3px;display: inline-block;}
-.custom-sec2 {background: url(${appUrl}/assets/templates/landingPage/images/top-gradient.png);background-size: 50% 87%;background-repeat: no-repeat;background-position: top right;margin-top: -131px;padding-top: 100px;}
+.custom-sec2 {background: url(${assetsUrl}/templates/landingPage/images/top-gradient.png);background-size: 50% 87%;background-repeat: no-repeat;background-position: top right;margin-top: -131px;padding-top: 100px;}
 .custom-sec2 .sec2-col-left {padding-left: 60px;}
 .custom-sec2 .custom-playbtn .left {float: left;}
 .custom-sec2 .custom-playbtn .right {float: left;} 
@@ -215,14 +284,18 @@ body .navbar .container-fluid {    padding-left: 0;    padding-right: 0;}
 .custom-sec2 .custom-playbtn .right a:hover .green {    display: block !important;}
 .custom-sec2 .custom-playbtn .right a:hover .blue {    display: none;}
 
+
+
 .custom-sec3 {padding-top: 0px;    padding-bottom: 0px;}
 .custom-sec3 ul {padding: 0;text-align: center;width: 80%;margin: 0 auto;}
 .custom-sec3 ul li {list-style-type: none;float: left;padding: 20px 15px 45px 15px;width: 20%;text-align: center;}
+
 
 .custom-sec4 {text-align: center; padding-top:100px;}
 .custom-sec4 h2 { font-size: 50px;}
 .custom-sec4 h5 { font-size: 22px;margin-top: 20px;    margin-bottom: 12px;}
 .custom-sec4 .custom-sec4-row2 {    width: 90%;    margin: 30px auto 0 auto;}
+
 
 .custom-sec5 {margin-bottom: 45px;padding-top:100px;}
 .custom-sec5 .custom-sec5-row1 {width: 90%;margin: 0 auto;}
@@ -237,12 +310,14 @@ body .navbar .container-fluid {    padding-left: 0;    padding-right: 0;}
 .custom-sec5 .custom-sec5-row1 .custom-sec5-colr .ullid li .right p {    margin-bottom: 0;}
 .custom-sec5 .custom-sec5-row1 .custom-sec5-colr .ullid li .right h5 {font-size: 22px;}
 
+
 .custom-sec6 .row.custom-sec6-row1 {width: 90%;margin: 0 auto;}
 .custom-sec6 .row.custom-sec6-row1 .custom-sec6-coll {text-align: right;}
 .custom-sec6 .custom-sec6-row1 .custom-sec6-coll {padding-left: 30px;padding-right: 0px; }
 .custom-sec6 .custom-sec6-row1 .custom-sec6-colr {padding-right: 30px;padding-left: 0px;}
 .custom-sec6 .custom-sec6-row1 .custom-sec6-colr img {    width: 100%;}
 .custom-sec6-coll-inner {    padding-right: 30px;}
+
 
 .custom-sec7 .row.custom-sec7-row1 {width: 90%;margin: 0 auto;}
 .custom-sec7 .row.custom-sec7-row1 .custom-sec7-coll {text-align: right;}
@@ -251,6 +326,7 @@ body .navbar .container-fluid {    padding-left: 0;    padding-right: 0;}
 .custom-sec7 .custom-sec7-row1 .custom-sec7-coll img {    width: 100%;}
 .custom-sec7-colr-inner {    padding-left: 30px;}
 
+
 .custom-sec8{    padding-bottom: 60px;}
 .custom-sec8 .row.custom-sec8-row1 {width: 90%;margin: 0 auto;}
 .custom-sec8 .row.custom-sec8-row1 .custom-sec8-coll {text-align: right;}
@@ -258,6 +334,8 @@ body .navbar .container-fluid {    padding-left: 0;    padding-right: 0;}
 .custom-sec8 .row.custom-sec8-row1 .custom-sec8-colr {padding-right: 30px;padding-left: 0px;}
 .custom-sec8 .custom-sec8-row1 .custom-sec8-colr img {    width: 100%;}
 .custom-sec8-coll-inner {    padding-right: 30px;}
+
+
 
 .custom-sec9 {text-align: center;padding-top: 90px;padding-bottom: 60px;}
 .custom-sec9 h2 {    margin-bottom: 18px;}
@@ -296,7 +374,9 @@ select {-webkit-appearance: none;-moz-appearance: none;text-indent: 1px;text-ove
 .whole-plan .p-per-btn a {border: 1px solid #6e6791;float: left;width: 100%;padding: 15px;border-radius: 10px;margin-top: 15px;margin-bottom: 30px;font-family: "Roboto-Medium";font-size: 18px;color:#261D56;}
 .whole-plan .p-per-btn a:hover {border: 1px solid #23B682;float: left;width: 100%;padding: 15px;border-radius: 10px;margin-top: 15px;margin-bottom: 30px;font-family: "Roboto-Medium";font-size: 18px;color:#23B682;cursor:pointer;}
 .whole-plan ul {padding: 0;    float: left;    width: 100%;}
-.whole-plan ul li {list-style-type: none;font-family: "Roboto-Regular";color: #6E6791;font-size: 14px;margin-bottom: 15px;text-align: left;padding-left: 36px;background: url(${appUrl}/assets/templates/landingPage/images/tik.png);background-repeat: no-repeat;background-position: 0px 3px;}
+.whole-plan ul li {list-style-type: none;font-family: "Roboto-Regular";color: #6E6791;font-size: 14px;margin-bottom: 15px;text-align: left;padding-left: 36px;background: url(${assetsUrl}/templates/landingPage/images/tik.png);background-repeat: no-repeat;background-position: 0px 3px;}
+
+
 
 .custom-sec10 {text-align: center;padding-top: 90px;padding-bottom: 150px;}
 .custom-sec10 h2 {    padding-bottom: 30px;}
@@ -312,14 +392,18 @@ select {-webkit-appearance: none;-moz-appearance: none;text-indent: 1px;text-ove
 .custom-sec10 button.accordion:hover {background: transparent;}
 .custom-sec10 .panel p {padding-bottom: 12px;}
 .custom-sec10 button.accordion {padding-right: 50px;position: relative;}
-.custom-sec10 button.accordion::after {background: url(${appUrl}/assets/templates/landingPage/images/plus-tilt.png);background-position: 0px;background-size: contain;content: "";display: inline-block;width: 20px;height: 16px;background-repeat: no-repeat;float: right;position: absolute;transition: 300ms linear all;right: 15px;top: 23px;opacity: 0.6;}
+.custom-sec10 button.accordion::after {background: url(${assetsUrl}/templates/landingPage/images/plus-tilt.png);background-position: 0px;background-size: contain;content: "";display: inline-block;width: 20px;height: 16px;background-repeat: no-repeat;float: right;position: absolute;transition: 300ms linear all;right: 15px;top: 23px;opacity: 0.6;}
 .custom-sec10 button.accordion.active::after {transform: rotate(-45deg);-webkit-transform: rotate(-45deg);-moz-transform: rotate(45deg);-ms-transform: rotate(45deg);-o-transform: rotate(45deg);transition: 300ms linear all;background-position: 0px;opacity: 1;}
 .custom-sec10 .my-ride {border-bottom: 1px solid #6E6791;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;}
+
+
 
 .custom-sec11  {padding-bottom:90px;}
 .custom-sec11 #client-testimonial-carousel {padding-top:90px;}
 .custom-sec11 {    text-align: center;}
 .custom-sec11 .row {width: 70%;margin: 0 auto;}
+
+
 
 .testimonial{    text-align: center;    margin: 0 15px;}
 .testimonial .description{padding: 30px 15px 0px 15px;margin: 0;font-size: 18px;color: #6e6791;line-height: 31px;position: relative;font-family: "Roboto-Regular"} 
@@ -331,9 +415,12 @@ body .owl-controls.clickable { margin-top: 45px;}
 .owl-theme .owl-controls{margin-top: 30px;}
 .owl-theme .owl-controls .owl-page span{background: #ccc;opacity: 1;transition: all 0.4s ease 0s;}
 .owl-theme .owl-controls .owl-page.active span,.owl-theme .owl-controls.clickable .owl-page:hover span{background: #73438f;}
-
 .owl-page span {background: #EDEFFB !important;opacity: 1 !important;border-radius: 0 !important;height: 2px !important;width: 14px !important;}
 .owl-page.active span {background: #23B682 !important;opacity: 1 !important;}
+
+
+
+
 
 .custom-sec12.custom-footer {text-align: center;}
 .custom-sec12.custom-footer {text-align: center;margin-top: 100px;margin-bottom: 80px;}
@@ -375,11 +462,14 @@ export const html = `
       <div class="container container-nav custom-sec1">
           <nav  class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid">
-              <a class="navbar-brand" href="#"><img src="${appUrl}/assets/templates/landingPage/images/Logo.png" class="img-rounded" alt="Logo Img" /></a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+              <a class="navbar-brand" href="#"><img src="${assetsUrl}/templates/landingPage/images/Logo.png" class="img-rounded" alt="Logo Img" /></a>
+              <button id="navbar-toggle" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <div id="nav-icon1">
+                    <span></span>
+                    <span></span>
+                </div>
               </button>
-              <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+              <div class="navbar-collapse justify-content-center" id="navbarNav">
                 <ul id="menu" class="navbar-nav">
                   <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="#features">Features</a>
@@ -426,14 +516,14 @@ export const html = `
                   <div class="custom-playbtn">
                       <div class="left"><a href="#downloadtheapp">Download the app</a></div>
                       <div class="right"><a id="play-video" class="play top-video-target" >
-                          <img src="${appUrl}/assets/templates/landingPage/images/play-sign.png" class="img-rounded blue  top-video-target" alt="PlayImg" />
-                          <img src="${appUrl}/assets/templates/landingPage/images/play-sign-hover.png" style="display:none;" class="img-rounded green  top-video-target" alt="PlayImg" /><span>How it works</span></a>
+                          <img src="${assetsUrl}/templates/landingPage/images/play-sign.png" class="img-rounded blue  top-video-target" alt="PlayImg" />
+                          <img src="${assetsUrl}/templates/landingPage/images/play-sign-hover.png" style="display:none;" class="img-rounded green  top-video-target" alt="PlayImg" /><span>How it works</span></a>
                       </div>
                   </div>				
               </div>				
               <div class="col-md-7 col-lg-7 col-sm-12 sec2-col-right" data-aos="fade-left" data-aos-duration="3000">				
-                      <div class="right-bg"><a><img src="${appUrl}/assets/templates/landingPage/images/x52.png" class="img-rounded" alt="mob1" /></a></div>
-              </div>				
+                      <div class="right-bg"><a><img src="${assetsUrl}/templates/landingPage/images/x52.png" class="img-rounded" alt="mob1" /></a></div>
+              </div>								
           </div>
       </div>
       
@@ -452,6 +542,10 @@ export const html = `
   </section>
 <!------------------------------------- /Section-2----------------------------------->
 
+<div class="col-md-12 col-lg-12 col-sm-12 sec2-col-right-mob" data-aos="fade-left" data-aos-duration="3000">				
+  <div class="right-bg"><a><img src="${assetsUrl}/templates/landingPage/images/x52.png" class="img-rounded" alt="mob1" /></a></div>
+</div>	
+
 
 <!------------------------------------- Section-3----------------------------------->
   <section class="custom-sec3">
@@ -459,11 +553,11 @@ export const html = `
           <div class="row align-items-center">
               <div class="col-md-12 col-lg-12 col-sm-12 sec3-col-center justify-content-center">
                   <ul>
-                      <li><a><img src="${appUrl}/assets/templates/landingPage/images/large_slack-imgs.png" class="img-rounded" alt="brand" /></a></li>
-                      <li><a><img src="${appUrl}/assets/templates/landingPage/images/Spotify_Logo_CMYK_Black.png" class="img-rounded" alt="brand" /></a></li>
-                      <li><a><img src="${appUrl}/assets/templates/landingPage/images/woodendummy-logo-2x.png" class="img-rounded" alt="brand" /></a></li>
-                      <li><a><img src="${appUrl}/assets/templates/landingPage/images/max.png" class="img-rounded" alt="brand" /></a></li>
-                      <li><a><img src="${appUrl}/assets/templates/landingPage/images/jeep.png" class="img-rounded" alt="brand" /></a></li>
+                      <li><a><img src="${assetsUrl}/templates/landingPage/images/large_slack-imgs.png" class="img-rounded" alt="brand" /></a></li>
+                      <li><a><img src="${assetsUrl}/templates/landingPage/images/Spotify_Logo_CMYK_Black.png" class="img-rounded" alt="brand" /></a></li>
+                      <li><a><img src="${assetsUrl}/templates/landingPage/images/woodendummy-logo-2x.png" class="img-rounded" alt="brand" /></a></li>
+                      <li><a><img src="${assetsUrl}/templates/landingPage/images/max.png" class="img-rounded" alt="brand" /></a></li>
+                      <li><a><img src="${assetsUrl}/templates/landingPage/images/jeep.png" class="img-rounded" alt="brand" /></a></li>
                   </ul>
               </div>				
           </div>
@@ -483,22 +577,22 @@ export const html = `
           </div>
           <div class="row align-items-center custom-sec4-row2">
               <div class="col-md-3 col-lg-3 col-sm-12">
-                  <img src="${appUrl}/assets/templates/landingPage/images/love1.png" class="img-rounded" alt="brand" />
+                  <img src="${assetsUrl}/templates/landingPage/images/love1.png" class="img-rounded" alt="brand" />
                   <h5>Super Easy to Use</h5>
                   <p class="l-16">Lorem ipsum dolor sit amet, <br /> consectetur adipiscing elit <br /> Etiam .</p>
               </div>
               <div class="col-md-3 col-lg-3 col-sm-12">
-                  <img src="${appUrl}/assets/templates/landingPage/images/features1.png" class="img-rounded" alt="brand" />
+                  <img src="${assetsUrl}/templates/landingPage/images/features1.png" class="img-rounded" alt="brand" />
                   <h5>Full Featured</h5>
                   <p class="l-16">Lorem ipsum dolor sit amet, <br /> consectetur adipiscing elit <br /> Etiam .</p>
               </div>
               <div class="col-md-3 col-lg-3 col-sm-12">
-                  <img src="${appUrl}/assets/templates/landingPage/images/login1.png" class="img-rounded" alt="brand" />
+                  <img src="${assetsUrl}/templates/landingPage/images/login1.png" class="img-rounded" alt="brand" />
                   <h5>Fast & Reliable</h5>
                   <p class="l-16">Lorem ipsum dolor sit amet,<br /> consectetur adipiscing elit <br /> Etiam .</p>
               </div>
               <div class="col-md-3 col-lg-3 col-sm-12">
-                  <img src="${appUrl}/assets/templates/landingPage/images/support1.png" class="img-rounded" alt="brand" />
+                  <img src="${assetsUrl}/templates/landingPage/images/support1.png" class="img-rounded" alt="brand" />
                   <h5>24/7 Expert Support</h5>
                   <p class="l-16">Lorem ipsum dolor sit amet,<br /> consectetur adipiscing elit <br /> Etiam .</p>
               </div>				
@@ -513,7 +607,7 @@ export const html = `
       <div class="container">
           <div class="row align-items-center custom-sec5-row1">
               <div class="col-md-6 col-lg-6 col-sm-12 coll" data-aos="fade-right" data-aos-duration="2000">
-                  <img src="${appUrl}/assets/templates/landingPage/images/x4.png" class="img-rounded" alt="brand" />
+                  <img src="${assetsUrl}/templates/landingPage/images/x4.png" class="img-rounded" alt="brand" />
               </div>
               <div class="col-md-6 col-lg-6 col-sm-12 custom-sec5-colr" data-aos="fade-left" data-aos-duration="2000">					
                   <h2>How it works</h2>
@@ -521,7 +615,7 @@ export const html = `
                   <div class="ullid">
                       <li>
                           <div class="left" data-aos="fade-down" data-aos-duration="2000">
-                              <img src="${appUrl}/assets/templates/landingPage/images/locate.png" class="img-rounded" alt="brand" />
+                              <img src="${assetsUrl}/templates/landingPage/images/locate.png" class="img-rounded" alt="brand" />
                           </div>
                           <div class="right">					
                               <h5>Locate</h5>
@@ -530,7 +624,7 @@ export const html = `
                       </li>						
                       <li>
                           <div class="left" data-aos="fade-down" data-aos-duration="2000">
-                              <img src="${appUrl}/assets/templates/landingPage/images/scan.png" class="img-rounded" alt="brand" />
+                              <img src="${assetsUrl}/templates/landingPage/images/scan.png" class="img-rounded" alt="brand" />
                           </div>
                           <div class="right">					
                               <h5>Scan</h5>
@@ -539,7 +633,7 @@ export const html = `
                       </li>						
                       <li>
                           <div class="left"data-aos="fade-down" data-aos-duration="2000">
-                              <img src="${appUrl}/assets/templates/landingPage/images/ride.png" class="img-rounded" alt="brand" />
+                              <img src="${assetsUrl}/templates/landingPage/images/ride.png" class="img-rounded" alt="brand" />
                           </div>
                           <div class="right">					
                               <h5>Ride</h5>
@@ -566,7 +660,7 @@ export const html = `
                   </div>	
               </div>	
               <div class="col-md-6 col-lg-6 col-sm-12 custom-sec6-colr" data-aos="fade-left" data-aos-duration="2000">
-                  <img src="${appUrl}/assets/templates/landingPage/images/Frame2.png" class="img-rounded" alt="brand" />
+                  <img src="${assetsUrl}/templates/landingPage/images/Frame2.png" class="img-rounded" alt="brand" />
               </div>			
           </div>
       </div>
@@ -579,7 +673,7 @@ export const html = `
       <div class="container">
           <div class="row align-items-center custom-sec7-row1">
           <div class="col-md-6 col-lg-6 col-sm-12 custom-sec7-coll" data-aos="fade-right" data-aos-duration="2000">
-                  <img src="${appUrl}/assets/templates/landingPage/images/Frame1.png" class="img-rounded" alt="brand" />
+                  <img src="${assetsUrl}/templates/landingPage/images/Frame1.png" class="img-rounded" alt="brand" />
               </div>	
               <div class="col-md-6 col-lg-6 col-sm-12 custom-sec7-colr" data-aos="fade-left" data-aos-duration="2000">					
                   <div class="custom-sec7-colr-inner">					
@@ -605,7 +699,7 @@ export const html = `
                   </div>	
               </div>	
               <div class="col-md-6 col-lg-6 col-sm-12 custom-sec8-colr" data-aos="fade-left" data-aos-duration="2000">
-                  <img src="${appUrl}/assets/templates/landingPage/images/Frame3.png" class="img-rounded" alt="brand" />
+                  <img src="${assetsUrl}/templates/landingPage/images/Frame3.png" class="img-rounded" alt="brand" />
               </div>			
           </div>
       </div>
@@ -628,7 +722,7 @@ export const html = `
                               <input id="pmt-plan-toggle" type="checkbox" checked>
                               <span class="slider round"></span>
                           </label>	
-                      <span id="plan-yearly" class="pmt-plan plan-active">Pay Yearly<img src="${appUrl}/assets/templates/landingPage/images/save20.png" class="img-rounded" alt="save" /></span>						
+                      <span id="plan-yearly" class="pmt-plan plan-active">Pay Yearly<img src="${assetsUrl}/templates/landingPage/images/save20.png" class="img-rounded" alt="save" /></span>						
                   </div>
               
               
@@ -804,7 +898,7 @@ export const html = `
                               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc malesuada vel <br /> urna sed luctus. Pellentesque leo erat, egestas scelerisque efficitur eget, <br /> vestibulum ac nunc. Etiam non porta mauris. Mauris elementum erat nec erat<br /> tempus, sit amet nisl euismod. 
                           </p>
                           <div class="pic">
-                              <img src="${appUrl}/assets/templates/landingPage/images/client.png" alt="">
+                              <img src="${assetsUrl}/templates/landingPage/images/client.png" alt="">
                           </div>
                           <p class="title">Samantha William</p>
                           <span class="post">Senior Designer at Design Studio</span>
@@ -814,7 +908,7 @@ export const html = `
                               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc malesuada vel <br /> urna sed luctus. Pellentesque leo erat, egestas scelerisque efficitur eget, <br /> vestibulum ac nunc. Etiam non porta mauris. Mauris elementum erat nec erat<br /> tempus, sit amet nisl euismod. 
                           </p>
                           <div class="pic">
-                              <img src="${appUrl}/assets/templates/landingPage/images/client.png" alt="">
+                              <img src="${assetsUrl}/templates/landingPage/images/client.png" alt="">
                           </div>
                           <p class="title">Samantha William</p>
                           <span class="post">Senior Designer at Design Studio</span>
@@ -824,7 +918,7 @@ export const html = `
                               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc malesuada vel <br /> urna sed luctus. Pellentesque leo erat, egestas scelerisque efficitur eget, <br /> vestibulum ac nunc. Etiam non porta mauris. Mauris elementum erat nec erat<br /> tempus, sit amet nisl euismod. 
                           </p>
                           <div class="pic">
-                              <img src="${appUrl}/assets/templates/landingPage/images/client.png" alt="">
+                              <img src="${assetsUrl}/templates/landingPage/images/client.png" alt="">
                           </div>
                           <p class="title">Samantha William</p>
                           <span class="post">Senior Designer at Design Studio</span>
@@ -834,7 +928,7 @@ export const html = `
                               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc malesuada vel <br /> urna sed luctus. Pellentesque leo erat, egestas scelerisque efficitur eget, <br /> vestibulum ac nunc. Etiam non porta mauris. Mauris elementum erat nec erat<br /> tempus, sit amet nisl euismod. 
                           </p>
                           <div class="pic">
-                              <img src="${appUrl}/assets/templates/landingPage/images/client.png" alt="">
+                              <img src="${assetsUrl}/templates/landingPage/images/client.png" alt="">
                           </div>
                           <p class="title">Samantha William</p>
                           <span class="post">Senior Designer at Design Studio</span>
@@ -844,7 +938,7 @@ export const html = `
                               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc malesuada vel <br /> urna sed luctus. Pellentesque leo erat, egestas scelerisque efficitur eget, <br /> vestibulum ac nunc. Etiam non porta mauris. Mauris elementum erat nec erat<br /> tempus, sit amet nisl euismod. 
                           </p>
                           <div class="pic">
-                              <img src="${appUrl}/assets/templates/landingPage/images/client.png" alt="">
+                              <img src="${assetsUrl}/templates/landingPage/images/client.png" alt="">
                           </div>
                           <p class="title">Samantha William</p>
                           <span class="post">Senior Designer at Design Studio</span>
@@ -878,12 +972,12 @@ export const html = `
                   <h2>Download our mobile app</h2>
                   <div class="f-images">
                       <a href="#" class="a-store">
-                          <img src="${appUrl}/assets/templates/landingPage/images/app-store-default.png" class="img-rounded app-store" alt="brand" />
-                          <img src="${appUrl}/assets/templates/landingPage/images/app-store-hover.png" class="img-rounded app-store-hover" style="display:none;" alt="brand" />
+                          <img src="${assetsUrl}/templates/landingPage/images/app-store-default.png" class="img-rounded app-store" alt="brand" />
+                          <img src="${assetsUrl}/templates/landingPage/images/app-store-hover.png" class="img-rounded app-store-hover" style="display:none;" alt="brand" />
                       </a>
                       <a href="#" class="g-play">
-                          <img src="${appUrl}/assets/templates/landingPage/images/google-play-default.png" class="img-rounded google-play" alt="brand" />
-                          <img src="${appUrl}/assets/templates/landingPage/images/google-play-hover.png" class="img-rounded google-play-hover" style="display:none;" alt="brand" />
+                          <img src="${assetsUrl}/templates/landingPage/images/google-play-default.png" class="img-rounded google-play" alt="brand" />
+                          <img src="${assetsUrl}/templates/landingPage/images/google-play-hover.png" class="img-rounded google-play-hover" style="display:none;" alt="brand" />
                       </a>
                   </div>
                   <div class="ff">
@@ -924,32 +1018,23 @@ export const html = `
   <!-- Optional JavaScript; choose one of the two! -->
 
   <!-- Option 1: Bootstrap Bundle with Popper -->
-<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>-->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script src="${appUrl}/assets/templates/landingPage/js/scroll.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js"></script>
-<!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" type="text/javascript"></script>-->
-<!--<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>-->
-
 <script type="text/javascript">
 $(document).ready(function() {
-  if ($(window).width() > 992) {
-      
-      var navbar_height =  $('.navbar').outerHeight();
+    if ($(window).width() > 992) {
+        
+        var navbar_height =  $('.navbar').outerHeight();
 
-      $(window).scroll(function(){  
-          if ($(this).scrollTop() > 300) {
-               $('.navbar-wrap').css('height', navbar_height + 'px');
-               $('#navbar_top').addClass("fixed-top");
-               
-          }else{
-              $('#navbar_top').removeClass("fixed-top");
-              $('.navbar-wrap').css('height', 'auto');
-          }   
-      });
-  } 	
+        $(window).scroll(function(){  
+            if ($(this).scrollTop() > 300) {
+				 $('.navbar-wrap').css('height', navbar_height + 'px');
+                 $('#navbar_top').addClass("fixed-top");
+                 
+            }else{
+                $('#navbar_top').removeClass("fixed-top");
+                $('.navbar-wrap').css('height', 'auto');
+            }   
+        });
+    } 	
 }); 
 </script>
 <script>
@@ -957,32 +1042,31 @@ var acc = document.getElementsByClassName("accordion");
 var i;
 
 for (i = 0; i < acc.length; i++) {
-acc[i].addEventListener("click", function() {
-  this.classList.toggle("active");
-  var panel = this.nextElementSibling;
-  if (panel.style.maxHeight) {
-    panel.style.maxHeight = null;
-  } else {
-    panel.style.maxHeight = panel.scrollHeight + "px";
-  } 
-});
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
+  });
 }
 </script>
 <script>
 $(document).ready(function(){
-	console.log('asdf sss.p')
-  $("#testimonial-slider").owlCarousel({
-      items:1,
-      itemsDesktop:[1000,1],
-      itemsDesktopSmall:[990,1],
-      itemsTablet:[768,1],
-      itemsMobile:[650,1],
-      pagination:true,
-      navigation:false,
-      autoPlay:true
-  });
+    $("#testimonial-slider").owlCarousel({
+        items:1,
+        itemsDesktop:[1000,1],
+        itemsDesktopSmall:[990,1],
+        itemsTablet:[768,1],
+        itemsMobile:[650,1],
+        pagination:true,
+        navigation:false,
+        autoPlay:true
+    });
 });
-$("[data-gjs-type='wrapper'] .price-data .switch").click(function() {
+$("[data-gjs-type='wrapper'] .price-data .switch").click(function(e) {
   $("#pmt-plan-toggle").prop("checked", !$("#pmt-plan-toggle").prop("checked"));
   $('#plan-monthly').toggleClass("plan-active");
   $('#plan-yearly').toggleClass("plan-active");
@@ -992,81 +1076,113 @@ $("[data-gjs-type='wrapper'] .price-data .switch").click(function() {
 
 });
 $("#pmt-plan-toggle").click(function() {
-  $('#plan-monthly').toggleClass("plan-active");
-  $('#plan-yearly').toggleClass("plan-active");
-  $('#monthly-tab').toggleClass("plan-active").toggleClass("plan-inactive");
-  $('#yearly-tab').toggleClass("plan-active").toggleClass("plan-inactive");
-  $("select.resizeselect").resizeselect();
+	$('#plan-monthly').toggleClass("plan-active");
+	$('#plan-yearly').toggleClass("plan-active");
+	$('#monthly-tab').toggleClass("plan-active").toggleClass("plan-inactive");
+	$('#yearly-tab').toggleClass("plan-active").toggleClass("plan-inactive");
+	$("select.resizeselect").resizeselect();
 
 });
 $("#menu li a").click(function() {
-  $(this).parent().addClass('selected').siblings().removeClass('selected');
+    $(this).parent().addClass('selected').siblings().removeClass('selected');
 
-  });
-  
-  
-  /* for video player */
-  $("#play-video").click(function() {
-      $('.VideoHead-popup-video').addClass('show');
-  });
-  
-  
-  $("#close-video").click(function() {
-      $('.VideoHead-popup-video').removeClass('show');
-      var top_iframe = document.getElementById( 'top-head-player');
-      top_iframe.src = top_iframe.src;
-  });
+    });
+	
+	
+	/* for video player */
+	$("#play-video").click(function() {
+    	$('.VideoHead-popup-video').addClass('show');
+	});
+	
+	
+	$("#close-video").click(function() {
+		$('.VideoHead-popup-video').removeClass('show');
+		var top_iframe = document.getElementById( 'top-head-player');
+		top_iframe.src = top_iframe.src;
+	});
 
-  $(document).on("click", function(e) {
-      if( $(e.target).hasClass('top-video-target') == false){
-          $('.VideoHead-popup-video').removeClass('show');
-          var top_iframe = document.getElementById( 'top-head-player');
-          top_iframe.src = top_iframe.src;	
-      }
-  });
-  
-  (function($, window){
-      $.fn.resizeselect = function(settings) {
-          return this.each(function() {
+	$(document).on("click", function(e) {
+		if( $(e.target).hasClass('top-video-target') == false){
+			$('.VideoHead-popup-video').removeClass('show');
+			var top_iframe = document.getElementById( 'top-head-player');
+			top_iframe.src = top_iframe.src;	
+		}
+	});
+	
+	(function($, window){
+		$.fn.resizeselect = function(settings) {
+			return this.each(function() {
 
-              $(this).change(function(){
-                  var $this = $(this);
+				$(this).change(function(){
+					var $this = $(this);
 
-                  // create test element
-                  var text = $this.find("option:selected").text();
-                  var $test = $("<span>").html(text).css({
-                  "font-size": $this.css("font-size"), // ensures same size text
-                  "visibility": "hidden" // prevents FOUC
-                  });
-
-
-                  // add to body, get width, and get out
-                  $test.appendTo($this.parent());
-                  var width = $test.width();
-                  $test.remove();
-
-                  // set select width
-                  $this.width(width+3);
-                  
+					// create test element
+					var text = $this.find("option:selected").text();
+					var $test = $("<span>").html(text).css({
+					"font-size": $this.css("font-size"), // ensures same size text
+					"visibility": "hidden" // prevents FOUC
+					});
 
 
-              // run on start
-              }).change();
+					// add to body, get width, and get out
+					$test.appendTo($this.parent());
+					var width = $test.width();
+					$test.remove();
 
-          });
-      };
-      // run by default
-      $("select.resizeselect").resizeselect();
+					// set select width
+					$this.width(width+3);
+					
 
-  })(jQuery, window);
 
-  $("#faq .faq-data button.last-acc").click( function(){
-      $("#faq .faq-data div.last-acc-div").toggleClass('my-ride');
-  });
+				// run on start
+				}).change();
 
+			});
+		};
+		// run by default
+		$("select.resizeselect").resizeselect();
+
+	})(jQuery, window);
+
+	$("#faq .faq-data button.last-acc").click( function(){
+		$("#faq .faq-data div.last-acc-div").toggleClass('my-ride');
+	});
+	
+	$('#navbar-toggle').on('click', function() {
+            $('#navbarNav').toggleClass('show');    
+            $('body').toggleClass('scrollstuck');  
+         }); 
+		 
+		 $('#navbarNav ul li.nav-item').on('click', function() {
+            // $('#navbarNav').toggleClass('show');  
+            $('#navbar-toggle').toggleClass('collapsed');  
+            $('#navbar-toggle').attr('aria-expanded',"false"); 
+			$('body').removeClass('scrollstuck');  			
+         }); 
+			$(document).ready(function(){
+				$('#nav-icon1').click(function(){
+					$(this).toggleClass('open');
+				});
+			});
 </script>
 <script>
 AOS.init();
+</script>
+<script>
+window.document.body.addEventListener('scroll', (e) => {
+    let aos = document.querySelectorAll('[data-aos|=fade]');
+    aos.forEach((el)=>{
+        var rect = el.getBoundingClientRect();
+        var isVisible = (
+            rect.top < e.target.clientHeight * 0.7     /*70% of client height*/
+        )
+        if (isVisible ) {
+            $(el).addClass('aos-animate');
+        } else {
+            $(el).removeClass('aos-animate');
+        }
+    });
+})
 </script>
 `
 //   ===================================================

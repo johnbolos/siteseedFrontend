@@ -18,6 +18,7 @@
 		"color-convert": "^2.0.1",
 		"connected-react-router": "^6.5.2",
 		"dom-to-image": "^2.6.0",
+		"fs": "^0.0.1-security",
 		"grapesjs": "^0.16.27",
 		"grapesjs-blocks-basic": "^0.1.8",
 		"grapesjs-component-countdown": "^0.1.3",

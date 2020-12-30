@@ -68,10 +68,10 @@ const styleManager = {
 					// ===========================================================
 					// gjsCssRules.appendChild(style);
 					// ===========================================================
-					
+
 					// body[0].appendChild(style);
 					gjsCssRules.insertAdjacentElement("afterend", style);
-					
+
 					//add the style tag in dom
 					style = document.createElement("style");
 					style.id = "ss-style";
@@ -82,12 +82,12 @@ const styleManager = {
 
 					// body[0].appendChild(style);
 					gjsCssRules.insertAdjacentElement("afterend", style);
-					
+
 					// if (!grapesDocument.querySelector('#ss-style')) {
 					// 	body[0].appendChild(style);
 					// }
 					// body.insertBefore(style, body.firstChild);
-					
+
 					// -------------------------------------------Style-font-assets------------------------------------------------
 					if (styleFontStr) {
 						style = document.createElement("style");
@@ -425,12 +425,14 @@ const styleManager = {
 		let chromeNNotBorder = window.chrome || !key.includes('border')	// If browser is firefox then dont follow getComputedStyles approach for border property
 		let skipComputed = ['box-shadow'].includes(key)	// For css rules which shouldn't follow getComputedStyles approach
 		if (pseudoClass == 'normal' && chromeNNotBorder && !skipComputed) {
-			if (key == 'width') {
-			}
-			if (resp && resp.trim() != '' && ['width', 'height', 'maxWidth', 'maxHeight'].includes(key)) {
-				resp = resp.trim().replace(' !important', '')
-				return resp
-			}
+
+			// ===================================================== Not sure if important =====================================================
+			// if (resp && resp.trim() != '' && ['width', 'height', 'maxWidth', 'maxHeight'].includes(key)) {
+			// 	resp = resp.trim().replace(' !important', '')
+			// 	return resp
+			// }
+			// ===================================================== ====================== =====================================================
+			
 			resp = getComputedStyle(selected.node)[key];
 			resp = resp.replace(' !important', '')
 			if (key == 'font-family') {
@@ -564,7 +566,13 @@ const styleManager = {
 				resp = resp.split(/,(?![^(]*\))/);
 				_.each(resp, (element, index) => {
 					element = element.trim().split(/ (?![^(]*\))/);
-					let color = element.pop();
+					let color = ''
+					if (element[element.length - 1].trim() == 'inset') {
+						color = element[element.length - 2]
+						element.splice(element.length - 2, 1)
+					} else {
+						color = element.pop();
+					}
 					element.unshift(color);
 					resp[index] = element.join(" ");
 				});

@@ -197,7 +197,7 @@ export default function (editor, opt = {}) {
       // let selectedComponent = _grapesEditor.editor.getSelected()
       var selectedElem = this.target.view.el
       var value = event.target.checked;
-      let overlay = selectedElem.querySelector('#myModal');
+      let overlay = selectedElem.querySelector('.ss-modal');
       if (!value) {
         overlay.style.visibility = 'hidden';
         overlay.style.opacity = 0;
@@ -208,7 +208,7 @@ export default function (editor, opt = {}) {
     },
     getInputEl() {
       let elem = this.target.view.el
-      let overlay = elem.querySelector("#myModal")
+      let overlay = elem.querySelector(".ss-modal")
       let btn = document.createElement('button')
       btn.innerHTML = 'Show/Hide Pop Up'
       btn.onclick = () => {

@@ -129,7 +129,7 @@ class AssetsManager extends React.Component {
         let s3Dir = userS3Dir
         if (!s3Dir) {
             // create new userS3Dir
-            s3Dir = shortid.generate()
+            s3Dir = 's3Dir' || shortid.generate() //replace this with user _id
             dispatch(setS3Dir(s3Dir))
         }
         _s3.uploadFile(files[0], s3Dir, (resp) => {
@@ -179,7 +179,7 @@ class AssetsManager extends React.Component {
             this.setState({ loading: true })
             if (!s3Dir) {
                 // create new userS3Dir
-                s3Dir = shortid.generate()  //replace this with user _id
+                s3Dir = 's3Dir' || shortid.generate()  //replace this with user _id
                 dispatch(setS3Dir(s3Dir))
             }
             _s3.uploadFile(file, s3Dir + '/fonts', (resp) => {
