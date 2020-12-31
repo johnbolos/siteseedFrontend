@@ -151,6 +151,13 @@
       }
     }
   }
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    .theme-light & {
+    }
+    .theme-dark & {
+      filter: invert(1);
+    }
+  }
   textarea,
   input {
     // background: #272727;

@@ -4,11 +4,11 @@ export const pageTitle = 'Site Seed'
 export const subTitle = 'Powered by ghrix.com'
 
 //==============localHost=======================
-// export const appUrl = 'http://localhost:3000'
+export const appUrl = 'http://localhost:3000'
 //==============================================
 
 //==============Development=====================
-export const appUrl = 'http://142.93.221.250'
+// export const appUrl = 'http://142.93.221.250'
 //==============================================
 
 //==============Production======================

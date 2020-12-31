@@ -403,7 +403,7 @@ class DesignerStudio extends React.Component {
 		attachIconsToElem(components)
 		let currentReactNode = this
 		editor.on("component:selected", function (args) {
-			// args.set("resizable", true);
+			args.set("resizable", true);
 			currentReactNode.setState({ gjsSelected: editor.getSelected() })
 		});
 		editor.on("storage:start", () => {
