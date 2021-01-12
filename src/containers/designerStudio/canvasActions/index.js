@@ -46,13 +46,19 @@ class CanvasActions extends React.Component {
         if (components && components.length > 1) {
             //  filter this array wrt the reqd types of components (remove br ,etc) list -> type: ['textnode'], tag: ['br', 'script', 'style']
             let filteredComponents = components.map(comp => {
-                let elmTypecheck = !['br', 'script', 'style', 'NULL'].includes(comp.attributes.tagName) && !['textnode'].includes(comp.attributes.type)
+                let elmTypecheck = !['br', 'script', 'style', 'NULL'].includes(comp.attributes.tagName)
+                    &&
+                    !['textnode'].includes(comp.attributes.type)
+                    &&
+                    !comp.attributes.attributes['data-ss-scroll-effect']
+                    &&
+                    !comp.attributes.attributes['data-ss-mouse-effect']
                 let check = elmTypecheck
                 if (check) {
                     return comp
                 } else return null
             })
-            filteredComponents = filteredComponents.filter(function (model) { return model && getComputedStyle(model.view.el).position != 'absolute'; })
+            filteredComponents = filteredComponents.filter(function (model) { return model && !['absolute', 'fixed', 'sticky'].includes(getComputedStyle(model.view.el).position); })
             if (filteredComponents.length <= 1) {
                 return
             }

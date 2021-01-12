@@ -108,32 +108,52 @@ class Slider extends React.Component {
                 integerEdit,
                 showDegSign,
                 min,
+                minLimit,
                 max,
+                maxLimit,
+                style,
                 unit,   //optional
                 step,   //optional
                 onChange, //form item specific change
+                dividerposPercent,
                 // rules,
                 // multiple,
             },
             globalOnChange //complete form specific change
         } = this.props
-        const { value, unitValue } = this.state
+        const { value, unitValue, inputWidth } = this.state
         return (
             <div className={'slider-container'}>
-                <div className={'slider-center-divider'}></div>
-                <input type="range" ref={this.sliderRef} className={'slider'} min={min ? `${min}` : "0"} max={max ? `${max}` : "100"} value={value} onChange={(e) => { this.onChange(e.target.value) }} />
+                <div className={'slider-center-divider'} style={{ left: dividerposPercent }}></div>
+                <input type="range" ref={this.sliderRef} className={'slider'} min={min ? `${min}` : "0"} max={max ? `${max}` : "100"} value={value}
+                    style={{ width: style && style.sliderWidth }}
+                    onChange={(e) => {
+                        let value = e.target.value
+                        if (parseInt(value) < parseInt(minLimit)) {
+                            this.setState({ value })
+                            value = minLimit
+                        }
+                        if (parseInt(value) > parseInt(maxLimit)) {
+                            this.setState({ value })
+                            value = maxLimit
+                        }
+                        this.onChange(value)
+                    }}
+                />
                 <div className={'value'}>
                     {
-                        integerEdit && <Integer meta={{ defaultUnit: defaultUnit, value: `${value}`, min, max, onChange: (val) => { 
-                            let value = val
-                            // if (parseInt(value) > 100) {
-                            //     value = '100%'
-                            // }
-                            this.onChange(value)
-                         } }} />
+                        integerEdit && <Integer meta={{
+                            defaultUnit: defaultUnit, value: `${value}`, min, max, onChange: (val) => {
+                                let value = val
+                                // if (parseInt(value) > 100) {
+                                //     value = '100%'
+                                // }
+                                this.onChange(value)
+                            }
+                        }} />
                     }
                     {
-                        !integerEdit && <div>{value + ' ' + `${showDegSign ? (unitValue == 'deg' ? '°' : unitValue) : unitValue }`}</div>
+                        !integerEdit && <div>{value + ' ' + `${showDegSign ? (unitValue == 'deg' ? '°' : unitValue) : unitValue}`}</div>
                     }
                 </div>
 

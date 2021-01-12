@@ -2414,10 +2414,10 @@ export const template1Html = `
                       <div class="col-lg-6 col-md-6 mb-12 no-flex">
                           <img class="img-responsive img" src="${assetsUrl}/templates/spa/images/about-us-img.jpg">
                       </div>
-                      <div class="col-lg-6 col-md-6 mb-12 text-left About-tet no-flex">
+                      <div class="col-lg-6 col-md-6 mb-12 text-left About-tet no-flex" id="uniqueId">
                           <p class="Abt-txt">About Us</p>
-                          <h1 class="top-heading">Treat Yourself to<br> 
-          a Relaxing Day at<br> 
+                          <h1 class="top-heading">Treat Yourself to<br>
+          a Relaxing Day at<br>
           the Spa</h1>
                           <P class="top-paragraph info-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</P>
                           <button class="know-more-button click-btn">KNOW MORE</button>
@@ -2867,8 +2867,6 @@ export const template1Html = `
     })
   })
   </script>
-  
-  
   `;
 //   ===================================================
 

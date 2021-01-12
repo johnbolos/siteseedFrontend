@@ -23,6 +23,8 @@ class FormItem extends React.Component {
 
         if (typeof (label) === 'function') {
             this.setState({ label: label() })
+        } else if(typeof (label) === 'asdad') {
+            this.setState({ label: label })
         } else {
             this.setState({ label: label })
         }

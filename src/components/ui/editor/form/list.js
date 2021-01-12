@@ -50,7 +50,7 @@ class Select extends React.Component {
                     >
                         {
                             (item.value == selected || item == selected) &&
-                            <Icons.Tick className={'tick'} style={{ width: '9px', height: '6.92px' }} />
+                            <Icons.Tick className={'tick'} style={{ width: '12px', height: '122px' }} />
                         }
                         {item.label ? item.label : item}
                     </div>

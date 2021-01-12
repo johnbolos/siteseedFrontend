@@ -99,6 +99,59 @@ const styleManager = {
 					}
 					// ------------------------------------------------------------------------------------------------------------
 
+
+					let script = document.createElement("script");
+					script.id = 'ss-animate-init'
+					script.innerHTML = `ssAnimateInit()`
+					// script.innerHTML = `
+					// 	console.log('sss.p aaaaaaaaaaaaabbbb');
+					// 	controller = null;
+					// 	tl = null;
+					// 	if (typeof(scene) === 'undefined') {
+					// 	scene = [];
+					// 	} else if (scene.find((item) => item !== null)) {
+					// 	  //	object present
+					// 	  scene.forEach((scn, key) => {
+					// 		  scn.removeTween(true);
+					// 		  scn.destroy(true);
+					// 	  });
+					// 	  scene = []
+					// 	}
+					// 	  controller = new ScrollMagic.Controller();
+						
+					// 	tl = new TimelineMax();
+					// 	var child = $(".know-more-button.click-btn");
+					// 	tl.to(child, 1, {
+					// 	//   y: '-300%',	//move vertically top
+					// 	  x: '-300%',	//move horizontally left
+					// 	//   rotation: 360 * 10,	//rotate
+					// 	//   scale: -100,	//scale
+					// 	//   '-webkit-filter': 'blur(10px)',
+					// 	//   'filter': 'blur(10px)',
+					// 	//   autoAlpha: 0,	//transparency
+					// 	  ease: Linear.easeNone
+					// 	});
+						
+					// 	scene.push(
+					// 		new ScrollMagic.Scene({
+					// 			//   triggerElement: "#uniqueId",
+					// 			  triggerHook: 0.2,
+					// 			  offset: '625.4000000000001px',
+					// 			  duration: "60%"
+					// 			})
+					// 			.setTween(tl)
+					// 			.addIndicators({
+					// 			  colorTrigger: "black",
+					// 			  colorStart: "black",
+					// 			  colorEnd: "black",
+					// 			  indent: 10
+					// 			})
+					// 			.addTo(controller)
+					// 	);
+					// 	  `;
+
+					gjsCssRules.insertAdjacentElement("afterend", script);
+
 					// if (
 					// 	styleObj.data &&
 					// 	styleObj.data.stylesObj[0] &&
@@ -432,7 +485,7 @@ const styleManager = {
 			// 	return resp
 			// }
 			// ===================================================== ====================== =====================================================
-			
+
 			resp = getComputedStyle(selected.node)[key];
 			resp = resp.replace(' !important', '')
 			if (key == 'font-family') {
@@ -707,6 +760,18 @@ const styleManager = {
 		innerHTML = innerHTML.replace('</style>', '')
 		style.innerHTML = innerHTML
 	},
+	resetAnim: () => {
+		let frame = document.getElementsByClassName("gjs-frame")
+		let doc = frame[0].contentWindow.document
+		const script = doc.getElementById("ss-animate-init")
+		// script.innerHTML = ""
+		script.remove();
+		const gjsCssRules = doc.querySelector(".gjs-css-rules")
+		let newScript = document.createElement("script");
+		newScript.id = 'ss-animate-init'
+		newScript.innerHTML = `ssAnimateInit()`
+		gjsCssRules.insertAdjacentElement("afterend", newScript);
+	}
 };
 
 export const customEvents = {

@@ -1,3 +1,5 @@
+import { assetsUrl } from "../settings"
+
 const initialState = {
     currentUser: null,
     userS3Dir: null,
@@ -5,8 +7,8 @@ const initialState = {
         image: [
             'http://grapesjs.com/img/work-desk.jpg',
             'https://i.ytimg.com/vi/hF_LjTUvP-U/maxresdefault.jpg',
-            '${assetsUrl}/templates/spa/images/about-us-img.jpg',
-            '${assetsUrl}/templates/spa/images/Banner.jpg',
+            `${assetsUrl}/templates/spa/images/about-us-img.jpg`,
+            `${assetsUrl}/templates/spa/images/Banner.jpg`,
             'https://r1.ilikewallpaper.net/iphone-x-wallpapers/download/78985/joker-2019-movie-iphone-x-wallpaper-ilikewallpaper_com_200.jpg',
         ],
         fonts: [

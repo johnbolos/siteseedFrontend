@@ -403,8 +403,10 @@ class DesignerStudio extends React.Component {
 		attachIconsToElem(components)
 		let currentReactNode = this
 		editor.on("component:selected", function (args) {
-			args.set("resizable", true);
+			// args.set("resizable", true);
 			currentReactNode.setState({ gjsSelected: editor.getSelected() })
+
+			// _grapesEditor.styleManager.resetAnim()
 		});
 		editor.on("storage:start", () => {
 			let { currentPage, pages } = this.props.pageReducer;
@@ -495,6 +497,9 @@ class DesignerStudio extends React.Component {
 		editor.on('load', () => {
 			this.setScrollBarStyle()
 			this.temp();
+			setTimeout(() => {
+			_grapesEditor.styleManager.resetAnim()
+			}, 500)
 
 			// ==========================Workaround mandatory to run certain templates which uses aos script===============================
 			_grapesEditor.editor.runCommand('preview')

@@ -14,6 +14,7 @@ import { customEvents } from '../../../components/utils/grapesEditor/styleManage
 import Icons from '../../../assets/Icons'
 import { CreateForm } from '../../../components/ui/editor'
 import Integer from "../../../components/ui/editor/form/types/integer"
+import MtnEffects from "./motionEffectsForm"
 
 class StyleManager extends React.Component {
     constructor(props) {
@@ -151,7 +152,7 @@ class StyleManager extends React.Component {
         }
 
         if (pseudoClass == 'normal') {  // using !important css rule for normal pseudoclass
-            if (!["width", "height"].includes(item.key)) {
+            if (!["width", "height", 'transform'].includes(item.key)) {
                 item.value = item.value + ' !important'
             }
         }
@@ -2447,6 +2448,10 @@ class StyleManager extends React.Component {
                 children: (<CreateForm fields={flexFormFields} globalOnChange={this.globalOnChange} getFormData={(fn) => {
                     this.getFormDataFlex = fn
                 }} />),
+            },
+            {
+                label: 'Motion Effects',
+                children: (<MtnEffects selected={this.props.selected}/>),
             },
         ]
         return (
