@@ -364,17 +364,22 @@ class DesignerStudio extends React.Component {
 				const keymaps = editor.Keymaps;
 				keymaps.remove('core:redo')
 				keymaps.remove('core:undo')
+				keymaps.add('ns:undo', '⌘+z, ctrl+z', 'ss-undo');
+				keymaps.add('ns:redo', '⌘+y, ctrl+y', 'ss-redo');
 				let frame = document.getElementsByClassName("gjs-frame");
 				let contentWindow = frame[0].contentWindow;
 				// contentWindow.addEventListener("onclick", (e) => {
-					// _grapesEditor.styleManager.addEvents(
-					// 	{ elem: e.target, node: this },
-					// 	{ pseudoClass: this.props.pseudoClass }
-					// );
-					// _grapesEditor.styleManager.addEvents({ e, node: this }, { pseudoClass: 'hover' })
+				// _grapesEditor.styleManager.addEvents(
+				// 	{ elem: e.target, node: this },
+				// 	{ pseudoClass: this.props.pseudoClass }
+				// );
+				// _grapesEditor.styleManager.addEvents({ e, node: this }, { pseudoClass: 'hover' })
 				// });
 				contentWindow.addEventListener("mousedown", (e) => {
 					let elem = e.target
+					if (elem.tagName == "HTML") {
+						return
+					}
 					if (e.target.id == 'ss-upload-container') {	// Imp Workaround as selected elem is set data-gjs-selectable: false
 						elem = e.target.parentNode
 					}
@@ -431,7 +436,7 @@ class DesignerStudio extends React.Component {
 		})
 		const um = editor.UndoManager;
 		um.remove(editor.getStyle());
-		editor.Commands.add("ss-style-undo", async editor => {
+		editor.Commands.add("ss-undo", async editor => {
 			let times = 1
 			if (this.props.past && this.props.past.length > 2 && this.props.present.status == 'style') {
 				times = 2
@@ -465,8 +470,14 @@ class DesignerStudio extends React.Component {
 		});
 		editor.on('block:drag:stop', model => {
 			console.log('sss.p blockdrag')
+			let components = this.getAllComponents(editor.DomComponents.getWrapper());
+			attachIconsToElem(components)
+			editor.LayerManager.render();
 		})
-		editor.Commands.add("ss-style-redo", async editor => {
+		editor.on('component:drag:end', model => {
+			_grapesEditor.styleManager.resetAnim()
+		})
+		editor.Commands.add("ss-redo", async editor => {
 			let times = 1
 			if (this.props.future && this.props.future.length > 0 && this.props.future[0].status == 'style') {
 				times = 2
@@ -498,7 +509,7 @@ class DesignerStudio extends React.Component {
 			this.setScrollBarStyle()
 			this.temp();
 			setTimeout(() => {
-			_grapesEditor.styleManager.resetAnim()
+				_grapesEditor.styleManager.resetAnim()
 			}, 500)
 
 			// ==========================Workaround mandatory to run certain templates which uses aos script===============================
@@ -512,6 +523,10 @@ class DesignerStudio extends React.Component {
 		});
 		// =========================================
 	};
+	resetBuilder = () => {
+		console.log('sss.p resettings builder...')
+		this.resetSwapper()
+	}
 
 	restrictDrag = (componentType) => {	//currently not in use / WORKING ==> change properties of components dynamically
 		const { editor } = _grapesEditor;
@@ -659,7 +674,9 @@ class DesignerStudio extends React.Component {
 									<Plus />
 								</span>
 							</div>
-							<CanvasActions gjsSelected={this.state.gjsSelected}/>
+							<CanvasActions gjsSelected={this.state.gjsSelected} resetSwapper={(fn) => {
+								this.resetSwapper = fn
+							}} />
 							<HelpNSupport />
 							<div
 								id='style-manager'
@@ -672,7 +689,7 @@ class DesignerStudio extends React.Component {
 								{/* <button onClick={this.addStyleData}>Add Data</button> */}
 								{/* <button onClick={() => { this.historyChange('undo') }}>Undo</button>
                                 <button onClick={() => { this.historyChange('redo') }}>Redo</button> */}
-								<StylePanel selected={selected} parentNode={this} />
+								<StylePanel selected={selected} gjsSelected={this.state.gjsSelected} parentNode={this} resetBuilder={this.resetBuilder} />
 							</div>
 							{assetsManager && <AssetsManager selected={selected} />}
 						</div>

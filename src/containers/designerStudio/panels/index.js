@@ -46,7 +46,7 @@ export default (editor, config) => {
 					id: "undo",
 					//className: "fa fa-undo",
 					// command: (e) => e.runCommand("core:undo"),
-					command: (e) => e.runCommand("ss-style-undo"),
+					command: (e) => e.runCommand("ss-undo"),
 					label: `<div class="tooltip"><div><svg width="22" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path d="M6.25 4.84375L3.4375 7.65624L6.25 10.4688V8.12505H12.8125C14.3787 8.12505 15.625 9.37129 15.625 10.9375C15.625 12.5038 14.3787 13.75 12.8125 13.75H10V14.6875H12.8125C14.8819 14.6875 16.5625 13.0069 16.5625 10.9375C16.5625 8.86814 14.8819 7.18754 12.8125 7.18754H6.25V4.84375Z" fill="#C0C0C0"/>
 					</svg></div>
@@ -56,7 +56,7 @@ export default (editor, config) => {
 				{
 					id: "redo",
 					//className: "fa fa-repeat",
-					command: (e) => (e.runCommand("ss-style-redo")) ,
+					command: (e) => (e.runCommand("ss-redo")) ,
 					label: `<div class="tooltip"><div><svg width="22" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path d="M13.75 4.84375L16.5625 7.65624L13.75 10.4688V8.12505H7.1875C5.62127 8.12505 4.375 9.37129 4.375 10.9375C4.375 12.5038 5.62127 13.75 7.1875 13.75H10V14.6875H7.1875C5.11811 14.6875 3.4375 13.0069 3.4375 10.9375C3.4375 8.86814 5.11811 7.18754 7.1875 7.18754H13.75V4.84375Z" fill="#C0C0C0"/>
 					</svg></img></div>

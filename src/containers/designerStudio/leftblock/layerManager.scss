@@ -1,5 +1,24 @@
 @import "../../../assets/theme/editorTheme.scss";
 
+#layers {
+  .collapse-all {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    .theme-dark & {
+      background-color: map-get($dark, "background6");
+    }
+    .theme-light & {
+      background-color: map-get($light, "background6");
+    }
+  }
+}
+
+
 #layer-manager {
   width: 100%;
   //margin-top: 10px;

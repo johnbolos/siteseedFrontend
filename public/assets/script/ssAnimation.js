@@ -96,7 +96,7 @@ createScrollAnim = (node) => {
                     direction = 1
                 }
                 // speed = speed    // no change
-                tweenConfig.rotation = direction * speed
+                tweenConfig.scale = direction * speed
                 break;
         }
 

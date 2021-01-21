@@ -123,7 +123,7 @@ class MtnEffects extends React.Component {
         //         this.globalMouseOnChange(null, 'remove')
         //     }
         // }
-        if (prevState.currentScrollEditKey != this.state.currentScrollEditKey) {
+        if (prevState.currentScrollEditKey != this.state.currentScrollEditKey && this.state.currentScrollEditKey != '') {
             this.createscrollValues()
         }
     }
@@ -154,7 +154,27 @@ class MtnEffects extends React.Component {
             return
         }
         let valArr = selected.node.getAttributeNode("data-ss-scroll-effect").value.split(', ')
-        let currentAnimValue = valArr.find(animStr => animStr.includes(currentScrollEditKey)).trim().split(' ')
+        console.log('sss.p val', valArr, currentScrollEditKey)
+        // if (!valArr.length || valArr[0] == '') {
+        //     this.setState({ scrollAnimDir: 'Please Select a Scroll Effect', scrollAnimSpeed: 50, scrollAnimVpBottom: 0, scrollAnimVpTop: 100 })
+        //     this.getDirOptions()
+        //     return
+        // }
+        // if (valArr.length && !valArr.find(animStr => animStr.includes(currentScrollEditKey))) {
+
+        // } else {
+
+        // }
+        let currentAnimValue = ''
+        if (valArr.length == 1) {
+            currentAnimValue = valArr[0].trim().split(' ')
+        } else {
+            currentAnimValue = valArr.find(animStr => animStr.includes(currentScrollEditKey))
+            if (!currentAnimValue) {
+                return
+            }
+            currentAnimValue = currentAnimValue.trim().split(' ')
+        }
 
         const scrollAnimDir = currentAnimValue[1].trim()
         this.getDirOptions()
@@ -265,7 +285,14 @@ class MtnEffects extends React.Component {
         }
         if (key == 'remove') {
             let selectedComponent = _grapesEditor.editor.getSelected()
-            selectedComponent.setAttributes({ 'data-ss-scroll-effect': null })
+            let attributes = {}
+            if (selectedComponent.attributes.attributes) {
+                attributes = selectedComponent.attributes.attributes
+                delete attributes['data-ss-scroll-effect']
+                delete attributes['data-ss-mouse-effect']
+                delete attributes['data-aos']
+            }
+            selectedComponent.setAttributes({ 'data-ss-scroll-effect': null, ...attributes })
             // reset animation
             _grapesEditor.styleManager.resetAnim()
             return
@@ -315,7 +342,14 @@ class MtnEffects extends React.Component {
         }
         // set selected scroll attribute = resp
         let selectedComponent = _grapesEditor.editor.getSelected()
-        selectedComponent.setAttributes({ 'data-ss-scroll-effect': scrollResp })
+        let attributes = {}
+        if (selectedComponent.attributes.attributes) {
+            attributes = selectedComponent.attributes.attributes
+            delete attributes['data-ss-scroll-effect']
+            delete attributes['data-ss-mouse-effect']
+            delete attributes['data-aos']
+        }
+        selectedComponent.setAttributes({ 'data-ss-scroll-effect': scrollResp, ...attributes })
         // reset animation
         _grapesEditor.styleManager.resetAnim()
         this.createScrollAnimTypesValue(setCurrentAnimValue)
@@ -345,7 +379,14 @@ class MtnEffects extends React.Component {
         }
         if (key == 'remove') {
             let selectedComponent = _grapesEditor.editor.getSelected()
-            selectedComponent.setAttributes({ 'data-ss-mouse-effect': null })
+            let attributes = {}
+            if (selectedComponent.attributes.attributes) {
+                attributes = selectedComponent.attributes.attributes
+                delete attributes['data-ss-scroll-effect']
+                delete attributes['data-ss-mouse-effect']
+                delete attributes['data-aos']
+            }
+            selectedComponent.setAttributes({ 'data-ss-mouse-effect': null,...attributes })
             // reset animation
             _grapesEditor.styleManager.resetAnim()
             return
@@ -365,7 +406,14 @@ class MtnEffects extends React.Component {
             mouseResp = valArr.join(' ')
         }
         let selectedComponent = _grapesEditor.editor.getSelected()
-        selectedComponent.setAttributes({ 'data-ss-mouse-effect': mouseResp })
+        let attributes = {}
+        if (selectedComponent.attributes.attributes) {
+            attributes = selectedComponent.attributes.attributes
+            delete attributes['data-ss-scroll-effect']
+            delete attributes['data-ss-mouse-effect']
+            delete attributes['data-aos']
+        }
+        selectedComponent.setAttributes({ 'data-ss-mouse-effect': mouseResp, ...attributes })
         // reset animation
         _grapesEditor.styleManager.resetAnim()
         this.createMouseValues()
@@ -394,13 +442,27 @@ class MtnEffects extends React.Component {
         }
         if (isNull(value)) {
             let selectedComponent = _grapesEditor.editor.getSelected()
-            selectedComponent.setAttributes({ 'data-aos': 'none' })
+            let attributes = {}
+            if (selectedComponent.attributes.attributes) {
+                attributes = selectedComponent.attributes.attributes
+                delete attributes['data-ss-scroll-effect']
+                delete attributes['data-ss-mouse-effect']
+                delete attributes['data-aos']
+            }
+            selectedComponent.setAttributes({ 'data-aos': 'none', ...attributes })
             // reset animation
             _grapesEditor.styleManager.resetAnim()
             return
         }
         let selectedComponent = _grapesEditor.editor.getSelected()
-        selectedComponent.setAttributes({ 'data-aos': resp })
+        let attributes = {}
+        if (selectedComponent.attributes.attributes) {
+            attributes = selectedComponent.attributes.attributes
+            delete attributes['data-ss-scroll-effect']
+            delete attributes['data-ss-mouse-effect']
+            delete attributes['data-aos']
+        }
+        selectedComponent.setAttributes({ 'data-aos': resp, ...attributes })
         // reset animation
         _grapesEditor.styleManager.resetAnim()
         this.createEnteranceValue()
@@ -422,6 +484,11 @@ class MtnEffects extends React.Component {
                 containerClass: 'scroll-effect-type-select',
                 // width: '48%',
                 onChange: (value, key) => {
+                    if (!value.length || !value[0]) {
+                        this.setState({ currentScrollEditKey: '' })
+                        this.globalScrollOnChange(null, 'remove')
+                        return
+                    }
                     this.globalScrollOnChange(value, key)
                 },
                 options: [  //optional type: Array of string, Array of objects

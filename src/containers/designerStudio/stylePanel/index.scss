@@ -64,6 +64,32 @@
       border-bottom-color: map-get($dark, "background3");
     }
 
+    .selectedElemInfo {
+      display: flex;
+      position: absolute;
+      right: 20px;
+      top: 10px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 13px;
+      line-height: 16px;
+      border: 1px solid red;
+      // border-color: #444444;
+      border-color: map-get($primary, "background");
+      color: map-get($primary, "background");
+      .theme-light & {
+        background-color: map-get($light, "background2");
+      }
+      .theme-dark & {
+        background-color: map-get($dark, "background2");
+      }
+    }
+    .selectedElemInfo.warning {
+      border-color: map-get($primary, "danger");
+      color: map-get($primary, "danger");
+    }
     .heading {
       margin-bottom: 6px;
     }
@@ -372,12 +398,16 @@
         align-items: center;
       }
     }
+    .composite-field {
+      position: relative;
+    }
     .background-composite-field {
       font-family: "Source Sans Pro";
       font-style: normal;
       font-weight: normal;
       font-size: 11px;
       line-height: 16px;
+      position: relative;
       .select-container {
         .input {
           padding: 2px 7px 2px 7px !important;
@@ -1040,6 +1070,29 @@
             fill: map-get($dark, "color");
           }
         }
+      }
+    }
+    .composite-index {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 13px;
+      line-height: 16px;
+      width: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 30%;
+      border: 1px solid black;
+      .theme-light & {
+        background-color: map-get($light, "background2");
+        border-color: map-get($light, "background3");
+      }
+      .theme-dark & {
+        background-color: map-get($dark, "background3");
+        border-color: map-get($dark, "background3");
       }
     }
     .composite-cross {

@@ -152,7 +152,7 @@ class StyleManager extends React.Component {
         }
 
         if (pseudoClass == 'normal') {  // using !important css rule for normal pseudoclass
-            if (!["width", "height", 'transform'].includes(item.key)) {
+            if (!["width", "height", 'transform', 'box-shadow'].includes(item.key)) {
                 item.value = item.value + ' !important'
             }
         }
@@ -232,6 +232,10 @@ class StyleManager extends React.Component {
             //     SSStyle.innerHTML = str;
             // }
         }
+
+        // ==============================resetSwapper======================================
+        this.props.resetBuilder && this.props.resetBuilder()
+        // ================================================================================
 
         //set selected
         if (pseudoClass == 'normal') {
@@ -824,6 +828,7 @@ class StyleManager extends React.Component {
         }
         return (<div className={'background-composite-field'}>
             {/* {`${hOffset} ${vOffset} ${blur} ${spread} ${color} ${type}`} */}
+            <div class={'composite-index'}>{key + 1}</div>
             <div className={'composite-cross'}>
                 <Icons.Plus onClick={() => {
                     handleOnChange({}, 'backgroundRemove')
@@ -957,9 +962,10 @@ class StyleManager extends React.Component {
                 value: color,
             },
         ]
-        return <div>
+        return <div className={'composite-field'}>
             {/* {`${hOffset} ${vOffset} ${blur} ${spread} ${color} ${type}`} */}
-            <div className={'composite-cross'}>
+            <div class={'composite-index'}>{key + 1}</div>
+            <div className={'composite-cross'} style={{ marginBottom: '5px' }}>
                 <Icons.Plus onClick={() => {
                     if (textShadowRep - 1 == 0) {
                         handleOnChange('none', 'delete')
@@ -1158,9 +1164,10 @@ class StyleManager extends React.Component {
                 value: color,
             },
         ]
-        return <div>
+        return <div className={'composite-field'}>
             {/* {`${hOffset} ${vOffset} ${blur} ${spread} ${color} ${type}`} */}
-            <div className={'composite-cross'}>
+            <div class={'composite-index'}>{key + 1}</div>
+            <div className={'composite-cross'} style={{ marginBottom: '5px' }}>
                 <Icons.Plus onClick={() => {
                     if (boxShadowRep - 1 == 0) {
                         handleOnChange('none', 'delete')
@@ -2451,7 +2458,7 @@ class StyleManager extends React.Component {
             },
             {
                 label: 'Motion Effects',
-                children: (<MtnEffects selected={this.props.selected}/>),
+                children: (<MtnEffects selected={this.props.selected} />),
             },
         ]
         return (

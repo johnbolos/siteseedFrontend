@@ -1903,7 +1903,7 @@ export const html = `
 <section id="section-one">      
 <div class="row top-banner ">
 <img class="img-fluid bg-img web-img" alt="#" src="${assetsUrl}/templates/therapists/images/2x/Hero_Banner.jpg">
-<img class="img-fluid bg-img big-img" alt="#"src="${assetsUrl}/templates/therapists/images/2x//banner-1920.jpg">       
+<img class="img-fluid bg-img big-img" alt="#"src="${assetsUrl}/templates/therapists/images/2x/banner-1920.jpg">       
 <img class="img-fluid bg-img mobi-img" alt="#"src="${assetsUrl}/templates/therapists/images/2x/mobile-image.png">
 <img class="img-fluid bg-img topipad-img" alt="#"src="${assetsUrl}/templates/therapists/images/2x/banner-ipad.jpg">      
   <div class="top-text">

@@ -22,11 +22,11 @@ class StylePanel extends React.Component {
 				{/* <pre className={'pre'} style={{ whiteSpace: 'break-spaces' }}>{JSON.stringify(selected.styleInfo)}</pre> */}
 				<div className={"styles-container"}>
 					{/* classes */}
-					<ClassManager selected={selected} editorNode={parentNode} />
+					<ClassManager selected={selected} gjsSelected={this.props.gjsSelected} editorNode={parentNode} />
 					{/* Settings */}
 					<Traits />
 					{/* styles */}
-					<StyleManager selected={selected} editorNode={parentNode} />
+					<StyleManager selected={selected} editorNode={parentNode} resetBuilder={this.props.resetBuilder} />
 				</div>
 				{/* View Mode */}
 				<ViewMode selected={selected} editorNode={parentNode} />

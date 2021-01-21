@@ -47,6 +47,9 @@ const styleManager = {
 		// }
 
 		let frame = document.getElementsByClassName("gjs-frame");
+		if (!frame[0]) {
+			return
+		}
 		const grapesDocument = frame[0].contentWindow.document;
 		let body = grapesDocument.getElementsByTagName("body");
 		frame[0].contentWindow.addEventListener(
@@ -476,7 +479,7 @@ const styleManager = {
 		let { styleInfo } = selected;
 		let resp = styleInfo.styles[key];
 		let chromeNNotBorder = window.chrome || !key.includes('border')	// If browser is firefox then dont follow getComputedStyles approach for border property
-		let skipComputed = ['box-shadow'].includes(key)	// For css rules which shouldn't follow getComputedStyles approach
+		let skipComputed = ['box-shadow', 'width', 'height'].includes(key)	// For css rules which shouldn't follow getComputedStyles approach
 		if (pseudoClass == 'normal' && chromeNNotBorder && !skipComputed) {
 
 			// ===================================================== Not sure if important =====================================================
@@ -762,6 +765,9 @@ const styleManager = {
 	},
 	resetAnim: () => {
 		let frame = document.getElementsByClassName("gjs-frame")
+		if (!frame[0]) {
+			return
+		}
 		let doc = frame[0].contentWindow.document
 		const script = doc.getElementById("ss-animate-init")
 		// script.innerHTML = ""

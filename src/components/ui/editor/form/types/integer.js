@@ -104,6 +104,8 @@ class Integer extends React.Component {
                         if (value == '' && (this.props.meta.key == 'max-height' || this.props.meta.key == 'max-width')) {
                             console.log('sss.p sending none')
                             value = 'none'
+                        } else if (value == '' && (this.props.meta.key == 'height' || this.props.meta.key == 'width' || this.props.meta.key == 'flex-basis')) {
+                            value = 'auto'
                         } else if (value == '') {
                             value = 0
                         }

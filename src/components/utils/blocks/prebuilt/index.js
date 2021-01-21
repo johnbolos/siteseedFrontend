@@ -1646,7 +1646,7 @@ export const prebuiltBlocks = (editor) => {
         endText: 'EXPIRED',
 
         // Date input type, eg, 'date', 'datetime-local'
-        dateInputType: 'date',
+        dateInputType: 'datetime-local',
 
         // Countdown class prefix
         countdownClsPfx: 'countdown',

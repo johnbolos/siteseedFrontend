@@ -4,6 +4,7 @@ import { search as Search } from "./icons";
 import "./layerManager.scss";
 import $ from "jquery";
 import { debounce } from "lodash";
+import _grapesEditor from "../../../components/utils/grapesEditor";
 
 class LayerManager extends React.Component {
 	state = {
@@ -47,16 +48,30 @@ class LayerManager extends React.Component {
 		}
 	};
 
+	collapseAll = () => {
+		const { editor } = _grapesEditor
+		let components = this.getAllComponents(editor.DomComponents.getWrapper());
+		components.forEach((model) => {
+			model.set('open', false)
+		})
+	}
+
+	getAllComponents = (model, result = []) => {
+		result.push(model);
+		model.components().each(mod => this.getAllComponents(mod, result))
+		return result;
+	}
+
 	render() {
-		
-	// 	$(".gjs-layer-caret").before(`<div data-toggle-move="true" style="
-	// 	display: flex;
-	// 	height: 100%;
-	// 	width: 110%;
-	// 	position: absolute;
-	// 	left: -10px;
-	// 	top: 0;
-	// "></div>` );
+
+		// 	$(".gjs-layer-caret").before(`<div data-toggle-move="true" style="
+		// 	display: flex;
+		// 	height: 100%;
+		// 	width: 110%;
+		// 	position: absolute;
+		// 	left: -10px;
+		// 	top: 0;
+		// "></div>` );
 		$(".gjs-layer__icon").attr("data-toggle-move", "true");
 		$(".gjs-layer-name").attr("data-toggle-move", "true");
 		// $(".gjs-layer-caret").attr("onclick", "this.stopPropagation();");
@@ -70,10 +85,17 @@ class LayerManager extends React.Component {
 						type='text'
 						placeholder='Search'
 						name='searchQuery'
-						style={{ width: "100%" }}
+						// style={{ width: "100%" }}
 						onChange={this.handleChange}
 						value={this.state.searchQuery}
 					/>
+					<div
+						className='collapse-all'
+						onClick={this.collapseAll}
+						title={'Collapse All'}
+					>
+						<i class="fa fa-compress" aria-hidden="true"></i>
+					</div>
 				</div>
 				<div style={{ borderBottom: "none" }}>
 					<div id='layer-manager'></div>

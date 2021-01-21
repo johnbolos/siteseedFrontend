@@ -12,6 +12,7 @@ class CanvasActions extends React.Component {
     };
 
     componentDidMount() {
+        this.props.resetSwapper && this.props.resetSwapper(this.createHorizSwapper.bind(this))
     }
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.gjsSelected == null && this.props.gjsSelected != null) {

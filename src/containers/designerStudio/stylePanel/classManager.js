@@ -81,6 +81,18 @@ class ClassManager extends React.Component {
                 this.props.dispatch(setPseudoClass('normal'))
             })
         }
+        if (prevProps.gjsSelected != this.props.gjsSelected) {
+            const { gjsSelected } = this.props
+            let value = ''
+            if (gjsSelected.attributes.name != '') {
+                value = gjsSelected.attributes.name
+            } else if (gjsSelected.attributes.type != '') {
+                value = gjsSelected.attributes.type
+            } else {
+                value = gjsSelected.attributes.tagName
+            }
+            this.setState({ selectedElemName: _.startCase(value) })
+        }
     }
     getClass = (node) => node.className.split(' ')
     toggleAddClass = () => {
@@ -147,10 +159,18 @@ class ClassManager extends React.Component {
         })
     }
     render() {
-        const { showTagInput, selectPseudoClass, pseudoClass } = this.state
+        const { showTagInput, selectPseudoClass, pseudoClass, selectedElemName } = this.state
         const { selected } = this.props
         return (
             <div className={'classes-container'}>
+                <div className={`selectedElemInfo ${selected && selected.node == null ? 'warning' : ''}`}>
+                    {
+                        selected && selected.node == null ? 
+                        'Select an Element' : (
+                            selectedElemName
+                        )
+                    }
+                </div>
                 <div className={'heading'}>Classes</div>
                 <div className={'input'}>
                     {/* <div style={{ width: '90%', height: '100%', display: 'flex', alignItems: 'center' }}> */}
