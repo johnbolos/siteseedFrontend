@@ -5,8 +5,8 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { createHashHistory, createBrowserHistory } from "history";
 import rootReducer from "./reducers";
-export const history = createHashHistory();
-// export const history = createBrowserHistory(); //createHistory()
+// export const history = createHashHistory();
+export const history = createBrowserHistory(); //createHistory()
 
 const initialState = {};
 const enhancers = [];

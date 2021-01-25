@@ -18,9 +18,7 @@ import { closestElement } from "../../components/utils/index";
 import { setCustomCss } from "../../reducers/actions/templateActions";
 
 // Templates =========================================================================
-// import { /* html, */ template1Html, template1Style } from "./dummie";
-// import { /* html, */ template1Html, template1Style } from "./dummieTemp";
-import { /* html, */ template1Html, template1Style, template1StyleCss, template1StyleMedia } from "./dummiev3";
+import { template1Html, template1Style, template1StyleCss, template1StyleMedia } from "./dummiev3";
 import restaurant1 from "../../assets/templates/restaurant1";
 import therapists from "../../assets/templates/therapists";
 import landingPageTemplate from "../../assets/templates/landingPage";
@@ -350,6 +348,7 @@ class DesignerStudio extends React.Component {
 		let html = pageReducer.pages[pageReducer.currentPage].components
 		let style = `<style> ${pageReducer.pages[pageReducer.currentPage].style} </style>`
 		let styleFontStr = pageReducer.pages[pageReducer.currentPage].styleFontStr
+		let mouseInLayers = false
 		// ==========================================================
 		_grapesEditor.init(
 			{
@@ -368,27 +367,42 @@ class DesignerStudio extends React.Component {
 				keymaps.add('ns:redo', '⌘+y, ctrl+y', 'ss-redo');
 				let frame = document.getElementsByClassName("gjs-frame");
 				let contentWindow = frame[0].contentWindow;
-				// contentWindow.addEventListener("onclick", (e) => {
-				// _grapesEditor.styleManager.addEvents(
-				// 	{ elem: e.target, node: this },
-				// 	{ pseudoClass: this.props.pseudoClass }
-				// );
-				// _grapesEditor.styleManager.addEvents({ e, node: this }, { pseudoClass: 'hover' })
-				// });
-				contentWindow.addEventListener("mousedown", (e) => {
-					let elem = e.target
-					if (elem.tagName == "HTML") {
+
+				// Temporary - Imp ==================================================================================================
+				let currentReactNode = this
+				editor.on("component:selected", function (args) {
+					let gjsSelected = editor.getSelected()
+					currentReactNode.setState({ gjsSelected })
+					let elem = gjsSelected.view && gjsSelected.view.el
+					if (!elem) {
 						return
 					}
-					if (e.target.id == 'ss-upload-container') {	// Imp Workaround as selected elem is set data-gjs-selectable: false
-						elem = e.target.parentNode
-					}
 					_grapesEditor.styleManager.addEvents(
-						{ elem, node: this },
-						{ pseudoClass: this.props.pseudoClass }
+						{ elem, node: currentReactNode },
+						{ pseudoClass: currentReactNode.props.pseudoClass }
 					);
-					// _grapesEditor.styleManager.addEvents({ e, node: this }, { pseudoClass: 'hover' })
 				});
+				// contentWindow.addEventListener("mousedown", (e) => {
+				// 	mouseInLayers = false
+				// 	let elem = e.target
+				// 	if (elem.tagName == "HTML") {
+				// 		return
+				// 	}
+				// 	if (e.target.id == 'ss-upload-container') {	// Imp Workaround as selected elem is set data-gjs-selectable: false
+				// 		elem = e.target.parentNode
+				// 	}
+				// 	_grapesEditor.styleManager.addEvents(
+				// 		{ elem, node: this },
+				// 		{ pseudoClass: this.props.pseudoClass }
+				// 	);
+				// 	mouseInLayers = true
+				// 	// _grapesEditor.styleManager.addEvents({ e, node: this }, { pseudoClass: 'hover' })
+				// });
+				// ===================================================================================================================
+
+
+				
+
 				// =============================Rich Text Editor=========================
 				const rte = editor.RichTextEditor;
 				rte.remove('link')
@@ -406,13 +420,17 @@ class DesignerStudio extends React.Component {
 		let navComp = components[54]
 		// navComp.set({ icon: '<i class="fa fa-arrows"></i>' })
 		attachIconsToElem(components)
-		let currentReactNode = this
-		editor.on("component:selected", function (args) {
-			// args.set("resizable", true);
-			currentReactNode.setState({ gjsSelected: editor.getSelected() })
 
-			// _grapesEditor.styleManager.resetAnim()
-		});
+		// Temporary - Imp ==================================================================================================
+		// let currentReactNode = this
+		// editor.on("component:selected", function (args) {
+		// 	// args.set("resizable", true);
+		// 	console.log(mouseInLayers, 'sss.p mouse over')
+		// 	currentReactNode.setState({ gjsSelected: editor.getSelected() })
+
+		// 	// _grapesEditor.styleManager.resetAnim()
+		// });
+		// ===================================================================================================================
 		editor.on("storage:start", () => {
 			let { currentPage, pages } = this.props.pageReducer;
 			let components = JSON.parse(JSON.stringify(editor.getHtml()));
@@ -572,7 +590,7 @@ class DesignerStudio extends React.Component {
 	@Debounce(500)
 	fun(mouse) {
 
-		const el = closestElement({ x: mouse.pageX, y: mouse.pageY }, "draggable");
+		// const el = closestElement({ x: mouse.pageX, y: mouse.pageY }, "draggable");
 
 	}
 	temp = () => {
@@ -638,7 +656,7 @@ class DesignerStudio extends React.Component {
 		const { selected } = this.state;
 		const { assetsManager, dispatch } = this.props
 		return (
-			<div className={`theme-${this.props.theme}`} style={{ height: '100%' }}>
+			<div className={`builder theme-${this.props.theme}`} style={{ height: '100%' }}>
 				<ToastContainer />
 				<div
 					style={{

@@ -22,7 +22,7 @@ class App extends Component {
 	render() {
 		const { user } = this.state;
 		return (
-			<>
+			<Switch>
 				{routes.map((item, key) => {
 					if (!item.children) {
 						return (
@@ -87,7 +87,7 @@ class App extends Component {
 						return <Redirect to={path} />;
 					}}
 				/>
-			</>
+			</Switch>
 		);
 	}
 }

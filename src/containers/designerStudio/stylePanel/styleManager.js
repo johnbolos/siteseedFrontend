@@ -109,6 +109,16 @@ class StyleManager extends React.Component {
         // if (item.key.includes('transform')) {
         //     status = 'style'
         // }
+
+        if (/px|em|%/g.test(item.value)) {
+            if(isNaN(parseInt(item.value.replace(/px|em|%/g, '')))) {
+                item.value = item.value.replace(/px|em|%/g, '')
+            }
+        }
+        // if (item.key == 'z-index') {
+        //     console.log('sss.p ', item)
+
+        // }
         if (item.key == 'margin' || item.key == 'padding') {
             let val = item.value.trim()
             val = val.split(' ')
@@ -249,6 +259,14 @@ class StyleManager extends React.Component {
                 }
                 this.state.globalOnchangeCallBack && this.state.globalOnchangeCallBack()
             })
+            if (item.key == 'position') {
+                // console.log(item.value.replace(''))
+                if (item.value.replace(' !important', '').trim() == 'fixed') {
+                    this.globalOnChange({key: 'z-index', value: '5'})
+                } else {
+                    this.globalOnChange({key: 'z-index', value: 'auto'})
+                }
+            }
             return
         }
         customEvents.saveStyleInfo({ elem: selected.node, node: editorNode }, { pseudoClass: pseudoClass }, () => {
@@ -262,6 +280,14 @@ class StyleManager extends React.Component {
             }
             this.state.globalOnchangeCallBack && this.state.globalOnchangeCallBack()
         })
+        if (item.key == 'position') {
+            // console.log(item.value.replace(''))
+            if (item.value.replace(' !important', '').trim() == 'fixed') {
+                this.globalOnChange({key: 'z-index', value: '5'})
+            } else {
+                this.globalOnChange({key: 'z-index', value: 'auto'})
+            }
+        }
 
     }
     createCategories = (data) => {

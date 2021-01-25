@@ -95,16 +95,17 @@ class Integer extends React.Component {
                     placeholder={(value == '' || disabled) ? 'Auto' : (isNaN(value) ? _.startCase(value) : '')}
                     onChange={(e) => {
                         let value = e.target.value
+                        const { key } = this.props.meta
                         if (!isNaN(parseInt(min)) && parseInt(value) < min) {
                             value = min
                         }
                         if (!isNaN(parseInt(max)) && value > max) {
                             value = max
                         }
-                        if (value == '' && (this.props.meta.key == 'max-height' || this.props.meta.key == 'max-width')) {
+                        if (value == '' && (key == 'max-height' || key == 'max-width')) {
                             console.log('sss.p sending none')
                             value = 'none'
-                        } else if (value == '' && (this.props.meta.key == 'height' || this.props.meta.key == 'width' || this.props.meta.key == 'flex-basis')) {
+                        } else if (value == '' && (['height', 'width', 'flex-basis', 'top', 'bottom', 'right', 'left'].includes(key))) {
                             value = 'auto'
                         } else if (value == '') {
                             value = 0

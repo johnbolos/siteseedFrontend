@@ -6,6 +6,7 @@ import Path from "path-parser";
 import Home from "./containers/home";
 import AllTemplates from "./containers/allTemplates";
 import DesignerStudio from "./containers/designerStudio";
+import Dashboard from "./containers/dashboard";
 // const Undercons = lazy(() => import('./containers/undercons'))
 
 const routes = [
@@ -20,12 +21,22 @@ const routes = [
 		authority: [],
 	},
 	{
+		path: "/dashboard",
+		name: "Dashboard",
+		icon: "dashboard",
+		key: "dashboard",
+		// showNavBar: true,
+		homepage: true,
+		component: Dashboard,
+		authority: [],
+	},
+	{
 		path: "/allTemplates",
 		name: "All Templates",
 		icon: "allTemplates",
 		key: "allTemplates",
 		// showNavBar: true,
-		homepage: true,
+		// homepage: true,
 		component: AllTemplates,
 		authority: [],
 	},

@@ -281,6 +281,7 @@ body .navbar .container-fluid {    padding-left: 0;    padding-right: 0;}
 .custom-sec2 .custom-playbtn .right {float: left;} 
 .custom-sec2 .custom-playbtn .right a img {    float: left;    margin-top: -8px;    margin-right: 15px;}
 .custom-sec2 .sec2-col-left .custom-playbtn a:hover {    cursor: pointer;}
+.custom-sec2 .custom-playbtn .right a .green {    display: none;}
 .custom-sec2 .custom-playbtn .right a:hover .green {    display: block !important;}
 .custom-sec2 .custom-playbtn .right a:hover .blue {    display: none;}
 

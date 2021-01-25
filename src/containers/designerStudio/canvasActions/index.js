@@ -19,7 +19,9 @@ class CanvasActions extends React.Component {
             this.resetOnScroll();
         }
         if (prevProps.gjsSelected != this.props.gjsSelected) {
-            this.createHorizSwapper()
+            this.setState({ swapperBtns: null }, () => {
+                this.createHorizSwapper()
+            })
         }
     }
     resetOnScroll = (cb) => {
@@ -63,6 +65,11 @@ class CanvasActions extends React.Component {
             if (filteredComponents.length <= 1) {
                 return
             }
+            // Ignore Draggable = false components
+            // filteredComponents = filteredComponents.filter(function (model) { return model && model.attributes.draggable })
+            // if (filteredComponents.length <= 1) {
+            //     return
+            // }
             // only show swap for elements which are horizontally parallel by creating swap pairs
             let swappair = []
             filteredComponents = filteredComponents.every(function (model, key) {

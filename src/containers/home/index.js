@@ -15,7 +15,9 @@ class Home extends React.Component {
         const { } = this.state
         const { dispatch } = this.props
         return (
-            <div></div>
+            <div>
+                Under Development
+            </div>
         )
     }
 }
