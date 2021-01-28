@@ -1312,3 +1312,9 @@
   }
   border-radius: 150px;
 }
+
+#style-manager.hideSettingsMessage {
+  .setting-message {
+    display: none;
+  }
+}

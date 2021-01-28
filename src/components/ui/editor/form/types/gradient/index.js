@@ -37,9 +37,11 @@ class Gradient extends React.Component {
             document.removeEventListener('mousemove', this.onMouseMove)
             document.removeEventListener('mouseup', this.onMouseUp)
         }
-        if (this.props.meta.value && (prevState.value != this.props.meta.value) && (prevProps.meta.value != this.props.meta.value)) {
-            this.initValue(this.props.meta.value, true)
-        }
+        // important turned off due to little lagging if any problems occurs then try turning this on======================================================
+        // if (this.props.meta.value && (prevState.value != this.props.meta.value) && (prevProps.meta.value != this.props.meta.value)) {
+        //     this.initValue(this.props.meta.value, true)
+        // }
+        // ================================================================================================================================================
     }
     getMouseRelPos = (event) => {
         let mouseX = event.pageX
@@ -270,6 +272,7 @@ class Gradient extends React.Component {
                 break;
         }
         this.setState({ value: gradient.join(''), [key]: val }, () => {
+            console.log(gradient.join(''), 'sss.p', Date.now())
             globalOnChange && globalOnChange(gradient.join(''))
         })
     }

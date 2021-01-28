@@ -84,6 +84,10 @@ class ClassManager extends React.Component {
         if (prevProps.gjsSelected != this.props.gjsSelected) {
             const { gjsSelected } = this.props
             let value = ''
+            if (!gjsSelected) {
+                this.setState({ selectedElemName: null })
+                return
+            }
             if (gjsSelected.attributes.name != '') {
                 value = gjsSelected.attributes.name
             } else if (gjsSelected.attributes.type != '') {

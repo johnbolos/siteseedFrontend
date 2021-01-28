@@ -27,7 +27,6 @@ class Dashboard extends React.Component {
         },
         {
             innerHTML: `
-            console.log('sss.p');
             var acc = document.getElementsByClassName("accordion");
             var i;
             

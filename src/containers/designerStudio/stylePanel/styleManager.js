@@ -111,14 +111,10 @@ class StyleManager extends React.Component {
         // }
 
         if (/px|em|%/g.test(item.value)) {
-            if(isNaN(parseInt(item.value.replace(/px|em|%/g, '')))) {
+            if(['auto', 'none'].includes(item.value)) {
                 item.value = item.value.replace(/px|em|%/g, '')
             }
         }
-        // if (item.key == 'z-index') {
-        //     console.log('sss.p ', item)
-
-        // }
         if (item.key == 'margin' || item.key == 'padding') {
             let val = item.value.trim()
             val = val.split(' ')
@@ -181,7 +177,7 @@ class StyleManager extends React.Component {
             componentModel && componentModel.addClass(uniqueClass)
         }
         let uniqueClassIndex = styleObj.length
-        selected.styleInfo.index.forEach(val => {
+        selected.styleInfo && selected.styleInfo.index.forEach(val => {
             if (pseudoClass == 'normal' && styleObj[val].selector.includes(':')) {
                 return
             }
@@ -260,7 +256,6 @@ class StyleManager extends React.Component {
                 this.state.globalOnchangeCallBack && this.state.globalOnchangeCallBack()
             })
             if (item.key == 'position') {
-                // console.log(item.value.replace(''))
                 if (item.value.replace(' !important', '').trim() == 'fixed') {
                     this.globalOnChange({key: 'z-index', value: '5'})
                 } else {
@@ -281,7 +276,6 @@ class StyleManager extends React.Component {
             this.state.globalOnchangeCallBack && this.state.globalOnchangeCallBack()
         })
         if (item.key == 'position') {
-            // console.log(item.value.replace(''))
             if (item.value.replace(' !important', '').trim() == 'fixed') {
                 this.globalOnChange({key: 'z-index', value: '5'})
             } else {
@@ -320,7 +314,7 @@ class StyleManager extends React.Component {
     extractTransform = () => {
         const { selected } = this.props
         let resp = this.state.transformValue
-        let transform = selected.styleInfo.styles && selected.styleInfo.styles[['transform']] || ''
+        let transform = selected.styleInfo && selected.styleInfo.styles && selected.styleInfo.styles[['transform']] || ''
         // transform = 'rotateX(45deg) rotateY(50deg)'      //deleteme
         if (transform != '') {
             transform = transform.split(' ')
@@ -443,13 +437,13 @@ class StyleManager extends React.Component {
     updateBackgroundProperty = (valArr, cb = () => { }) => {
         // evaluate and update specific property using this array
         let css = {
-            'background-color': ['rgba(0, 0, 0, 0)'],
             'background-image': [],
+            'background-color': ['rgba(0, 0, 0, 0)'],
             'background-position': [],
             'background-size': [],
             'background-attachment': [],
             'background-blend-mode': [],
-            'background-repeat': []
+            'background-repeat': [],
         }
         let count = _.countBy(valArr, (item) => {
             return item.type
@@ -464,19 +458,21 @@ class StyleManager extends React.Component {
                 css['background-color'] = [item.color]
                 return
             }
-            css['background-image'].push(item.image)
             css['background-position'].push(item.position)
             css['background-size'].push(item.size)
             css['background-attachment'].push(item.attachment)
             css['background-blend-mode'].push(item.blendMode)
             css['background-repeat'].push(item.repeat)
+            css['background-image'].push(item.image)
         })
+        
         //loop css and up date  color->image->position->size->attachment->repeat->blendMode
         Async.eachOf(css, (value, key, next) => {
             setTimeout(() => {
                 if (key == 'background-image' && value.join(', ').trim() == '') {
                     this.globalOnChange({ key, value: 'none' })
                 } else {
+                    console.log('sss.p updating', value, key, Date.now())
                     this.globalOnChange({ key, value: value.join(', ') })
                 }
                 next()
@@ -561,7 +557,7 @@ class StyleManager extends React.Component {
                             onClick={() => {
                                 if (backgroundKey == 'image') return
                                 handleOnChange({ key: 'image', value: 'url("http://grapesjs.com/img/work-desk.jpg")', switcher: true })
-                                setState({ ...state, backgroundKey: 'image' })
+                                // setState({ ...state, backgroundKey: 'image' })
                             }}
                         >
                             <Icons.BackgroundImage style={{ width: '20px', height: '20px' }} />
@@ -570,7 +566,7 @@ class StyleManager extends React.Component {
                             onClick={() => {
                                 if (backgroundKey == 'color') return
                                 handleOnChange({ key: 'color', value: '#FFFFFF00' })
-                                setState({ ...state, backgroundKey: 'color' })
+                                // setState({ ...state, backgroundKey: 'color' })
                             }}
                         >
                             <Icons.BackgroundColor style={{ width: '12px', height: '12px' }} />
@@ -579,7 +575,7 @@ class StyleManager extends React.Component {
                             onClick={() => {
                                 if (backgroundKey == 'gradient') return
                                 handleOnChange({ key: 'gradient', value: 'linear-gradient(90deg, rgba(2,0,36,1) 6%, rgba(1,87,126,1) 94%)', switcher: true })
-                                setState({ ...state, backgroundKey: 'gradient' })
+                                // setState({ ...state, backgroundKey: 'gradient' })
                             }}
                         >
                             <Icons.BackgroundGradient className={'background-gradient-icon'} style={{ width: '12px', height: '12px' }} />

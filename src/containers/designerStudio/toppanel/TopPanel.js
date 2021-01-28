@@ -23,7 +23,6 @@ class TopPanel extends Component {
 		// call grapes export config function
 		const exportContent = _grapesEditor.exportConfigData()
 		const location = await addStaticContent(exportContent, { s3Dir, dispatch, pagesStore })
-		console.log(location, 'sss.p')
 		if (location != '') { window.open(location, '_blank'); }
 	}
 	render() {

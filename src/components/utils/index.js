@@ -115,7 +115,6 @@ export const addStaticContent = (contentObj, props) => {
         // }
 
         let uploadsArray = previewContentToArray(contentObj)
-        console.log(uploadsArray, contentObj, 'sss.p')
         s3Dir = 'Z7c_6ak5A'
         if (!s3Dir) {
             // create new userS3Dir
@@ -133,10 +132,8 @@ export const addStaticContent = (contentObj, props) => {
         if (page.homePage) {
             pageNameMatch = 'index.html'
         }
-        console.log(pageNameMatch, 'sss.p match')
         Async.each(uploadsArray, (item, cb) => {
             _s3.uploadFile(item.file, s3Dir + item.path, (resp) => {
-                console.log('sss.p', resp)
                 if (resp.error) {
                     if (resp.message) {
                         console.error(resp.message)

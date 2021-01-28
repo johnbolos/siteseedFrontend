@@ -103,7 +103,6 @@ class Integer extends React.Component {
                             value = max
                         }
                         if (value == '' && (key == 'max-height' || key == 'max-width')) {
-                            console.log('sss.p sending none')
                             value = 'none'
                         } else if (value == '' && (['height', 'width', 'flex-basis', 'top', 'bottom', 'right', 'left'].includes(key))) {
                             value = 'auto'

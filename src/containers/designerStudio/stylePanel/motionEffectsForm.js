@@ -89,6 +89,9 @@ class MtnEffects extends React.Component {
         }
     }
     componentDidUpdate(prevProps, prevState) {
+        if (!this.props.selected || !this.props.selected.node) {
+            return
+        }
         if (prevProps.selected != this.props.selected) {
             this.createScrollAnimTypesValue()
             this.createMouseValues()
@@ -154,7 +157,6 @@ class MtnEffects extends React.Component {
             return
         }
         let valArr = selected.node.getAttributeNode("data-ss-scroll-effect").value.split(', ')
-        console.log('sss.p val', valArr, currentScrollEditKey)
         // if (!valArr.length || valArr[0] == '') {
         //     this.setState({ scrollAnimDir: 'Please Select a Scroll Effect', scrollAnimSpeed: 50, scrollAnimVpBottom: 0, scrollAnimVpTop: 100 })
         //     this.getDirOptions()
@@ -420,6 +422,10 @@ class MtnEffects extends React.Component {
     }
     createEnteranceValue = () => {
         const { selected } = this.props
+        if (!selected || !selected.node) {
+            this.setState({ enteranceAnim: 'none' })
+            return
+        }
         if (selected.node && !selected.node.getAttributeNode("data-aos")) {
             this.setState({ enteranceAnim: 'none' })
             return
@@ -564,7 +570,6 @@ class MtnEffects extends React.Component {
                                     const value = 'rotation', key = 'scroll-type'
                                     e.stopPropagation()
                                     if (!this.state.scrollAnimTypes.includes(value)) {
-                                        console.log('sss.p rotation')
                                         this.globalScrollOnChange([...this.state.scrollAnimTypes, value], key)
                                     }
                                     this.setState({ currentScrollEditKey: value })

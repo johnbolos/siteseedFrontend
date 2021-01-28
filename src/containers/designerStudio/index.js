@@ -14,7 +14,7 @@ import { undoOnce, redoOnce, setHistoryStatus, undoTimes, redoTimes } from "../.
 import { setGoogleFonts } from "../../reducers/actions/editor"
 import { updateAssets } from '../../reducers/actions/userActions'
 import { saveChanges } from "../../reducers/actions/pageActions";
-import { closestElement } from "../../components/utils/index";
+import { closestElement, showToast } from "../../components/utils/index";
 import { setCustomCss } from "../../reducers/actions/templateActions";
 
 // Templates =========================================================================
@@ -139,6 +139,13 @@ class DesignerStudio extends React.Component {
 		if (prevProps.theme != this.props.theme) {
 			this.setScrollBarStyle()
 		}
+		if (prevState.gjsSelected != this.state.gjsSelected) {
+			if (!this.state.gjsSelected) {
+				this.setSettingsMessage('show')
+				return
+			}
+			this.setSettingsMessage('hide')
+		}
 	}
 	addCloseEvent = () => {
 		window.addEventListener("beforeunload", function (event) {
@@ -215,6 +222,17 @@ class DesignerStudio extends React.Component {
 			return
 		}
 		dispatch(setGoogleFonts(googleApiReq.items))
+	}
+	setSettingsMessage = (action) => {
+		// let frame = document.getElementsByClassName("gjs-frame")
+		// let doc = frame[0].contentWindow.document
+		// let settingsMessage = doc.querySelector('.setting-message')
+		let styleManager = document.querySelector('#style-manager')
+		if (action == 'hide') {
+			styleManager.classList.add('hideSettingsMessage')
+		} else {
+			styleManager.classList.remove('hideSettingsMessage')
+		}
 	}
 	handleScroll = (e) => {
 		if (e.target.classList && e.target.classList.contains("on-scrollbar") === false) {
@@ -377,10 +395,14 @@ class DesignerStudio extends React.Component {
 					if (!elem) {
 						return
 					}
+					// currentReactNode.setSettingsMessage('hide')
 					_grapesEditor.styleManager.addEvents(
 						{ elem, node: currentReactNode },
 						{ pseudoClass: currentReactNode.props.pseudoClass }
 					);
+				});
+				editor.on("component:remove", function (args) {
+					currentReactNode.setState({ gjsSelected: null, selected: { node: null, styleInfo: null } })
 				});
 				// contentWindow.addEventListener("mousedown", (e) => {
 				// 	mouseInLayers = false
@@ -401,7 +423,7 @@ class DesignerStudio extends React.Component {
 				// ===================================================================================================================
 
 
-				
+
 
 				// =============================Rich Text Editor=========================
 				const rte = editor.RichTextEditor;
@@ -425,7 +447,6 @@ class DesignerStudio extends React.Component {
 		// let currentReactNode = this
 		// editor.on("component:selected", function (args) {
 		// 	// args.set("resizable", true);
-		// 	console.log(mouseInLayers, 'sss.p mouse over')
 		// 	currentReactNode.setState({ gjsSelected: editor.getSelected() })
 
 		// 	// _grapesEditor.styleManager.resetAnim()
@@ -437,7 +458,7 @@ class DesignerStudio extends React.Component {
 			let styleGrapejs = JSON.parse(JSON.stringify(editor.getCss()));
 			// save all ss style tag in page manager
 			let frame = document.getElementsByClassName("gjs-frame")
-			let doc = frame[0].contentWindow.document
+			let doc = frame[0] && frame[0].contentWindow.document
 			let style = doc.getElementById("ss-style")
 			style = (style && style.innerHTML) || ''
 			// style = style + styleGrapejs
@@ -487,7 +508,6 @@ class DesignerStudio extends React.Component {
 			}
 		});
 		editor.on('block:drag:stop', model => {
-			console.log('sss.p blockdrag')
 			let components = this.getAllComponents(editor.DomComponents.getWrapper());
 			attachIconsToElem(components)
 			editor.LayerManager.render();
@@ -542,7 +562,6 @@ class DesignerStudio extends React.Component {
 		// =========================================
 	};
 	resetBuilder = () => {
-		console.log('sss.p resettings builder...')
 		this.resetSwapper()
 	}
 

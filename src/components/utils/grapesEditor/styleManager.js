@@ -107,7 +107,6 @@ const styleManager = {
 					script.id = 'ss-animate-init'
 					script.innerHTML = `ssAnimateInit()`
 					// script.innerHTML = `
-					// 	console.log('sss.p aaaaaaaaaaaaabbbb');
 					// 	controller = null;
 					// 	tl = null;
 					// 	if (typeof(scene) === 'undefined') {

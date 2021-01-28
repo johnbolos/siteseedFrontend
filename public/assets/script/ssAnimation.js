@@ -36,12 +36,14 @@ ssAnimateInit = () => {
     }
 }
 
+applyBlur = (node) => {
+    TweenMax.set(node, { webkitFilter: "blur(" + node.blurValue + "px)", filter: "blur(" + node.blurValue + "px)" });
+}
+
 createScrollAnim = (node) => {
     if (node.getAttributeNode("data-ss-scroll-effect") && !node.getAttributeNode("data-ss-scroll-effect").value) {
-        console.log('sss.p nottt....working...', node)
         return
     }
-    console.log('sss.p working...', node)
     let valArr = node.getAttributeNode("data-ss-scroll-effect").value.split(', ')
     const nodeTopPercent = ((node.getBoundingClientRect().top + window.pageYOffset) / window.innerHeight) * 100
     _.forEach(valArr, item => {
@@ -74,11 +76,16 @@ createScrollAnim = (node) => {
                 tweenConfig.autoAlpha = 1 - (speed / 100)
                 break;
             case 'blur':
-                tweenConfig = {
-                    ...tweenConfig,
-                    '-webkit-filter': `blur(${speed / 10}px)`,
-                    'filter': `blur(${speed / 10}px)`,
-                }
+                // tweenConfig = {
+                //     ...tweenConfig,
+                //     '-webkit-filter': `blur(${speed / 10}px)`,
+                //     'filter': `blur(${speed / 10}px)`,
+                // }
+                // tweenConfig.filter = `blur(${speed / 10}px)`
+                // tweenConfig['-webkit-filter'] = `blur(${speed / 10}px)`
+                node.blurValue = 0
+                tweenConfig.blurValue = speed / 10
+                tweenConfig.onUpdate = () => { applyBlur(node) }
                 break;
             case 'rotation':
                 if (direction == 'anticlockwise') {
@@ -138,7 +145,6 @@ createScrollAnim = (node) => {
 }
 
 createMouseAnim = (nodes) => {
-    console.log('sss.p mouse effect started')
     $(document).mousemove(function (event) {
         nodes.forEach((node, key) => {
             if (node.getAttributeNode("data-ss-mouse-effect") && !node.getAttributeNode("data-ss-mouse-effect").value) {

@@ -31,18 +31,17 @@ class CanvasActions extends React.Component {
             this.createHorizSwapper()
         }
     }
+    swapOwlItems = (pair) => {
+        let firstParent = pair[0].view.el.parentElement
+        let secondParent = pair[1].view.el.parentElement
+        let pairCopy = [pair[0].toHTML(), pair[1].toHTML()]
+        let finalPair = [pair[0].replaceWith(pairCopy[1]), pair[1].replaceWith(pairCopy[0])]
+        firstParent.appendChild(finalPair[0].view.el)
+        secondParent.appendChild(finalPair[1].view.el)
+        // this.createHorizSwapper()
+    }
     createHorizSwapper = () => {
         const { gjsSelected } = this.props
-        // let selected = editor.getSelected()
-        // let components = selected.attributes.components && selected.attributes.components.models
-        // console.log(selected, components, components[0].toHTML(), 'sss.p')
-        // if (components && components[0] && components[1]) {
-        //     let component0 = components[0]
-        //     let component1 = components[1]
-        //     // selected.replaceWith(components[1].toHTML() + components[0].toHTML() + components[2].toHTML())
-        //     component0.replaceWith(component1.toHTML())
-        //     component1.replaceWith(component0.toHTML())
-        // }
         let resp = null
         if (!gjsSelected) { return null }
         let components = gjsSelected.attributes && gjsSelected.attributes.components && gjsSelected.attributes.components.models
@@ -66,10 +65,10 @@ class CanvasActions extends React.Component {
                 return
             }
             // Ignore Draggable = false components
-            // filteredComponents = filteredComponents.filter(function (model) { return model && model.attributes.draggable })
-            // if (filteredComponents.length <= 1) {
-            //     return
-            // }
+            filteredComponents = filteredComponents.filter(function (model) { return model && model.attributes.draggable })
+            if (filteredComponents.length <= 1) {
+                return
+            }
             // only show swap for elements which are horizontally parallel by creating swap pairs
             let swappair = []
             filteredComponents = filteredComponents.every(function (model, key) {
@@ -98,8 +97,14 @@ class CanvasActions extends React.Component {
                     {resp}
                     <button
                         onClick={() => {
-                            pair[0].replaceWith(pair[1].toHTML())
-                            pair[1].replaceWith(pair[0].toHTML())
+                            // if owl carousal
+                            if (pair[0].view.el.parentElement.classList.contains('owl-item')) {
+                                this.swapOwlItems(pair)
+                                return
+                            }
+                            let pairCopy = [pair[0].toHTML(), pair[1].toHTML()]
+                            pair[0].replaceWith(pairCopy[1])
+                            pair[1].replaceWith(pairCopy[0])
                             // after click rerun this function to update swap btn position and components html
                             this.createHorizSwapper()
                         }}

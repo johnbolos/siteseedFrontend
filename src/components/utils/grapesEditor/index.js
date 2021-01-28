@@ -554,6 +554,8 @@ const _grapesEditor = {
 		},
 		layerManager: {
 			appendTo: "#layer-manager",
+			scrollCanvas: { behavior: 'smooth', block: 'nearest' },
+			scrollLayers: { behavior: 'auto', block: 'nearest' },
 		},
 		traitManager: {
 			appendTo: ".traits-container",
@@ -614,8 +616,9 @@ const _grapesEditor = {
 				// `${assetsUrl}/templates/landingPage/js/scroll.js`,
 				// // "https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js",
 
-				`https://siteseed-dev.s3.amazonaws.com/assets/script/ssAnimation.js`,
-				'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js'
+				`${assetsUrl}/assets/script/ssAnimation.js`,
+				'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js',
+				// `http://localhost:3000/assets/script/ssAnimation.js`,
 
 			],
 		},

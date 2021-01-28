@@ -59,7 +59,7 @@ class LeftBlock extends Component {
 			const gjsWindow = document.getElementsByClassName("gjs-frame")[0]
 				.contentWindow;
 			gjsWindow.addEventListener("mousedown", () => {
-				this.reset();
+				// this.reset();
 			});
 			/* editor.on("component:update", () => {
 				this.reset();

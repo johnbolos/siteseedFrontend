@@ -7,47 +7,74 @@ import Home from "./containers/home";
 import AllTemplates from "./containers/allTemplates";
 import DesignerStudio from "./containers/designerStudio";
 import Dashboard from "./containers/dashboard";
+import CreateAccount from './containers/auth/signUp'
+import LogIn from './containers/auth/logIn'
+import ResetPassword from './containers/auth/reset'
+import VerifyCode from './containers/auth/reset/verifyCode'
+import NewPassword from './containers/auth/reset/newPassword'
 // const Undercons = lazy(() => import('./containers/undercons'))
 
 const routes = [
 	{
 		path: "/home",
-		name: "Home",
-		icon: "home",
 		key: "home",
-		// showNavBar: true,
 		// homepage: true,
 		component: Home,
 		authority: [],
 	},
 	{
 		path: "/dashboard",
-		name: "Dashboard",
-		icon: "dashboard",
 		key: "dashboard",
-		// showNavBar: true,
 		homepage: true,
 		component: Dashboard,
 		authority: [],
 	},
 	{
 		path: "/allTemplates",
-		name: "All Templates",
-		icon: "allTemplates",
 		key: "allTemplates",
-		// showNavBar: true,
 		// homepage: true,
 		component: AllTemplates,
 		authority: [],
 	},
 	{
 		path: "/designerStudio",
-		name: "Designer Studio",
-		icon: "pencil",
 		key: "designerStudio",
 		authority: ["client"],
-		// 'homepage': true,
 		component: DesignerStudio,
+	},
+	{
+		path: "/create-account",
+		key: "createAccount",
+		component: CreateAccount,
+		authority: [],
+	},
+	{
+		path: "/login-page",
+		key: "loginPage",
+		component: LogIn,
+		authority: [],
+	},
+	{
+		path: "/reset-password",
+		key: "resetPassword",
+		authority: [],
+		children: [
+			{
+				path: "/",
+				key: "enterEmail",
+				component: ResetPassword,
+			},
+			{
+				path: "/verify-code",
+				key: "verifyCode",
+				component: VerifyCode,
+			},
+			{
+				path: "/set-password",
+				key: "setPassword",
+				component: NewPassword,
+			},
+		],
 	},
 	{
 		path: "/settings",
