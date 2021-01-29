@@ -8,7 +8,7 @@ import AllTemplates from "./containers/allTemplates";
 import DesignerStudio from "./containers/designerStudio";
 import Dashboard from "./containers/dashboard";
 import CreateAccount from './containers/auth/signUp'
-import LogIn from './containers/auth/logIn'
+import LogIn from './containers/auth/login'
 import ResetPassword from './containers/auth/reset'
 import VerifyCode from './containers/auth/reset/verifyCode'
 import NewPassword from './containers/auth/reset/newPassword'
@@ -39,6 +39,7 @@ const routes = [
 	{
 		path: "/designerStudio",
 		key: "designerStudio",
+		independentLayout: true,
 		authority: ["client"],
 		component: DesignerStudio,
 	},
@@ -60,17 +61,17 @@ const routes = [
 		authority: [],
 		children: [
 			{
-				path: "/",
+				path: "/reset-password/enter-email",
 				key: "enterEmail",
 				component: ResetPassword,
 			},
 			{
-				path: "/verify-code",
+				path: "/reset-password/verify-code/:email",
 				key: "verifyCode",
 				component: VerifyCode,
 			},
 			{
-				path: "/set-password",
+				path: "/reset-password/set-password/:email",
 				key: "setPassword",
 				component: NewPassword,
 			},
@@ -99,80 +100,82 @@ const routes = [
 	},
 ];
 
-//<editor-fold desc="Functions Exports">
-export const getUrlPushWrapper = (keyString, query) => {	// to push to another page
-	return push(getUrlPath(keyString, query));
-};
+export const getUrlPushWrapper = (keyString, query) => {
+	return push(getUrlPath(keyString, query))
+}
 
-export const getUrlPath = (keyString, params) => {	// generate url from page key
-	if (!params) params = {};
+export const getUrlPath = (keyString, params) => {
 
-	let keyArr = keyString.split(".");
+	if (!params) params = {}
 
-	let val = _.find(routes, (p) => p.key === keyArr[0]);
+	let keyArr = keyString.split('.')
+
+	let val = _.find(routes, p => p.key === keyArr[0])
 
 	if (!val) {
-		return `/`;
+		return `/`
 	}
 
 	if (keyArr.length === 2) {
-		val = _.find(val.children, (p) => p.key === keyArr[1]);
+		val = _.find(val.children, p => p.key === keyArr[1])
 	}
 
 	if (!val) {
-		return `/`;
+		return `/`
 	}
 
-	let queryString = Object.keys(params)
-		.map((key) => key + "=" + params[key])
-		.join("&");
+	let queryString = Object.keys(params).
+		map(key => key + '=' + params[key]).
+		join('&')
 
-	return `${val.path}?${queryString}`;
-};
+	return `${val.path}?${queryString}`
+}
 
-export const getPushPathWrapper = (keyString, params) => {	
-	let obj = getUrlObject(keyString);
+export const getPushPathWrapper = (keyString, params) => {
+
+	let obj = getUrlObject(keyString)
+
 	if (obj) {
-		const path = new Path(obj.path);
+		const path = new Path(obj.path)
 
-		// console.log(obj, path.build(params));
-		return push(path.build(params));
+		return push(path.build(params))
 	}
 
-	return "error";
-};
+	return 'error'
+}
 
 export const getUrlParams = (keyString, route) => {
-	let obj = getUrlObject(keyString);
+
+	let obj = getUrlObject(keyString)
 
 	if (obj) {
-		const path = new Path(obj.path);
+		const path = new Path(obj.path)
 
-		return path.test(route);
+		return path.test(route)
 	}
 
-	return { error: true };
-};
+	return { error: true }
+}
 
 export const getUrlObject = (keyString) => {
-	let keyArr = keyString.split(".");
 
-	let val = _.find(routes, (p) => p.key === keyArr[0]);
+	let keyArr = keyString.split('.')
+
+	let val = _.find(routes, p => p.key === keyArr[0])
 
 	if (!val) {
-		return `/`;
+		return `/`
 	}
 
 	if (keyArr.length === 2) {
-		val = _.find(val.children, (p) => p.key === keyArr[1]);
+		val = _.find(val.children, p => p.key === keyArr[1])
 	}
 
 	if (!val) {
-		return `/`;
+		return `/`
 	}
 
-	return val;
-};
-//</editor-fold>
+	return val
+}
 
 export default routes;

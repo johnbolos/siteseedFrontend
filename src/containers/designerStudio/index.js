@@ -675,60 +675,62 @@ class DesignerStudio extends React.Component {
 		const { selected } = this.state;
 		const { assetsManager, dispatch } = this.props
 		return (
-			<div className={`builder theme-${this.props.theme}`} style={{ height: '100%' }}>
-				<ToastContainer />
-				<div
-					style={{
-						display: "flex",
-						justifyContent: "center",
-						flexDirection: "row",
-						height: "100%",
-						width: "100%",
-					}}>
+			<div style={{ height: '100vh' }}>
+				<div className={`builder theme-${this.props.theme}`} style={{ height: '100%' }}>
+					<ToastContainer />
 					<div
 						style={{
+							display: "flex",
+							justifyContent: "center",
+							flexDirection: "row",
 							height: "100%",
-							width: "100%" /* backgroundColor: "red"  */,
-							display: 'flex',
-							flexDirection: 'column'
+							width: "100%",
 						}}>
-						<div className='panel__top'>
-							<TopPanel dispatch={dispatch} />
-						</div>
-
 						<div
-							className='body-container'
-						// style={{ height: `${window.innerHeight - 40}px` }}
-						>
-							<LeftBlock />
-							<div id='grapesEditor'></div>
-							<div id='zoom'>
-								<span className='minus' onClick={this.minus}>
-									<Minus />
-								</span>
-								<input type='text' value={this.state.zoom + "%"} disabled />
-								<span className='plus' onClick={this.plus}>
-									<Plus />
-								</span>
+							style={{
+								height: "100%",
+								width: "100%" /* backgroundColor: "red"  */,
+								display: 'flex',
+								flexDirection: 'column'
+							}}>
+							<div className='panel__top'>
+								<TopPanel dispatch={dispatch} />
 							</div>
-							<CanvasActions gjsSelected={this.state.gjsSelected} resetSwapper={(fn) => {
-								this.resetSwapper = fn
-							}} />
-							<HelpNSupport />
+
 							<div
-								id='style-manager'
-								style={{
-									width: "240px",
-									display: "flex",
-									flexDirection: "column",
-									height: 'calc(100vh - 40px)',
-								}}>
-								{/* <button onClick={this.addStyleData}>Add Data</button> */}
-								{/* <button onClick={() => { this.historyChange('undo') }}>Undo</button>
+								className='body-container'
+							// style={{ height: `${window.innerHeight - 40}px` }}
+							>
+								<LeftBlock />
+								<div id='grapesEditor'></div>
+								<div id='zoom'>
+									<span className='minus' onClick={this.minus}>
+										<Minus />
+									</span>
+									<input type='text' value={this.state.zoom + "%"} disabled />
+									<span className='plus' onClick={this.plus}>
+										<Plus />
+									</span>
+								</div>
+								<CanvasActions gjsSelected={this.state.gjsSelected} resetSwapper={(fn) => {
+									this.resetSwapper = fn
+								}} />
+								<HelpNSupport />
+								<div
+									id='style-manager'
+									style={{
+										width: "240px",
+										display: "flex",
+										flexDirection: "column",
+										height: 'calc(100vh - 40px)',
+									}}>
+									{/* <button onClick={this.addStyleData}>Add Data</button> */}
+									{/* <button onClick={() => { this.historyChange('undo') }}>Undo</button>
                                 <button onClick={() => { this.historyChange('redo') }}>Redo</button> */}
-								<StylePanel selected={selected} gjsSelected={this.state.gjsSelected} parentNode={this} resetBuilder={this.resetBuilder} />
+									<StylePanel selected={selected} gjsSelected={this.state.gjsSelected} parentNode={this} resetBuilder={this.resetBuilder} />
+								</div>
+								{assetsManager && <AssetsManager selected={selected} />}
 							</div>
-							{assetsManager && <AssetsManager selected={selected} />}
 						</div>
 					</div>
 				</div>

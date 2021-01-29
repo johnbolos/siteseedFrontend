@@ -3,6 +3,7 @@ import { assetsUrl } from "../settings"
 const initialState = {
     currentUser: null,
     userS3Dir: null,
+    otp: '',
     assets: {
         image: [
             'http://grapesjs.com/img/work-desk.jpg',
@@ -61,7 +62,7 @@ const initialState = {
         '#000000',
         '#000000',
     ],
-    token: null,
+    tokenInfo: {},
     buttonLoading: false,
     loading: false,
 }
@@ -136,7 +137,13 @@ export default (state = initialState, action) => {
         case 'SET_AUTH_TOKEN':
             return {
                 ...state,
-                token: action.token
+                tokenInfo: action.tokenInfo
+            }
+            
+        case 'SET_OTP':
+            return {
+                ...state,
+                otp: action.value
             }
 
         default:

@@ -31,6 +31,13 @@ class App extends Component {
 								path={item.path}
 								key={item.path}
 								render={(route) => {
+									if (item.independentLayout) {
+										return <item.component
+											path={item.path}
+											user={user}
+											pageData={item}
+										/>
+									}
 									return (
 										<GlobalLayoutWrapper
 											Component={item.component}
@@ -51,13 +58,20 @@ class App extends Component {
 							return (
 								<Route
 									exact
-									path={item.path + child.path}
-									key={item.path + child.path}
+									path={child.path}
+									key={child.path}
 									render={(route) => {
+										if (child.independentLayout) {
+											return <child.component
+												path={child.path}
+												user={user}
+												pageData={{ ...item, child }}
+											/>
+										}
 										return (
 											<GlobalLayoutWrapper
 												Component={child.component}
-												path={item.path + child.path}
+												path={child.path}
 												user={user}
 												pageData={{ ...item, child }}
 											/>

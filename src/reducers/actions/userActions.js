@@ -26,4 +26,16 @@ export const setLocalFonts = (value) => {
   return { type: 'SET_LOCAL_FONTS', value }
 }
 
+export const setUser = (data) => {
+  return { type: 'SET_CURRENT_USER', user: data }
+}
+
+export const setTokenInfo = (data) => {
+  return { type: 'SET_AUTH_TOKEN', tokenInfo: data }
+}
+
+export const setOTP = (value) => {
+  return { type: 'SET_OTP', value }
+}
+
 // export default login

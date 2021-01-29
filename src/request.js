@@ -20,7 +20,8 @@ const googleFontsAxios = axios.create({
 
 const basicAxios = axios.create({
     baseURL: apiUrl,
-    timeout: 10000
+    timeout: 10000,
+    // headers: { 'Content-Type': 'application/json' }
 })
 
 class Request {
@@ -58,6 +59,68 @@ class Request {
                 })
         })
     }
+
+
+    // ========================================Backend Routes========================================
+
+
+    // =======================Auth===========================
+    signup = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/signup/', data)
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else if (d.data.status == 400) {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                    return next(d.data)
+                })
+                .catch(err => {
+                    return next({ messagetype: 'error', err })
+                })
+        })
+    }
+
+    login = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/login/', data)
+                .then(d => {
+                    return next(d.data)
+                })
+                .catch(err => {
+                    return next({ messagetype: 'error', err })
+                })
+        })
+    }
+
+    forgotPassword = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/forgot-password/', data)
+                .then(d => {
+                    return next(d.data)
+                })
+                .catch(err => {
+                    return next({ messagetype: 'error', err })
+                })
+        })
+    }
+
+    resetPassword = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/reset-password/', data)
+                .then(d => {
+                    return next(d.data)
+                })
+                .catch(err => {
+                    return next({ messagetype: 'error', err })
+                })
+        })
+    }
+
+    // =======================================================
+
+    // ==============================================================================================
 
 }
 

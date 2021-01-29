@@ -47,7 +47,7 @@ class Traits extends Component {
 				if (found) {
 					let gjsSelected = editor.getSelected()
 					console.error('sss.p already existes')
-					showToast({ type: 'warning', message: 'This id already exists, please choose a different one' })
+					showToast({ type: 'success', message: 'This id already exists, please choose a different one' })
 					input.value = gjsSelected.view.el.id
 				}
 			}

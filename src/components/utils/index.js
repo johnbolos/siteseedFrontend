@@ -54,7 +54,7 @@ export const closestElement = (mouse, wrapperSelector) => {
     return closestElement
 }
 
-export const showToast = (data) => {
+export const showToast = (data, cb) => {
     const { type, message } = data
     let icon = ''
     if (type) {
@@ -78,6 +78,8 @@ export const showToast = (data) => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
+        // onOpen: () => cb && cb(),
+        onClose: () => cb && cb(),
     });
 }
 
