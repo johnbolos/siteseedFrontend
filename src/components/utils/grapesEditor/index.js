@@ -580,7 +580,7 @@ const _grapesEditor = {
 				// "https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css",
 				"https://unpkg.com/aos@2.3.1/dist/aos.css",
 
-				// landingPade template
+				// // landingPade template
 				"https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css",
 				`${assetsUrl}/templates/landingPage/css/scroll.css`,
 				// "https://unpkg.com/aos@2.3.1/dist/aos.css"
@@ -588,7 +588,13 @@ const _grapesEditor = {
 				// "https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css",
 				// "https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css",
 
-				`https://siteseed-dev.s3.amazonaws.com/assets/Fonts/default.css`,
+				// agencyGrey
+				"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css",
+				"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css",
+				`${assetsUrl}/templates/agencyGrey/vendor/bootstrap/css/bootstrap.min.css`,
+				"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
+
+				`${assetsUrl}/assets/Fonts/default.css`,
 			],
 			scripts: [
 				"https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js",
@@ -615,6 +621,13 @@ const _grapesEditor = {
 				// "https://unpkg.com/aos@2.3.1/dist/aos.js",
 				// `${assetsUrl}/templates/landingPage/js/scroll.js`,
 				// // "https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js",
+
+				// Agency Grey all present in corresponding template file
+				// "https://code.jquery.com/jquery-1.12.0.min.js",
+				// "https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js",
+				// `${assetsUrl}/templates/agencyGrey/vendor/bootstrap/js/bootstrap.bundle.min.js`,
+				// "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js",
+				// `${assetsUrl}/templates/agencyGrey/vendor/jquery/jquery.min.js`,
 
 				`${assetsUrl}/assets/script/ssAnimation.js`,
 				'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js',

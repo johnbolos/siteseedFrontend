@@ -71,9 +71,9 @@ function AllTemplates({ dispatch, loading, templates }) {
 							dispatch(getPushPathWrapper("designerStudio"))
 						}}>
 						</div>
-						<div class="card" onClick={() => {
-							// dispatch(selectTemplate("restaurant1"))
-							// dispatch(getPushPathWrapper("designerStudio"))
+						<div class="card" style={{ backgroundImage: 'url("/assets/templates/agencyGrey/thumbnail.jpg")' }} onClick={() => {
+							dispatch(selectTemplate("agencyGrey"))
+							dispatch(getPushPathWrapper("designerStudio"))
 						}}>
 						</div>
 						<div class="card">

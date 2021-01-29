@@ -1029,6 +1029,10 @@ class StyleManager extends React.Component {
                     inside = true
                 }
                 newValue = newValue.trim().replace(/\s\s+/g, ' ').split(/ (?![^(]*\))/)
+                if (newValue.length < 5) {
+                    newValue[3] = newValue[3] || '0px'
+                    newValue[4] = newValue[4] || '0px'
+                }
                 setState({
                     ...state,
                     color: newValue[0],
@@ -1057,6 +1061,10 @@ class StyleManager extends React.Component {
                     inside = true
                 }
                 newValue = newValue.trim().replace(/\s\s+/g, ' ').split(/ (?![^(]*\))/)
+                if (newValue.length < 5) {
+                    newValue[3] = newValue[3] || '0px'
+                    newValue[4] = newValue[4] || '0px'
+                }
                 setState({
                     ...state,
                     color: newValue[0],

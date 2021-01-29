@@ -22,6 +22,7 @@ import { template1Html, template1Style, template1StyleCss, template1StyleMedia }
 import restaurant1 from "../../assets/templates/restaurant1";
 import therapists from "../../assets/templates/therapists";
 import landingPageTemplate from "../../assets/templates/landingPage";
+import agencyGreyTemplate from "../../assets/templates/agencyGrey";
 import spa from "../../assets/templates/spa";
 import { landingHtml, landingStyle } from "./templates/landing";
 import { landing2Html, landing2Style } from "./templates/landing2";
@@ -283,6 +284,11 @@ class DesignerStudio extends React.Component {
 					style = landingPageTemplate.baseCss
 					customCss = landingPageTemplate.customCss
 					break;
+				case "agencyGrey":
+					html = agencyGreyTemplate.html
+					style = agencyGreyTemplate.baseCss
+					customCss = agencyGreyTemplate.customCss
+					break;
 				case "myProject1":
 					// html = xyzHtml
 					// styles = xyzStyle;
@@ -390,6 +396,21 @@ class DesignerStudio extends React.Component {
 				let currentReactNode = this
 				editor.on("component:selected", function (args) {
 					let gjsSelected = editor.getSelected()
+					const dc = editor.DomComponents;
+					const findFirstValidComp = (editor, key = 0) => {
+						let comp = dc.getComponents().at(key)
+						if(['br', 'script', 'style', 'NULL'].includes(comp.attributes.tagName)) {
+							comp = findFirstValidComp(editor, key + 1)
+						} else if (['textnode'].includes(comp.attributes.type)) {
+							comp = findFirstValidComp(editor, key + 1)
+						}
+						return comp
+					}
+					if (gjsSelected.view.el.classList.contains('close') || gjsSelected.view.el.classList.value.includes('VideoHead-popup-video-exit')) {
+						let comp = findFirstValidComp(editor)
+						editor.select(comp)
+						return
+					}
 					currentReactNode.setState({ gjsSelected })
 					let elem = gjsSelected.view && gjsSelected.view.el
 					if (!elem) {
