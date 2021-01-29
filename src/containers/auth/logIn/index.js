@@ -15,7 +15,7 @@ class LogIn extends React.Component {
     }
 
     componentDidMount() {
-        this.insertGAPIScript()
+        // this.insertGAPIScript()
     }
     insertGAPIScript = () => {
         let script = document.createElement('script')
@@ -124,8 +124,14 @@ class LogIn extends React.Component {
                 <br />
                 <div id="loginButton">Login with Google</div>
                 <br /><br />
-                {loggedIn && <button onClick={this.googleSignOut}>Logout</button>}
-                <br /><br />
+                {loggedIn && <>
+                    <button
+                        onClick={this.googleSignOut}
+                    >
+                        Logout
+                    </button>
+                    <br /><br />
+                </>}
                 Or
                 <br /><br />
 
