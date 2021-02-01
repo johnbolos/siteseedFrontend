@@ -66,15 +66,33 @@ function AllTemplates({ dispatch, loading, templates }) {
 							dispatch(getPushPathWrapper("designerStudio"))
 						}}>
 						</div>
+						<div class="card" style={{ backgroundImage: 'url("/assets/templates/agencyGrey/thumbnail.jpg")' }} onClick={() => {
+							dispatch(selectTemplate("agencyGrey"))
+							dispatch(getPushPathWrapper("designerStudio"))
+						}}>
+						</div>
+						<div class="card" style={{ backgroundImage: 'url("/assets/templates/agencyDark/thumbnail.jpg")' }} onClick={() => {
+							dispatch(selectTemplate("agencyDark"))
+							dispatch(getPushPathWrapper("designerStudio"))
+						}}>
+						</div>
 						<div class="card" style={{ backgroundImage: 'url("/assets/templates/landingPage/thumbnail.jpg")' }} onClick={() => {
 							dispatch(selectTemplate("landingPage"))
 							dispatch(getPushPathWrapper("designerStudio"))
 						}}>
 						</div>
-						<div class="card" style={{ backgroundImage: 'url("/assets/templates/agencyGrey/thumbnail.jpg")' }} onClick={() => {
-							dispatch(selectTemplate("agencyGrey"))
+						{/* <div class="card" style={{ backgroundImage: 'url("/assets/templates/restaurant1/thumbnail.jpg")' }} onClick={() => {
+							dispatch(selectTemplate("restaurant1"))
 							dispatch(getPushPathWrapper("designerStudio"))
 						}}>
+						</div> */}
+						<div class="card">
+						</div>
+						<div class="card">
+						</div>
+						<div class="card">
+						</div>
+						<div class="card">
 						</div>
 						<div class="card">
 						</div>

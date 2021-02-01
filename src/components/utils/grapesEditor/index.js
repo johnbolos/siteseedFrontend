@@ -594,11 +594,26 @@ const _grapesEditor = {
 				`${assetsUrl}/templates/agencyGrey/vendor/bootstrap/css/bootstrap.min.css`,
 				"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
 
+				// agencyDark
+				// "https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css",
+				// "https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css",
+				`${assetsUrl}/templates/agencyDark/vendor/bootstrap/css/bootstrap.min.css`,
+				// "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
+
+				// Restaurant 1
+				"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
+				"https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css",
+				"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
+				"http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css",
+				`${assetsUrl}/templates/restaurant1/vendor/bootstrap/css/bootstrap.min.css`,
+				`${assetsUrl}/templates/restaurant1/fonts/stylesheet.css`,
+				
+
 				`${assetsUrl}/assets/Fonts/default.css`,
 			],
 			scripts: [
 				"https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js",
-				// "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js",
+				"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js",
 				"https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js",
 				"https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/animation.gsap.js",
 				"https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js",
@@ -610,7 +625,7 @@ const _grapesEditor = {
 				// Therapists
 				"https://unpkg.com/aos@2.3.1/dist/aos.js",
 				"https://unpkg.com/swiper/swiper-bundle.min.js",
-				"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js",
+				// "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js",
 				"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js",
 				"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.js",
 				"https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.js",

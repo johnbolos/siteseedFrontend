@@ -23,6 +23,8 @@ import restaurant1 from "../../assets/templates/restaurant1";
 import therapists from "../../assets/templates/therapists";
 import landingPageTemplate from "../../assets/templates/landingPage";
 import agencyGreyTemplate from "../../assets/templates/agencyGrey";
+import agencyDarkTemplate from "../../assets/templates/agencyDark";
+import restaurant1Template from "../../assets/templates/restaurant1";
 import spa from "../../assets/templates/spa";
 import { landingHtml, landingStyle } from "./templates/landing";
 import { landing2Html, landing2Style } from "./templates/landing2";
@@ -289,6 +291,16 @@ class DesignerStudio extends React.Component {
 					style = agencyGreyTemplate.baseCss
 					customCss = agencyGreyTemplate.customCss
 					break;
+				case "agencyDark":
+					html = agencyDarkTemplate.html
+					style = agencyDarkTemplate.baseCss
+					customCss = agencyDarkTemplate.customCss
+					break;
+				case "restaurant1":
+					html = restaurant1Template.html
+					style = restaurant1Template.baseCss
+					customCss = restaurant1Template.customCss
+					break;
 				case "myProject1":
 					// html = xyzHtml
 					// styles = xyzStyle;
@@ -395,18 +407,24 @@ class DesignerStudio extends React.Component {
 				// Temporary - Imp ==================================================================================================
 				let currentReactNode = this
 				editor.on("component:selected", function (args) {
+					console.log(args, 'sss.p')
 					let gjsSelected = editor.getSelected()
 					const dc = editor.DomComponents;
 					const findFirstValidComp = (editor, key = 0) => {
 						let comp = dc.getComponents().at(key)
-						if(['br', 'script', 'style', 'NULL'].includes(comp.attributes.tagName)) {
+						if (['br', 'script', 'style', 'NULL'].includes(comp.attributes.tagName)) {
 							comp = findFirstValidComp(editor, key + 1)
 						} else if (['textnode'].includes(comp.attributes.type)) {
 							comp = findFirstValidComp(editor, key + 1)
 						}
 						return comp
 					}
-					if (gjsSelected.view.el.classList.contains('close') || gjsSelected.view.el.classList.value.includes('VideoHead-popup-video-exit')) {
+					if (gjsSelected.view.el.classList.contains('close')
+						||
+						gjsSelected.view.el.classList.value.includes('VideoHead-popup-video-exit')
+						||
+						(getComputedStyle(gjsSelected.view.el, 'normal').display).includes('none')
+					) {
 						let comp = findFirstValidComp(editor)
 						editor.select(comp)
 						return
