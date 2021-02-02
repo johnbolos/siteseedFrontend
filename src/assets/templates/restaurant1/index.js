@@ -313,12 +313,12 @@ body {background-position: center;background-size: cover !important;}
 
 export const baseCss = `
 .hideshow{visibility: hidden;} 
-body, html {overflow-x:hidden;}
+body {overflow-x:hidden;}
 a:hover {color: #0056b300 !important;text-decoration: underline;}
 a.tab:hover{color: #333 !important;}
 /*button.menu-toggle {    margin-top: 5px;}*/
 .nav-container {max-width: 1200px;}
-html {scroll-behavior: smooth;}
+body {scroll-behavior: smooth;}
 .icon-bars:after {top: 0px !important;}
 .top-header-shape-1920 {display: none;}
 .menu-shape-1920{display: none;}
@@ -385,6 +385,7 @@ p.tabs-para{font-weight: normal;font-size: 16px;line-height: 28px;color: #808080
 .row.avilable-section.main-body.twelve {max-width: 1200px;margin: 0 auto;border-bottom: 1px solid #808080;}
 .avilable-section{margin-top: 100px;}
 .book-now-sec{margin-top: 100px;padding-bottom: 100px;/*border-bottom: 1px solid #808080;*/  }
+/* .book-now-sec form {display: flex;} */
 select#cars-1 {z-index: 9999;position: absolute;color: #808080;font-size: 16px;width: 226px;height: 59px;border: solid 1px #666;padding: 15px 10px;}
 select#cars-2 {z-index: 9999;position: absolute;color: #808080;font-size: 16px;width: 226px;height: 59px;border: solid 1px #666;padding: 15px 10px;}
 select#cars-3 {z-index: 9999;position: absolute;color: #808080;font-size: 16px;width: 226px;height: 59px;border: solid 1px #666;padding: 15px 10px;}
@@ -1242,53 +1243,55 @@ export const html = `
    </div>
    
    
-   <div  class="row book-now-sec main-body">
-	  <div id="basic-select-1"class="col-lg-3 col-md-3 mb-12 R-pading ">
-	  <input type="text" id="datepicker" class="datepicker form-control" value="25/09/2020">
-		 <!--<select id="cars-1" name="cars">
-			<option value="volvo">13/07/2020</option>
-			<option value="saab">14/07/2020</option>
-			<option value="fiat">15/07/2020</option>
-			<option value="audi">16/07/2020</option>
-		 </select>-->
-	  </div>
-	  <div id="basic-select-2"class="col-lg-3 col-md-3 mb-12 R-pading">
-		 <select id="cars-2" name="cars">
-			<option value="time">1:00 am</option>
-			<option value="time">2:00 am</option>
-			<option value="time">3:00 am</option>
-			<option value="time">4:00 am</option>
-			<option value="time">5:00 am</option>
-			<option value="time">6:00 am</option>
-			<option value="time">7:00 am</option>
-			<option value="time">8:00 am</option>
-			<option value="time">9:00 am</option>
-			<option value="time">10:00 am</option>
-			<option value="time">11:00 am</option>
-			<option value="time">12:00 am</option>
-			<option value="time">1:00 am</option>
-			<option value="time">2:00 pm</option>
-			<option value="time">3:00 pm</option>
-			<option value="time">4:00 pm</option>
-			<option value="time">5:00 pm</option>
-			<option value="time">6:00 pm</option>
-			<option value="time">7:00 pm</option>
-			<option value="time">8:00 pm</option>
-			<option value="time">9:00 pm</option>
-			<option value="time">10:00 pm</option>
-			<option value="time">11:00 pm</option>
-			<option value="time">12:00 pm</option>
-		 </select>
-	  </div>
-	  <div id="basic-select-3" class="col-lg-3 col-md-3 mb-12 R-pading ">
-		 <select id="cars-3" name="cars">
-			<option class="color-set"value="volvo">2 People</option>
-			<option class="color-set"value="saab">3 People</option>
-			<option class="color-set"value="fiat">4 People</option>
-			<option class="color-set"value="audi">5 People</option>
-		 </select>
-	  </div>
-	  <div class="col-lg-3 col-md-3 mb-12 R-pading"><button class="book-table">Book a Table</button></div>
+   <div class="row book-now-sec main-body">
+	<form>
+		<div id="basic-select-1"class="col-lg-3 col-md-3 mb-12 R-pading ">
+			<input type="text" id="datepicker" class="datepicker form-control" value="25/09/2020">
+		   <!--<select id="cars-1" name="cars">
+			  <option value="volvo">13/07/2020</option>
+			  <option value="saab">14/07/2020</option>
+			  <option value="fiat">15/07/2020</option>
+			  <option value="audi">16/07/2020</option>
+		   </select>-->
+		</div>
+		<div id="basic-select-2"class="col-lg-3 col-md-3 mb-12 R-pading">
+		   <select id="cars-2" name="cars">
+			  <option value="time">1:00 am</option>
+			  <option value="time">2:00 am</option>
+			  <option value="time">3:00 am</option>
+			  <option value="time">4:00 am</option>
+			  <option value="time">5:00 am</option>
+			  <option value="time">6:00 am</option>
+			  <option value="time">7:00 am</option>
+			  <option value="time">8:00 am</option>
+			  <option value="time">9:00 am</option>
+			  <option value="time">10:00 am</option>
+			  <option value="time">11:00 am</option>
+			  <option value="time">12:00 am</option>
+			  <option value="time">1:00 am</option>
+			  <option value="time">2:00 pm</option>
+			  <option value="time">3:00 pm</option>
+			  <option value="time">4:00 pm</option>
+			  <option value="time">5:00 pm</option>
+			  <option value="time">6:00 pm</option>
+			  <option value="time">7:00 pm</option>
+			  <option value="time">8:00 pm</option>
+			  <option value="time">9:00 pm</option>
+			  <option value="time">10:00 pm</option>
+			  <option value="time">11:00 pm</option>
+			  <option value="time">12:00 pm</option>
+		   </select>
+		</div>
+		<div id="basic-select-3" class="col-lg-3 col-md-3 mb-12 R-pading ">
+		   <select id="cars-3" name="cars">
+			  <option class="color-set"value="volvo">2 People</option>
+			  <option class="color-set"value="saab">3 People</option>
+			  <option class="color-set"value="fiat">4 People</option>
+			  <option class="color-set"value="audi">5 People</option>
+		   </select>
+		</div>
+		<div class="col-lg-3 col-md-3 mb-12 R-pading"><button class="book-table">Book a Table</button></div>
+	</form>
    </div>
    <div class="row avilable-section main-body twelve"></div>
    
@@ -1458,6 +1461,45 @@ export const html = `
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script>
+carouselControl()
+function carouselControl() {
+    let wrapper = document.querySelector('[data-gjs-type="wrapper"]')
+    if (!wrapper) {
+        return
+    }
+    const prevBtn = document.querySelector(".carousel-control-prev")
+    const nextBtn = document.querySelector(".carousel-control-next")
+    nextBtn.onclick = (e) => {
+        let main = e.target.parentElement
+        let children = main.querySelector(".carousel-inner").children
+        let activeKey = 0
+        _.each(children, (child, key) => {
+            if (child.classList.contains('active')) {
+                activeKey = key
+            }
+        })
+        let currentElem = children[activeKey]
+		// let nextElem = activeKey + 1 == children.length ? children[0] : children[activeKey + 1];
+		let nextKey = activeKey + 1 == children.length ? children[0] : children[activeKey + 1];
+		console.log(nextElem, currentElem, 'sss.p')
+		// carouselSwip(activeKey, nextKey, children)	// to be continued===================================================
+	}
+}
+function carouselSwip(currentElem, nextElem) {
+	// working but thinking to checge by adding a way for carousel indicators===================================================
+	nextElem.classList.add('carousel-item-next')
+	setTimeout(()=>{
+	currentElem.classList.add('carousel-item-left')
+		nextElem.classList.add('active')
+		nextElem.classList.remove('carousel-item-next')
+	}, 10)
+	setTimeout(()=>{
+		currentElem.classList.remove('active')
+		currentElem.classList.remove('carousel-item-left')
+	}, 600)
+}
+</script>
 <script>
    $('.menu-toggle').on('click', function() {
 	  $('#menu-revealer').toggleClass('menu--is-revealed');  

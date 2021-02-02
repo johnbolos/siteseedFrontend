@@ -3,21 +3,48 @@ import React, { Component, Suspense } from "react";
 import { Route, Link, Redirect, Switch } from "react-router-dom";
 
 import routes from "../../routes";
-import GlobalLayoutWrapper from "../../layout/globalLayoutWrapper";
+import GlobalLayout from "../../layout/globalLayout";
 import "./index.scss";
+import { useSelector } from "react-redux";
+
+function GlobalLayoutWrapper(props) {
+
+	const { currentUser, tokenInfo } = useSelector(
+		(state) => ({
+			currentUser: state.global.currentUser,
+			tokenInfo: state.global.tokenInfo,
+		})
+	)
+	if (!props.Component) {	// 404 Component
+		return <h1>404 NOT Found</h1>
+	}
+	if (props.pageData.authority && props.pageData.authority.length > 0 && !currentUser) {
+		return <Redirect to="/login-page" />
+	}
+	if (props.pageData.independentLayout) {
+		return (
+			<props.Component path={props.path} pageData={props.pageData} />
+		)
+	}
+	return (
+		<GlobalLayout {...props} />
+	)
+}
 
 class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			token: localStorage.getItem("token"),
-			user:
-				localStorage.getItem("user") !== "undefined"
-					? JSON.parse(localStorage.getItem("user"))
-					: null,
+			// token: localStorage.getItem("token"),
+			// user:
+			// 	localStorage.getItem("user") !== "undefined"
+			// 		? JSON.parse(localStorage.getItem("user"))
+			// 		: null,
+
 		};
 	}
 	componentDidMount() {
+
 	}
 	render() {
 		const { user } = this.state;
@@ -31,18 +58,11 @@ class App extends Component {
 								path={item.path}
 								key={item.path}
 								render={(route) => {
-									if (item.independentLayout) {
-										return <item.component
-											path={item.path}
-											user={user}
-											pageData={item}
-										/>
-									}
 									return (
 										<GlobalLayoutWrapper
 											Component={item.component}
 											path={item.path}
-											user={user}
+											// user={user}
 											pageData={item}
 										/>
 									);
@@ -64,7 +84,7 @@ class App extends Component {
 										if (child.independentLayout) {
 											return <child.component
 												path={child.path}
-												user={user}
+												// user={user}
 												pageData={{ ...item, child }}
 											/>
 										}
@@ -72,7 +92,7 @@ class App extends Component {
 											<GlobalLayoutWrapper
 												Component={child.component}
 												path={child.path}
-												user={user}
+												// user={user}
 												pageData={{ ...item, child }}
 											/>
 										);
@@ -80,8 +100,6 @@ class App extends Component {
 								/>
 							);
 						});
-					} else {
-						return null;
 					}
 				})}
 
@@ -99,6 +117,13 @@ class App extends Component {
 							}
 						});
 						return <Redirect to={path} />;
+					}}
+				/>
+				<Route
+					render={(route) => {
+						return (
+							<GlobalLayoutWrapper route />
+						);
 					}}
 				/>
 			</Switch>

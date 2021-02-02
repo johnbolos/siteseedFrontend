@@ -1,11 +1,15 @@
 import axios from 'axios'
 
+// import { store } from './store'
 import { apiUrl, assetsUrl, fontsUrl } from './settings.js'
 
 const authAxios = axios.create({
     baseURL: apiUrl,
     timeout: 10000,
-    // headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+    headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+        'Content-Type': 'application/json'
+    }
 })
 // const assetAxios = axios.create({
 //     baseURL: assetsUrl,
@@ -21,7 +25,7 @@ const googleFontsAxios = axios.create({
 const basicAxios = axios.create({
     baseURL: apiUrl,
     timeout: 10000,
-    // headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json' }
 })
 
 class Request {
@@ -33,7 +37,7 @@ class Request {
                     return next(d.data)
                 })
                 .catch(err => {
-                    return next({ error: true, err })
+                    return next({ messageType: true, err })
                 })
         })
     }
@@ -77,7 +81,7 @@ class Request {
                     return next(d.data)
                 })
                 .catch(err => {
-                    return next({ messagetype: 'error', err })
+                    return next({ messageType: 'error', err })
                 })
         })
     }
@@ -89,7 +93,7 @@ class Request {
                     return next(d.data)
                 })
                 .catch(err => {
-                    return next({ messagetype: 'error', err })
+                    return next({ messageType: 'error', err })
                 })
         })
     }
@@ -101,7 +105,7 @@ class Request {
                     return next(d.data)
                 })
                 .catch(err => {
-                    return next({ messagetype: 'error', err })
+                    return next({ messageType: 'error', err })
                 })
         })
     }
@@ -113,13 +117,30 @@ class Request {
                     return next(d.data)
                 })
                 .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    // =======================================================
+
+    // =======================Dashboard===========================
+    dashboard = () => {
+        return new Promise((next) => {
+            authAxios.get('/dashboard-api/')
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
                     return next({ messagetype: 'error', err })
                 })
         })
     }
 
-    // =======================================================
-
+    // ============================================================
     // ==============================================================================================
 
 }

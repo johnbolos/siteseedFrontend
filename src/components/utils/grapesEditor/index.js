@@ -604,7 +604,7 @@ const _grapesEditor = {
 				"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
 				"https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css",
 				"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
-				"http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css",
+				"https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css",
 				`${assetsUrl}/templates/restaurant1/vendor/bootstrap/css/bootstrap.min.css`,
 				`${assetsUrl}/templates/restaurant1/fonts/stylesheet.css`,
 				

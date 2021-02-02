@@ -15,19 +15,19 @@ import NewPassword from './containers/auth/reset/newPassword'
 // const Undercons = lazy(() => import('./containers/undercons'))
 
 const routes = [
-	{
-		path: "/home",
-		key: "home",
-		// homepage: true,
-		component: Home,
-		authority: [],
-	},
+	// {
+	// 	path: "/home",
+	// 	key: "home",
+	// 	// homepage: true,
+	// 	component: Home,
+	// 	authority: [],
+	// },
 	{
 		path: "/dashboard",
 		key: "dashboard",
 		homepage: true,
 		component: Dashboard,
-		authority: [],
+		authority: ['client'],
 	},
 	{
 		path: "/allTemplates",
@@ -40,8 +40,8 @@ const routes = [
 		path: "/designerStudio",
 		key: "designerStudio",
 		independentLayout: true,
-		authority: ["client"],
 		component: DesignerStudio,
+		authority: [],
 	},
 	{
 		path: "/create-account",

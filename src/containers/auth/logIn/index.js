@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { connect } from "react-redux"
 
 import "./index.scss"
-import request from "../../../request"
+import Request from "../../../request"
 import { showToast } from "../../../components/utils"
 import { setTokenInfo, setUser } from "../../../reducers/actions/userActions"
 import { getPushPathWrapper } from "../../../routes"
@@ -88,7 +88,7 @@ class LogIn extends React.Component {
             return
         }
         this.setState({ loading: true })
-        const apiRequest = await request.login(data)
+        const apiRequest = await Request.login(data)
         this.setState({ loading: false })
         if (apiRequest.messageType == 'error') {
             showToast({ type: 'error', message: 'Invalid email or password' })
@@ -99,12 +99,13 @@ class LogIn extends React.Component {
     logInUser = (data, type) => {
         const { dispatch } = this.props
         if (type == 'google') {
-            setUser(data.userInfo)
-            setTokenInfo(data.tokenInfo)
+            dispatch(setUser(data.userInfo))
+            dispatch(setTokenInfo(data.tokenInfo))
         } else if (type == 'backend') {
             // save currentUser and token
-            setUser(data.userInfo)
-            setTokenInfo(data['token_information'])
+            localStorage.setItem('access_token', data.token_information.access_token)
+            dispatch(setUser(data.userinfo))
+            dispatch(setTokenInfo(data['token_information']))
             // go to dashboard
             this.goto('dashboard')
         }

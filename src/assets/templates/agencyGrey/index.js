@@ -91,7 +91,7 @@ height: 196px;
     .product-left-space{
         padding-left: 15px;
     }
-    .btn-over-tetimonial {
+    .btn-over-testimonial {
        margin-right: 30px;
         margin-top: 100px;}
     
@@ -399,7 +399,7 @@ img.side-img {
    .right_c1 {
     padding: 25px;}
     
-    .btn-over-tetimonial {
+    .btn-over-testimonial {
     max-width: 36px;    
     margin-top: 10px;
     margin-left: 0px;
@@ -1183,7 +1183,7 @@ img.ribbon {
 }
 
 
-.btn-over-tetimonial {
+.btn-over-testimonial {
     width: 50px;
     margin-top: 10px;
     margin-left: 0px;
@@ -1193,7 +1193,7 @@ img.ribbon {
     border: 3px solid transparent;
     }
 
-.btn-over-tetimonial:hover {
+.btn-over-testimonial:hover {
     width: 50px;
     background: #E3EDF7;
     box-shadow: inset -3px -3px 7px #FFFFFF, inset 3px 3px 7px rgba(136, 165, 191, 0.48);
@@ -1461,7 +1461,7 @@ export const html = `
                                 </div>
                             </div>
                             <!-- /.carousel-inner -->
-                            <a href="#main-carousel" class="carousel-control-next" data-slide="next">	<span class="carousel-control-next-icon-new"><img class="btn-over-tetimonial" src="${assetsUrl}/templates/agencyGrey/agency-images/Arrow.png"></span>
+                            <a href="#main-carousel" class="carousel-control-next" data-slide="next">	<span class="carousel-control-next-icon-new"><img class="btn-over-testimonial" src="${assetsUrl}/templates/agencyGrey/agency-images/Arrow.png"></span>
                                 <span class="sr-only" aria-hidden="true">Next</span>
                             </a>
                         </div>
@@ -1654,7 +1654,7 @@ function carouselControl() {
     if (!wrapper) {
         return
     }
-    const nextBtn = document.querySelector(".btn-over-tetimonial")
+    const nextBtn = document.querySelector(".btn-over-testimonial")
     nextBtn.onclick = (e) => {
         let main = e.target.parentElement.parentElement.parentElement
         let children = main.querySelector(".carousel-inner").children
