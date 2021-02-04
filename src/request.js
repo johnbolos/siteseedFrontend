@@ -2,15 +2,6 @@ import axios from 'axios'
 
 // import { store } from './store'
 import { apiUrl, assetsUrl, fontsUrl } from './settings.js'
-
-const authAxios = axios.create({
-    baseURL: apiUrl,
-    timeout: 10000,
-    headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
-        'Content-Type': 'application/json'
-    }
-})
 // const assetAxios = axios.create({
 //     baseURL: assetsUrl,
 //     timeout: 10000,
@@ -27,6 +18,16 @@ const basicAxios = axios.create({
     timeout: 10000,
     headers: { 'Content-Type': 'application/json' }
 })
+
+
+let getToken = () => {
+    return ({
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+            'Content-Type': 'application/json'
+        }
+    })
+}
 
 class Request {
 
@@ -121,12 +122,9 @@ class Request {
                 })
         })
     }
-    // =======================================================
-
-    // =======================Dashboard===========================
-    dashboard = () => {
+    logout = () => {
         return new Promise((next) => {
-            authAxios.get('/dashboard-api/')
+            basicAxios.get('/logout/', getToken())
                 .then(d => {
                     if (d.data.status == 200) {
                         return next({ messageType: 'success', ...d.data })
@@ -135,11 +133,110 @@ class Request {
                     }
                 })
                 .catch(err => {
-                    return next({ messagetype: 'error', err })
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    // =======================================================
+
+    // =======================Dashboard===========================
+    dashboard = () => {
+        return new Promise((next) => {
+            basicAxios.get('/dashboard-api/', getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
                 })
         })
     }
 
+    // ============================================================
+
+    // =======================Profile===========================
+    getProfile = () => {
+        return new Promise((next) => {
+            basicAxios.get('/user-profile/', getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+
+    setProfile = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/user-profile/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+
+    getNotifSettings = () => {
+        return new Promise((next) => {
+            basicAxios.get('/user-notification-settings/', getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    
+    setNotifSettings = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/user-notification-settings/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    updatePassword = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/change-password/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
     // ============================================================
     // ==============================================================================================
 

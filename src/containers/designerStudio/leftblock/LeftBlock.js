@@ -56,6 +56,9 @@ class LeftBlock extends Component {
 	}
 	componentDidMount() {
 		setTimeout(() => {
+			if (!document.getElementsByClassName("gjs-frame")[0]) {
+				return
+			}
 			const gjsWindow = document.getElementsByClassName("gjs-frame")[0]
 				.contentWindow;
 			gjsWindow.addEventListener("mousedown", () => {

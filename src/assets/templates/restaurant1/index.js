@@ -1468,7 +1468,6 @@ function carouselControl() {
     if (!wrapper) {
         return
     }
-    const prevBtn = document.querySelector(".carousel-control-prev")
     const nextBtn = document.querySelector(".carousel-control-next")
     nextBtn.onclick = (e) => {
         let main = e.target.parentElement
@@ -1481,22 +1480,53 @@ function carouselControl() {
         })
         let currentElem = children[activeKey]
 		// let nextElem = activeKey + 1 == children.length ? children[0] : children[activeKey + 1];
-		let nextKey = activeKey + 1 == children.length ? children[0] : children[activeKey + 1];
-		console.log(nextElem, currentElem, 'sss.p')
-		// carouselSwip(activeKey, nextKey, children)	// to be continued===================================================
+		let nextKey = activeKey + 1 == children.length ? 0 : activeKey + 1;
+		carouselSwipFront(activeKey, nextKey, children)
+	}
+    const prevBtn = document.querySelector(".carousel-control-prev")
+	prevBtn.onclick = (e) => {
+        let main = e.target.parentElement
+        let children = main.querySelector(".carousel-inner").children
+        let activeKey = 0
+        _.each(children, (child, key) => {
+            if (child.classList.contains('active')) {
+                activeKey = key
+            }
+        })
+        let currentElem = children[activeKey]
+		// let nextElem = activeKey + 1 == children.length ? children[0] : children[activeKey + 1];
+		let nextKey = activeKey - 1 == -1 ? children.length - 1 : activeKey - 1;
+		carouselSwipBack(activeKey, nextKey, children)
 	}
 }
-function carouselSwip(currentElem, nextElem) {
+function carouselSwipFront(activeKey, nextKey, children) {
 	// working but thinking to checge by adding a way for carousel indicators===================================================
-	nextElem.classList.add('carousel-item-next')
+	children[nextKey].classList.add('carousel-item-next')
 	setTimeout(()=>{
-	currentElem.classList.add('carousel-item-left')
-		nextElem.classList.add('active')
-		nextElem.classList.remove('carousel-item-next')
+		children[activeKey].classList.add('carousel-item-left')
+		children[nextKey].classList.add('active')
+		children[nextKey].classList.remove('carousel-item-next')
 	}, 10)
 	setTimeout(()=>{
-		currentElem.classList.remove('active')
-		currentElem.classList.remove('carousel-item-left')
+		children[activeKey].classList.remove('active')
+		children[activeKey].classList.remove('carousel-item-left')
+	}, 600)
+}
+function carouselSwipBack(activeKey, nextKey, children) {
+	// working but thinking to checge by adding a way for carousel indicators===================================================
+	children[nextKey].classList.add('carousel-item-prev')
+	children[nextKey].classList.add('active')
+	setTimeout(()=>{
+		children[nextKey].classList.remove('carousel-item-prev')
+		children[activeKey].classList.add('carousel-item-right')
+	}, 10)
+	setTimeout(()=>{
+		// children[nextKey].classList.add('active')
+		//children[nextKey].classList.remove('carousel-item-prev')
+		//children[nextKey].classList.remove('carousel-item-right')
+
+		children[activeKey].classList.remove('active')
+		children[activeKey].classList.remove('carousel-item-right')
 	}, 600)
 }
 </script>
@@ -1541,9 +1571,9 @@ $('#navbarResponsive').toggleClass('hideshow');
 });    
 </script> 
 */
-  export default {
-	  html,
-	  baseCss,
-	  customCss,
-	  style,
-  }
+export default {
+	html,
+	baseCss,
+	customCss,
+	style,
+}

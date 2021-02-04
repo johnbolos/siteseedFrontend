@@ -497,6 +497,9 @@ class DesignerStudio extends React.Component {
 			let styleGrapejs = JSON.parse(JSON.stringify(editor.getCss()));
 			// save all ss style tag in page manager
 			let frame = document.getElementsByClassName("gjs-frame")
+			if (!frame[0]) {
+				return
+			}
 			let doc = frame[0] && frame[0].contentWindow.document
 			let style = doc.getElementById("ss-style")
 			style = (style && style.innerHTML) || ''

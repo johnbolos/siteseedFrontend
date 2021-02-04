@@ -1,5 +1,5 @@
 import _ from "lodash";
-import React, { Component, Suspense } from "react";
+import React, { Component, Suspense, useEffect } from "react";
 import { Route, Link, Redirect, Switch } from "react-router-dom";
 
 import routes from "../../routes";
@@ -52,6 +52,15 @@ class App extends Component {
 			<Switch>
 				{routes.map((item, key) => {
 					if (!item.children) {
+						if (item.redirect) {
+							return (<Route
+								exact
+								path={item.path}
+								render={(route) => {
+									return <Redirect to={item.redirect} />
+								}}
+							/>)
+						}
 						return (
 							<Route
 								exact
@@ -75,6 +84,15 @@ class App extends Component {
 				{routes.map((item, key) => {
 					if (item.children) {
 						return item.children.map((child, k) => {
+							if (item.redirect) {
+								return (<Route
+									exact
+									path={child.path}
+									render={(route) => {
+										return <Redirect to={child.redirect} />
+									}}
+								/>)
+							}
 							return (
 								<Route
 									exact

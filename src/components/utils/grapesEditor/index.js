@@ -644,6 +644,10 @@ const _grapesEditor = {
 				// "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js",
 				// `${assetsUrl}/templates/agencyGrey/vendor/jquery/jquery.min.js`,
 
+				// Restaurant1 
+				// `${assetsUrl}/templates/restaurant1/vendor/bootstrap/js/bootstrap.bundle.min.js`,
+				// `${assetsUrl}/templates/restaurant1/vendor/jquery/jquery.min.js`,
+
 				`${assetsUrl}/assets/script/ssAnimation.js`,
 				'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js',
 				// `http://localhost:3000/assets/script/ssAnimation.js`,

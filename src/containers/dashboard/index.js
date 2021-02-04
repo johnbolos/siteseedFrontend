@@ -16,22 +16,22 @@ class Dashboard extends React.Component {
         updatesFilter: 'all'
     }
     scriptArray = [
-        {
-            src: "./assets/website/dashboard/js/jquery.min.js"
-        },
-        {
-            src: "https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js",
-            // integrity: "sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU",
-            crossorigin: "anonymous"
-        },
-        {
-            src: "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js",
-            // integrity: "sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj",
-            crossorigin: "anonymous"
-        },
-        {
-            src: './assets/website/dashboard/js/jquery-ui.js'
-        },
+        // {
+        //     src: "./assets/website/js/jquery.min.js"
+        // },
+        // {
+        //     src: "https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js",
+        //     // integrity: "sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU",
+        //     crossorigin: "anonymous"
+        // },
+        // {
+        //     src: "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js",
+        //     // integrity: "sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj",
+        //     crossorigin: "anonymous"
+        // },
+        // {
+        //     src: './assets/website/js/jquery-ui.js'
+        // },
         {
             innerHTML: `
             var acc = document.getElementsByClassName("accordion");
@@ -132,11 +132,11 @@ class Dashboard extends React.Component {
         },
         {
             rel: "stylesheet",
-            href: "./assets/website/dashboard/css/jquery-ui.css"
+            href: "./assets/website/css/jquery-ui.css"
         },
         {
             rel: "stylesheet",
-            href: "./assets/website/dashboard/css/style.css"
+            href: "./assets/website/css/style.css"
         },
     ]
     componentDidMount() {
@@ -145,7 +145,6 @@ class Dashboard extends React.Component {
     }
     loadScriptNStyle = () => {
         const { scriptArray, styleArray } = this
-
         styleArray.forEach(styleData => {
             let elem = document.createElement("link")
             _.each(styleData, (val, key) => {
@@ -165,13 +164,12 @@ class Dashboard extends React.Component {
         })
     }
     apiRequest = async () => {
-        let { currentUser, tokenInfo } = this.props
-        if (!localStorage.getItem('access_token')) {
+        let { tokenInfo } = this.props
+        if (!tokenInfo.access_token) {
             return
         }
         this.setState({ loading: true })
         const apiRequest = await Request.dashboard()
-        console.log(apiRequest, 'sss.p')
         this.setState({ loading: false })
         if (apiRequest.messageType && apiRequest.messageType == 'error') {
             showToast({ type: 'error', message: 'Unable to fetch data, Try Relogging' })
@@ -183,20 +181,21 @@ class Dashboard extends React.Component {
     }
 
     logout = () => {
-        const {dispatch} = this.props
-        dispatch(setUser(null))
-        dispatch(setTokenInfo({}))
-        localStorage.removeItem('access_token')
-        // go to dashboard
-        this.goto('loginPage')
-    }
-    goto = (key) => {   // push to the specifies location/key
         const { dispatch } = this.props
-        dispatch(getPushPathWrapper(key))
+        Request.logout().then((apiRequest) => {
+            localStorage.removeItem('access_token')
+            dispatch(setUser(null))
+            dispatch(setTokenInfo({}))
+            this.goto('loginPage')
+        })
+    }
+    goto = (key, params = {}) => {   // push to the specifies location/key
+        const { dispatch } = this.props
+        dispatch(getPushPathWrapper(key, params))
     }
     componentWillUnmount() {
-        $('#ss-styles-load').remove()
-        $('#ss-script-load').remove()
+        document.querySelectorAll('#ss-script-load').forEach(e => e.remove())
+        document.querySelectorAll('#ss-style-load').forEach(e => e.remove())
     }
 
     renderUserSites = (sites) => {
@@ -204,7 +203,7 @@ class Dashboard extends React.Component {
             return (<>
                 <div className="col-sm-12 col-md-3 col-lg-3 col1">
                     <div className="col1-inner">
-                        <div className="restro-bg"><img src="./assets/website/dashboard/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
+                        <div className="restro-bg"><img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
                             <div className="shadow-up">
                                 <a className="nav-link dropdown-toggle right-top white osr-13 cs-shadow-anchor" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
                                 <ul className="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
@@ -234,7 +233,7 @@ class Dashboard extends React.Component {
 
                 <div className="col-sm-12 col-md-3 col-lg-3 col1">
                     <div className="col1-inner">
-                        <div className="restro-bg"><img src="./assets/website/dashboard/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
+                        <div className="restro-bg"><img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
                             <div className="shadow-up">
                                 <a className="nav-link dropdown-toggle right-top white osr-13 cs-shadow-anchor" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
                                 <ul className="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
@@ -264,7 +263,7 @@ class Dashboard extends React.Component {
 
                 <div className="col-sm-12 col-md-3 col-lg-3 col1">
                     <div className="col1-inner">
-                        <div className="restro-bg"><img src="./assets/website/dashboard/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
+                        <div className="restro-bg"><img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
                             <div className="shadow-up">
                                 <a className="nav-link dropdown-toggle right-top white osr-13 cs-shadow-anchor" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
                                 <ul className="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
@@ -335,7 +334,7 @@ class Dashboard extends React.Component {
                                         <div className="col-md-12 col-lg-12 ">
                                             <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
                                                 <div className="container-fluid">
-                                                    <a className="navbar-brand"><img src="./assets/website/dashboard/images/Logo.svg" className="img-fluid" alt="Responsive image" /></a>
+                                                    <a className="navbar-brand"><img src="./assets/website/images/Logo.svg" className="img-fluid" alt="Responsive image" /></a>
                                                     {/* <!--<button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                                   <span className="navbar-toggler-icon"></span>
                                                 </button>
@@ -368,10 +367,19 @@ class Dashboard extends React.Component {
                                                             <a className="nav-link left-top darkgrey osr-13">Need Support?</a>
                                                         </li>
                                                         <li className="nav-item cs-topright-right">
-                                                            {/* <img src="./assets/website/dashboard/images/Greg-jacoby.png" className="img-fluid" alt="Responsive image" /> */}
+                                                            {/* <img src="./assets/website/images/Greg-jacoby.png" className="img-fluid" alt="Responsive image" /> */}
                                                             {
-                                                                currentUser.profilePic ? (
-                                                                    <img src={currentUser.profilePic} className="img-fluid" alt="Responsive image" />
+                                                                currentUser.profile_picture ? (
+                                                                    <img src={currentUser.profile_picture} className="img-fluid" alt="Responsive image"
+                                                                        style={{
+                                                                            float: 'left',
+                                                                            height: '35px',
+                                                                            width: '35px',
+                                                                            marginRight: '10px',
+                                                                            color: '#31cdb9',
+                                                                            borderRadius: '50%'
+                                                                        }}
+                                                                    />
                                                                 ) : (
                                                                         <i
                                                                             class="fa fa-user-circle-o"
@@ -386,13 +394,13 @@ class Dashboard extends React.Component {
                                                                     )
                                                             }
                                                             <a className="nav-link dropdown-toggle right-top black osr-13" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                {currentUser.firstName} {currentUser.lastName && currentUser.lastName}
+                                                                {currentUser.display_name || currentUser.first_name}
                                                                 {/* Greg Jacoby */}
                                                             </a>
                                                             <ul className="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
-                                                                <li><a className="dropdown-item osr-13 darkgrey" href="http://159.65.145.117:8090/SiteSeed/Siteseed-client-panel/Admin-SiteSeed/Admin-Control/profile.html">Profile</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey">Account {'&'} Security</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey">Notifications</a></li>
+                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.goto('profile', { activeTab: 'details' }) }}>Profile</a></li>
+                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.goto('profile', { activeTab: 'account' }) }}>Account {'&'} Security</a></li>
+                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.goto('profile', { activeTab: 'notification' }) }}>Notifications</a></li>
                                                                 <li><a className="dropdown-item osr-13 darkgrey">Language</a></li>
                                                                 <li><a className="dropdown-item osr-13 darkgrey">Help Center</a></li>
                                                                 <li><a className="dropdown-item osr-13 darkgrey" onClick={this.logout}>Log Out</a></li>
@@ -440,7 +448,7 @@ class Dashboard extends React.Component {
                                     <div className="row cs-dashdata1">
                                         <div className="col-sm-12 col-md-12 col-lg-12 col1">
                                             <h1 className="osb-22 black">
-                                                Hey there, <span>{currentUser.firstName}</span>!
+                                                Hey there, <span>{currentUser.display_name || currentUser.first_name}</span>!
                                                 {/* Hey there, <span>Greg</span>! */}
                                             </h1>
                                         </div>
@@ -448,7 +456,7 @@ class Dashboard extends React.Component {
                                     <div className="row cs-dashdata2 black-bg">
                                         <div className="col-sm-12 col-md-7 col-lg-7 col1">
                                             <h2 className="oss-22 white">
-                                                {/* <!--<img src="./assets/website/dashboard/images/wifi-sign.png" className="img-fluid" alt="Responsive image" />--> */}
+                                                {/* <!--<img src="./assets/website/images/wifi-sign.png" className="img-fluid" alt="Responsive image" />--> */}
                                                 <span className="icon-Signal turq"></span><span className="how">How can we help you today?</span>
                                             </h2>
                                             <div className="our-team">
@@ -496,7 +504,7 @@ class Dashboard extends React.Component {
                                             data && data.latest_offer && (
                                                 <div className="col-sm-12 col-md-3 col-lg-3 col1 col4">
                                                     <div className="col1-inner light-orange-bg">
-                                                        <img src="./assets/website/dashboard/images/hot-sale.png" className="img-fluid" alt="Responsive image" />
+                                                        <img src="./assets/website/images/hot-sale.png" className="img-fluid" alt="Responsive image" />
                                                         <div className="col1-content">
                                                             <h2 className="oss-16 white">Latest Offer</h2>
                                                             <div className="fify-main">
@@ -533,7 +541,7 @@ class Dashboard extends React.Component {
                                             <ul>
                                                 <li className="update oss-13 black">All Updates</li>
                                                 <li className="featured oss-13 darkgrey">Filtered by:
-                                                    <a className="nav-link dropdown-toggle right-top black osr-13" id="navbarDropdown" role="button" data-bs-toggle="dropdown" data-bs-target="li.featured ul" aria-expanded="false">
+                                                    <a className="nav-link dropdown-toggle right-top black osr-13" id="navbarDropdown" role="button" data-bs-toggle="dropdown" data-bs-target="#filter" aria-expanded="false">
                                                         {_.startCase(updatesFilter)}
                                                     </a>
                                                     <ul className="dropdown-menu animate slideIn" id={'filter'} aria-labelledby="navbarDropdown">
@@ -796,7 +804,7 @@ class Dashboard extends React.Component {
                                             <div className="row-inner">
                                                 <div className="col-lg-8 col-md-8 col-sm-12 coll">
                                                     <div className="left">
-                                                        <img id="myImg" src="./assets/website/dashboard/images/SpaWellness.jpg" alt="your image" />
+                                                        <img id="myImg" src="./assets/website/images/SpaWellness.jpg" alt="your image" />
                                                     </div>
                                                     <div className="right">
                                                         <h2 className="oss-16 black">Template : Spa {'&'} Wellness</h2>
@@ -846,7 +854,7 @@ class Dashboard extends React.Component {
                                             <div className="row-inner">
                                                 <div className="col-lg-8 col-md-8 col-sm-12 coll">
                                                     <div className="left">
-                                                        <img id="myImg" src="./assets/website/dashboard/images/SpaWellness.jpg" alt="your image" />
+                                                        <img id="myImg" src="./assets/website/images/SpaWellness.jpg" alt="your image" />
                                                     </div>
                                                     <div className="right">
                                                         <h2 className="oss-16 black">Template : Spa {'&'} Wellness</h2>

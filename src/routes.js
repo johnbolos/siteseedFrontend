@@ -7,6 +7,7 @@ import Home from "./containers/home";
 import AllTemplates from "./containers/allTemplates";
 import DesignerStudio from "./containers/designerStudio";
 import Dashboard from "./containers/dashboard";
+import Profile from "./containers/profile";
 import CreateAccount from './containers/auth/signUp'
 import LogIn from './containers/auth/login'
 import ResetPassword from './containers/auth/reset'
@@ -28,6 +29,16 @@ const routes = [
 		homepage: true,
 		component: Dashboard,
 		authority: ['client'],
+	},
+	{
+		path: "/profile/:activeTab",
+		key: "profile",
+		component: Profile,
+		authority: ['client'],
+	},
+	{
+		path: "/profile",
+		redirect: "/profile/details",
 	},
 	{
 		path: "/allTemplates",

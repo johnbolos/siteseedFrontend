@@ -7,6 +7,7 @@ import Request from "../../../request"
 import { showToast } from "../../../components/utils"
 import { setTokenInfo, setUser } from "../../../reducers/actions/userActions"
 import { getPushPathWrapper } from "../../../routes"
+import { apiUrl } from "../../../settings"
 
 class LogIn extends React.Component {
     state = {
@@ -104,6 +105,8 @@ class LogIn extends React.Component {
         } else if (type == 'backend') {
             // save currentUser and token
             localStorage.setItem('access_token', data.token_information.access_token)
+            if (data.userinfo.profile_picture) { data.userinfo.profile_picture = apiUrl + data.userinfo.profile_picture }
+            console.log(data, 'sss.p login')
             dispatch(setUser(data.userinfo))
             dispatch(setTokenInfo(data['token_information']))
             // go to dashboard
