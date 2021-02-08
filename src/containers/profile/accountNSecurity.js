@@ -11,11 +11,118 @@ class AccountNSecurity extends React.Component {
 
     }
     componentDidMount() {
-        // this.apiRequestNotifSettings()
+        // this.renderCollaborators()
     }
     getFormData = (form) => {
         const formEntries = new FormData(form).entries();
         return Object.assign(...Array.from(formEntries, ([name, value]) => ({ [name]: value })));
+    }
+    renderCollaborators = () => {
+        let { contributors, userSites } = this.props
+        console.log(userSites, contributors, 'sss.p...account')
+        if (!userSites || !contributors) {
+            return null
+        }
+
+        return userSites.map((site, key) => {
+            let currentSiteContributors = contributors.filter((item) => item.site_id == site.site_id)
+            return <>
+                <button className="accordion" onClick={(e) => {
+                    let btn = document.querySelector(".sc-accordion").children[((key + 1) * 2) - 2]
+                    if (btn.classList.contains('active')) {
+                        btn.parentElement.children[((key + 1) * 2) - 1].style.maxHeight = '0px'
+                        btn.classList.remove("active")
+                    } else {
+                        btn.parentElement.children[((key + 1) * 2) - 1].style.maxHeight = '186px'
+                        btn.classList.add("active")
+                    }
+                }}><span className="icon-Globe"></span><h3 className="oss-13 turq">{site.site_name}</h3></button>
+                <div className="panel">
+                    <div className="row">
+                        <div className="col-sm-12 col-md-12 col-lg-12">
+                            <ul style={{ width: '100%' }}>
+                                {currentSiteContributors.map(collab => (
+                                    <li>
+                                        <div className="left">
+                                            <span className="synom-left osb-13 white">{collab.name.split(" ").map((n) => n[0].toUpperCase()).join("")}</span>
+                                            <span className="synom-right-main" style={{ display: 'flex', paddingLeft: '10px', flexDirection: 'column' }}>
+                                                <span className="synom-right-name oss-13 black">{collab.name}</span>
+                                                <span className="synom-right-email osr-9 darkgrey">{collab.email}
+                                                    <span className="synom-divider">|</span>
+                                                    <span className="synom-role">{collab.role}</span></span>
+                                            </span>
+
+                                        </div>
+                                        <div className="right">
+                                            <a className="expnd" href=""><span className="icon-Expand darkgrey"></span></a>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </>
+        })
+        // return contributors.map(item => {
+
+        //     <>
+        //         <button className="accordion"><span className="icon-Globe"></span><h3 className="oss-13 turq">{(userSites.find(site => site.site_id == item.site_id)).site_name}</h3></button>
+        //         <div className="panel">
+        //             <div className="row">
+        //                 <div className="col-sm-12 col-md-12 col-lg-12">
+        //                     <ul>
+        //                         <li>
+        //                             <div className="left">
+        //                                 <span className="synom-left osb-13 white">{item.name.split(" ").map((n) => n[0].toUpperCase()).join("")}</span>
+        //                                 <span className="synom-right-main">
+        //                                     <span className="synom-right-name oss-13 black">{item.name}</span>
+        //                                     <span className="synom-right-email osr-9 darkgrey">{item.email}
+        //                                         <span className="synom-divider">|</span>
+        //                                         <span className="synom-role">{item.role}</span></span>
+        //                                 </span>
+
+        //                             </div>
+        //                             <div className="right">
+        //                                 <a className="expnd" href=""><span className="icon-Expand darkgrey"></span></a>
+        //                             </div>
+        //                         </li>
+        //                         <li>
+        //                             <div className="left">
+        //                                 <span className="synom-left osb-13 white">GJ</span>
+        //                                 <span className="synom-right-main">
+        //                                     <span className="synom-right-name oss-13 black">Greg Jacoby</span>
+        //                                     <span className="synom-right-email osr-9 darkgrey">gregjacoby@example.com
+		// 																					<span className="synom-divider">|</span>
+        //                                         <span className="synom-role">Admin</span></span>
+        //                                 </span>
+
+        //                             </div>
+        //                             <div className="right">
+        //                                 <a className="expnd" href=""><span className="icon-Expand darkgrey"></span></a>
+        //                             </div>
+        //                         </li>
+        //                         <li>
+        //                             <div className="left">
+        //                                 <span className="synom-left osb-13 white">GJ</span>
+        //                                 <span className="synom-right-main">
+        //                                     <span className="synom-right-name oss-13 black">Greg Jacoby</span>
+        //                                     <span className="synom-right-email osr-9 darkgrey">gregjacoby@example.com
+		// 																					<span className="synom-divider">|</span>
+        //                                         <span className="synom-role">Admin</span></span>
+        //                                 </span>
+
+        //                             </div>
+        //                             <div className="right">
+        //                                 <a className="expnd" href=""><span className="icon-Expand darkgrey"></span></a>
+        //                             </div>
+        //                         </li>
+        //                     </ul>
+        //                 </div>
+        //             </div>
+        //         </div>
+        //     </>
+        // })
     }
     // Account Security tab
     handleSecuritySubmit = async (e) => {
@@ -53,6 +160,7 @@ class AccountNSecurity extends React.Component {
         showToast({ type: 'success', message: apiRequest.message || 'Updated Successfully' })
         this.securityForm.reset()
     }
+
     render() {
         const { dispatch, currentUser } = this.props
         const { notifHTMLData } = this.state
@@ -69,15 +177,15 @@ class AccountNSecurity extends React.Component {
                                         <form onSubmit={this.handleSecuritySubmit.bind(this)} ref={(form) => this.securityForm = form}>
                                             <div className="">
                                                 <label htmlFor="current-password" className="form-label oss-16 black">Current Password</label>
-                                                <input type="password" className="form-control" id="current-password" required name={'current_password'}/>
+                                                <input type="password" className="form-control" id="current-password" required name={'current_password'} />
                                             </div>
                                             <div className="">
                                                 <label htmlFor="new-password" className="form-label oss-16 black">New Password</label>
-                                                <input type="password" className="form-control" id="new-password" required name={'new_password'}/>
+                                                <input type="password" className="form-control" id="new-password" required name={'new_password'} />
                                             </div>
                                             <div className="">
                                                 <label htmlFor="confirm-password" className="form-label oss-16 black">Confirm Password</label>
-                                                <input type="password" className="form-control" id="confirm-password" required name={'confirm_password'}/>
+                                                <input type="password" className="form-control" id="confirm-password" required name={'confirm_password'} />
                                             </div>
                                             <button type="submit" className="btn btn-primary green-btn oss-13 white">Save Changes</button>
                                         </form>
@@ -108,7 +216,9 @@ class AccountNSecurity extends React.Component {
                                     <div className="account-tab-colr-inner1d">
                                         <p className="osr-13 darkgrey">Invite friends, colleagues, clients, or whoever you want to provide feedback and insights on your site.  </p>
                                         <div className="sc-accordion">
-                                            <button className="accordion"><span className="icon-Globe"></span><h3 className="oss-13 turq">Mysite 01</h3></button>
+                                            {this.renderCollaborators()}
+
+                                            {/* <button className="accordion"><span className="icon-Globe"></span><h3 className="oss-13 turq">Mysite 01</h3></button>
                                             <div className="panel">
                                                 <div className="row">
                                                     <div className="col-sm-12 col-md-12 col-lg-12">
@@ -329,6 +439,7 @@ class AccountNSecurity extends React.Component {
                                                     </div>
                                                 </div>
                                             </div>
+                                         */}
                                         </div>
                                     </div>
                                 </div>

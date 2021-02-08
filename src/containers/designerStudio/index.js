@@ -19,12 +19,12 @@ import { setCustomCss } from "../../reducers/actions/templateActions";
 
 // Templates =========================================================================
 import { template1Html, template1Style, template1StyleCss, template1StyleMedia } from "./dummiev3";
-import restaurant1 from "../../assets/templates/restaurant1";
 import therapists from "../../assets/templates/therapists";
 import landingPageTemplate from "../../assets/templates/landingPage";
 import agencyGreyTemplate from "../../assets/templates/agencyGrey";
 import agencyDarkTemplate from "../../assets/templates/agencyDark";
-import restaurant1Template from "../../assets/templates/restaurant1";
+import restaurant1 from "../../assets/templates/restaurant1";
+import carpentry from "../../assets/templates/carpentry";
 import spa from "../../assets/templates/spa";
 import { landingHtml, landingStyle } from "./templates/landing";
 import { landing2Html, landing2Style } from "./templates/landing2";
@@ -266,11 +266,6 @@ class DesignerStudio extends React.Component {
 					html = landingHtml
 					style = landingStyle
 					break;
-				case "restaurant1":
-					html = restaurant1.html
-					style = restaurant1.baseCss
-					customCss = restaurant1.customCss
-					break;
 				case "therapists":
 					html = therapists.html
 					style = therapists.baseCss
@@ -297,9 +292,14 @@ class DesignerStudio extends React.Component {
 					customCss = agencyDarkTemplate.customCss
 					break;
 				case "restaurant1":
-					html = restaurant1Template.html
-					style = restaurant1Template.baseCss
-					customCss = restaurant1Template.customCss
+					html = restaurant1.html
+					style = restaurant1.baseCss
+					customCss = restaurant1.customCss
+					break;
+				case "carpentry":
+					html = carpentry.html
+					style = carpentry.baseCss
+					customCss = carpentry.customCss
 					break;
 				case "myProject1":
 					// html = xyzHtml

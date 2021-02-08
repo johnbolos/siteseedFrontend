@@ -195,103 +195,54 @@ class Dashboard extends React.Component {
     }
     componentWillUnmount() {
         document.querySelectorAll('#ss-script-load').forEach(e => e.remove())
-        document.querySelectorAll('#ss-style-load').forEach(e => e.remove())
+        document.querySelectorAll('#ss-styles-load').forEach(e => e.remove())
     }
 
     renderUserSites = (sites) => {
         if (!sites || _.isEmpty(sites)) {
-            return (<>
-                <div className="col-sm-12 col-md-3 col-lg-3 col1">
-                    <div className="col1-inner">
-                        <div className="restro-bg"><img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
-                            <div className="shadow-up">
-                                <a className="nav-link dropdown-toggle right-top white osr-13 cs-shadow-anchor" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
-                                <ul className="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
-                                    <li><a className="dropdown-item osr-13 darkgrey active"><span className="icon-Edit darkgrey"></span>Edit Site</a></li>
-                                    <li><a className="dropdown-item osr-13 darkgrey"><span className="icon-Eye darkgrey"></span>View Live Site</a></li>
-                                    <li><a className="dropdown-item osr-13 darkgrey" data-bs-toggle="modal" data-bs-target="#duplicate1"><span className="icon-Duplicate darkgrey"></span>Duplicate Site</a></li>
-                                    <li><a className="dropdown-item osr-13 darkgrey"><span className="icon-Add-User darkgrey"></span>Invite Contributor</a></li>
-                                    <li><a className="dropdown-item osr-13 darkgrey"><span className="icon-Setting darkgrey"></span>Setting</a></li>
-                                    <li><a className="dropdown-item osr-13 darkgrey"><span className="icon-Delete darkgrey"></span>Delete</a></li>
-                                </ul>
-                                <span className="oss-16 white"><a>Edit Now</a></span>
-                            </div>
-
-
-                        </div>
-                        <div className="col1-content">
-                            <h3 className="oss-13 black">Digital Conference Landing Page</h3>
-                            <ul>
-                                <li className="osr-11 darkgrey li-left">Domain: Not connected</li>
-                                <li className="li-right"><a className="oss-9 turq-bg white">Published</a></li>
-                            </ul>
-                            <p><a className="darkgrey osr-11">Connect Domain</a></p>
-                            <span className="darkgrey osr-11">Export Site</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="col-sm-12 col-md-3 col-lg-3 col1">
-                    <div className="col1-inner">
-                        <div className="restro-bg"><img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
-                            <div className="shadow-up">
-                                <a className="nav-link dropdown-toggle right-top white osr-13 cs-shadow-anchor" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
-                                <ul className="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
-                                    <li><a className="dropdown-item osr-13 darkgrey active"><span className="icon-Edit darkgrey"></span>Edit Site</a></li>
-                                    <li><a className="dropdown-item osr-13 darkgrey"><span className="icon-Eye darkgrey"></span>View Live Site</a></li>
-                                    <li><a className="dropdown-item osr-13 darkgrey" data-bs-toggle="modal" data-bs-target="#duplicate1"><span className="icon-Duplicate darkgrey"></span>Duplicate Site</a></li>
-                                    <li><a className="dropdown-item osr-13 darkgrey"><span className="icon-Add-User darkgrey"></span>Invite Contributor</a></li>
-                                    <li><a className="dropdown-item osr-13 darkgrey"><span className="icon-Setting darkgrey"></span>Setting</a></li>
-                                    <li><a className="dropdown-item osr-13 darkgrey"><span className="icon-Delete darkgrey"></span>Delete</a></li>
-                                </ul>
-                                <span className="oss-16 white"><a>Edit Now</a></span>
-                            </div>
-
-
-                        </div>
-                        <div className="col1-content">
-                            <h3 className="oss-13 black">Digital Conference Landing Page</h3>
-                            <ul>
-                                <li className="osr-11 darkgrey li-left">Domain: Not connected</li>
-                                <li className="li-right"><a className="oss-9 redish-btn-bg white">Not Published</a></li>
-                            </ul>
-                            <p><a className="darkgrey osr-11">Connect Domain</a></p>
-                            <span className="darkgrey osr-11">Export Site</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="col-sm-12 col-md-3 col-lg-3 col1">
-                    <div className="col1-inner">
-                        <div className="restro-bg"><img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
-                            <div className="shadow-up">
-                                <a className="nav-link dropdown-toggle right-top white osr-13 cs-shadow-anchor" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
-                                <ul className="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
-                                    <li><a className="dropdown-item osr-13 darkgrey active"><span className="icon-Edit darkgrey"></span>Edit Site</a></li>
-                                    <li><a className="dropdown-item osr-13 darkgrey"><span className="icon-Eye darkgrey"></span>View Live Site</a></li>
-                                    <li><a className="dropdown-item osr-13 darkgrey" data-bs-toggle="modal" data-bs-target="#duplicate1"><span className="icon-Duplicate darkgrey"></span>Duplicate Site</a></li>
-                                    <li><a className="dropdown-item osr-13 darkgrey"><span className="icon-Add-User darkgrey"></span>Invite Contributor</a></li>
-                                    <li><a className="dropdown-item osr-13 darkgrey"><span className="icon-Setting darkgrey"></span>Setting</a></li>
-                                    <li><a className="dropdown-item osr-13 darkgrey"><span className="icon-Delete darkgrey"></span>Delete</a></li>
-                                </ul>
-                                <span className="oss-16 white"><a>Edit Now</a></span>
-                            </div>
-
-
-                        </div>
-                        <div className="col1-content">
-                            <h3 className="oss-13 black">Digital Conference Landing Page</h3>
-                            <ul>
-                                <li className="osr-11 darkgrey li-left">Domain: Not connected</li>
-                                <li className="li-right"><a className="oss-9 redish-btn-bg white">Not Published</a></li>
-                            </ul>
-                            <p><a className="darkgrey osr-11">Connect Domain</a></p>
-                            <span className="darkgrey osr-11">Export Site</span>
-                        </div>
-                    </div>
-                </div>
-            </>)
+            return null
         }
+        return sites.map((item) => {
+            return (
+                <div className="col-sm-12 col-md-3 col-lg-3 col1">
+                    <div className="col1-inner">
+                        <div className="restro-bg"><img src={item.siteImg || "./assets/website/images/mysite-img1.jpg"} className="img-fluid " alt="Responsive image" />
+                            <div className="shadow-up">
+                                <a className="nav-link dropdown-toggle right-top white osr-13 cs-shadow-anchor" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                <ul className="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
+                                    <li><a className="dropdown-item osr-13 darkgrey active"><span className="icon-Edit darkgrey"></span>Edit Site</a></li>
+                                    <li><a className="dropdown-item osr-13 darkgrey"><span className="icon-Eye darkgrey"></span>View Live Site</a></li>
+                                    <li><a className="dropdown-item osr-13 darkgrey" data-bs-toggle="modal" data-bs-target="#duplicate1"><span className="icon-Duplicate darkgrey"></span>Duplicate Site</a></li>
+                                    <li><a className="dropdown-item osr-13 darkgrey"><span className="icon-Add-User darkgrey"></span>Invite Contributor</a></li>
+                                    <li><a className="dropdown-item osr-13 darkgrey"><span className="icon-Setting darkgrey"></span>Setting</a></li>
+                                    <li><a className="dropdown-item osr-13 darkgrey"><span className="icon-Delete darkgrey"></span>Delete</a></li>
+                                </ul>
+                                <span className="oss-16 white"><a>Edit Now</a></span>
+                            </div>
+
+
+                        </div>
+                        <div className="col1-content">
+                            <h3 className="oss-13 black">{item.site_name}</h3>
+                            <ul>
+                                <li className="osr-11 darkgrey li-left">Domain: {item.is_domain_connected ? item.custom_domain : 'Not connected'}</li>
+                                {item.is_published ? (
+                                    <li className="li-right"><a className="oss-9 turq-bg white">Published</a></li>
+                                ) : (
+                                        <li className="li-right"><a className="oss-9 redish-btn-bg white">Not Published</a></li>
+                                    )}
+                            </ul>
+                            {item.is_domain_connected ? (
+                                <p style={{ marginTop: '0px', height: '18px' }}><a className="darkgrey osr-11">{' '}</a></p>
+                            ) : (
+                                    <p style={{ marginTop: '0px' }}><a className="darkgrey osr-11">{'Connect Domain'}</a></p>
+                                )}
+                            <span className="darkgrey osr-11">Export Site</span>
+                        </div>
+                    </div>
+                </div>
+            )
+        })
     }
     createUpdatesContent = () => {
         const { data, filter } = this.state
@@ -507,13 +458,13 @@ class Dashboard extends React.Component {
                                                         <img src="./assets/website/images/hot-sale.png" className="img-fluid" alt="Responsive image" />
                                                         <div className="col1-content">
                                                             <h2 className="oss-16 white">Latest Offer</h2>
-                                                            <div className="fify-main">
+                                                            <div STAYLE={{ marginTop: '30%' }}>
                                                                 <p className="osb-42 white fifty">{data.latest_offer.title}</p>
                                                                 <p className="osb-42 white fifty">{data.latest_offer.description}</p>
                                                                 {/* <p className="osr-13 white">Export Credits Just <span className="oss-16">$7</span> <br /> for each export</p> */}
                                                                 <p className="osr-13 white">{data.latest_offer.short_description}</p>
                                                             </div>
-                                                            <p className="oss-13 fifty-buy"><a className="oss-13 white">Buy now <span className="icon-right-arrow-6-1 white"></span></a></p>
+                                                            <p className="oss-13" style={{ marginTop: '14%', width: 'auto' }}><a className="oss-13 white" >Buy now <span className="icon-right-arrow-6-1 white"></span></a></p>
                                                         </div>
                                                     </div>
                                                 </div>

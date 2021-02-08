@@ -11,7 +11,11 @@ export const customCss = `
 @media only screen and (max-width: 567px) and (min-width: 0px){
 .popup-top-paragraph {width: 80%;}
 }
-
+@media screen and (max-width: 640px) and (min-width: 0px) {
+	.book-table-form {
+		flex-direction: column;
+	}
+}
 
 @media only screen and (max-width: 767px) and (min-width: 568px){}
 
@@ -102,7 +106,7 @@ top: 300px;
 left: 0;
 }
 input#datepicker {
-width: 170px;
+width: 100%;
 }
 }
 
@@ -198,7 +202,7 @@ img.social-icons {margin-right: 23px !important;}
 
 @media only screen and (max-width: 768px) and (min-width: 991px){
 .sub-image {left: 20px;}	
-input#datepicker {width: 170px !important;}
+input#datepicker {width: 100% !important;}
 }
 
 @media only screen and (max-width: 812px) and (min-width: 730px){
@@ -208,10 +212,10 @@ input#datepicker {width: 170px !important;}
 .inner-mid-space {margin-top: 100px !important;}
 .menu-inner-text {white-space: nowrap;font-size: 98px;}
 .inner-table {margin-top: 30px;}
-.book-table{width: 170px;}
-select#cars-1{width: 170px;}
-select#cars-2{width: 170px;}
-select#cars-3{width: 170px;}
+.book-table{width: 100%;}
+select#cars-1{width: 100%;}
+select#cars-2{width: 100%;}
+select#cars-3{width: 100%;}
 .content2 ul.navbar-nav.ml-auto {width: 100%;display: flex;flex-direction: column;top: 100px;background-color: #fff;height: 100vh;}
 .content2 {margin-top: -50px;z-index: 2;width: 100%;position: absolute;display: flex;flex-direction: column;top: 101px;background-color: #fff;height: -webkit-fill-available;transition: top .5s;transition: left .5s;right: -100%;padding: 50px 0px;}
 .w100 {left: 0%;}
@@ -327,6 +331,7 @@ body {background-color: #FFFDFA;    font-family: 'Source Sans Pro', sans-serif; 
 p{margin-bottom: 0px;}
 h1{margin-bottom: 0px;}
 .bg-dark {padding: 50px 0px;background-color: #ffffff00 !important;}
+.book-table-form {display: flex;}
 #basic-select-1 select {appearance: none;-webkit-appearance: none;-moz-appearance: none;background-color: transparent;}
 #basic-select-2 select {appearance: none;-webkit-appearance: none;-moz-appearance: none;background-color: transparent;}
 #basic-select-3 select {appearance: none;-webkit-appearance: none;-moz-appearance: none;background-color: transparent;}
@@ -386,10 +391,10 @@ p.tabs-para{font-weight: normal;font-size: 16px;line-height: 28px;color: #808080
 .avilable-section{margin-top: 100px;}
 .book-now-sec{margin-top: 100px;padding-bottom: 100px;/*border-bottom: 1px solid #808080;*/  }
 /* .book-now-sec form {display: flex;} */
-select#cars-1 {z-index: 9999;position: absolute;color: #808080;font-size: 16px;width: 226px;height: 59px;border: solid 1px #666;padding: 15px 10px;}
-select#cars-2 {z-index: 9999;position: absolute;color: #808080;font-size: 16px;width: 226px;height: 59px;border: solid 1px #666;padding: 15px 10px;}
-select#cars-3 {z-index: 9999;position: absolute;color: #808080;font-size: 16px;width: 226px;height: 59px;border: solid 1px #666;padding: 15px 10px;}
-.book-table{border: 0; color: #fff;  width: 226px;height: 59px;left: 992px;top: 8809px;background-color: #333;}
+select#cars-1 {z-index: 9999;position: absolute;color: #808080;font-size: 16px;width: 100%;height: 59px;border: solid 1px #666;padding: 15px 10px;}
+select#cars-2 {z-index: 9999;position: absolute;color: #808080;font-size: 16px;width: 100%;height: 59px;border: solid 1px #666;padding: 15px 10px;}
+select#cars-3 {z-index: 9999;position: absolute;color: #808080;font-size: 16px;width: 100%;height: 59px;border: solid 1px #666;padding: 15px 10px;}
+.book-table{border: 0; color: #fff;  width: 100%;height: 59px;left: 992px;top: 8809px;background-color: #333;}
 .footer-header{ font-family: 'roslindale_testingtextRg';font-size: 18px;font-weight: normal;font-stretch: normal;font-style: normal;line-height: normal;letter-spacing: 0.18px;color: #333;}
 .footer-paragraph{font-style: normal;font-weight: normal;font-size: 16px;line-height: 28px;color: #808080; }
 .bottom-gap{padding-top: 50px;}
@@ -444,7 +449,7 @@ ul.navbar-nav.ml-auto {height: 20px;}
 .icon-bars:after {top: -0.5em;}
 .content2 {justify-content: center;position: relative;/*animation: mymove 5s ;animation-delay: 3s;*/ }
 .crousla-row{display: block !important;}
-input#datepicker {color: #000000;font-family: 'Source Sans Pro', sans-serif;font-size: 16px;width: 226px;height: 59px;border: solid 1px #666666;padding: 15px 10px;background: transparent;    border-radius: 0;}
+input#datepicker {color: #000000;font-family: 'Source Sans Pro', sans-serif;font-size: 16px;width: 100%;height: 59px;border: solid 1px #666666;padding: 15px 10px;background: transparent;    border-radius: 0;}
 a.ui-state-default:hover {color: #454545 !important;}
 input#datepicker1:focus {box-shadow: none;border: 2px solid #000000;border-radius: 4px;}
 /*social icon hover*/
@@ -803,7 +808,7 @@ export const html = `
 			   <img class="img-fluid menu-image" src="${assetsUrl}/templates/restaurant1/images/shp-3.png">
 			</div>
 			<div class="tab-content">
-			   <div id="menu1" class="tab-pane active show">
+			   <div id="menu1" class="tab-pane fade active show">
 				  <div class="row">
 					 <div class="col-lg-6 col-md-6 mb-12">
 						<div class="row inner-table">
@@ -1244,7 +1249,7 @@ export const html = `
    
    
    <div class="row book-now-sec main-body">
-	<form>
+	<form class="book-table-form">
 		<div id="basic-select-1"class="col-lg-3 col-md-3 mb-12 R-pading ">
 			<input type="text" id="datepicker" class="datepicker form-control" value="25/09/2020">
 		   <!--<select id="cars-1" name="cars">
@@ -1290,7 +1295,7 @@ export const html = `
 			  <option class="color-set"value="audi">5 People</option>
 		   </select>
 		</div>
-		<div class="col-lg-3 col-md-3 mb-12 R-pading"><button class="book-table">Book a Table</button></div>
+		<div class="col-lg-3 col-md-3 mb-12 R-pading"><button class="book-table" type="submit">Book a Table</button></div>
 	</form>
    </div>
    <div class="row avilable-section main-body twelve"></div>
@@ -1462,7 +1467,44 @@ export const html = `
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script>
+menu()
 carouselControl()
+
+function menu() {
+	let wrapper = document.querySelector('[data-gjs-type="wrapper"]')
+    if (!wrapper) {
+        return
+	}
+	const menuPill = $('.tabs-section .tab')
+	if (menuPill.length) {
+		menuPill.on('click', (e) => {
+			let nextMenuElem = e.target
+			if (nextMenuElem.classList.contains('active')) {
+				return
+			}
+			let activeMenuElem = null
+			_.each(nextMenuElem.parentElement.children, (elem, key) => {
+				if (elem.classList.contains('active')) {
+					activeMenuElem = elem
+				}
+			})
+			if (!activeMenuElem) {
+				return
+			}
+			changeMenu(document.querySelector(activeMenuElem.getAttribute('href')), document.querySelector(nextMenuElem.getAttribute('href')))
+			activeMenuElem.classList.remove('active')
+			nextMenuElem.classList.add('active')
+		})
+	}
+}
+function changeMenu(activeElem, nextElem) {
+	activeElem.classList.remove('show')
+	nextElem.classList.add('active')
+	setTimeout(()=>{
+		activeElem.classList.remove('active')
+		nextElem.classList.add('show')
+	}, 500)
+}
 function carouselControl() {
     let wrapper = document.querySelector('[data-gjs-type="wrapper"]')
     if (!wrapper) {
@@ -1472,35 +1514,64 @@ function carouselControl() {
     nextBtn.onclick = (e) => {
         let main = e.target.parentElement
         let children = main.querySelector(".carousel-inner").children
+        let indicators = main.querySelector(".carousel-indicators").children
         let activeKey = 0
         _.each(children, (child, key) => {
             if (child.classList.contains('active')) {
                 activeKey = key
             }
         })
-        let currentElem = children[activeKey]
-		// let nextElem = activeKey + 1 == children.length ? children[0] : children[activeKey + 1];
 		let nextKey = activeKey + 1 == children.length ? 0 : activeKey + 1;
+		indicators[activeKey].classList.remove('active')
+		indicators[nextKey].classList.add('active')
 		carouselSwipFront(activeKey, nextKey, children)
 	}
     const prevBtn = document.querySelector(".carousel-control-prev")
 	prevBtn.onclick = (e) => {
         let main = e.target.parentElement
         let children = main.querySelector(".carousel-inner").children
+        let indicators = main.querySelector(".carousel-indicators").children
         let activeKey = 0
         _.each(children, (child, key) => {
             if (child.classList.contains('active')) {
                 activeKey = key
             }
         })
-        let currentElem = children[activeKey]
-		// let nextElem = activeKey + 1 == children.length ? children[0] : children[activeKey + 1];
 		let nextKey = activeKey - 1 == -1 ? children.length - 1 : activeKey - 1;
+		indicators[activeKey].classList.remove('active')
+		indicators[nextKey].classList.add('active')
 		carouselSwipBack(activeKey, nextKey, children)
+	}
+	// Indicators
+	const indicators = $("#main-carousel ol.carousel-indicators li")
+	if (indicators.length) {
+		indicators.on('click', (e) => {
+			let indicatorElem = e.target
+			if (indicatorElem.classList.contains('active')) {
+				return
+			}
+			let allIndicators = [...indicatorElem.parentElement.children]
+			let activeKey = -1
+			_.each(indicatorElem.parentElement.children, (elem, key) => {
+				if (elem.classList.contains('active')) {
+					activeKey = key
+				}
+			})
+			let nextKey = allIndicators.indexOf(indicatorElem)
+			let main = indicatorElem.parentElement.parentElement
+			let children = main.querySelector(".carousel-inner").children
+			if (nextKey > activeKey) {
+				carouselSwipFront(activeKey, nextKey, children)
+			} else {
+				carouselSwipBack(activeKey, nextKey, children)
+			}
+			indicators[activeKey].classList.remove('active')
+			indicators[nextKey].classList.add('active')
+
+		})
 	}
 }
 function carouselSwipFront(activeKey, nextKey, children) {
-	// working but thinking to checge by adding a way for carousel indicators===================================================
 	children[nextKey].classList.add('carousel-item-next')
 	setTimeout(()=>{
 		children[activeKey].classList.add('carousel-item-left')
@@ -1513,7 +1584,6 @@ function carouselSwipFront(activeKey, nextKey, children) {
 	}, 600)
 }
 function carouselSwipBack(activeKey, nextKey, children) {
-	// working but thinking to checge by adding a way for carousel indicators===================================================
 	children[nextKey].classList.add('carousel-item-prev')
 	children[nextKey].classList.add('active')
 	setTimeout(()=>{

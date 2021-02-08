@@ -326,7 +326,7 @@ form.searchbar.searchbar-open span.searchbar-icon span.icon-Search {color: #0116
 .cs-my-sites2 .col1-content h3 {margin-bottom: 12px;}
 .cs-my-sites2 .col1-content p {float: left;width: 100%;margin-top: -5px;margin-bottom: 0;}
 .cs-my-sites2 .col1-content span {margin-top: 0px;display: block;float: left;width: 100%;}
-.cs-my-sites2 .col1-content span:hover {cursor:pointer;}
+.cs-my-sites2 .col1-content span:hover {cursor:pointer; color: #31CDB9; text-decoration:underline;}
 .cs-my-sites2 .col1-content ul li.li-right a:hover {color: #ffffff;}
 .cs-my-sites2 .col4  {position:relative;}
 .cs-my-sites2 .col4 .col1-inner {height: 100%;}

@@ -18,7 +18,7 @@ class Dashboard extends React.Component {
         data: null,
         notifHTMLData: null,
         activeTab: 'details',
-        
+        imgAdded: false,
     }
     scriptArray = [
         // {
@@ -386,16 +386,6 @@ class Dashboard extends React.Component {
                 });
               } );
               
-              
-              
-              
-              
-              document.getElementById('remove-img').addEventListener('click', function() {
-                       var img = document.getElementById('myImg'); // $('img')[0]
-                       img.src =  './assets/website/images/profile-img.png'; // set src to blob url
-                       document.getElementById('profile-img').classList.remove("prf_img_added");	
-                   
-                   });
             `
         },
     ]
@@ -419,7 +409,6 @@ class Dashboard extends React.Component {
         this.loadScriptNStyle()
         this.apiRequestDashboard()
         this.apiRequestProfile()
-        this.apiRequestNotifSettings()
         let activeTab = getUrlParams('profile', this.props.pathname).activeTab
         this.setState({ activeTab })
     }
@@ -461,6 +450,7 @@ class Dashboard extends React.Component {
         let { dispatch } = this.props
         this.setState({ loading: true })
         const apiRequest = await Request.getProfile()
+        console.log(apiRequest, 'sss.p profile')
         this.setState({ loading: false })
         if (apiRequest.messageType && apiRequest.messageType == 'error') {
             showToast({ type: 'error', message: apiRequest.details || 'Unable to fetch data, Try Relogging' })
@@ -478,7 +468,7 @@ class Dashboard extends React.Component {
             // bio: profileInfo.bio,
             profile_picture: apiUrl + profileInfo.profile_picture,
         }))
-        this.setState({ profileData: apiRequest.user_profile }, () => {
+        this.setState({ profileData: apiRequest.user_profile, userSites: apiRequest.user_sites, contributors: apiRequest.contributors }, () => {
             if (this.state.profileData.profile_picture && this.state.profileData.profile_picture.trim() != '') {
                 this.setState({ profilePicSrc: apiUrl + this.state.profileData.profile_picture }, () => {
                 })
@@ -501,7 +491,7 @@ class Dashboard extends React.Component {
     }
     componentWillUnmount() {
         document.querySelectorAll('#ss-script-load').forEach(e => e.remove())
-        document.querySelectorAll('#ss-style-load').forEach(e => e.remove())
+        document.querySelectorAll('#ss-styles-load').forEach(e => e.remove())
     }
     set = (key, value) => {
         this.setState({ [key]: value })
@@ -534,7 +524,7 @@ class Dashboard extends React.Component {
     }
     handleProfileSubmit = async (e) => {
         const { dispatch } = this.props
-        const { profilePic } = this.state
+        const { profilePic, profileData } = this.state
         e.preventDefault()
         let data = this.getFormData(e.target)
         if (data.first_name.trim() == '') {
@@ -547,6 +537,8 @@ class Dashboard extends React.Component {
         }
         if (profilePic) {
             data.profile_picture = profilePic
+        } else {
+            data.profile_picture = profileData.profile_picture
         }
         let formData = new FormData()
         _.each(data, (val, key) => {
@@ -577,67 +569,31 @@ class Dashboard extends React.Component {
                 return
             }
             let file = mainInput.files[0]
-            this.setState({ profilePic: file, profilePicSrc: image.src })
+            this.setState({ profilePic: file, profilePicSrc: image.src, imgAdded: true })
 
-            // document.querySelector('input[type="file"]').addEventListener('change', function() {
-            //     if (this.files && this.files[0]) {
-            //          var img = document.getElementById('myImg');  // $('img')[0]
-            //          img.src = URL.createObjectURL(this.files[0]); // set src to blob url  
-            //          document.getElementById('profile-img').classList.add("prf_img_added");
-            //     }
+            //     document.querySelector('input[type="file"]').addEventListener('change', function() {
+            //         if (this.files && this.files[0]) {
+            //              document.getElementById('profile-img').classList.add("prf_img_added");
+            //         }
 
-            // });
+            //     });
+
+
+            //   document.getElementById('remove-img').addEventListener('click', function() {
+            //            var img = document.getElementById('myImg'); // $('img')[0]
+            //            img.src =  './assets/website/images/profile-img.png'; // set src to blob url
+            //            document.getElementById('profile-img').classList.remove("prf_img_added");	
+
+            //        });
         }
         img.src = window.URL.createObjectURL(e.target.files[0]);
     }
-    // Notif tab functions
-    apiRequestNotifSettings = async () => {
-        let { dispatch } = this.props
-        this.setState({ loading: true })
-        const apiRequest = await Request.getNotifSettings()
-        this.setState({ loading: false })
-        if (apiRequest.messageType && apiRequest.messageType == 'error') {
-            showToast({ type: 'error', message: apiRequest.details || 'Unable to fetch data, Try Relogging' })
-            return
-        }
-        this.setState({ notifData: apiRequest.user_notifications }, () => {
-            this.createnotifHTMLData()
-        })
-    }
-    createnotifHTMLData = () => {
-        const { notifData } = this.state
-        let resp = notifData.map((notifItem, key) => {
-            return (
-                <li>
-                    <label className="switch">
-                        <input id="pmt-plan-toggle" type="checkbox" checked={notifItem.value} onChange={(e) => { this.notifDataChange(e.target.checked, key) }} />
-                        <span className="slider round"></span>
-                    </label>
-                    <p className="oss-13 black">{_.startCase(notifItem.name)}</p>
-                </li>
-            )
-        })
-        this.setState({ notifHTMLData: resp })
-    }
-    notifDataChange = async (value, key) => {
-        let { notifData } = this.state
-        notifData[key] = {
-            ...notifData[key],
-            value
-        }
-        this.setState({ loading: true })
-        const apiRequest = await Request.setNotifSettings({ user_notifications: notifData })
-        this.setState({ loading: false })
-        if (apiRequest.messageType == 'error') {
-            showToast({ type: 'error', message: 'Unable to save, try again' })
-            return
-        }
-        showToast({ type: 'success', message: apiRequest.message })
-        this.apiRequestNotifSettings()
+    removeImage = () => {
+        this.setState({ profilePic: null, profilePicSrc: apiUrl + this.state.profileData.profile_picture, imgAdded: false })
     }
     render() {
         const { dispatch, currentUser } = this.props
-        const { dashboardData, profileData, profilePicSrc, activeTab } = this.state
+        const { dashboardData, profileData, profilePicSrc, activeTab,imgAdded } = this.state
         return (
             <>
                 <div className="admin-main-panel">
@@ -779,7 +735,7 @@ class Dashboard extends React.Component {
                                                                     <div className="profile-data">
                                                                         <div className=" p-data-cmn profile-data-row1">
                                                                             <p className="osb-22 black">Profile Image</p>
-                                                                            <div id="profile-img" className="img-upload">
+                                                                            <div id="profile-img" className={`img-upload ${imgAdded ? 'prf_img_added' : ''}`}>
                                                                                 <div className="img-upload-left">
                                                                                     {/* <img id="myImg" src="./assets/website/images/profile-img.png" alt="your image" height="93px" width="93px" /> */}
                                                                                     {/* <img src="./assets/website/images/Greg-jacoby.png" className="img-fluid" alt="Responsive image" /> */}
@@ -798,7 +754,7 @@ class Dashboard extends React.Component {
                                                                                                 ></i>
                                                                                             )
                                                                                     }
-                                                                                    <button id="remove-img" type="button" style={{ display: "none" }}><span className="icon-Delete"></span></button>
+                                                                                    <button id="remove-img" type="button" style={{ display: "none" }} onClick={this.removeImage}><span className="icon-Delete"></span></button>
                                                                                 </div>
                                                                                 <div className="img-upload-right">
                                                                                     <input type='file' className="cs-get-file oss-13 white" accept="image/*" onChange={this.handleProfilePicChange} /><span className="oss-13 white">upload</span>
@@ -856,7 +812,7 @@ class Dashboard extends React.Component {
                                                 </div>
 
                                                 <div className={`tab-pane fade ${activeTab == 'account' ? 'show active' : ''}`} id="account" role="tabpanel" aria-labelledby="nav-account-tab">
-                                                    <AccountNSecurity />
+                                                    <AccountNSecurity userSites={this.state.userSites} contributors={this.state.contributors}/>
                                                 </div>
                                                 <div className={`tab-pane fade ${activeTab == 'notification' ? 'show active' : ''}`} id="notification" role="tabpanel" aria-labelledby="nav-contact-tab">
                                                     <ProfileNotifSettings />
