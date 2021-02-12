@@ -5,6 +5,13 @@ export const selectTemplate = templateName => dispatch => {
   })
 }
 
+export const setCurrentTemplate = templateName => dispatch => {
+  dispatch({
+    type: "SET_CURRENT_TEMPLATE",
+    payload: templateName,
+  })
+}
+
 export const setCustomCss = value => dispatch => {
   dispatch({
     type: "SET_CUSTOM_CSS",

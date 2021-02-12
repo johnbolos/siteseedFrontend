@@ -24,7 +24,7 @@ export const customCss = `
     
     .navbar-light .navbar-toggler{padding: 0px 20px 0px 0px;}
     
-    .custom-sec4{height: auto;}
+    .custom-sec4{height: 100%;}
     li.navbar-button {
     display: block;
 }
@@ -1317,6 +1317,68 @@ export const html = `
 			</div>
 		</section>
 		<!------------------------------------- /Section-3----------------------------------->
+        <!------------------------------------- Section-4----------------------------------->
+        <section id="features" class="custom-sec4">
+            <div class="container">
+                <div class="row align-items-center custom-sec4-row2">
+                    <div class="col-md-10 col-lg-10 col-sm-12 p-0" data-aos="fade-right" data-aos-duration="2000">
+                        <p class="sub-title">Our Services</p>
+                        <h1 class="main-title">Designs that are tailor-made to your needs</h1>
+                    </div>
+                    <div class="col-md-2 col-lg-2 col-sm-12 p-0" data-aos="fade-left" data-aos-duration="2000">
+                        <div class="nav-item-contact contact-spcing"> <a class="nav-link-2" href="#downloadtheapp">CONTACT US</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="slider responsive">
+                    <div class="service-slide">
+                        <img class="img-responsive" src="${assetsUrl}/templates/carpentry/Images/3x/s-one.jpg" alt="" />
+                        <div class="slider-contant">
+                            <p class="Service-name">Roofing Repair</p>
+                            <p class="Service-descpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit Pellentesque sed.</p>
+                        </div>
+                    </div>
+                    <div class="service-slide">
+                        <img class="img-responsive" src="${assetsUrl}/templates/carpentry/Images/3x/s-two.jpg" alt="" />
+                        <div class="slider-contant">
+                            <p class="Service-name">Remodeling</p>
+                            <p class="Service-descpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit Pellentesque sed.</p>
+                        </div>
+                    </div>
+                    <div class="service-slide">
+                        <img class="img-responsive" src="${assetsUrl}/templates/carpentry/Images/3x/s-three.jpg" alt="" />
+                        <div class="slider-contant">
+                            <p class="Service-name">Carpentry</p>
+                            <p class="Service-descpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit Pellentesque sed.</p>
+                        </div>
+                    </div>
+                    <div class="service-slide">
+                        <img class="img-responsive" src="${assetsUrl}/templates/carpentry/Images/3x/s-one.jpg" alt="" />
+                        <div class="slider-contant">
+                            <p class="Service-name">Roofing Repair</p>
+                            <p class="Service-descpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit Pellentesque sed.</p>
+                        </div>
+                    </div>
+                    <div class="service-slide">
+                        <img class="img-responsive" src="${assetsUrl}/templates/carpentry/Images/3x/s-two.jpg" alt="" />
+                        <div class="slider-contant">
+                            <p class="Service-name">Remodeling</p>
+                            <p class="Service-descpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit Pellentesque sed.</p>
+                        </div>
+                    </div>
+                    <div class="service-slide">
+                        <img class="img-responsive" src="${assetsUrl}/templates/carpentry/Images/3x/s-three.jpg" alt="" />
+                        <div class="slider-contant">
+                            <p class="Service-name">Carpentry</p>
+                            <p class="Service-descpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit Pellentesque sed.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!------------------------------------- /Section-4----------------------------------->
 		
 		<!------------------------------------- Section-5----------------------------------->
 		<section id="contct-sec" class="custom-sec5">
@@ -1336,7 +1398,78 @@ export const html = `
 			</div>
 		</section>
 		<!------------------------------------- /Section-5----------------------------------->
-		
+        <!------------------------------------- Section-6----------------------------------->
+        <section id="our-gallery" class="custom-sec6">
+            <div class="container-fluid">
+                <div class="row align-items-center custom-sec6-row1">
+                    <div class="col-md-8 col-lg-8 col-sm-12 p-0" data-aos="fade-right" data-aos-duration="2000">
+                        <p class="sub-title" style="color: #fff;">OUR GALLERY</p>
+                        <h1 class="main-title" style="color: #fff;">Residential and Commercial Carpenters</h1>
+                    </div>
+                    <div class="slider responsive-1 web-slider">
+                        <div class="Gallery-slide">
+                            <img class="img-responsive" src="${assetsUrl}/templates/carpentry/Images/3x/slider-2.png" alt="" />
+                            <div class="G-text">
+                                <p class="G-head">INTERNATIONAL ARTISAN</p>
+                                <p class="G-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris libero turpis, posuere sed cursus a, rhoncus ultricies risus.</p>
+                            </div>
+                        </div>
+                        <div class="Gallery-slide">
+                            <img class="img-responsive" src="${assetsUrl}/templates/carpentry/Images/3x/slider-2.png" alt="" />
+                            <div class="G-text">
+                                <p class="G-head">INTERNATIONAL ARTISAN</p>
+                                <p class="G-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris libero turpis, posuere sed cursus a, rhoncus ultricies risus.</p>
+                            </div>
+                        </div>
+                        <div class="Gallery-slide">
+                            <img class="img-responsive" src="${assetsUrl}/templates/carpentry/Images/3x/slider-1.jpg" alt="" />
+                            <div class="G-text">
+                                <p class="G-head">INTERNATIONAL ARTISAN</p>
+                                <p class="G-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris libero turpis, posuere sed cursus a, rhoncus ultricies risus.</p>
+                            </div>
+                        </div>
+                        <div class="Gallery-slide">
+                            <img class="img-responsive" src="${assetsUrl}/templates/carpentry/Images/3x/slider-2.png" alt="" />
+                            <div class="G-text">
+                                <p class="G-head">INTERNATIONAL ARTISAN</p>
+                                <p class="G-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris libero turpis, posuere sed cursus a, rhoncus ultricies risus.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mobile-slider">
+                        <div class="Gallery-slide">
+                            <img class="img-responsive" src="${assetsUrl}/templates/carpentry/Images/1x/Image_07.jpg" alt="" />
+                            <div class="G-text">
+                                <p class="G-head">INTERNATIONAL ARTISAN</p>
+                                <p class="G-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris libero turpis, posuere sed cursus a, rhoncus ultricies risus.</p>
+                            </div>
+                        </div>
+                        <div class="Gallery-slide">
+                            <img class="img-responsive" src="${assetsUrl}/templates/carpentry/Images/1x/imag-8.8.jpg" alt="" />
+                            <div class="G-text">
+                                <p class="G-head">INTERNATIONAL ARTISAN</p>
+                                <p class="G-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris libero turpis, posuere sed cursus a, rhoncus ultricies risus.</p>
+                            </div>
+                        </div>
+                        <div class="Gallery-slide">
+                            <img class="img-responsive" src="${assetsUrl}/templates/carpentry/Images/1x/Image_07.jpg" alt="" />
+                            <div class="G-text">
+                                <p class="G-head">INTERNATIONAL ARTISAN</p>
+                                <p class="G-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris libero turpis, posuere sed cursus a, rhoncus ultricies risus.</p>
+                            </div>
+                        </div>
+                        <div class="Gallery-slide">
+                            <img class="img-responsive" src="${assetsUrl}/templates/carpentry/Images/1x/imag-8.8.jpg" alt="" />
+                            <div class="G-text">
+                                <p class="G-head">INTERNATIONAL ARTISAN</p>
+                                <p class="G-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris libero turpis, posuere sed cursus a, rhoncus ultricies risus.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!------------------------------------- /Section-6----------------------------------->
 		<!------------------------------------- Section-7----------------------------------->
 		<section id="our-testimonail" class="custom-sec7">
 			<div class="container">
@@ -1615,7 +1748,6 @@ export const html = `
 <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.js"></script>
 
 <script>
-console.log('sss.p responsive owl 1')
 $("#testimonial-slider").owlCarousel({
 	items:1,
 	itemsDesktop:[1000,1],
@@ -1626,13 +1758,141 @@ $("#testimonial-slider").owlCarousel({
 	navigation:false,
 	autoPlay:true
 });
-console.log('sss.p responsive owl 2')
 </script>
 <script>
-console.log('sss.p aos 1')
-console.log('sss.p aos 2')
 AOS.init()
 </script>
+<script>
+window.document.body.addEventListener('scroll', (e) => {
+    let aos = document.querySelectorAll('[data-aos|=fade]');
+    aos.forEach((el)=>{
+        var rect = el.getBoundingClientRect();
+        var isVisible = (
+            rect.top < e.target.clientHeight * 0.8     /*70% of client height*/
+        )
+        if (isVisible ) {
+            $(el).addClass('aos-animate');
+        } else {
+            $(el).removeClass('aos-animate');
+        }
+    });
+})
+</script>
+<!---swiper-1---->
+<script>
+	$('.responsive').slick({
+	  dots: false,
+	  infinite: false,
+	  speed: 300,
+	  slidesToShow: 3.5,
+	  slidesToScroll: 3.5,
+	  responsive: [
+	    {
+	      breakpoint: 1024,
+	      settings: {
+	        slidesToShow: 2,
+	        slidesToScroll: 2,
+	        infinite: true,
+	        dots: false
+	      }
+	    },
+	    {
+	      breakpoint: 600,
+	      settings: {
+	        slidesToShow: 1.1,
+	        slidesToScroll: 1.1
+	      }
+	    },
+	    {
+	      breakpoint: 480,
+	      settings: {
+	        slidesToShow: 1.1,
+	        slidesToScroll: 1.1
+	      }
+	    }
+	   
+	  ]
+	});
+</script>
+<!---swiper-1 end---->
+<!---swiper-2---->
+<script>
+	$('.responsive-1').slick({
+	  dots: false,
+	  infinite: false,
+	  speed: 300,
+	  slidesToShow: 1.3,
+	  slidesToScroll: 1.3,
+	  responsive: [
+	    {
+	      breakpoint: 1024,
+	      settings: {
+	        slidesToShow: 1.1,
+	        slidesToScroll: 1.1,
+	        infinite: true,
+	        dots: false
+	      }
+	    },
+	    {
+	      breakpoint: 600,
+	      settings: {
+	        slidesToShow: 1,
+	        slidesToScroll: 1
+	      }
+	    },
+	    {
+	      breakpoint: 480,
+	      settings: {
+	        slidesToShow: 1,
+	        slidesToScroll: 1
+	      }
+	    }
+	   
+	  ]
+	});
+</script>
+<!---swiper-2 end---->
+<script>
+	function openNav() {
+	 $("#navbarNav").attr('style','display:block');
+	 $("#Mobile-nav").attr('data-target','#navbarNav');
+	}
+	    
+	function closeNav() {
+	 $("#navbarNav").attr('style','display:none');
+	 }
+</script>
+    
+    <script>
+    causeRepaintsOn = $("h1, h2, h3, p");
+
+$(window).resize(function() {
+  causeRepaintsOn.css("z-index", 1);
+});
+    </script>
+    <script>
+        $(function () {
+                $(".popup-youtube, .popup-vimeo").magnificPopup({
+                  type: "iframe",
+                });
+                $.extend(true, $.magnificPopup.defaults, {
+                  iframe: {
+                    patterns: {
+                      youtube: {
+                        index: "youtube.com/",
+                        id: "videoId",
+                        src: "https:%id%",
+                      },
+                      vimeo: {
+                        index: "vimeo.com/",
+                        id: "videoId2",
+                        src: "https:/%id%",
+                      },
+                    },
+                  },
+                });
+              });
+    </script>
 	
 `
 //   ===================================================

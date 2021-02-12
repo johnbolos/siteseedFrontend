@@ -80,15 +80,17 @@ class LayerManager extends React.Component {
 		return (
 			<>
 				<div>
-					<Search className='search-icon' />
-					<input
-						type='text'
-						placeholder='Search'
-						name='searchQuery'
-						// style={{ width: "100%" }}
-						onChange={this.handleChange}
-						value={this.state.searchQuery}
-					/>
+					<div>
+						<Search className='search-icon' />
+						<input
+							type='text'
+							placeholder='Search'
+							name='searchQuery'
+							// style={{ width: "100%" }}
+							onChange={this.handleChange}
+							value={this.state.searchQuery}
+						/>
+					</div>
 					<div
 						className='collapse-all'
 						onClick={this.collapseAll}

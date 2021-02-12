@@ -378,7 +378,7 @@ class DesignerStudio extends React.Component {
 
 	StartEditor = () => {
 		const { dispatch, pageReducer } = this.props;
-		const { templateName, customCss } = this.props.templates;
+		const { templateName, currentTemplate, customCss } = this.props.templates;
 		// const { customCss } = this.state
 		// set template html and style from page manager
 		let html = pageReducer.pages[pageReducer.currentPage].components
@@ -391,7 +391,8 @@ class DesignerStudio extends React.Component {
 				components: html,
 				styles: style,
 				styleFontStr,
-				customCss
+				customCss,
+				currentTemplate
 			},
 			dispatch,
 			() => {

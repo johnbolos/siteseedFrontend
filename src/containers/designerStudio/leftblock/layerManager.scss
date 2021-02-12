@@ -1,6 +1,9 @@
 @import "../../../assets/theme/editorTheme.scss";
 
 #layers {
+  .gjs-layer.gjs-layer__t-wrapper.no-select {
+    width: 100%;
+  }
   .collapse-all {
     width: 30px;
     height: 30px;
@@ -9,6 +12,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 5px;
+    margin: 10px;
     .theme-dark & {
       background-color: map-get($dark, "background6");
     }

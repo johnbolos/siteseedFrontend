@@ -102,6 +102,185 @@ const _grapesEditor = {
 		})
 		return resp
 	},
+	canvasConfigData: (templateName) => {
+		let resp = {
+			styles: [
+				`${assetsUrl}/assets/Fonts/default.css`
+			],
+			scripts: [
+				"https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js",
+				"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js",
+				"https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js",
+				"https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/animation.gsap.js",
+				"https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js",
+
+				`${assetsUrl}/assets/script/ssAnimation.js`,
+				'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js'
+				// `http://localhost:3000/assets/script/ssAnimation.js`
+			]
+		}
+		switch (templateName) {
+			case "template1":
+			case "spa":
+				resp.styles = [
+					...resp.styles,
+					"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css",
+					"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css",
+					"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css",
+					"https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap",
+					"https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap",
+
+					// "https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap",
+					// "https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap",
+					// "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
+					"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
+					// "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css",
+
+					// `${assetsUrl}/templates/spa/vendor/bootstrap/css/bootstrap.min.css`,
+				]
+				resp.scripts = [
+					...resp.scripts,
+					// `${assetsUrl}/templates/spa/vendor/jquery/jquery.min.js`,
+					// `${assetsUrl}/templates/spa/vendor/bootstrap/js/bootstrap.bundle.min.js`,
+					"https://code.jquery.com/jquery-3.3.1.slim.min.js",
+					"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js",
+					// "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js",
+					"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js",
+				]
+				break;
+			case "therapists":
+				resp.styles = [
+					...resp.styles,
+					"https://unpkg.com/aos@2.3.1/dist/aos.css",
+					"https://fonts.gstatic.com",
+					"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css",
+					"https://unpkg.com/swiper/swiper-bundle.min.css",
+					"https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css",
+
+					`${assetsUrl}/templates/therapists/vendor/bootstrap/css/bootstrap.min.css`,
+				]
+				resp.scripts = [
+					...resp.scripts,
+					"https://unpkg.com/aos@2.3.1/dist/aos.js",
+					"https://unpkg.com/swiper/swiper-bundle.min.js",
+					`${assetsUrl}/templates/therapists/vendor/jquery/jquery.min.js`,
+					`${assetsUrl}/templates/therapists/vendor/bootstrap/js/bootstrap.bundle.min.js`,
+					"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js",
+					"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js",
+					"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.js",
+					"https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.js",
+				]
+				break;
+			case "landingPage":
+				resp.styles = [
+					...resp.styles,
+					"https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css",
+					`${assetsUrl}/templates/landingPage/css/scroll.css`,
+					"https://unpkg.com/aos@2.3.1/dist/aos.css",
+					"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css",	//diff version
+					"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css",
+					"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css",
+				]
+				resp.scripts = [
+					...resp.scripts,
+					"https://code.jquery.com/jquery-2.2.4.min.js",
+					"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js",
+					"https://unpkg.com/aos@2.3.1/dist/aos.js",
+					`${assetsUrl}/templates/landingPage/js/scroll.js`,
+					"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js",
+				]
+				break;
+			case "agencyGrey":
+				resp.styles = [
+					...resp.styles,
+					"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css",
+					"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css",
+					`${assetsUrl}/templates/agencyGrey/vendor/bootstrap/css/bootstrap.min.css`,
+					"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
+				]
+				resp.scripts = [
+					...resp.scripts,
+					// Agency Grey all present in corresponding template file
+					// "https://code.jquery.com/jquery-1.12.0.min.js",
+					// "https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js",
+					// `${assetsUrl}/templates/agencyGrey/vendor/bootstrap/js/bootstrap.bundle.min.js`,
+					// `${assetsUrl}/templates/agencyGrey/vendor/jquery/jquery.min.js`,
+					// "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js",	//not available in original
+				]
+				break;
+			case "agencyDark":
+				resp.styles = [
+					...resp.styles,
+					"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css",
+					"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css",
+					`${assetsUrl}/templates/agencyDark/vendor/bootstrap/css/bootstrap.min.css`,
+					"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
+				]
+				resp.scripts = [
+					...resp.scripts,
+					// Agency Dark all present in corresponding template file
+					// "https://code.jquery.com/jquery-1.12.0.min.js",
+					// "https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js",
+					// `${assetsUrl}/templates/agencyGrey/vendor/bootstrap/js/bootstrap.bundle.min.js`,
+					// `${assetsUrl}/templates/agencyGrey/vendor/jquery/jquery.min.js`,
+				]
+				break;
+			case "restaurant1":
+				resp.styles = [
+					...resp.styles,
+					"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
+					`${assetsUrl}/templates/restaurant1/fonts/stylesheet.css`,
+					"https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css",
+					"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
+					"https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css",
+					`${assetsUrl}/templates/restaurant1/vendor/bootstrap/css/bootstrap.min.css`,
+				]
+				resp.scripts = [
+					...resp.scripts,
+					// `${assetsUrl}/templates/restaurant1/vendor/jquery/jquery.min.js`,
+					// `${assetsUrl}/templates/restaurant1/vendor/bootstrap/js/bootstrap.bundle.min.js`,
+					// "https://code.jquery.com/ui/1.12.1/jquery-ui.js",
+					// "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"
+				]
+				break;
+			case "carpentry":
+				resp.styles = [
+					...resp.styles,
+					"https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css",
+					`${assetsUrl}/templates/carpentry/fonts/stylesheet.css`,
+					`${assetsUrl}/templates/carpentry/css/scroll.css`,
+					"https://unpkg.com/aos@2.3.1/dist/aos.css",
+					"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
+					"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css",
+					"https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.5/slick.min.css",
+					"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css",
+					"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css",
+					"https://www.w3schools.com/w3css/4/w3.css",
+					"https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css",
+					"https://fonts.gstatic.com",
+					"https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap",
+					"https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@600&display=swap",
+					"https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@400&display=swap",
+					"https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@800&display=swap",
+					"https://fonts.googleapis.com/css2?family=Roboto&display=swap",
+				]
+				resp.scripts = [
+					...resp.scripts,
+					"https://code.jquery.com/jquery-2.2.4.min.js",
+					"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js",
+					"https://unpkg.com/aos@2.3.1/dist/aos.js",
+					`${assetsUrl}/templates/carpentry/js/scroll.js`,
+					"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js",
+					"https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.5/slick.min.js",
+					"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js",
+					"https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.js",
+				]
+				break;
+			default:
+				break;
+		}
+		return resp
+	},
 	exportConfig: {
 		addExportBtn: false,
 		btnLabel: "Export ZIP",
@@ -560,7 +739,7 @@ const _grapesEditor = {
 		traitManager: {
 			appendTo: ".traits-container",
 		},
-		canvas: {
+		canvasTemp: {
 			styles: [
 				"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css",
 				"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css",
@@ -627,24 +806,24 @@ const _grapesEditor = {
 				"https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@800&display=swap",
 				"https://fonts.googleapis.com/css2?family=Roboto&display=swap",
 
-				
-				"https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css",
-				`${assetsUrl}/templates/carpentry/fonts/stylesheet.css`,
-				`${assetsUrl}/templates/carpentry/css/scroll.css`,
-				"https://unpkg.com/aos@2.3.1/dist/aos.css",
-				"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
-				"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css",
-				"https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.5/slick.min.css",
-				"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css",
-				"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css",
-				"https://www.w3schools.com/w3css/4/w3.css",
-				"https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css",
-				"https://fonts.gstatic.com",
-				"https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap",
-				"https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@600&display=swap",
-				"https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@400&display=swap",
-				"https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@800&display=swap",
-				"https://fonts.googleapis.com/css2?family=Roboto&display=swap",
+				// temp......
+				// "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css",
+				// `${assetsUrl}/templates/carpentry/fonts/stylesheet.css`,
+				// `${assetsUrl}/templates/carpentry/css/scroll.css`,
+				// "https://unpkg.com/aos@2.3.1/dist/aos.css",
+				// "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
+				// "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css",
+				// "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.5/slick.min.css",
+				// "https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css",
+				// "https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css",
+				// "https://www.w3schools.com/w3css/4/w3.css",
+				// "https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css",
+				// "https://fonts.gstatic.com",
+				// "https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap",
+				// "https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@600&display=swap",
+				// "https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@400&display=swap",
+				// "https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@800&display=swap",
+				// "https://fonts.googleapis.com/css2?family=Roboto&display=swap",
 
 				`${assetsUrl}/assets/Fonts/default.css`,
 			],
@@ -706,7 +885,7 @@ const _grapesEditor = {
 		let defaultConfig = _grapesEditor.config;
 		if (defaultConfig.styleManager)
 			defaultConfig.styleManager.sectors = _grapesEditor.styleSectors;
-
+		defaultConfig.canvas = _grapesEditor.canvasConfigData(config.currentTemplate)
 		if (config.plugins) {
 			config.plugins.push(defaultConfig.plugins);
 		}

@@ -1,5 +1,6 @@
 const initialState = {
 	templateName: "template1",
+	currentTemplate: "template1",
 	customCss: ''
 };
 
@@ -8,7 +9,12 @@ export default (state = initialState, action) => {
 		case "CHANGE_TEMPLATE":
 			return {
 				...state,
-				templateName: action.payload,
+				templateName: action.payload
+			};
+		case "SET_CURRENT_TEMPLATE":
+			return {
+				...state,
+				currentTemplate: action.payload
 			};
 		case "SET_CUSTOM_CSS":
 			return {

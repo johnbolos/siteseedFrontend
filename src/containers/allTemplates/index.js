@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import './style.scss'
 import { showLoader, hideLoader } from "../../reducers/actions";
-import { selectTemplate } from "../../reducers/actions/templateActions";
+import { selectTemplate, setCurrentTemplate } from "../../reducers/actions/templateActions";
 import { getPushPathWrapper } from "../../routes";
 
 function AllTemplates({ dispatch, loading, templates }) {
@@ -58,36 +58,43 @@ function AllTemplates({ dispatch, loading, templates }) {
 					<div id="ifnlj" class="cards">
 						<div class="card" style={{ backgroundImage: 'url("/assets/templates/spa/thumbnail.jpg")' }} onClick={() => {
 							dispatch(selectTemplate("spa"))
+							dispatch(setCurrentTemplate("spa"))
 							dispatch(getPushPathWrapper("designerStudio"))
 						}}>
 						</div>
 						<div class="card" style={{ backgroundImage: 'url("/assets/templates/therapists/thumbnail.jpg")' }} onClick={() => {
 							dispatch(selectTemplate("therapists"))
+							dispatch(setCurrentTemplate("therapists"))
 							dispatch(getPushPathWrapper("designerStudio"))
 						}}>
 						</div>
 						<div class="card" style={{ backgroundImage: 'url("/assets/templates/agencyGrey/thumbnail.jpg")' }} onClick={() => {
 							dispatch(selectTemplate("agencyGrey"))
+							dispatch(setCurrentTemplate("agencyGrey"))
 							dispatch(getPushPathWrapper("designerStudio"))
 						}}>
 						</div>
 						<div class="card" style={{ backgroundImage: 'url("/assets/templates/agencyDark/thumbnail.jpg")' }} onClick={() => {
 							dispatch(selectTemplate("agencyDark"))
+							dispatch(setCurrentTemplate("agencyDark"))
 							dispatch(getPushPathWrapper("designerStudio"))
 						}}>
 						</div>
 						<div class="card" style={{ backgroundImage: 'url("/assets/templates/landingPage/thumbnail.jpg")' }} onClick={() => {
 							dispatch(selectTemplate("landingPage"))
+							dispatch(setCurrentTemplate("landingPage"))
 							dispatch(getPushPathWrapper("designerStudio"))
 						}}>
 						</div>
 						<div class="card" style={{ backgroundImage: 'url("/assets/templates/restaurant1/thumbnail.jpg")' }} onClick={() => {
 							dispatch(selectTemplate("restaurant1"))
+							dispatch(setCurrentTemplate("restaurant1"))
 							dispatch(getPushPathWrapper("designerStudio"))
 						}}>
 						</div>
 						<div class="card" style={{ backgroundImage: 'url("/assets/templates/carpentry/thumbnail.jpg")' }} onClick={() => {
 							dispatch(selectTemplate("carpentry"))
+							dispatch(setCurrentTemplate("carpentry"))
 							dispatch(getPushPathWrapper("designerStudio"))
 						}}>
 						</div>
