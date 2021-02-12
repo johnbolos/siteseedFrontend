@@ -13,7 +13,7 @@ import ProfileNotifSettings from './notif'
 import AccountNSecurity from "./accountNSecurity"
 
 
-class Dashboard extends React.Component {
+class Profile extends React.Component {
     state = {
         data: null,
         notifHTMLData: null,
@@ -398,11 +398,11 @@ class Dashboard extends React.Component {
         },
         {
             rel: "stylesheet",
-            href: "./assets/website/dashboard/css/jquery-ui.css"
+            href: "./assets/website/css/jquery-ui.css"
         },
         {
             rel: "stylesheet",
-            href: "./assets/website/dashboard/css/style.css"
+            href: "./assets/website/css/style.css"
         },
     ]
     componentDidMount() {
@@ -450,7 +450,6 @@ class Dashboard extends React.Component {
         let { dispatch } = this.props
         this.setState({ loading: true })
         const apiRequest = await Request.getProfile()
-        console.log(apiRequest, 'sss.p profile')
         this.setState({ loading: false })
         if (apiRequest.messageType && apiRequest.messageType == 'error') {
             showToast({ type: 'error', message: apiRequest.details || 'Unable to fetch data, Try Relogging' })
@@ -670,11 +669,11 @@ class Dashboard extends React.Component {
                                                                 {/* Greg Jacoby */}
                                                             </a>
                                                             <ul className="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
-                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.set('activeTab', 'details') }}>Profile</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.set('activeTab', 'account') }}>Account {'&'} Security</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.set('activeTab', 'notification') }}>Notifications</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey">Language</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey">Help Center</a></li>
+                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.goto('profile', { activeTab: 'details' }) }}>Profile</a></li>
+                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.goto('profile', { activeTab: 'account' }) }}>Account {'&'} Security</a></li>
+                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.goto('profile', { activeTab: 'notification' }) }}>Notifications</a></li>
+                                                                <li><a className="dropdown-item osr-13 darkgrey" data-bs-toggle="modal" data-bs-target="#choose-lang1">Language</a></li>
+                                                                <li><a className="dropdown-item osr-13 darkgrey" >Help Center</a></li>
                                                                 <li><a className="dropdown-item osr-13 darkgrey" onClick={this.logout}>Log Out</a></li>
                                                             </ul>
                                                         </li>
@@ -1227,4 +1226,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)

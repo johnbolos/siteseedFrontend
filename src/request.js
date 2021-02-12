@@ -206,7 +206,7 @@ class Request {
                 })
         })
     }
-    
+
     setNotifSettings = (data) => {
         return new Promise((next) => {
             basicAxios.post('/user-notification-settings/', data, getToken())
@@ -237,7 +237,105 @@ class Request {
                 })
         })
     }
-    // ============================================================
+    // =========================================================
+
+    // =======================Site Settigns===========================
+    getGeneralSettings = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/general-settings/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+
+    setGeneralSettings = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/general-settings/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+
+    getFormSettings = (site_id) => {
+        return new Promise((next) => {
+            basicAxios.get(`/form-settings/site_id/${site_id}/`, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+
+    setFormSettings = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/form-settings/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    
+    getFontSettings = (site_id) => {
+        return new Promise((next) => {
+            basicAxios.get(`/fonts-settings/site_id/${site_id}/`, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+
+    setFontSettings = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/fonts-settings/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    // =========================================================
     // ==============================================================================================
 
 }

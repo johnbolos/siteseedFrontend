@@ -1131,7 +1131,7 @@ button {
   margin: 0px;
 }
 
-.tooltip > div,
+.builder .tooltip > div,
 .gjs-pn-btn > .tooltip > div {
   width: 28px;
   height: 28px;
@@ -1145,7 +1145,7 @@ button {
 //   outline: -webkit-focus-ring-color auto 1px;
 // }
 
-.tooltip > div:hover,
+.builder .tooltip > div:hover,
 .gjs-pn-btn > .tooltip > div:hover {
   //   background-color: #444444;
   border-radius: 5px;

@@ -10,14 +10,7 @@
   font-style: normal;
   font-display: block;
 }
-body {
-  font-family: Open Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 22px;
-  color: #67737D;
-}
+
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
@@ -184,18 +177,20 @@ select::-ms-expand {display: none;}
 /*Green button style*/
 .btn-primary.green-btn:hover {background:#000000;box-shadow:none;border:none;}
 .btn-primary.green-btn {min-width:126px; height:40px; background:#31CDB9;border: 0;border-radius: 0;}
+
 .btn:focus, .btn-primary:active:focus, .btn-primary.green-btn:focus {background:#000000;box-shadow:none;border:none;}
 .btn-primary.green-btn:active:focus {background:#000000;box-shadow:none;border:none;}
 .btn-primary.green-btn:active {background:#000000;box-shadow:none;border:none;}
 /*Green button style*/
 
 /*Arrow button style with animation*/
+
 .main-btn {position: relative;width: 120px;}
 button.btn.btn-outline-primary:focus {box-shadow: none;}
 button.btn.btn-outline-primary {border: 1px solid #ffffff;border-radius: 0;width: 130px;height: 40px;text-align: left;}
 button.btn.btn-outline-primary::after {  border: none;content: "\e91f";right: 7px;position: absolute;top: 12.5px;font-family: 'icomoon';font-size: 9px;/*transform: rotate(-90deg);*/}
 button.btn.btn-outline-primary:hover {background: #ffffff;color: #011627;}
-button.btn.btn-outline-primary:hover::after { transition: 'background 0.5s ease';animation: slide1 2s ease-in-out infinite;}
+button.btn.btn-outline-primary:hover::after { transition: background 0.5s ease;animation: slide1 2s ease-in-out infinite;}
 @keyframes slide1 {
   0%,
   100% {
@@ -257,6 +252,7 @@ body .billing-data-row1 .billing-data-row1-inner .colr .left {float: left;width:
 body .billing-data-row1 .billing-data-row1-inner .colr .right {float: right;width: 40%;    text-align: right;}
 body .billing-data-row1 .billing-data-row1-inner .colr .right button {background: #31cdb9;border: 0;height: 40px;border-radius: 0;max-width: 119px;min-width: 119px;margin-top: 5px;}
 
+
 .billing-tab-content {margin-top: 35px;}
 .billing-tab-coll {background: #ffffff;padding: 0;}
 .billing-tab-coll h1 {background: #EFF1F2;border-bottom: 8px solid #EFF1F2;}
@@ -306,7 +302,7 @@ li.nav-item.cs-topright-right > a.show::after {transform: rotate(-180deg);-webki
 ul.nav.cs-topright {padding-right: 45px;    position: relative;}
 .topbar-main ul.nav.cs-topright li.cs-topright-left a {padding-right: 0;margin-right: 16px;}
 /*.topbar-main ul.nav.cs-topright li.cs-topright-right a {color: #011627;font-size: 13px;}*/
-.topbar-main ul.nav.cs-topright li.cs-topright-right img {float: left;margin-right: 10px;height: 40px;width: 40px;border-radius: 99px;border: 2px solid #31cdb9;}
+.topbar-main ul.nav.cs-topright li.cs-topright-right img {float: left;margin-right: 10px;}
 li.nav-item.cs-topright-left {border-right: 1px solid #f2f2f2;margin-right: 20px;}
 ul.nav.cs-topright ul.dropdown-menu.show li {margin-bottom: 17px;}
 ul.nav.cs-topright ul.dropdown-menu.show li:last-child {margin-bottom: 5px;}
@@ -703,7 +699,7 @@ a.expnd span:hover {color: #31CDB9;}
 .checkout-pro-main .checkout-pro-inner > ul {float: left;width: 100%;    padding-top: 45px;}
 .checkout-pro-main .checkout-pro-inner > ul li {position: relative;margin-right: 25px;}
 .checkout-pro-main .checkout-pro-inner ul a.nav-link {padding:0; padding-bottom:9px;border-radius: 0;padding-right: 20px;color: #67737D;}
-.checkout-pro-main .checkout-pro-inner ul a.nav-link:after {border: none;content: "\e91f";right: 0;position: absolute;top: 2px;font-family: 'icomoon';font-size: 9px;}
+.checkout-pro-main .checkout-pro-inner ul a.nav-link:after {border: none;content: "\e91f";right: 0;position: absolute;top: 8px;font-family: 'icomoon';font-size: 9px;}
 .checkout-pro-main .checkout-pro-inner ul a.nav-link.active {background: transparent;color: #31cdb9;font-weight: 700;border-bottom: 2px solid #31cdb9;}
 .checkout-pro-main .checkout-pro-inner ul li:last-child a.nav-link:after{display:none;}
 .checkout-pro-main .checkout-pro-inner ul li:last-child a.nav-link{padding-right:0;}
@@ -775,7 +771,7 @@ select {-webkit-appearance: none;-moz-appearance: none;text-indent: 1px;text-ove
 .checkout-pro-main .checkout-pro-inner .row.bi-3 button:hover {background: #000000;border: 0;border-radius: 0;height: 40px;width: 100%;}
 
 
-.checkout-pro-main .checkout-pro-inner .pay-meth .pay-m-1, .checkout-pro-main .checkout-pro-inner .pay-meth .pay-m-2 {border-bottom: 1px solid #f2f2f2;}
+.checkout-pro-main .checkout-pro-inner .pay-meth .pay-m-1 {border-bottom: 1px solid #f2f2f2;}
 .checkout-pro-main .checkout-pro-inner .pay-meth label {margin-bottom: 8px;}
 .checkout-pro-main .checkout-pro-inner .pay-meth .nice-select, .checkout-pro-main .checkout-pro-inner .row.bi-2 input {background: #f2f2f2;width: 100%;min-width: 100%;height: 49px;line-height: 24px;border:0;border-radius:0;}
 .checkout-pro-main .checkout-pro-inner .pay-meth .nice-select:focus, .checkout-pro-main .checkout-pro-inner form .row.bi-2 .nice-select:hover, .checkout-pro-main .checkout-pro-inner .row.bi-2 input:focus, .checkout-pro-main .checkout-pro-inner form .row.bi-2 input:hover {outline:none; border:0;box-shadow:none;border-radius:0;}
@@ -787,29 +783,6 @@ select {-webkit-appearance: none;-moz-appearance: none;text-indent: 1px;text-ove
 .checkout-pro-main .checkout-pro-inner .pay-meth .pay-m-1 .col h1 {margin: 0;}
 .checkout-pro-main .checkout-pro-inner .pay-meth .col.country .nice-select:before {border: none;content: "\e909";right: 15px;position: absolute;top: 15px;font-family: 'icomoon';font-size: 9px;transition: 300ms linear all;z-index: 9999;}
 .checkout-pro-main .checkout-pro-inner .pay-meth .col.country .nice-select.open:before {transform: rotate(-180deg);-webkit-transform: rotate(-180deg);-moz-transform: rotate(-180deg);-ms-transform: rotate(-180deg);-o-transform: rotate(-180deg);transition: 300ms linear all;top: 12px;color: #31CDB9;}
-
-
-
-.use-bkup {float: left;width: 100%;margin-bottom: 20px;}
-.checkout-pro-main .checkout-pro-inner .use-bkup  input[type=checkbox] {cursor: pointer;font-size: 14px;width: 17px;height: 17px;position: relative;font-family: 'icomoon';border: 0;background: transparent;border-radius: 0;float: left;margin-right: 15px;}
-.checkout-pro-main .checkout-pro-inner .use-bkup input[type=checkbox]:checked:after {content: "\e91d";font-size: 10px;background: #31cdb9;padding: 2px 4px;font-family: 'icomoon';border: 0;border-radius: 2px;display: flex;align-items: center;}
-.checkout-pro-main .checkout-pro-inner .use-bkup input[type=checkbox]:after {position: absolute;width: 17px;height: 17px;top: 0px;content: " ";background-color: #ffffff;color: #ffffff;display: inline-block;visibility: visible;padding: 0px 6px;border: 1px solid #67737D;border-radius: 2px;font-family: 'icomoon';}
-.checkout-pro-main .checkout-pro-inner .use-bkup label {float: left;padding-top: 2px;}
-.checkout-pro-main .checkout-pro-inner .use-bkup-btn  button {background: #31cdb9;border: 0;border-radius: 0;height: 40px;width: 100%;}
-.checkout-pro-main .checkout-pro-inner .use-bkup-btn  button:hover {background: #000000;border: 0;border-radius: 0;height: 40px;width: 100%;}
-
-
-button.zandgar__prev {display: none;}
-.row.confr-m-1, .row.confr-m-2 {border-bottom: 1px solid #f2f2f2;}
-
-.row.confr-m-2 input {height: 49px;background: #f2f2f2;border: 0;border-radius: 0;max-width: 150px;}
-.row.confr-m-2 input:hover, .row.confr-m-2 input:focus {outline: none;border: 0;box-shadow: none;border-radius: 0;}
-
-.add-pay button {margin-top: 20px;width: 100%;border: 2px dashed #011627;border-radius: 0;height: 49px;background: transparent;}
-.add-pay button:hover , .add-pay button:focus{background: #011627;    border: 0;}
-.row.confr-m-3 .use-submit-btn button {width: 100%;min-width: 126px;height: 40px;background: #31CDB9;border: 0;border-radius: 0;}
-
-
 
 
 /* The container */
@@ -828,7 +801,7 @@ button.zandgar__prev {display: none;}
 /* Show the indicator (dot/circle) when checked */
 .pm-fn .container input:checked ~ .checkmark:after {display: block;}
 /* Style the indicator (dot/circle) */
-.pm-fn .container .checkmark:after {top: 0px;left: 4px;width: 10px;height: 10px;border-radius: 50%;background: transparent;}
+.pm-fn .container .checkmark:after {top: 2px;left: 4px;width: 10px;height: 10px;border-radius: 50%;background: transparent;}
 /* /The container */
 
 .card-main input {background: #f2f2f2;width: 100%;min-width: 100%;height: 49px;line-height: 20px;border: 0;border-radius: 0;}
@@ -984,13 +957,6 @@ body a{text-decoration:none;}
 .main-font-tab .dash-set-data-colr1 {padding-top: 224px;}
 .dash-set-data-row2.custom-font .col {float: left;}
 .dash-set-data-row2.custom-font .col span.icon-Upload {font-size: 50px;}
-.dash-set-data-row2.custom-font .img-drop-area {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: normal;
-  font-size: 11px;
-  line-height: 15px;
-}
 
 
 
@@ -1248,10 +1214,3 @@ ul.temporary li:hover{color:#31cdb9;}
 
 
 
-body > .tooltip > .tooltip-inner {
-  font-family: 'Source Sans Pro';
-  font-style: normal;
-  font-weight: normal;
-  font-size: 13px;
-  line-height: 16px;
-}

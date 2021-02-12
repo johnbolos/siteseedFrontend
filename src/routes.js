@@ -13,6 +13,10 @@ import LogIn from './containers/auth/login'
 import ResetPassword from './containers/auth/reset'
 import VerifyCode from './containers/auth/reset/verifyCode'
 import NewPassword from './containers/auth/reset/newPassword'
+import SiteSettings from "./containers/siteSettings";
+import Checkout from "./containers/checkout";
+import SearchDomain from "./containers/searchDomain";
+import BuyTemplate from "./containers/buyTemplate";
 // const Undercons = lazy(() => import('./containers/undercons'))
 
 const routes = [
@@ -39,6 +43,30 @@ const routes = [
 	{
 		path: "/profile",
 		redirect: "/profile/details",
+	},
+	{
+		path: "/site-settings/:siteId",
+		key: "siteSettings",
+		component: SiteSettings,
+		authority: ['client'],
+	},
+	{
+		path: "/checkout",
+		key: "checkout",
+		component: Checkout,
+		authority: ['client'],
+	},
+	{
+		path: "/search-domain",
+		key: "searchDomain",
+		component: SearchDomain,
+		authority: ['client'],
+	},
+	{
+		path: "/buy-template",
+		key: "buyTemplate",
+		component: BuyTemplate,
+		authority: ['client'],
 	},
 	{
 		path: "/allTemplates",
