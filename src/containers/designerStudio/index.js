@@ -52,6 +52,7 @@ import viewCode from "../../components/utils/grapesEditor/viewCode/viewCode";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import CanvasActions from "./canvasActions";
+import event from "../../assets/templates/event";
 
 
 class HelpNSupport extends React.Component {
@@ -300,6 +301,11 @@ class DesignerStudio extends React.Component {
 					html = carpentry.html
 					style = carpentry.baseCss
 					customCss = carpentry.customCss
+					break;
+				case "event":
+					html = event.html
+					style = event.baseCss
+					customCss = event.customCss
 					break;
 				case "myProject1":
 					// html = xyzHtml

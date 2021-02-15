@@ -155,6 +155,21 @@ class Request {
                 })
         })
     }
+    createNewSite = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/create-site/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
 
     // ============================================================
 
@@ -303,7 +318,7 @@ class Request {
                 })
         })
     }
-    
+
     getFontSettings = (site_id) => {
         return new Promise((next) => {
             basicAxios.get(`/fonts-settings/site_id/${site_id}/`, getToken())

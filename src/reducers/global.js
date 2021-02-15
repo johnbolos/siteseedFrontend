@@ -65,6 +65,7 @@ const initialState = {
     tokenInfo: {},
     buttonLoading: false,
     loading: false,
+    newSiteDetails: {}
 }
 
 export default (state = initialState, action) => {
@@ -90,7 +91,7 @@ export default (state = initialState, action) => {
                 ...state,
                 userS3Dir: action.value
             }
-        
+
         case 'SET_LOCAL_FONTS':
             return {
                 ...state,
@@ -139,11 +140,17 @@ export default (state = initialState, action) => {
                 ...state,
                 tokenInfo: action.tokenInfo
             }
-            
+
         case 'SET_OTP':
             return {
                 ...state,
                 otp: action.value
+            }
+
+        case 'SET_NEW_SITE_DETAILS':
+            return {
+                ...state,
+                newSiteDetails: action.value
             }
 
         default:

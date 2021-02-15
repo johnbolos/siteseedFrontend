@@ -38,4 +38,8 @@ export const setOTP = (value) => {
   return { type: 'SET_OTP', value }
 }
 
+export const setNewSiteDetails = (value = {}) => {
+  return { type: 'SET_NEW_SITE_DETAILS', value }
+}
+
 // export default login

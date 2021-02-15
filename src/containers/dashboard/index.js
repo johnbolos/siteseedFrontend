@@ -7,14 +7,15 @@ import "./index.scss"
 import Request from '../../request'
 import { showToast } from "../../components/utils"
 import moment from "moment"
-import { setTokenInfo, setUser } from "../../reducers/actions/userActions"
+import { setNewSiteDetails, setTokenInfo, setUser } from "../../reducers/actions/userActions"
 import { getPushPathWrapper } from "../../routes"
 
 class Dashboard extends React.Component {
     state = {
         data: null,
         updatesFilter: 'all',
-        choosePlatformSelect: 'Choose Platform'
+        choosePlatformSelect: 'Choose Platform',
+        site_name: ''
     }
     scriptArray = [
         // {
@@ -162,7 +163,11 @@ class Dashboard extends React.Component {
         this.apiRequest()
         this.setBodyAttributes()
     }
-    setBodyAttributes = () => {
+    setBodyAttributes = (close = false) => {
+        if (close) {
+            document.body.classList.remove('modal-open')
+            return
+        }
         document.body.classList.add('modal-open')
     }
     loadScriptNStyle = () => {
@@ -227,7 +232,7 @@ class Dashboard extends React.Component {
         let selectPos = null
         return sites.map((item, key) => {
             return (
-                <div className="col-sm-12 col-md-3 col-lg-3 col1" key={key}>
+                <div className="col-sm-12 col-md-3 col-lg-3 col1" key={key} style={key >= 3 ? { marginTop: '20px', height: '360px' } : {}}>
                     <div className="col1-inner">
                         <div className="restro-bg"><img src={item.siteImg || "./assets/website/images/mysite-img1.jpg"} className="img-fluid " alt="Responsive image" />
                             <div className="shadow-up">
@@ -287,6 +292,31 @@ class Dashboard extends React.Component {
     }
     set = (key, value) => {
         this.setState({ [key]: value })
+    }
+    createNewSite = async () => {
+        const { dispatch } = this.props
+        const { site_name } = this.state
+        if (!site_name || site_name.trim() == '') {
+            showToast({ type: 'error', message: 'Please enter a valid name for your site' })
+            return
+        }
+        let data = {
+            site_name
+        }
+        let formData = new FormData()
+        _.each(data, (val, key) => {
+            formData.append(key, val)
+        })
+        this.setState({ loading: true })
+        const apiRequest = await Request.createNewSite(formData)
+        this.setState({ loading: false })
+        if (apiRequest.messageType && apiRequest.messageType == 'error') {
+            showToast({ type: 'error', message: apiRequest.message || 'Unable to create new site, try again' })
+            return
+        }
+        dispatch(setNewSiteDetails({ site_name: 'Site1' }))
+        $("#nameyoursite1").modal('hide')
+        this.goto('buyTemplate')
     }
     render() {
         const { dispatch, currentUser } = this.props
@@ -480,7 +510,7 @@ class Dashboard extends React.Component {
                                                                 }
                                                                 {
                                                                     data && data.latest_offer && (
-                                                                        <div className="col-sm-12 col-md-3 col-lg-3 col1 col4">
+                                                                        <div className="col-sm-12 col-md-3 col-lg-3 col1 col4" style={data.user_sites.length > 3 ? { marginTop: '20px', height: '360px' } : {}}>
                                                                             <div className="col1-inner light-orange-bg">
                                                                                 <img src="./assets/website/images/hot-sale.png" className="img-fluid" alt="Responsive image" />
                                                                                 <div className="col1-content">
@@ -1156,7 +1186,7 @@ class Dashboard extends React.Component {
                                                         <li className="center">
                                                             <div className="">
                                                                 <label htmlFor="re-name" className="form-label oss-16 black">Site Name</label>
-                                                                <input type="text" className="form-control osr-13 darkgrey" id="re-name" placeholder="Mysite Copy" />
+                                                                <input type="text" className="form-control osr-13 darkgrey" id="re-name" placeholder="Mysite Copy" onChange={(e) => { this.set('site_name', e.target.value) }} />
                                                             </div>
                                                         </li>
                                                     </ul>
@@ -1166,7 +1196,7 @@ class Dashboard extends React.Component {
                                         </div>
                                     </div>
                                     <div className="modal-footer">
-                                        <button type="button" className="btn btn-primary oss-13 white green-btn">Save</button>
+                                        <button type="button" className="btn btn-primary oss-13 white green-btn" onClick={() => { this.createNewSite() }}>Save</button>
                                     </div>
                                 </div>
                             </div>

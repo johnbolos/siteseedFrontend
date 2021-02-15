@@ -276,6 +276,30 @@ const _grapesEditor = {
 					"https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.js",
 				]
 				break;
+			case "event":
+				resp.styles = [
+					...resp.styles,
+					"https://unpkg.com/aos@2.3.1/dist/aos.css",
+					"https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css",
+					"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css",
+					"https://www.w3schools.com/w3css/4/w3.css",
+					"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
+					"https://fonts.googleapis.com/icon?family=Material+Icons",
+					"https://s3-us-west-2.amazonaws.com/s.cdpn.io/43033/owl.carousel.css",
+					"https://fonts.gstatic.com",
+					"https://fonts.googleapis.com/css2?family=Barlow&display=swap",
+					"https://fonts.googleapis.com/css2?family=Barlow:wght@600&display=swap",
+					"https://fonts.googleapis.com/css2?family=Barlow:wght@700&display=swap",
+					"https://fonts.googleapis.com/css2?family=Raleway&display=swap",
+				]
+				resp.scripts = [
+					...resp.scripts,
+					"https://code.jquery.com/jquery-2.2.4.min.js",
+					"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js",
+					"https://s3-us-west-2.amazonaws.com/s.cdpn.io/43033/owl.carousel.min.js",
+					"https://unpkg.com/aos@2.3.1/dist/aos.js",
+				]
+				break;
 			default:
 				break;
 		}

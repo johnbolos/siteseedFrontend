@@ -98,7 +98,11 @@ function AllTemplates({ dispatch, loading, templates }) {
 							dispatch(getPushPathWrapper("designerStudio"))
 						}}>
 						</div>
-						<div class="card">
+						<div class="card" style={{ backgroundImage: 'url("/assets/templates/event/thumbnail.jfif")' }} onClick={() => {
+							dispatch(selectTemplate("event"))
+							dispatch(setCurrentTemplate("event"))
+							dispatch(getPushPathWrapper("designerStudio"))
+						}}>
 						</div>
 						<div class="card">
 						</div>
