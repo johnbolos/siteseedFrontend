@@ -3268,7 +3268,7 @@ export const html = `
                                     <div class="panel">
                                         <div class="panel-heading" role="tab" id="headingOne-3">
                                             <h4 class="panel-title">
-    <a role="button" data-toggle="collapse" data-parent="#accordion-5" href="#collapseOne-3" aria-expanded="true" aria-controls="collapseOne-3">
+    <a role="button" data-toggle="collapse" data-parent="#accordion-5" href="#collapseOne-4" aria-expanded="true" aria-controls="collapseOne-4">
      <div class="row">
      <div class="col-md-3 p-0 acc-date-sec"><ul><li class="acc-timing">08:00 – 09:00</li></ul></div>
      <div class="col-md-9 p-0 acc-date-sec-1"><p class="Acc-theam">Conference Opening-4</p></div>     
@@ -3276,7 +3276,7 @@ export const html = `
     </a>
   </h4>
                                         </div>
-                                        <div id="collapseOne-3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne-3">
+                                        <div id="collapseOne-4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne-3">
                                             <div class="panel-body-1">
                                                 <div class="offset-lg-3 col-lg-9 offset-md-3 col-md-9 col-sm-9 p-0">
                                                     <div class="row conf-data">
@@ -3295,7 +3295,7 @@ export const html = `
                                     <div class="panel">
                                         <div class="panel-heading odd-color" role="tab" id="headingTwo-3">
                                             <h4 class="panel-title">
-    <a role="button" data-toggle="collapse" data-parent="#accordion-5" href="#collapseTwo-3" aria-expanded="true" aria-controls="collapseTwo-3">
+    <a role="button" data-toggle="collapse" data-parent="#accordion-5" href="#collapseTwo-4" aria-expanded="true" aria-controls="collapseTwo-4">
      <div class="row">
      <div class="col-md-3 p-0 acc-date-sec"><ul><li class="acc-timing">09:15 – 10:30</li></ul></div>
      <div class="col-md-9 p-0 acc-date-sec-1"><p class="Acc-theam">Conference theme one-4</p></div>     
@@ -3303,7 +3303,7 @@ export const html = `
     </a>
   </h4>
                                         </div>
-                                        <div id="collapseTwo-3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo-3">
+                                        <div id="collapseTwo-4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo-3">
                                             <div class="panel-body-1">
                                                 <div class="offset-lg-3 col-lg-9 offset-md-3 col-md-9 col-sm-9 p-0">
                                                     <div class="row conf-data">
@@ -3322,7 +3322,7 @@ export const html = `
                                     <div class="panel">
                                         <div class="panel-heading" role="tab" id="headingThree-3">
                                             <h4 class="panel-title">
-    <a role="button" data-toggle="collapse" data-parent="#accordion-5" href="#collapseThree-3" aria-expanded="true" aria-controls="collapseThree-3">
+    <a role="button" data-toggle="collapse" data-parent="#accordion-5" href="#collapseThree-4" aria-expanded="true" aria-controls="collapseThree-4">
      <div class="row">
      <div class="col-md-3 p-0 acc-date-sec"><ul><li class="acc-timing">09:15 – 10:30</li></ul></div>
      <div class="col-md-9 p-0 acc-date-sec-1"><p class="Acc-theam">Conference theme two-4</p></div>     
@@ -3330,7 +3330,7 @@ export const html = `
     </a>
   </h4>
                                         </div>
-                                        <div id="collapseThree-3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree-3">
+                                        <div id="collapseThree-4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree-3">
                                             <div class="panel-body">
                                                 <div class="offset-lg-3 col-lg-9 offset-md-3 col-md-9 col-sm-9 p-0">
                                                     <div class="row conf-data">
@@ -3349,7 +3349,7 @@ export const html = `
                                     <div class="panel">
                                         <div class="panel-heading odd-color" role="tab" id="headingFour-3">
                                             <h4 class="panel-title">
-    <a role="button" data-toggle="collapse" data-parent="#accordion-5" href="#collapseFour-3" aria-expanded="true" aria-controls="collapseFour-3">
+    <a role="button" data-toggle="collapse" data-parent="#accordion-5" href="#collapseFour-4" aria-expanded="true" aria-controls="collapseFour-4">
      <div class="row">
      <div class="col-md-3 p-0 acc-date-sec"><ul><li class="acc-timing">09:15 – 10:30</li></ul></div>
      <div class="col-md-9 p-0 acc-date-sec-1"><p class="Acc-theam">Conference theme three-4</p></div>     
@@ -3357,7 +3357,7 @@ export const html = `
     </a>
   </h4>
                                         </div>
-                                        <div id="collapseFour-3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour-3">
+                                        <div id="collapseFour-4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour-3">
                                             <div class="panel-body-1">
                                                 <div class="offset-lg-3 col-lg-9 offset-md-3 col-md-9 col-sm-9 p-0">
                                                     <div class="row conf-data">
@@ -3376,7 +3376,7 @@ export const html = `
                                     <div class="panel">
                                         <div class="panel-heading" role="tab" id="headingFive-3">
                                             <h4 class="panel-title">
-    <a role="button" data-toggle="collapse" data-parent="#accordion-5" href="#collapseFive-3" aria-expanded="true" aria-controls="collapseFive-3">
+    <a role="button" data-toggle="collapse" data-parent="#accordion-5" href="#collapseFive-4" aria-expanded="true" aria-controls="collapseFive-4">
      <div class="row">
      <div class="col-md-3 p-0 acc-date-sec"><ul><li class="acc-timing">16:40 – 17:30</li></ul></div>
      <div class="col-md-9 p-0 acc-date-sec-1"><p class="Acc-theam">Conference theme four-4</p></div>     
@@ -3384,7 +3384,7 @@ export const html = `
     </a>
   </h4>
                                         </div>
-                                        <div id="collapseFive-3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive-3">
+                                        <div id="collapseFive-4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive-3">
                                             <div class="panel-body">
                                                 <div class="offset-lg-3 col-lg-9 offset-md-3 col-md-9 col-sm-9 p-0">
                                                     <div class="row conf-data">
@@ -3403,7 +3403,7 @@ export const html = `
                                     <div class="panel">
                                         <div class="panel-heading odd-color" role="tab" id="headingSix-4">
                                             <h4 class="panel-title">
-    <a role="button" data-toggle="collapse" data-parent="#accordion-5" href="#collapseSix-4" aria-expanded="true" aria-controls="collapseSix-4">
+    <a role="button" data-toggle="collapse" data-parent="#accordion-5" href="#collapseSix-5" aria-expanded="true" aria-controls="collapseSix-5">
      <div class="row">
      <div class="col-md-3 p-0 acc-date-sec"><ul><li class="acc-timing">18:20 – 19:10</li></ul></div>
      <div class="col-md-9 p-0 acc-date-sec-1"><p class="Acc-theam">Conference theme five-4</p></div>     
@@ -3411,7 +3411,7 @@ export const html = `
     </a>
   </h4>
                                         </div>
-                                        <div id="collapseSix-4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix-4">
+                                        <div id="collapseSix-5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix-4">
                                             <div class="panel-body-1">
                                                 <div class="offset-lg-3 col-lg-9 offset-md-3 col-md-9 col-sm-9 p-0">
                                                     <div class="row conf-data">
@@ -3430,7 +3430,7 @@ export const html = `
                                     <div class="panel">
                                         <div class="panel-heading" role="tab" id="headingSeven-3">
                                             <h4 class="panel-title">
-    <a role="button" data-toggle="collapse" data-parent="#accordion-5" href="#collapseSeven-3" aria-expanded="true" aria-controls="collapseSeven-3">
+    <a role="button" data-toggle="collapse" data-parent="#accordion-5" href="#collapseSeven-4" aria-expanded="true" aria-controls="collapseSeven-4">
      <div class="row">
      <div class="col-md-3 p-0 acc-date-sec"><ul><li class="acc-timing">18:20 – 19:10</li></ul></div>
      <div class="col-md-9 p-0 acc-date-sec-1"><p class="Acc-theam">Conference theme six-4</p></div>     
@@ -3438,7 +3438,7 @@ export const html = `
     </a>
   </h4>
                                         </div>
-                                        <div id="collapseSeven-3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSeven-3">
+                                        <div id="collapseSeven-4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSeven-3">
                                             <div class="panel-body">
                                                 <div class="offset-lg-3 col-lg-9 offset-md-3 col-md-9 col-sm-9 p-0">
                                                     <div class="row conf-data">
