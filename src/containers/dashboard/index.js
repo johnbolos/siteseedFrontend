@@ -9,6 +9,7 @@ import { showToast } from "../../components/utils"
 import moment from "moment"
 import { setNewSiteDetails, setTokenInfo, setUser } from "../../reducers/actions/userActions"
 import { getPushPathWrapper } from "../../routes"
+import StripeForm from "../../components/ui/stripe"
 
 class Dashboard extends React.Component {
     state = {
@@ -825,77 +826,7 @@ class Dashboard extends React.Component {
                                     <div className="modal-body">
                                         <div className="row">
                                             <div className="col-lg-12 col-md-12 col-sm-12">
-                                                <form>
-                                                    <ul>
-                                                        <li className="center">
-                                                            <div className="">
-                                                                <label htmlFor="noc" className="form-label oss-16 black">Name on card</label>
-                                                                <input type="text" className="form-control osr-13 darkgrey" id="noc" />
-                                                            </div>
-                                                        </li>
-                                                        <li className="center">
-                                                            <div className="">
-                                                                <label htmlFor="c-number" className="form-label oss-16 black">Card Number</label>
-                                                                <input type="text" className="form-control osr-13 darkgrey" id="c-number" />
-                                                            </div>
-                                                        </li>
-                                                        <div className="date-cvv">
-                                                            <li className="center left">
-                                                                <div className="">
-                                                                    <label htmlFor="inputExpDate" className="form-label oss-16 black">Expiry Date</label>
-                                                                    {/* <!--<input type="text" className="form-control osr-13 darkgrey" id="c-number" />--> */}
-                                                                    <input className="form-control osr-13 darkgrey" type="text" id="inputExpDate" placeholder="MM / YY" maxLength='7' />
-                                                                </div>
-                                                            </li>
-
-                                                            <li className="center right">
-                                                                <div className="">
-                                                                    <label htmlFor="cvv-number" className="form-label oss-16 black">CVV<span className="icon-Question-Mark darkgrey"></span></label>
-                                                                    {/* <!--<input type="text" className="form-control osr-13 darkgrey" id="c-number" />--> */}
-                                                                    <input id="cvv-number" type="password" className="cvv form-control osr-13 darkgrey" placeholder="CVV" />
-                                                                </div>
-                                                            </li>
-                                                        </div>
-                                                        <li className="center">
-                                                            <div className="">
-                                                                <label htmlFor="address-l1" className="form-label oss-16 black">Address Line 1</label>
-                                                                <input type="text" className="form-control osr-13 darkgrey" id="address-l1" />
-                                                            </div>
-                                                        </li>
-
-                                                        <li className="center">
-                                                            <div className="">
-                                                                <label htmlFor="address-l2" className="form-label oss-16 black">Address Line 2</label>
-                                                                <input type="text" className="form-control osr-13 darkgrey" id="address-l2" />
-                                                            </div>
-                                                        </li>
-                                                        <div className="cou-state">
-                                                            <li className="center left">
-                                                                <div className="">
-                                                                    <label htmlFor="address-l2" className="form-label oss-16 black">Country</label>
-                                                                    <select defaultValue={'Select a country'} className="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                                                                        {/* <option selected>Select a country</option> */}
-                                                                        <option value="1">America</option>
-                                                                        <option value="2">india</option>
-                                                                        <option value="3">japan</option>
-                                                                    </select>
-                                                                </div>
-                                                            </li>
-                                                            <li className="center right">
-                                                                <div className="">
-                                                                    <label htmlFor="address-l2" className="form-label oss-16 black">State</label>
-                                                                    <select defaultValue={'Choose'} className="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                                                                        {/* <option className="osr-13 darkgrey" selected>Choose</option> */}
-                                                                        <option value="1">Nagpur</option>
-                                                                        <option value="2">Delhi</option>
-                                                                        <option value="3">kochi</option>
-                                                                    </select>
-                                                                </div>
-                                                            </li>
-                                                        </div>
-                                                    </ul>
-                                                    <button type="button" className="btn btn-primary oss-13 white green-btn update-changes">Save Changes</button>
-                                                </form>
+                                                <StripeForm />
                                             </div>
                                         </div>
                                     </div>
