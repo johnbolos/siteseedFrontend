@@ -1,0 +1,183 @@
+@import "../../../assets/theme/editorTheme.scss";
+
+#layers {
+  .gjs-layer.gjs-layer__t-wrapper.no-select {
+    width: 100%;
+  }
+  .collapse-all {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    margin: 10px;
+    .theme-dark & {
+      background-color: map-get($dark, "background6");
+    }
+    .theme-light & {
+      background-color: map-get($light, "background3");
+    }
+  }
+}
+
+
+#layer-manager {
+  width: 100%;
+  //margin-top: 10px;
+  margin: 0px 6px 0px 6px;
+  overflow: hidden;
+  // background-color: #373737;
+  .theme-dark & {
+    background-color: map-get($dark, "background");
+  }
+  .theme-light & {
+    background-color: map-get($light, "background");
+  }
+  .gjs-one-bg,
+  .gjs-two-color {
+    background-color: transparent;
+    // color: #fff;
+    .theme-dark & {
+      // background-color: map-get($dark, "background");
+      color: map-get($dark, "color");
+    }
+    .theme-light & {
+      // background-color: map-get($light, "background");
+      color: map-get($light, "color");
+    }
+  }
+  .gjs-layer {
+    //margin-left: 10px; //removed to fit layers when opened in view
+    border: 0px solid transparent;
+  }
+  .gjs-layer.gjs-selected .gjs-layer-title {
+    background-color: transparent;
+    // .theme-dark & {
+    //   background-color: map-get($dark, "background");
+    // }
+    // .theme-light & {
+    //   background-color: map-get($light, "background");
+    // }
+  }
+  .gjs-layer.gjs-hovered .gjs-layer-title {
+    background-color: transparent;
+    // .theme-dark & {
+    //   background-color: map-get($dark, "background");
+    // }
+    // .theme-light & {
+    //   background-color: map-get($light, "background");
+    // }
+  }
+  .gjs-layer-title {
+    border: none;
+    font-size: 13px;
+    font-family: "Source Sans Pro";
+    border-radius: 5px;
+    padding: 0px 10px 0px 10px !important;
+    // background-color: #373737;
+    .gjs-layer-title-inn {
+      height: 30px;
+    }
+    .gjs-layer-name {
+      height: 30px;
+      display: flex;
+      align-items: center;
+      margin: 0 30px 0 2px;
+    }
+    background-color: transparent;
+    // .theme-dark & {
+    //   background-color: map-get($dark, "background");
+    // }
+    // .theme-light & {
+    //   background-color: map-get($light, "background");
+    // }
+  }
+  .gjs-layer-title-c {
+    border-radius: 5px;
+  }
+  .gjs-selected,   //for border on selected layer
+	.gjs-hovered {
+    box-sizing: border-box;
+    border-radius: 0px;
+    // border-radius: 5px;
+    // border: 1px solid #006cff;
+    border: 0px solid #006cff;
+    overflow: hidden;
+    border-color: map-get($primary, "background");
+    // background-color: #373737;
+    .theme-dark & {
+      background-color: map-get($dark, "background3") !important;
+    }
+    .theme-light & {
+      background-color: map-get($light, "background3") !important;
+    }
+  }
+  .gjs-layer-caret {
+    font-size: unset;
+    top: 8px;
+    margin-right: 5px !important;
+    position: static;
+  }
+
+  //for moving eye to right
+  .gjs-layer-vis {
+    left: unset;
+    right: 6px;
+    top: 10px;
+    padding: 0px 5px 0px 10px;
+    // color: #c0c0c0;
+    .theme-dark & {
+      color: map-get($dark, "color1");
+    }
+    .theme-light & {
+      color: map-get($light, "color1");
+    }
+  }
+
+  .gjs-layer-children {
+    padding-left: 13px;
+    .gjs-layer-vis {
+      // color: #c0c0c0;
+      .theme-dark & {
+        color: map-get($dark, "color1");
+      }
+      .theme-light & {
+        color: map-get($light, "color1");
+      }
+    }
+  }
+  .fa-chevron-right,
+  .fa-chevron-down {
+    // margin: -2px 0px 0px -7px;
+  }
+  .fa-chevron-right:before {
+    content: "\f0da"; // for right arrow
+  }
+  .fa-chevron-down:before {
+    content: "\f0d7"; // for down arrow if required
+    // content: "\f0da"; // for right arrow
+  }
+
+  // .gjs-layer__t-default {
+  // 	// margin: 1px 0px;
+  // 	border: 1px solid transparent;
+  // }
+}
+.change-opacity {
+  opacity: 0.5;
+}
+
+.search-result {
+  color: "red";
+  border: "2px solid red";
+}
+
+.gjs-layers {
+  border-left: 1px dashed;
+}
+
+.gjs-layer__icon, .gjs-layer-name {
+  cursor: grab;
+}

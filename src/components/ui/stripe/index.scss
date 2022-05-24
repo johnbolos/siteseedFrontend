@@ -1,0 +1,75 @@
+  .Form {
+    label.form-label.oss-16.black {
+      .comment {
+        display: none;
+      }
+    }
+    label.form-label.oss-16.black:hover {
+      .comment {
+        display: block;
+      }
+    }
+  }
+  #c-number, #inputExpDate, #cvv-number {
+    background: #f2f2f2;
+    border: 0;
+    border-radius: 0;
+    height: 49px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > div {
+      width: 100%;
+    }
+  }
+
+  #postalCode, #phoneNo {
+    -moz-appearance: 'textfield';
+  }
+
+  input#phoneNo::-webkit-outer-spin-button,
+  input#phoneNo::-webkit-inner-spin-button,
+  input#postalCode::-webkit-outer-spin-button,
+  input#postalCode::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  #inputExpDate {
+    padding-left: calc(25px + .75em);
+  }
+
+  .date-cvv .center.left label::before {
+    top: 42px !important;
+    z-index: 2;
+  }
+  
+body.modal-open .modal .modal-dialog .modal-content .modal-body form ul input:disabled {
+  background: #d6d6d6 !important;
+  cursor: not-allowed;
+}
+body.modal-open .modal .modal-dialog .modal-content .modal-body form ul input {
+  color: #67737D;
+}
+input#inputExpDate::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.react-datepicker__month-wrapper {
+  display: flex;
+}
+.react-datepicker__navigation--next:focus {
+  border-left: 5.39062px solid rgb(204, 204, 204);
+  border-right: 5.39062px solid rgba(0, 0, 0, 0);
+  border-top: 5.39062px solid rgba(0, 0, 0, 0);
+  border-bottom: 5.39062px solid rgba(0, 0, 0, 0);
+  outline: none;
+}
+.react-datepicker__navigation--previous:focus {
+  border-right: 5.39062px solid rgb(204, 204, 204);
+  border-left: 5.39062px solid rgba(0, 0, 0, 0);
+  border-top: 5.39062px solid rgba(0, 0, 0, 0);
+  border-bottom: 5.39062px solid rgba(0, 0, 0, 0);
+  outline: none;
+}

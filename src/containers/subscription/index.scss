@@ -1,0 +1,61 @@
+.loggedin-content-container {
+    padding: 50px 0;
+
+    .container {
+        max-width: 1160px;
+
+        h1{
+            color: #281C73;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 22px;
+            line-height: 33px;
+        }
+    }
+
+    .subscription-settings {
+        padding: 30px;
+        background: white;
+        margin-top: 20px;
+        border-radius: 20px;
+        box-shadow: 0px 20px 40px rgba(40, 28, 115, 0.1);
+
+        h2{
+            color: #281C73;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        p{
+            color: #252153;
+            opacity: .5;
+            margin: 0px 0 30px;
+            font-size: 16px;
+        }
+        .subscription-table{
+            th {
+                color: #281C73;
+                font-weight: 700;
+                font-size: 16px;
+                border-bottom: 1px solid #F2F2F2;
+                padding-bottom: 10px;
+            }
+            .no-subscription{
+                border-bottom: none;
+                padding: 40px 0 0px 0;
+
+                svg {
+                    max-width: 80px;
+                    display: block;
+                    margin: auto;
+                    fill: rgb(103, 115, 125);
+                }
+                span{
+                    color: #252153;
+                    opacity: .5;
+                    font-size: 16px;
+                }
+            }
+        } 
+    }
+}

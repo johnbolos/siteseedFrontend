@@ -1,0 +1,206 @@
+.home-banner{
+    h1 {
+        font-size: 70px;
+        line-height: 1;
+        font-weight: 700;
+        color: black;
+    }
+    h3 {
+        font-size: 46px;
+        color: black;
+        font-weight: 300;
+        max-width: 1074px;
+        margin: 5px auto 0;
+        line-height: 1;
+    }
+}
+.home-world-selection {
+    overflow-x: hidden;
+    margin-top: -25px;
+    margin-bottom: 250px;
+
+    a{
+        text-decoration: none !important;
+    }
+    .container{
+        > .d-flex {
+            max-width: 1160px;
+            margin: auto;
+            padding-top: 230px;
+            justify-content: space-between;
+    
+            > div{
+                max-width: 555px;
+                cursor: pointer;
+
+                &:last-child {
+                    transform: translateX(10px);
+                }
+            }
+        }
+    
+        > div:first-child {
+            z-index: -1;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+}
+
+.selection-wrapper {
+    border-radius: 56px;
+    position: relative;
+    border: 2px solid black;
+    overflow: hidden;
+    // max-width: 555px;
+    padding-top: 20px;
+
+    > img {
+        position: absolute;
+        left: 0;
+        z-index: -1;
+        max-width: 1167px;
+        top: 0;
+        opacity: 0.9;
+    }
+
+    h2 {
+        margin: 0;
+        font-size: 70px;
+        color: black;
+        font-weight: 700;
+        line-height: 1;
+        text-transform: uppercase;
+    }
+}
+.selection-bottom {
+    margin-top: 296px;
+    position: relative;
+    height: 96px;
+}
+.selection-new{
+    &:before {
+        position: absolute;
+        content: '';
+        mix-blend-mode: overlay;
+        background: #FA8969;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        opacity: 0.7;
+    }
+
+    .selection-detail{
+        > div:first-child {
+            bottom: 57px;
+            z-index: 2;
+        }
+    }
+    .selection-bottom {
+        background: #37F4F4;
+
+        > div {
+            position: absolute;
+            max-width: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 75px;
+        }
+    }
+}
+
+.selection-many{
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #37F4F4;
+        mix-blend-mode: overlay;
+        opacity: 0.7;
+    }
+    > img {
+        left: unset;
+        right: -12px;
+        opacity: 0.2;
+    }
+    .selection-detail{
+        > div:first-child {
+            bottom: 38px;
+            z-index: 2;
+            right: 125px;
+        }
+        .selection-bottom{
+            background: #FA8969;
+
+            div {
+                &:first-child,
+                &:last-child {
+                    left: 40px;
+                    bottom: 86px;
+                }
+                &:last-child {
+                    left: unset;
+                    right: 40px;
+                }
+                &:nth-child(2) {
+                    left: 50%;
+                    transform: translateX(-50%);
+                    bottom: 30px;
+                }
+            }
+        }
+    }
+}
+
+
+
+@media (max-width: 767px){
+    .home-banner {
+        padding-top: 70px;
+        
+        h1{
+            font-size: 45px;
+        }
+        h3{
+            font-size: 30px;
+        }
+    }
+    .home-world-selection{
+        margin-top: 0;
+
+        .container{
+            > img{
+                display: none;
+            }
+            > .d-flex {
+                padding-top: 50px;
+    
+                > div{
+                    &:last-child{
+                        transform: translateX(0);
+                        margin-top: 30px;
+                    }
+                }
+            }
+            .selection-wrapper{
+                h2{
+                    font-size: 45px;
+                }
+
+                &.selection-many .selection-detail > img {
+                    right: 50%;
+                    transform: translateX(90%);
+                }
+                &.selection-new .selection-bottom img {
+                    left: unset;
+                    right: 50%;
+                    transform: translateX(100%);
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,192 @@
+.loggedin-content-container {
+    padding: 50px 0;
+
+    .container {
+        max-width: 1160px;
+
+        h1{
+            color: #281C73;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 22px;
+            line-height: 33px;
+        }
+    }
+    .billing-search #searchBar {max-width: 400px;border-radius: 100px;box-shadow: 0 0 15px 0 rgba(0,0,0,0.1);}
+    .billing-details-left, .billing-search{
+        margin-top: 50px;
+    }
+    .billing-container {
+        padding: 30px;
+        background: white;
+        margin-top: 20px;
+        border-radius: 20px;
+        box-shadow: 0px 20px 40px rgba(40, 28, 115, 0.1);
+
+        h2{
+            color: #281C73;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        p{
+            color: #252153;
+            opacity: .5;
+            margin: 0px 0 30px;
+            font-size: 16px;
+        }
+
+        .add-card-btn{
+            background-color: #F17D53;
+            border-radius: 100px;
+            color: white;
+            padding: 15px 30px;
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 20px;
+        }
+        .billing-search{
+            > div {
+                max-width: 350px;
+                margin-left: auto;
+                
+                > div{
+                    box-shadow: 0px 20px 40px rgba(40, 28, 115, 0.1);
+                }
+            }
+        }
+        .billing-data-row1-inner{
+            position: relative;
+            overflow: hidden;
+            background-color: #F2F2F2;
+
+            > div:not(.default){
+                padding: 16px 20px;
+            }
+        }
+        .default {
+            position: absolute;
+            left: -25px;
+            top: 20px;
+            transform: rotate(-45deg);
+            background-color: #31cdb9;
+            color: #fffced;
+            width: 109px;
+            display: flex;
+            justify-content: center;
+            font-size: 15px;
+            line-height: 20px;
+            font-weight: 600;
+            letter-spacing: .5px;
+        }
+        .activeCard-table, .billing-table{
+            th {
+                color: #281C73;
+                font-weight: 700;
+                font-size: 16px;
+                border-bottom: 1px solid #F2F2F2;
+                padding-bottom: 10px;
+            }
+            .no-cards, .no-billing{
+                border-bottom: none;
+                padding: 40px 0 0px 0;
+
+                svg {
+                    max-width: 80px;
+                    display: block;
+                    margin: auto;
+                    fill: rgb(103, 115, 125);
+                }
+                span{
+                    color: #252153;
+                    opacity: .5;
+                    font-size: 16px;
+                }
+            }
+        } 
+    }
+}
+
+#pop-confirm-modal-delete{
+    max-width: 400px;
+    color: #999;
+
+    .modal-header{
+        border-bottom: none;
+    }
+    .modal-body{
+        text-align: center;
+        font-size: 14px;
+    }
+    .close{
+        background: transparent;
+        border: none;
+        outline: none;
+        position: absolute;
+        top: -5px;
+        right: -2px;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 25px;
+        color: #67737D;
+    }
+    h4{
+        text-align: center;
+        font-size: 26px;
+        margin: 30px 0 -10px;
+    }
+
+    .icon-box{
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
+        border-radius: 50%;
+        z-index: 9;
+        text-align: center;
+        border: 3px solid #f15e5e;
+
+        i{
+            color: #f15e5e;
+            font-size: 46px;
+            display: inline-block;
+            margin-top: 13px;
+        }
+    }
+
+    .modal-footer{
+        border: none;
+        text-align: center;
+        border-radius: 5px;
+        font-size: 13px;
+        padding: 10px 15px 25px;
+        display: flex;
+        justify-content: space-evenly;
+
+        .btn{
+            width: 45%;
+            margin: 0;
+        }
+    }    
+}
+.addedit-card{
+    .modal-dialog{
+        max-width: 600px;
+
+        .modal-body{
+            padding: 20px 18px !important;
+        }
+    }
+    
+    
+    ul{
+        padding-left: 0;
+
+        li:not(:last-child){
+            margin-bottom: 20px;
+        }
+    }
+
+    button.update-changes{
+        margin-top: 0;
+    }
+}

@@ -1,0 +1,205 @@
+@import "../../../assets/theme/editorTheme.scss";
+
+.traits-container {
+  margin: 0 -10px;
+  .gjs-trt-traits {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0px 10px;
+  }
+  .gjs-trt-trait {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 200px;
+    padding: 5px 0px;
+  }
+  .gjs-trt-trait--checkbox {
+    flex-direction: row;
+    width: 95px;
+  }
+  .gjs-trt-trait--show-popup {
+    // flex-direction: row;
+    // width: 95px;
+  }
+  .gjs-field-show-popup {
+    button {
+      height: 30px;
+    width: 200px;
+    color: #fafafa;
+    background: #444444;
+    border: 1px solid #5E5E5E;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 5px;
+    outline: none;
+    }
+    button:hover {
+      box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+    }
+  }
+  .gjs-trt-trait__wrp {
+    // width: 50%;
+  }
+  .gjs-label-wrp {
+    width: 100%;
+    padding-bottom: 5px;
+  }
+  .gjs-field-wrp--checkbox {
+    width: auto !important;
+    margin-top: 4px;
+  }
+  .gjs-field-wrp {
+    flex-grow: 1;
+    width: 100%;
+  }
+  .gjs-field-select {
+    width: 100%;
+  }
+  .gjs-field-select > div[data-input] {
+    box-sizing: border-box;
+    // box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 5px;
+    height: 30px;
+    display: flex;
+    position: relative;
+    // background: #1b1b1b;
+    border: 1px solid #5e5e5e;
+    .theme-light & {
+      background-color: map-get($light, "background2");
+      border-color: map-get($light, "background4");
+    }
+    .theme-dark & {
+      background-color: map-get($dark, "background3");
+      border-color: map-get($dark, "background4");
+    }
+  }
+  .gjs-field-select > div > select > option {
+    // background: #272727;
+    .theme-light & {
+      background-color: map-get($light, "background2");
+      color: map-get($light, "color");
+    }
+    .theme-dark & {
+      background-color: map-get($dark, "background2");
+      color: map-get($dark, "color");
+    }
+    border-radius: 5px;
+    padding: 5px;
+  }
+  .gjs-field-select > div > select {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 7px 13px 7px 10px;
+    cursor: pointer;
+    background: transparent;
+    .theme-light & {
+      background-position-x: 100%;
+    }
+    .theme-dark & {
+      background-position-x: 100%;
+    }
+  }
+  .gjs-field-select > div > select:hover {
+    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+  }
+  .gjs-trt-traits.gjs-one-bg {
+    background-color: unset;
+    color: unset;
+  }
+  .gjs-trt-traits.gjs-two-color {
+    background-color: unset;
+    color: unset;
+  }
+  .gjs-label {
+    font-family: "Source Sans Pro";
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 14px;
+    // color: #ffffff;
+    padding-top: 4px;
+  }
+  .gjs-field:not(.gjs-sm-layers):not(.gjs-field-radio) {
+    border-bottom: none;
+    background-color: transparent;
+  }
+  .gjs-field.gjs-field-checkbox {
+    .theme-light & {
+      border: 1px solid map-get($light, "background3") !important;
+      background-color: map-get($light, "background2");
+      //   color: map-get($light, "color");
+    }
+    .theme-dark & {
+      border: 1px solid map-get($dark, "background3") !important;
+      background-color: map-get($dark, "background2");
+      //   color: map-get($dark, "color");
+    }
+    input:checked + .gjs-chk-icon {
+      .theme-light & {
+        border-color: map-get($light, "color");
+      }
+      .theme-dark & {
+        border-color: map-get($dark, "color");
+      }
+    }
+  }
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    .theme-light & {
+    }
+    .theme-dark & {
+      filter: invert(1);
+    }
+  }
+  textarea,
+  input {
+    // background: #272727;
+    border-radius: 5px;
+    border: 1px solid #444444;
+    .theme-light & {
+      border-color: map-get($light, "background3");
+      background-color: map-get($light, "background2");
+      color: map-get($light, "color");
+    }
+    .theme-dark & {
+      border-color: map-get($dark, "background4");
+      background-color: map-get($dark, "background2");
+      color: map-get($dark, "color");
+    }
+  }
+}
+.settings-label {
+  display: flex;
+  padding: 12px 0px 0px 0px;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
+  //   color: #ffffff;
+}
+.settings-container {
+  padding: 0 20px 10px 20px;
+  border-bottom: 1px solid #444444;
+  .theme-light & {
+    border-color: map-get($light, "background3");
+  }
+  .theme-dark & {
+    border-color: map-get($dark, "background3");
+  }
+  .settings-label {
+    cursor: pointer;
+  }
+}
+.setting-message {
+  margin: 5px 10px;
+}

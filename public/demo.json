@@ -1,0 +1,13 @@
+{
+	"name": "site-seed-client",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"start": "craco start",
+		"build": "craco build",
+		"eject": "react-scripts eject"
+	},
+	"eslintConfig": {
+		"extends": "react-app"
+	}
+}

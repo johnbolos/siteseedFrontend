@@ -1,0 +1,171 @@
+.img-drop-area.adding-image-highlight {
+    border: 5px dashed #b7bfc5;
+}
+
+.tab-content {
+    #ds-backup {
+        .dash-set-data {
+            button {
+                .backupsLoading {
+                    circle {
+                        stroke: #31CDB9;
+                    }
+                }
+            }
+        }
+    }
+
+
+    
+    #pop-confirm-modal-restore {
+        .modal-dialog {
+            top: 35%;
+        }
+    }
+    #pop-confirm-modal-restore {
+        font-family: 'Varela Round', sans-serif;
+    
+        .modal-dialog {
+            color: #636363;
+            width: 400px;
+            max-width: none;
+        }
+        .modal-dialog .modal-content {
+            padding: 20px;
+            border-radius: 5px;
+            border: none;
+            text-align: center;
+            font-size: 14px;
+        }
+        .modal-dialog .modal-header {
+            border-bottom: none;   
+            position: relative;
+        }
+        .modal-dialog h4 {
+            text-align: center;
+            font-size: 26px;
+            margin: 30px 0 -10px;
+        }
+        .modal-dialog .close {
+            background: transparent;
+            border: none;
+            outline: none;
+            position: absolute;
+            top: -5px;
+            right: -2px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 25px;
+            color: #67737D;
+        }
+        .modal-dialog .close:hover {
+            color: black;
+        }
+        .modal-dialog .modal-body {
+            color: #999;
+            .unassigned-site-card-row {
+                display: flex;
+                margin-bottom: 20px;
+                padding: 20px;
+                background: #f2f2f2;
+            }
+        }
+        .modal-dialog .modal-footer {
+            border: none;
+            text-align: center;		
+            border-radius: 5px;
+            font-size: 13px;
+            padding: 10px 15px 25px;
+            display: flex;
+            justify-content: space-evenly;
+            .btn {
+                width: 45%;
+            }
+        }
+        .modal-dialog .modal-footer a {
+            color: #999;
+        }		
+        .modal-dialog .icon-box {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            border-radius: 50%;
+            z-index: 9;
+            text-align: center;
+            border: 3px solid #31cdb9;
+        }
+        .modal-dialog .icon-box span.icon-Refesh {
+            width: 100%;
+            height: 100%;
+            font-size: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #31cdb9;
+        }
+        .modal-dialog .btn, .modal-dialog .btn:active {
+            color: #fff;
+            border-radius: 4px;
+            background: #60c7c1;
+            text-decoration: none;
+            transition: all 0.4s;
+            line-height: normal;
+            min-width: 120px;
+            border: none;
+            min-height: 40px;
+            border-radius: 0px;
+            margin: 0 5px;
+        }
+        .modal-dialog .btn-secondary {
+            background: #798792;
+        }
+        .modal-dialog .btn-secondary:hover, .modal-dialog .btn-secondary:focus {
+            background: #67737D;
+        }
+        .modal-dialog .btn-danger {
+            background: #f15e5e;
+        }
+        .modal-dialog .btn-danger:hover, .modal-dialog .btn-danger:focus {
+            background: #ee3535;
+        }
+        .modal-dialog .btn-primary:hover, .modal-dialog .btn:focus {
+            background: #00d4c7;
+        }
+        .trigger-btn {
+            display: inline-block;
+            margin: 100px auto;
+        }
+    }
+}
+
+.tab-pane.fade {
+    .dash-set-tab-content-inner {
+        .row {
+            .dash-set-tab-coll {
+                .dash-set-data {
+                    button.btn-outline-primary {
+                        text-align: revert;
+                        background: #31CDB9;
+                        color: #ffffff;
+                    }
+                    button.btn-outline-primary:hover {
+                        background: #34d8c3;
+                    }
+                    button.btn-outline-primary:active {
+                        background: #000;
+                        color: #fff;
+                    }
+                    .form-notification {
+                        .dash-set-toggle {
+                            .switch {
+                                span.slider.active {
+                                    background: #31cdb9;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

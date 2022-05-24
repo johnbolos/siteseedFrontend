@@ -1,0 +1,813 @@
+@import "../../../../assets/theme/editorTheme.scss";
+
+.form-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  .container-class {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .label-class {
+      font-family: "Source Sans Pro";
+      font-style: normal;
+      font-weight: normal;
+      font-size: 11px;
+      line-height: 14px;
+      padding-top: 4px;
+      // color: #ffffff;
+      .theme-light & {
+        color: map-get($light, "color");
+      }
+      .theme-dark & {
+        color: map-get($dark, "color");
+      }
+    }
+    .field-class {
+      padding: 6px 0px 6px 0px;
+      flex: 1;
+      .radio-btn-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-radius: 5px;
+        height: 30px;
+        // background: #272727;
+        border: 1px solid white;
+        .theme-light & {
+          padding: 0px;
+          background-color: map-get($light, "background2");
+          border-color: map-get($light, "background4");
+        }
+        .theme-dark & {
+          padding: 1px;
+          background-color: map-get($dark, "background2");
+          border: none;
+        }
+
+        .btn {
+          flex: 1;
+          justify-content: center;
+          align-items: center;
+          display: flex;
+          // padding: 10px 28px 9px 28px;
+          background: transparent;
+          cursor: pointer;
+        }
+        // .btn:hover {
+        //   border-radius: 5px;
+        //   background-color: #3d3d3d;
+        // }
+        .btn-active {
+          flex: 1;
+          justify-content: center;
+          align-items: center;
+          display: flex;
+          // padding: 10px 28px 9px 28px;
+          cursor: pointer;
+          // background: #444444;
+          .theme-light & {
+            background-color: map-get($light, "background3");
+          }
+          .theme-dark & {
+            background-color: map-get($dark, "background3");
+          }
+        }
+      }
+
+      .select-container {
+        box-sizing: border-box;
+        // box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+        border-radius: 5px;
+        height: 30px;
+        display: flex;
+        position: relative;
+        // background: #444444;
+        border: 1px solid #5e5e5e;
+        .theme-light & {
+          background-color: map-get($light, "background2");
+          border-color: map-get($light, "background4");
+        }
+        .theme-dark & {
+          background-color: map-get($dark, "background3");
+          border-color: map-get($dark, "background4");
+        }
+        .input {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          // padding: 2px;
+          width: 100%;
+          padding: 7px 13px 7px 10px;
+        }
+
+        .list-container {
+          position: absolute;
+          z-index: 5;
+          // top: 110%;
+          padding: 15px 10px 15px 10px;
+          // max-height: 45%;
+          min-width: 114px;
+          overflow-y: auto;
+          border-radius: 5px;
+          font-family: "Source Sans Pro";
+          font-style: normal;
+          font-weight: normal;
+          font-size: 13px;
+          line-height: 16px;
+          border: 1px solid white;
+          // background: #1b1b1b;
+          // color: #c0c0c0;
+          .theme-light & {
+            background-color: map-get($light, "background1");
+            border-color: map-get($light, "background4");
+            color: map-get($light, "color1");
+          }
+          .theme-dark & {
+            background-color: map-get($dark, "background1");
+            border: none;
+            color: map-get($dark, "color1");
+          }
+          .item-label {
+            padding-left: 24px;
+          }
+          .list-divider {
+            width: 100%;
+            height: 0px;
+            margin: 14px 0px 15px 0px;
+            border: 1px solid #444444;
+            .theme-light & {
+              border-color: map-get($light, "background3");
+            }
+            .theme-dark & {
+              border-color: map-get($dark, "background3");
+            }
+          }
+          .list-item {
+            background: transparent;
+            padding: 5px 0px 4px 0px;
+            border: 1px solid transparent;
+            margin-top: 1px;
+            margin-bottom: 1px;
+            position: relative;
+          }
+          .list-item:hover {
+            padding: 5px 0px 4px 0px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            margin-top: 1px;
+            margin-bottom: 1px;
+            position: relative;
+            // background: #272727;
+            border: 1px solid #444444;
+            .theme-light & {
+              background-color: map-get($light, "background2");
+              border-color: map-get($light, "background3");
+            }
+            .theme-dark & {
+              background-color: map-get($dark, "background2");
+              border-color: map-get($dark, "background3");
+            }
+          }
+          .list-item-selected {
+            box-sizing: border-box;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            padding: 5px 0px 4px 0px;
+            margin-top: 1px;
+            margin-bottom: 1px;
+            position: relative;
+            // background: #272727;
+            border: 1px solid #444444;
+            .theme-light & {
+              background-color: map-get($light, "background2");
+              border-color: map-get($light, "background3");
+            }
+            .theme-dark & {
+              background-color: map-get($dark, "background2");
+              border-color: map-get($dark, "background3");
+            }
+          }
+          .tick {
+            margin: 0px 7.5px 0px 0px;
+            left: 7.5px;
+            position: absolute;
+            path {
+              .theme-dark & {
+                fill: map-get($dark, "icon1");
+              }
+            }
+          }
+        }
+      }
+      .select-container:hover {
+        box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+      }
+
+      // .integer-container:has(.unit-select) {
+      //   background-color: red;
+      // }
+      .integer-container {
+        height: 30px;
+        position: relative;
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button,
+        select {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        select {
+          font-family: "Source Sans Pro";
+          font-weight: normal;
+          font-size: 11px;
+          line-height: 14px;
+          background-color: transparent;
+          outline: none;
+          border: none;
+          margin-right: 2px;
+          // color: #ffffff;
+          .theme-light & {
+            color: map-get($light, "color");
+          }
+          .theme-dark & {
+            color: map-get($dark, "color");
+          }
+        }
+
+        input[type="number"] {
+          -moz-appearance: textfield;
+          outline: none;
+          width: 100%;
+          box-sizing: border-box;
+          border-radius: 5px;
+          padding: 7px 15px 7px 7px;
+          font-family: "Source Sans Pro";
+          font-style: normal;
+          font-weight: normal;
+          font-size: 13px;
+          line-height: 16px;
+          height: 30px;
+          border: 1px solid #444444;
+          .theme-light & {
+            background-color: map-get($light, "background2");
+            border-color: map-get($light, "background3");
+            color: map-get($light, "color");
+          }
+          .theme-dark & {
+            background-color: map-get($dark, "background2");
+            border-color: map-get($dark, "background3");
+            color: map-get($dark, "color");
+          }
+        }
+
+        .step {
+          position: absolute;
+          top: 0;
+          right: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+          padding: 1px 0px 1px 0px;
+          flex-direction: column;
+          width: 13px;
+          border-radius: 0px 4px 4px 0px;
+          background: #444444;
+          .theme-light & {
+            background-color: map-get($light, "background3");
+            // border-color: map-get($light, "background3");
+            // color: map-get($light, "color");
+          }
+          .theme-dark & {
+            background-color: map-get($dark, "background3");
+            // border-color: map-get($dark, "background3");
+            // color: map-get($dark, "color");
+          }
+          svg {
+            cursor: pointer;
+          }
+        }
+        .unit-select {
+          position: absolute;
+          top: 0;
+          right: 16px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+          flex-direction: column;
+          // color: #ffffff;
+          .theme-light & {
+            color: map-get($light, "color");
+          }
+          .theme-dark & {
+            color: map-get($dark, "color");
+          }
+
+          &input[type="number"] {
+            padding-right: 30px;
+          }
+          select {
+            cursor: pointer;
+            // color: #ffffff;
+
+            option {
+              // color: #5e5e5e;
+              .theme-light & {
+                background-color: map-get($light, "background3");
+              }
+              .theme-dark & {
+                background-color: map-get($dark, "background3");
+              }
+            }
+          }
+        }
+      }
+
+      .slider-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        position: relative;
+        .slider {
+          display: flex;
+          width: 75%;
+          z-index: 1;
+        }
+        .slider-center-divider {
+          height: 16px;
+          position: absolute;
+          left: 38%;
+          z-index: 0;
+          border: 1px solid #444444;
+          .theme-light & {
+            border-color: map-get($light, "background3");
+          }
+          .theme-dark & {
+            border-color: map-get($dark, "background3");
+          }
+        }
+        .value {
+          display: flex;
+          justify-content: center;
+          flex: 1;
+          margin-left: 10px;
+          font-family: "Source Sans Pro";
+          font-style: normal;
+          font-weight: normal;
+          font-size: 13px;
+          line-height: 16px;
+          // color: #ffffff;
+          .theme-light & {
+            color: map-get($light, "color");
+          }
+          .theme-dark & {
+            color: map-get($dark, "color");
+          }
+        }
+      }
+
+      .picker-field-container {
+        height: 30px;
+        position: relative;
+        flex-direction: row;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #444444;
+        // background: #272727;
+        .theme-light & {
+          background-color: map-get($light, "background2");
+          border-color: map-get($light, "background3");
+        }
+        .theme-dark & {
+          background-color: map-get($dark, "background2");
+          border-color: map-get($dark, "background3");
+        }
+
+        .preview-color {
+          height: 20px;
+          width: 20px;
+          border-radius: 2px;
+          position: absolute;
+          left: 5px;
+          border-radius: 4px;
+          // background-blend-mode: overlay;
+          // background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==);
+        }
+
+        div.chrome-picker > div:nth-child(1) {
+          height: 200px;
+          overflow: hidden;
+          border: 1px solid #444444;
+          border-radius: 2px;
+          padding-bottom: unset !important;
+          .theme-light & {
+            border-color: map-get($light, "background3");
+          }
+          .theme-dark & {
+            border-color: map-get($dark, "background3");
+          }
+        }
+        div.chrome-picker > div:nth-child(2) {
+          padding: 16px 0px !important;
+        }
+        .chrome-picker > div:nth-child(2) > div:nth-child(2) {
+          opacity: 0;
+          visibility: hidden;
+        }
+        div.chrome-picker > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > div > div:nth-child(1) {
+          background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==);
+        }
+        div.chrome-picker
+          > div:nth-child(2)
+          > div:nth-child(1)
+          > div:nth-child(2)
+          > div:nth-child(1)
+          > div
+          > div
+          > div
+          > div {
+          cursor: pointer;
+          width: 6px !important;
+          border-radius: 2px !important;
+          border: 1px solid !important;
+          background-color: transparent !important;
+        }
+        div.chrome-picker
+          > div:nth-child(2)
+          > div:nth-child(1)
+          > div:nth-child(2)
+          > div:nth-child(2)
+          > div
+          > div:nth-child(3)
+          > div
+          > div {
+          cursor: pointer;
+          width: 6px !important;
+          border-radius: 2px !important;
+          border: 1px solid !important;
+          background-color: transparent !important;
+        }
+        .chrome-picker .hue-horizontal > div > div {
+          margin-top: -1px;
+        }
+        div.chrome-picker > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > div > div:nth-child(3) > div > div {
+          margin-top: -1px;
+        }
+        div.chrome-picker > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div {
+          border-radius: 2px;
+          border: 1px solid #444444;
+          .theme-light & {
+            border-color: map-get($light, "background3");
+          }
+          .theme-dark & {
+            border-color: map-get($dark, "background3");
+          }
+        }
+        div.chrome-picker > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) {
+          border-radius: 2px;
+          border: 1px solid #444444;
+          .theme-light & {
+            border-color: map-get($light, "background3");
+          }
+          .theme-dark & {
+            border-color: map-get($dark, "background3");
+          }
+        }
+        .pickerTool-inputs {
+          display: flex;
+          flex-direction: row;
+          height: 30px;
+          position: absolute;
+          left: 0;
+          top: 298px;
+          z-index: 6;
+          align-items: center;
+          width: 100%;
+
+          .select-container {
+            width: 56px;
+            border: 0px;
+            .input {
+              padding: 7px 10px;
+            }
+            div {
+              svg.down-arrow {
+                height: 4.38px !important;
+              }
+              div {
+                margin-right: 4px;
+              }
+            }
+          }
+          .hex-input-container {
+            display: flex;
+            flex: 1;
+            height: 30px;
+            margin-left: 10px;
+            border: 1px solid #444444;
+            border-radius: 5px;
+            // background-color: #272727;
+            .theme-light & {
+              color: map-get($light, "color");
+              background-color: map-get($light, "background2");
+              border-color: map-get($light, "background3");
+            }
+            .theme-dark & {
+              color: map-get($dark, "color");
+              background-color: map-get($dark, "background2");
+              border-color: map-get($dark, "background3");
+            }
+            input {
+              background: transparent;
+              outline: none;
+              border: none;
+              .theme-light & {
+                color: map-get($light, "color");
+              }
+              .theme-dark & {
+                color: map-get($dark, "color");
+              }
+            }
+
+            input[type="text"] {
+              width: 60%;
+              padding: 7px 10px;
+            }
+
+            input[type="number"] {
+              -moz-appearance: textfield;
+              width: 36%;
+              .theme-light & {
+                border-color: map-get($light, "background3") !important;
+              }
+              .theme-dark & {
+                border-color: map-get($dark, "background3") !important;
+              }
+            }
+          }
+          .rgba-input-container {
+            display: flex;
+            margin-left: 10px;
+            height: 30px;
+            border: 1px solid red;
+            .theme-light & {
+              background-color: map-get($light, "background2");
+              border-color: map-get($light, "background3");
+            }
+            .theme-dark & {
+              background-color: map-get($dark, "background2");
+              border-color: map-get($dark, "background3");
+            }
+            border-radius: 5px;
+            overflow: hidden;
+            input {
+              width: calc((1/3) * 100%);
+              background: transparent;
+              outline: none;
+              border: none;
+              border-left: 1px solid red;
+              text-align: center;
+              padding: 7px 0px 7px 3px;
+              .theme-light & {
+                color: map-get($light, "color");
+                border-color: map-get($light, "background3");
+              }
+              .theme-dark & {
+                color: map-get($dark, "color");
+                border-color: map-get($dark, "background3");
+              }
+            }
+          }
+        }
+
+        .recent-colors-container {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          left: 0;
+          top: 339px;
+          z-index: 5;
+          width: 100%;
+          .divider {
+            height: 1px;
+            margin-bottom: 10px;
+            margin-left: -12px;
+            margin-right: -12px;
+            // background: #444444;
+            .theme-light & {
+              background-color: map-get($light, "background3");
+            }
+            .theme-dark & {
+              background-color: map-get($dark, "background3");
+            }
+          }
+          .colors-pallet {
+            display: flex;
+            margin: 8px 0px;
+            flex-direction: row;
+            flex-wrap: wrap;
+            .color-thumbs {
+              width: 16px;
+              height: 16px;
+              border: 1px solid #444444;
+              cursor: pointer;
+              .theme-light & {
+                border-color: map-get($light, "background3");
+              }
+              .theme-dark & {
+                border-color: map-get($dark, "background3");
+              }
+              border-radius: 2px;
+              margin: 3px;
+            }
+          }
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button,
+        select {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        select {
+          font-family: "Source Sans Pro";
+          font-weight: normal;
+          font-size: 11px;
+          line-height: 14px;
+          background-color: transparent;
+          outline: none;
+          border: none;
+          margin-right: 2px;
+          // color: #ffffff;
+          .theme-light & {
+            color: map-get($light, "color");
+          }
+          .theme-dark & {
+            color: map-get($dark, "color");
+          }
+        }
+
+        > input {
+          -moz-appearance: textfield;
+          outline: none;
+          // width: 100%;
+          background: transparent;
+          border: none;
+          // border-left: none;
+          box-sizing: border-box;
+          // border-radius: 5px;
+          padding: 7px 0px 7px 7px;
+          font-family: "Source Sans Pro";
+          font-style: normal;
+          font-weight: normal;
+          font-size: 13px;
+          line-height: 16px;
+          // height: 30px;
+          // color: #ffffff;
+          .theme-light & {
+            color: map-get($light, "color");
+          }
+          .theme-dark & {
+            color: map-get($dark, "color");
+          }
+        }
+        .value {
+          display: flex;
+          width: 60%;
+          margin-left: 20px;
+        }
+        .alpha {
+          display: flex;
+          width: 30%;
+          border-left: 1px solid #444444;
+          .theme-light & {
+            border-color: map-get($light, "background3");
+          }
+          .theme-dark & {
+            border-color: map-get($dark, "background3");
+          }
+        }
+        .unit-select {
+          position: absolute;
+          top: 0;
+          right: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+          flex-direction: column;
+          color: #ffffff;
+          .theme-light & {
+            color: map-get($light, "color");
+          }
+          .theme-dark & {
+            color: map-get($dark, "color");
+          }
+          select {
+            cursor: pointer;
+            // color: #ffffff;
+            option {
+              // color: #5e5e5e;
+              .theme-light & {
+                background-color: map-get($light, "background3");
+              }
+              .theme-dark & {
+                background-color: map-get($dark, "background3");
+              }
+            }
+          }
+        }
+      }
+
+      .composite-container {
+        // border: 1px solid #272727;
+        box-sizing: border-box;
+        border-radius: 5px;
+        // padding: 2px;
+
+        .composite-elements {
+          // background: #272727;
+          box-sizing: border-box;
+          border-radius: 5px;
+          // border: 1px solid #272727;
+          // padding: 5px;
+          margin-top: 5px;
+          > div {
+            .theme-dark & {
+              border-color: map-get($dark, "background3") !important;
+            }
+            .theme-light & {
+              border-color: map-get($light, "background3") !important;
+            }
+          }
+          .list-container {
+            padding: 10px 5px 10px 5px;
+            .list-divider {
+              width: 100%;
+              height: 0px;
+              margin: 14px 0px 15px 0px;
+              border: 1px solid #444444;
+              .theme-light & {
+                border-color: map-get($light, "background3");
+              }
+              .theme-dark & {
+                border-color: map-get($dark, "background3");
+              }
+            }
+          }
+        }
+      }
+      .composite-container-hidden {
+        box-sizing: border-box;
+        border-radius: 5px;
+        display: none;
+      }
+
+      .gradient {
+        .nodes-container {
+          margin-bottom: 9px;
+          margin-top: 3px;
+        }
+      }
+    }
+  }
+}
+
+.chrome-picker {
+  position: absolute;
+  top: 100%;
+  left: -12px;
+  z-index: 5;
+  font-family: "Source Sans Pro" !important;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+  padding: 12px;
+  margin-top: 3px;
+  width: 100% !important;
+  height: 370px !important;
+  .theme-light & {
+    background: map-get($light, "background7") !important;
+  }
+  .theme-dark & {
+    background: map-get($dark, "background7") !important;
+  }
+  // background-color: #1e1e1e !important;
+  // input, span {
+  //   color: #ffffff !important;
+  // }
+}

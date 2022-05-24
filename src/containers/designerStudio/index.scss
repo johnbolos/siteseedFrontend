@@ -1,0 +1,213 @@
+@import "../../assets/theme/editorTheme.scss";
+@font-face {
+  font-family: "Source Sans Pro";
+  src: url("/assets/Fonts/SourceSansPro-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "icomoon";
+  src: url("/assets/Fonts/icomoon.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"],
+[class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "icomoon" !important;
+  // speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-SS-Checkbox:before {
+  content: "\e900";
+  color: #006cff;
+  height: 20px;
+  width: 20px;
+}
+.icon-ss-link:before {
+  content: "\e900";
+  color: #c0c0c0;
+}
+.icon-CheckboxUnchecked:before {
+  content: "\e901";
+  color: #fff;
+}
+.icon-Cross:before {
+  content: "\e902";
+  color: #fff;
+}
+.icon-Dropdown:before {
+  content: "\e903";
+  color: #c0c0c0;
+}
+.icon-Plus:before {
+  content: "\e904";
+  color: #c0c0c0;
+}
+.icon-tick:before {
+  content: "\e905";
+  color: #c0c0c0;
+}
+
+#grapesEditor {
+  flex: 1;
+}
+
+.gjs-rte-actionbar {
+  color: #c0c0c0;
+  font-size: 10px;
+  // background-color: red;
+  // display: none !important;
+}
+
+.gjs-toolbar {
+  // display: none;
+}
+
+
+.Toastify__toast.Toastify__toast--default {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+  padding: 8px 8px 8px 15px;
+  .theme-light & {
+    background-color: map-get($light, "background2");
+    color: map-get($light, "color1");
+  }
+  .theme-dark & {
+    background-color: map-get($dark, "background2");
+    color: map-get($dark, "color1");
+  }
+  .toast-icon-success {
+    margin-right: 10px;
+    color:  #02e05f;
+    font-size: 15px;
+  }
+  .toast-icon-warning {
+    margin-right: 10px;
+    color: #eaea00;
+    // color:  #02e05f;
+    font-size: 15px;
+  }
+  .toast-icon-error {
+    margin-right: 10px;
+    color: #eb5757;
+    // color:  #02e05f;
+    font-size: 15px;
+  }
+  .Toastify__close-button--default {
+    opacity: 0.5;
+    .theme-light & {
+      color: map-get($light, "color");
+    }
+    .theme-dark & {
+      color: map-get($dark, "color");
+    }
+  }
+  .Toastify__progress-bar--default {
+    .theme-light & {
+      background: map-get($light, "color");
+    }
+    .theme-dark & {
+      background: map-get($dark, "background4");
+    }
+  }
+}
+
+
+
+.on-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  // height: 120px;
+}
+
+.on-scrollbar::-webkit-scrollbar-track {
+  // -webkit-box-shadow: inset 0 0 6px #1F3B52;
+  // box-shadow: inset 0 0 6px #1F3B52;
+  background-color: transparent;
+  // opacity: 0.5;
+  // border-radius: 10px;
+}
+
+.on-scrollbar::-webkit-scrollbar-thumb {
+  // -webkit-box-shadow: inset 0 0 6px #ffffff;
+  // box-shadow: inset 0 0 6px #ffffff;
+  .theme-light & {
+    background-color: map-get($light, "scrollBarThumb");
+  }
+  .theme-dark & {
+    background-color: map-get($dark, "scrollBarThumb");
+  }
+  border-radius: 150px;
+  // background-color: rgba(255,255,255,0.2);
+  // opacity: 0.5;
+}
+.on-scrollbar {
+  scrollbar-width: thin;
+  .theme-light & {
+    scrollbar-color: #c0c0c0 transparent;
+  }
+  .theme-dark & {
+    scrollbar-color: #6a6a6a transparent;
+  }
+}
+.builder * {
+  scrollbar-width: none;
+  .theme-light & {
+    scrollbar-color: #c0c0c0 transparent;
+  }
+  .theme-dark & {
+    scrollbar-color: #6a6a6a transparent;
+  }
+}
+
+.builder *::-webkit-scrollbar {
+  width: 0px;
+  // height: 120px;
+}
+
+.builder *::-webkit-scrollbar-track {
+  // -webkit-box-shadow: inset 0 0 6px #1F3B52;
+  // box-shadow: inset 0 0 6px #1F3B52;
+  background-color: transparent;
+  // opacity: 0.5;
+  // border-radius: 10px;
+}
+
+.builder *::-webkit-scrollbar-thumb {
+  // -webkit-box-shadow: inset 0 0 6px #ffffff;
+  // box-shadow: inset 0 0 6px #ffffff;
+  background: transparent;
+  border-radius: 150px;
+  // background-color: rgba(255,255,255,0.2);
+  // opacity: 0.5;
+}
+
+.builder *::-webkit-scrollbar-thumb:hover {
+  // -webkit-box-shadow: inset 0 0 6px #ffffff;
+  // box-shadow: inset 0 0 6px #ffffff;
+  background: #6a6a6a;
+  border-radius: 150px;
+  // background-color: rgba(255,255,255,0.2);
+  // opacity: 0.5;
+}
+// .inherit-color-svg {
+//   svg {
+//     path {
+//       fill: inherit !important;
+//       color: inherit;
+//     }
+//   }
+// }
+
+// ========================================================================================

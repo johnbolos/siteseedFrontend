@@ -1,0 +1,204 @@
+.domains-tab-content {
+    .domains-dns-back:hover {
+        color: #000000;
+    }
+    .domains-dns-back {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 22px;
+        color: #67737D;
+        cursor: pointer;
+        .fa-angle-left {
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 22px;
+            margin-right: 5px;
+        }
+    }
+    .dns-table-heading {
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 22px;
+    }
+    .domains-tab-coll {
+        background: #ffffff;
+        padding: 50px 30px;
+    }
+    .domains-tab-colr {
+        background: #e9e9e9;
+        padding: 0;
+        padding-right: 30px;
+    }
+    tr.dns-table-row {
+        td {
+            padding: 10px 20px !important;
+        }
+    }
+    tr.domains-table-row {
+        border: none;
+        td {
+            border: none;
+            border-bottom-width: 1px;
+            border-bottom-color: #ffffff;
+            border-bottom-style: solid;
+            color: #011627;
+            padding: 20px 20px;
+            span.description {
+                margin-top: 5px;
+                color: #67737D;
+                font-weight: 400;
+                .link {
+                    color: #31cdb9;
+                    cursor: pointer;
+                    margin: 0;
+                }
+            }
+        }
+        .dropdown-menu {
+            height: fit-content;
+            margin: 0px;
+            position: absolute;
+            transform: translate(20px, 64px);
+            top: 30% !important;
+            left: -116% !important;
+            // inset: 30% auto auto -100% !important;
+            box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.1);
+            border: 0;
+            border-radius: 0;
+            a.dropdown-item {
+                padding: 10px 15px;
+            }
+        }
+    }
+    table tr td.csd-down a:after {
+        border: 0;
+    }
+    table tr td.csd-down > a > span.icon-Ellipsis {
+        transform: rotate(90deg);
+        display: inline-block;
+        background: #ffffff;
+        border-radius: 99px;
+        padding: 5px;
+        font-size: 22px;
+    }
+
+    #modal-unassign-site .modal-dialog {
+        width: 400px !important;
+    }
+    #modal-assign-site, #modal-unassign-site {
+        .modal-dialog {
+            top: 25%;
+        }
+    }
+    #modal-assign-site, #modal-unassign-site {
+        font-family: 'Varela Round', sans-serif;
+    
+        .modal-dialog {
+            color: #636363;
+            width: 600px;
+            max-width: none;
+        }
+        .modal-dialog .modal-content {
+            padding: 20px;
+            border-radius: 5px;
+            border: none;
+            text-align: center;
+            font-size: 14px;
+        }
+        .modal-dialog .modal-header {
+            border-bottom: none;   
+            position: relative;
+        }
+        .modal-dialog h4 {
+            text-align: center;
+            font-size: 26px;
+            margin: 30px 0 -10px;
+        }
+        .modal-dialog .close {
+            background: transparent;
+            border: none;
+            outline: none;
+            position: absolute;
+            top: -5px;
+            right: -2px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 25px;
+            color: #67737D;
+        }
+        .modal-dialog .close:hover {
+            color: black;
+        }
+        .modal-dialog .modal-body {
+            color: #999;
+            .unassigned-site-card-row {
+                display: flex;
+                margin-bottom: 20px;
+                padding: 20px;
+                background: #f2f2f2;
+            }
+        }
+        .modal-dialog .modal-footer {
+            border: none;
+            text-align: center;		
+            border-radius: 5px;
+            font-size: 13px;
+            padding: 10px 15px 25px;
+            display: flex;
+            justify-content: space-evenly;
+            .btn {
+                width: 45%;
+            }
+        }
+        .modal-dialog .modal-footer a {
+            color: #999;
+        }		
+        .modal-dialog .icon-box {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            border-radius: 50%;
+            z-index: 9;
+            text-align: center;
+            border: 3px solid #f15e5e;
+        }
+        .modal-dialog .icon-box i {
+            color: #f15e5e;
+            font-size: 46px;
+            display: inline-block;
+            margin-top: 13px;
+        }
+        .modal-dialog .btn, .modal-dialog .btn:active {
+            color: #fff;
+            border-radius: 4px;
+            background: #60c7c1;
+            text-decoration: none;
+            transition: all 0.4s;
+            line-height: normal;
+            min-width: 120px;
+            border: none;
+            min-height: 40px;
+            border-radius: 0px;
+            margin: 0 5px;
+        }
+        .modal-dialog .btn-secondary {
+            background: #798792;
+        }
+        .modal-dialog .btn-secondary:hover, .modal-dialog .btn-secondary:focus {
+            background: #67737D;
+        }
+        .modal-dialog .btn-danger {
+            background: #f15e5e;
+        }
+        .modal-dialog .btn-danger:hover, .modal-dialog .btn-danger:focus {
+            background: #ee3535;
+        }
+        .modal-dialog .btn-primary:hover, .modal-dialog .btn:focus {
+            background: #00d4c7;
+        }
+        .trigger-btn {
+            display: inline-block;
+            margin: 100px auto;
+        }
+    }
+}

@@ -1,0 +1,290 @@
+@import "../../../assets/theme/editorTheme.scss";
+
+.ReactModalPortal {
+  position: absolute;
+  z-index: 5;
+}
+.Overlay {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.modal-theme-dark {
+  background-color: map-get($dark, "background5");
+  border: 1px solid #444444;
+  border-color: map-get($dark, "background3");
+  color: map-get($dark, "color");
+}
+.modal-theme-light {
+  background-color: map-get($light, "background5");
+  border: 1px solid #444444;
+  border-color: map-get($light, "background3");
+  color: map-get($light, "color");
+}
+.Modal {
+  position: absolute;
+  width: 500px;
+  //height: 883px;
+  outline: none;
+  top: 40px;
+  bottom: 40px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  line-height: 20px;
+
+  .modal-form-container {
+    overflow: auto;
+  }
+}
+
+.Modal > div::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-theme-dark > div {
+  scrollbar-width: thin;
+  scrollbar-color: #6a6a6a #272727;
+}
+.modal-theme-dark > div::-webkit-scrollbar-thumb {
+  border-radius: 150px;
+  background-color: map-get($dark, "scrollBarThumb");
+}
+.modal-theme-dark > div::-webkit-scrollbar-track {
+  background-color: map-get($dark, "scrollBarTrack");
+}
+
+.modal-theme-light > div {
+  scrollbar-width: thin;
+  scrollbar-color: #c0c0c0 #e6e6e6;
+}
+.modal-theme-light > div::-webkit-scrollbar-thumb {
+  border-radius: 150px;
+  background-color: map-get($light, "scrollBarThumb");
+}
+
+.modal-theme-light > div::-webkit-scrollbar-track {
+  background-color: map-get($light, "scrollBarTrack");
+}
+
+form > .seo-preview {
+  display: flex;
+  flex-direction: column;
+  margin: 0px 10px;
+  padding: 0px 10px;
+  border-radius: 5px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 10px;
+  border: 1px solid #5e5e5e;
+  //   background: #444444;
+  .modal-theme-dark & {
+    background-color: map-get($dark, "background3");
+    border-color: map-get($dark, "background4");
+  }
+  .modal-theme-light & {
+    background-color: map-get($light, "background3");
+    border-color: map-get($light, "background2");
+  }
+  span {
+    color: map-get($primary, "background");
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 14px;
+  }
+  h5 {
+    margin: 14px 0px 2px;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 16px;
+  }
+  .helper-text {
+    margin-left: 0px;
+  }
+}
+.Modal {
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #444444;
+    .modal-theme-dark & {
+      border-color: map-get($dark, "background3");
+    }
+    .modal-theme-light & {
+      border-color: map-get($light, "background3");
+    }
+    h4,
+    svg {
+      cursor: pointer;
+      margin: 10px 20px;
+    }
+    h4 {
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
+}
+.modal-form-container {
+  form {
+    margin: 20px 10px;
+    display: flex;
+    flex-direction: column;
+
+    div {
+      border-top: 1px solid #444444;
+      .modal-theme-dark & {
+        border-color: map-get($dark, "background3");
+      }
+      .modal-theme-light & {
+        border-color: map-get($light, "background3");
+      }
+    }
+    .favicon-heading {
+      h4 {
+        margin-bottom: 10px;
+      }
+    }
+    h4 {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 20px;
+      margin-left: 10px;
+    }
+    .seo-div, .favicon-heading {
+      margin-top: 12px;
+    }
+    .seo-setting {
+      margin-top: -15px;
+    }
+    label {
+      margin: 0px 0px 0px 10px;
+      font-weight: normal;
+      font-size: 11px;
+      line-height: 14px;
+    }
+    input,
+    textarea {
+      margin: 10px;
+      height: 30px;
+      border-radius: 5px;
+      padding: 12px 10px;
+      //   background-color: #2b2b2b;
+      //   color: #ffffff;
+      border: 1px solid white;
+      .modal-theme-dark & {
+        background-color: map-get($dark, "background2");
+        border-color: map-get($dark, "background3");
+        color: map-get($dark, "color");
+      }
+      .modal-theme-light & {
+        background-color: map-get($light, "background2");
+        border-color: map-get($light, "background3");
+        color: map-get($light, "color");
+      }
+    }
+    textarea {
+      resize: none;
+      height: 80px;
+    }
+    .helper-text {
+      margin-bottom: 8px;
+      margin-right: 10px;
+      font-size: 11px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      //   color: #c0c0c0;
+      .modal-theme-dark & {
+        color: map-get($dark, "color1");
+      }
+      .modal-theme-light & {
+        color: map-get($light, "color1");
+      }
+      svg {
+        margin-right: 5px;
+      }
+    }
+    footer {
+      float: right;
+      border-top: 1px solid #444444;
+      .modal-theme-dark & {
+        border-color: map-get($dark, "background3");
+      }
+      .modal-theme-light & {
+        border-color: map-get($light, "background3");
+      }
+    }
+    footer > button {
+      cursor: pointer;
+      width: 102px;
+      height: 40px;
+      margin: 20px 20px 0px 20px;
+      background-color: map-get($primary, "background");
+      border-radius: 5px;
+      float: right;
+      color: map-get($primary, "color");
+    }
+    .favicon-content {
+      display: flex;
+      justify-content: flex-start;
+      border-top: none;
+      align-items: flex-start;
+      margin-bottom: 21px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  }
+}
+.favicon-box {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid;
+  //   background: #272727;
+  .modal-theme-dark & {
+    background-color: map-get($dark, "background2");
+  }
+  .modal-theme-light & {
+    background-color: map-get($light, "background2");
+  }
+  img {
+    width: 26px;
+    height: 26px;
+  }
+}
+#upload-btn {
+  padding-left: 10px;
+  border-top: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .helper-text {
+    margin-top: 7px;
+  }
+}
+.upload-btn {
+  width: 76px;
+  height: 28px;
+  cursor: pointer;
+  //   margin: 20px;
+  border-radius: 5px;
+  text-align: center;
+  padding: 4px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: map-get($primary, "background");
+  color: map-get($primary, "color");
+}

@@ -1,0 +1,126 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?l5k9xy');
+  src:  url('fonts/icomoon.eot?l5k9xy#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?l5k9xy') format('truetype'),
+    url('fonts/icomoon.woff?l5k9xy') format('woff'),
+    url('fonts/icomoon.svg?l5k9xy#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-rightarrowblack:before {
+  content: "\e91f";
+}
+.icon-Add-User:before {
+  content: "\e900";
+}
+.icon-Arrow:before {
+  content: "\e901";
+}
+.icon-Bot:before {
+  content: "\e902";
+}
+.icon-Calendar:before {
+  content: "\e903";
+}
+.icon-Checked-Round:before {
+  content: "\e904";
+}
+.icon-Checked:before {
+  content: "\e905";
+}
+.icon-Close:before {
+  content: "\e906";
+}
+.icon-Delete:before {
+  content: "\e907";
+}
+.icon-Download:before {
+  content: "\e908";
+}
+.icon-Dropdown:before {
+  content: "\e909";
+}
+.icon-Duplicate:before {
+  content: "\e90a";
+}
+.icon-Edit:before {
+  content: "\e90b";
+}
+.icon-Ellipsis:before {
+  content: "\e90c";
+}
+.icon-Expand:before {
+  content: "\e90d";
+}
+.icon-Eye:before {
+  content: "\e90e";
+}
+.icon-File:before {
+  content: "\e90f";
+}
+.icon-Globe:before {
+  content: "\e910";
+}
+.icon-Information:before {
+  content: "\e911";
+}
+.icon-Layout:before {
+  content: "\e912";
+}
+.icon-Question-Mark:before {
+  content: "\e913";
+}
+.icon-Redo:before {
+  content: "\e914";
+}
+.icon-Refesh:before {
+  content: "\e915";
+}
+.icon-Remove-User:before {
+  content: "\e916";
+}
+.icon-right-arrow-6-1:before {
+  content: "\e917";
+}
+.icon-Rocket:before {
+  content: "\e918";
+}
+.icon-Search:before {
+  content: "\e919";
+}
+.icon-Setting:before {
+  content: "\e91a";
+}
+.icon-Signal:before {
+  content: "\e91b";
+}
+.icon-Tick-Outline:before {
+  content: "\e91c";
+}
+.icon-Tick:before {
+  content: "\e91d";
+}
+.icon-Upload:before {
+  content: "\e91e";
+}
+.icon-cancel-circle:before {
+  content: "\ea0d";
+}
