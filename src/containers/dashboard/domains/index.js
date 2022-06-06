@@ -22,6 +22,7 @@ class Domains extends React.Component {
         selectedDomainToUnassign: null,
         unassignedSites: [],
         selectedSiteCard: null,
+        selected_site_id: (+this?.props?.router?.location?.query?.site_id || null)
     }
     componentDidMount() {
         this.apiRequestDomains()
@@ -42,7 +43,7 @@ class Domains extends React.Component {
         })
     }
     createDoaminsElem = () => {
-        const { domainsInfo } = this.state
+        const { domainsInfo, selected_site_id } = this.state
         const domainsInfoTemp = [
             {
                 name: 'mystunningwebsite.com',
@@ -70,9 +71,10 @@ class Domains extends React.Component {
             },
         ]
         let resp = null
+        const isDomainAssign = domainsInfo.find((sites) => sites.assign_to_site.site_id === selected_site_id)
         resp = domainsInfo.map((item, index) => {
             return (
-                <tr key={index} className={'domains-table-row'} style={{ borderLeft: item.is_active ? '5px solid #31cdb9' : '5px solid red' }}>
+                <tr key={index} className={`domains-table-row ${isDomainAssign ? 'active' : ''}`} style={{ borderLeft: item.is_active ? '5px solid #31cdb9' : '5px solid red' }}>
                     <td scope="row" className="oss-13 black" style={{ borderRight: '1px solid #ffffff', width: '30%' }}>
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
                             {item.domain_name}
@@ -161,7 +163,7 @@ class Domains extends React.Component {
     createUnassignedSitesCards = () => {
         const { unassignedSites, selectedSiteCard } = this.state
         let resp = null
-        resp = unassignedSites.map(( item, index) => {
+        resp = unassignedSites.map((item, index) => {
             return (
                 <div key={index} className={"unassigned-site-card-row"} style={{ cursor: 'pointer' }}
                     onClick={() => {
@@ -294,7 +296,7 @@ class Domains extends React.Component {
                                     <h1 className="osb-22 black" style={{ background: 'transparent', border: 'none' }}>Domain Settings</h1>
                                     <span className="darkgrey" style={{ background: 'transparent', border: 'none' }}>
                                         Manage all your domains right here.
-                                </span>
+                                    </span>
                                 </div>
                                 <div className={'right'}>
                                     <button
@@ -356,7 +358,7 @@ class Domains extends React.Component {
                                         this.removeDomain()
                                     }}>
                                         Remove
-                                </button>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -385,7 +387,7 @@ class Domains extends React.Component {
                                         this.assignDomain()
                                     }}>
                                         Assign
-                                </button>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -412,7 +414,7 @@ class Domains extends React.Component {
                                         this.unassignDomain()
                                     }}>
                                         Unassign
-                                </button>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -424,8 +426,9 @@ class Domains extends React.Component {
     }
 }
 
-const mapStateToProps = ({ global, layout, templates, }) => {
+const mapStateToProps = ({ global, layout, templates, router }) => {
     return {
+        router,
         loading: global.loading,
         theme: layout.theme,
         templates,
