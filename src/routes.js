@@ -254,7 +254,7 @@ export const getPushPathWrapper = (keyString, params) => {
 
 	return 'error'
 }
-
+ 
 export const getPushPathWrapperWithObj = (keyString, paramsObj = {}, params = {}) => {	// how to retrieve the obj => this.props.location.state, which comes from mapStatetoProps router.location
 
 	let obj = getUrlObject(keyString)
