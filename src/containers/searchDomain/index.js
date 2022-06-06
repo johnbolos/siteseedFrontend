@@ -7,11 +7,14 @@ import Request from '../../request'
 import { showToast } from "../../components/utils"
 import moment from "moment"
 import { setTokenInfo, setUser } from "../../reducers/actions/userActions"
-import { getPushPathWrapper, getUrlParams } from "../../routes"
+import { getPushPathWrapper, getPushPathWrapperWithObj, getUrlParams } from "../../routes"
 import { apiUrl } from "../../settings"
 import FormSettings from "../siteSettings/formSettings.js"
 import FontSettings from "../siteSettings/fontSettings.js"
 import CollabSettings from "../siteSettings/collabSettings.js"
+import Icons from "../../assets/Icons"
+import { hideLoader, showLoader } from "../../reducers/actions"
+import LoggedinHeader from '../../layout/loggedinLayouts/header'
 
 
 class SearchDomain extends React.Component {
@@ -20,7 +23,9 @@ class SearchDomain extends React.Component {
         dashboardData: null,
         settingsData: null,
         availableDomainsElem: null,
-        availableDomains: [
+        isFree: false,
+        searchQuery: '',
+        availableDomainsTemp: [
             {
                 domain: 'example.com',
                 actualCost: '$20.00',
@@ -41,7 +46,8 @@ class SearchDomain extends React.Component {
                 actualCost: '$20.00',
                 reducedCost: '$15.00'
             }
-        ]
+        ],
+        availableDomains: []
     }
     scriptArray = [
         // {
@@ -92,6 +98,7 @@ class SearchDomain extends React.Component {
         this.loadScriptNStyle()
         this.apiRequestDashboard()
         this.createAvailableDomainsElem()
+        this.setState({ isFree: this.props.location.state && this.props.location.state.isFree }, () => { })
     }
     loadScriptNStyle = () => {
         const { scriptArray, styleArray } = this
@@ -114,13 +121,13 @@ class SearchDomain extends React.Component {
         })
     }
     apiRequestDashboard = async () => {
-        let { tokenInfo } = this.props
+        let { tokenInfo, dispatch } = this.props
         if (!tokenInfo.access_token) {
             return
         }
-        this.setState({ loading: true })
+        dispatch(showLoader())
         const apiRequest = await Request.dashboard()
-        this.setState({ loading: false })
+        dispatch(hideLoader())
         if (apiRequest.messageType && apiRequest.messageType == 'error') {
             showToast({ type: 'error', message: 'Unable to fetch data, Try Relogging' })
             return
@@ -177,129 +184,120 @@ class SearchDomain extends React.Component {
         const formEntries = new FormData(form).entries();
         return Object.assign(...Array.from(formEntries, ([name, value]) => ({ [name]: value })));
     }
+    apiRequestDomains = async () => {
+        const { dispatch } = this.props
+        const { searchQuery } = this.state
+        if (searchQuery && searchQuery.trim() == '') {
+            return
+        }
+        let data = {
+            'search_domain': searchQuery
+        }
+        let formData = new FormData()
+        _.each(data, (val, key) => {
+            formData.append(key, val)
+        })
+        dispatch(showLoader())
+        const domains = await Request.getDomainsList(formData)
+        dispatch(hideLoader())
+        if (!domains.data || !domains.data.domains) {
+            showToast({ type: 'error', message: 'Unable to fetch data, Try Relogging' })
+            return
+        }
+        const sort = (arr, query) => {
+            arr.sort((a, b) => {
+                let matchingA = 0.0
+                let matchingB = 0.0
+                const queryArr = [...query]
+                queryArr.forEach((c, key) => {
+                    let include = a.domain.includes(query.substring(0, key + 1))
+                    if (include) {
+                        let ratio = ((key + 1) - 0) / a.domain.length
+                        matchingA = (matchingA > ratio) ? matchingA : ratio
+                    }
+
+                    include = a.domain.includes(query.substring(key, query.length))
+                    if (include) {
+                        let ratio = (query.length - key) / a.domain.length
+                        matchingA = (matchingA > ratio) ? matchingA : ratio
+                    }
+
+                    include = b.domain.includes(query.substring(0, key + 1))
+                    if (include) {
+                        let ratio = ((key + 1) - 0) / b.domain.length
+                        matchingB = (matchingB > ratio) ? matchingB : ratio
+                    }
+
+                    include = b.domain.includes(query.substring(key, query.length))
+                    if (include) {
+                        let ratio = (query.length - key) / b.domain.length
+                        matchingB = (matchingB > ratio) ? matchingB : ratio
+                    }
+                })
+                return matchingB - matchingA
+            })
+            return arr
+        }
+        let availableDomains = sort(domains.data.domains, searchQuery)
+        let find = availableDomains.findIndex((item) => item.domain == searchQuery)
+        if (find != -1) {
+            availableDomains.splice(0, 0, availableDomains[find])
+            availableDomains.splice(find + 1, 1)
+        }
+        this.setState({ available: domains.availability_message, availableDomains: availableDomains }, () => {
+            this.createAvailableDomainsElem()
+        })
+    }
     createAvailableDomainsElem = () => {
-        const { availableDomains } = this.state
+        const { availableDomains, isFree, available } = this.state
         let resp = (
             <div className="available-domain">
-                <p className="osr-16 black">Yes! Your domain is available. And guess what? It's free.</p>
+                <p className="osr-16 black">{available}</p>
                 <ul>
                     {
-                        availableDomains.map(domain => (
-                            <li>
+                        availableDomains.map(domain => {
+                            if (!domain.available) {
+                                return null
+                            }
+                            return (<li>
                                 <div className="left">
                                     <p className="ex-left oss-13 black">{domain.domain}</p>
                                     <p className="pr-right">
-                                        <span className="p-price osr-13 darkgrey">{domain.actualCost}</span>
-                                        <span className="c-price oss-13 turq">{domain.reducedCost}*</span>
+                                        {/* <span className="p-price osr-13 darkgrey">{domain.actualCost}</span> */}
+                                        {/* <span className="c-price oss-13 turq">{domain.reducedCost}*</span> */}
+                                        <span className="c-price oss-13 turq">{domain.currency == 'USD' ? "$" : '₹'}{domain.price}</span>
                                     </p>
                                 </div>
                                 <div className="right">
-                                    <button type="button" className="btn btn-primary turq-bg oss-13 white">Select {'&'} Continue</button>
+                                    <button type="button" className="btn btn-primary turq-bg oss-13 white" onClick={() => {
+                                        this.buyDomain(domain)
+                                    }}>Select {'&'} Continue</button>
                                 </div>
-                            </li>
-                        ))
+                            </li>)
+                        })
                     }
                 </ul>
             </div>
         )
         this.setState({ availableDomainsElem: resp })
     }
+    buyDomain = (domainData) => {
+        const { dispatch } = this.props
+        dispatch(getPushPathWrapperWithObj('checkout', { ...domainData, name: domainData.domain, type: 'domain' }))
+    }
     render() {
-        const { dispatch, currentUser } = this.props
-        const { dashboardData } = this.state
+        const { dispatch, currentUser, loading } = this.props
+        const { dashboardData, isFree } = this.state
         return (
             <>
+                {
+                    loading && <div className={'backdrop-loading'}>
+                        <Icons.Loading style={{ width: '70px', height: '70px' }} className={'searchLoading'} />
+                    </div>
+                }
                 <div className="admin-main-panel login-main">
                     <div className="admin-main-panel-inner">
-                        {/* <!----------------------------------Top-Bar----------------------------------> */}
-                        <section className="topbar-main">
-                            <div className="topbar-main-inner main-inner">
-                                <div className="container">
-                                    <div className="row">
-                                        <div className="col-md-12 col-lg-12 ">
-                                            <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-                                                <div className="container-fluid">
-                                                    <a className="navbar-brand"><img src="./assets/website/images/Logo.svg" className="img-fluid" alt="Responsive image" /></a>
-                                                    {/* <!--<button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                          <span className="navbar-toggler-icon"></span>
-                                          </button>
-                                          <div className="collapse navbar-collapse" id="navbarSupportedContent" style="display:none;">
-                                          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                                          <li className="nav-item">
-                                           <a className="nav-link active" aria-current="page">Home</a>
-                                          </li>
-                                          <li className="nav-item">
-                                           <a className="nav-link">Link</a>
-                                          </li>
-                                          <li className="nav-item dropdown">
-                                           <a className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                          Dropdown
-                                           </a>
-                                           <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                          <li><a className="dropdown-item">Action</a></li>
-                                          <li><a className="dropdown-item">Another action</a></li>
-                                          <li><hr className="dropdown-divider"></li>
-                                          <li><a className="dropdown-item">Something else here</a></li>
-                                           </ul>
-                                          </li>
-                                          <li className="nav-item">
-                                           <a className="nav-link disabled" tabindex="-1" aria-disabled="true">Disabled</a>
-                                          </li>
-                                          </ul>
-                                          </div>--> */}
-                                                    <ul className="nav cs-topright">
-                                                        <li className="nav-item cs-topright-left">
-                                                            <a className="nav-link left-top darkgrey osr-13">Need Support?</a>
-                                                        </li>
-                                                        <li className="nav-item cs-topright-right">
-                                                            {/* <img src="./assets/website/images/Greg-jacoby.png" className="img-fluid" alt="Responsive image" /> */}
-                                                            {
-                                                                currentUser.profile_picture ? (
-                                                                    <img src={currentUser.profile_picture} className="img-fluid" alt="Responsive image"
-                                                                        style={{
-                                                                            float: 'left',
-                                                                            height: '35px',
-                                                                            width: '35px',
-                                                                            marginRight: '10px',
-                                                                            color: '#31cdb9',
-                                                                            borderRadius: '50%'
-                                                                        }}
-                                                                    />
-                                                                ) : (
-                                                                        <i
-                                                                            className="fa fa-user-circle-o"
-                                                                            aria-hidden="true"
-                                                                            style={{
-                                                                                float: 'left',
-                                                                                fontSize: '35px',
-                                                                                marginRight: '10px',
-                                                                                color: '#31cdb9',
-                                                                            }}
-                                                                        ></i>
-                                                                    )
-                                                            }
-                                                            <a className="nav-link dropdown-toggle right-top black osr-13" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                {currentUser.display_name || currentUser.first_name}
-                                                                {/* Greg Jacoby */}
-                                                            </a>
-                                                            <ul className="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
-                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.goto('profile', { activeTab: 'details' }) }}>Profile</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.goto('profile', { activeTab: 'account' }) }}>Account {'&'} Security</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.goto('profile', { activeTab: 'notification' }) }}>Notifications</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey" data-bs-toggle="modal" data-bs-target="#choose-lang1">Language</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey" >Help Center</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={this.logout}>Log Out</a></li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </nav>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                        {/* <!---------------------------------- /Top-Bar----------------------------------> */}
+                        <LoggedinHeader />
                         {/* <!---------------------------------- Free-domain-panel---------------------------------->	 */}
                         <section className="free-domain-main">
                             <div className="free-domain-main-inner">
@@ -309,17 +307,27 @@ class SearchDomain extends React.Component {
                                         <div className="col col-md-8 col-lg-8 col-sm-12 free-domain">
                                             <div className=" col-inner align-middle">
                                                 <div className="free-domain-col">
-                                                    <h1 className="osb-32 black">Good news! You get a free domain <br /> with this order.</h1>
+                                                    <h1 className="osb-32 black">{isFree ? <>Good news! You get a free domain <br /> with this order.</> : 'Search Domains'}</h1>
                                                 </div>
-                                                <form action="">
+                                                <form action={'#'} onSubmit={(e) => {
+                                                    e.preventDefault()
+                                                    return false
+                                                }}>
                                                     <div className="input-group mb-4">
-                                                        <input type="search" placeholder="Type the one you want here!" aria-describedby="button-addon5" className="form-control oss-13 darkgrey" />
+                                                        <input type="search" placeholder="Type the one you want here!" onChange={(e) => { this.setState({ searchQuery: e.target.value }) }} aria-describedby="button-addon5" className="form-control oss-13 darkgrey" />
                                                         <div className="input-group-append">
-                                                            <button id="button-addon5" type="submit" className="btn btn-primary turq-bg oss-16 white">Search</button>
+                                                            <button id="button-addon5" type="submit" className="btn btn-primary turq-bg oss-16 white" onClick={this.apiRequestDomains}>Search</button>
                                                         </div>
                                                     </div>
                                                 </form>
-                                                <p className="osr-13 darkgrey"><a className="osr-13 darkgrey">No thanks. I”ll pass on the freebie.</a></p>
+                                                {
+                                                    isFree ?
+                                                        <>
+                                                            <p className="osr-13 darkgrey"><a className="osr-13 darkgrey">No thanks. I”ll pass on the freebie.</a></p>
+                                                        </>
+                                                        :
+                                                        null
+                                                }
                                                 {
                                                     this.state.availableDomainsElem
                                                 }
@@ -345,7 +353,8 @@ const mapStateToProps = ({ global, layout, templates, router }) => {
         templates,
         currentUser: global.currentUser,
         pathname: router.location.pathname,
-        tokenInfo: global.tokenInfo
+        tokenInfo: global.tokenInfo,
+        location: router.location,
     }
 }
 

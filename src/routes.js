@@ -6,10 +6,11 @@ import Path from "path-parser";
 import Home from "./containers/home";
 import AllTemplates from "./containers/allTemplates";
 import DesignerStudio from "./containers/designerStudio";
-import Dashboard from "./containers/dashboard";
+import Dashboard from "./containers/dashboard/index2";
+import DashboardOld from "./containers/dashboard";
 import Profile from "./containers/profile";
 import CreateAccount from './containers/auth/signUp'
-import LogIn from './containers/auth/login'
+import LogIn from './containers/auth/logIn'
 import ResetPassword from './containers/auth/reset'
 import VerifyCode from './containers/auth/reset/verifyCode'
 import NewPassword from './containers/auth/reset/newPassword'
@@ -17,21 +18,86 @@ import SiteSettings from "./containers/siteSettings";
 import Checkout from "./containers/checkout";
 import SearchDomain from "./containers/searchDomain";
 import BuyTemplate from "./containers/buyTemplate";
+import BetaCodeGenerator from "./containers/betaCodeGenerator";
 // const Undercons = lazy(() => import('./containers/undercons'))
 
+
+
+import SingleSite from './containers/singleSite';
+import MultiSite from './containers/multiSite';
+import AboutUs from './containers/about'
+import Pricing from './containers/pricing'
+
+
+import Domains from './containers/domains'
+import Billing from './containers/billingInformation'
+import Subscription from './containers/subscription'
+
 const routes = [
-	// {
-	// 	path: "/home",
-	// 	key: "home",
-	// 	// homepage: true,
-	// 	component: Home,
-	// 	authority: [],
-	// },
+	{
+		path: "/home",
+		key: "home",
+		// homepage: true,
+		component: Home,
+		authority: [],
+	},
+	{
+		path: "/single-site",
+		key: "single-site",
+		component: SingleSite,
+		authority: [],
+	},
+	{
+		path: "/multi-site",
+		key: "multi-site",
+		component: MultiSite,
+		authority: [],
+	},
+	{
+		path: "/about-us",
+		key: "about-us",
+		component: AboutUs,
+		authority: [],
+	},
+	{
+		path: "/pricing",
+		key: "pricing",
+		component: Pricing,
+		authority: [],
+	},
 	{
 		path: "/dashboard",
 		key: "dashboard",
 		homepage: true,
 		component: Dashboard,
+		authority: ['client'],
+	},
+	{
+		path: "/dashboard-old",
+		key: "dashboardold",
+		homepage: true,
+		component: DashboardOld,
+		authority: ['client'],
+	},
+	{
+		path: "/domains",
+		key: "domains",
+		homepage: true,
+		component: Domains,
+		authority: ['client'],
+	},
+	{
+		path: "/billing",
+		key: "billing",
+		homepage: true,
+		component: Billing,
+		authority: ['client'],
+	},
+	{
+		path: "/subscription",
+		key: "subscription",
+		homepage: true,
+		component: Subscription,
 		authority: ['client'],
 	},
 	{
@@ -63,7 +129,13 @@ const routes = [
 		authority: ['client'],
 	},
 	{
-		path: "/buy-template",
+		path: "/YWRkLWJldGEtdXNlcg==",
+		key: "addTestUser",
+		component: BetaCodeGenerator,
+		authority: ['client'],
+	},
+	{
+		path: "/buy-template/:siteId",
 		key: "buyTemplate",
 		component: BuyTemplate,
 		authority: ['client'],
@@ -178,6 +250,22 @@ export const getPushPathWrapper = (keyString, params) => {
 		const path = new Path(obj.path)
 
 		return push(path.build(params))
+	}
+
+	return 'error'
+}
+
+export const getPushPathWrapperWithObj = (keyString, paramsObj = {}, params = {}) => {	// how to retrieve the obj => this.props.location.state, which comes from mapStatetoProps router.location
+
+	let obj = getUrlObject(keyString)
+
+	if (obj) {
+		const path = new Path(obj.path)
+
+		return push({
+			pathname: path.build(params),
+			state: paramsObj
+		})
 	}
 
 	return 'error'

@@ -2243,6 +2243,12 @@ input:-moz-placeholder {
 	background: transparent !important;
 }
 
+.owl-buttons {
+	width: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 /*end testimonial design*/
 
 .popup .popuptext {
@@ -2522,7 +2528,9 @@ export const template1Html = `
                   </div>
                   <div class="col-lg-5 col-md-12 mb-12 p-0">
                       <img class="img-responsive G-img-bottom" src="${assetsUrl}/templates/spa/images/O6RXL30.jpg">
-                      <img class="img-responsive G-img-bottom-1" src="${assetsUrl}/templates/spa/images/Gallery-img-4.jpg">
+					  <div style="display: flex; width: 100%; flex-direction: row-reverse; flex-wrap: wrap;">
+                      	<img class="img-responsive G-img-bottom-1" src="${assetsUrl}/templates/spa/images/Gallery-img-4.jpg" style="left: auto !important;">
+					  </div>
                   </div>
                   <div class="col-lg-7 col-md-12 mb-12 p-0">
                       <img class="img-responsive" src="${assetsUrl}/templates/spa/images/Gallery-img-3.jpg">

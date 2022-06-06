@@ -1,0 +1,94 @@
+#login-container {
+    input[type="password"] {
+        background: #f2f2f2;
+        border: 0;
+        border-radius: 0;
+        height: 49px;
+        box-shadow: none;
+    }
+    a:hover {
+        color: #31CDB9;
+        // border-bottom: 2px solid #31CDB9;
+    }
+}
+
+
+
+#login-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: rgb(239, 241, 242);
+
+    > div{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 50px;
+        width: 560px;
+        background: rgb(255, 255, 255);
+        filter: drop-shadow(rgba(0, 0, 0, 0.1) 0px 0px 40px);
+
+        h1{
+            color: #011627;
+            margin-top: 0.5em;
+            margin-bottom: .5rem;
+        }
+    }
+
+    form {
+        width: 100%;
+
+        label {
+            font-size: 18px;
+            line-height: 22px;
+            font-weight: 600;
+            color: #011627;
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: .5rem;
+            display: inline-block;
+        }
+
+        input {
+            background: #f2f2f2;
+            border: 0;
+            border-radius: 0;
+            height: 49px;
+            color: #67737D;
+            display: block;
+            width: 100%;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+
+        button {
+            min-width: 126px;
+            height: 40px;
+            background: #31CDB9;
+            border: 0;
+            border-radius: 0;
+            width: 100%;
+            color: white;
+            font-size: 15px;
+            line-height: 18px;
+            font-weight: 600;
+        }
+
+        ~ a {
+            font-size: 16px;
+
+            &:not(:last-of-type) { color: #67737D; }
+
+            &:last-of-type { color: rgb(49, 205, 185); }
+        }
+    }
+}

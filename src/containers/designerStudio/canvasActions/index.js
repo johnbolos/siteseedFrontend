@@ -8,11 +8,13 @@ import _grapesEditor from "../../../components/utils/grapesEditor";
 
 class CanvasActions extends React.Component {
     state = {
-        swapperBtns: null
+        swapperBtns: null,
+        canvasLeft: '0px'
     };
 
     componentDidMount() {
         this.props.resetSwapper && this.props.resetSwapper(this.createHorizSwapper.bind(this))
+        this.props.canvasDimensionChange && this.props.canvasDimensionChange(this.setCanvasLeft.bind(this))
     }
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.gjsSelected == null && this.props.gjsSelected != null) {
@@ -109,7 +111,7 @@ class CanvasActions extends React.Component {
                             this.createHorizSwapper()
                         }}
                         style={{
-                            position: 'fixed',
+                            position: 'absolute',
                             top: parseInt(btnTop) + 'px',
                             left: parseInt(btnLeft) + 'px',
                             borderRadius: '4px',
@@ -130,11 +132,24 @@ class CanvasActions extends React.Component {
         }
         this.setState({ swapperBtns: resp })
     }
+    setCanvasLeft = (isDesktop) => {
+        setTimeout(() => {
+            if(isDesktop) {
+                this.createHorizSwapper()
+                this.setState({ canvasLeft: '0px' })
+                return
+            }
+            let frame = document.getElementsByClassName("gjs-frame")
+            let resp = (frame[0].getBoundingClientRect()).left - 40
+            console.log(resp, frame, 'sss.p')
+            this.setState({ canvasLeft: resp })
+        }, 1000)
+    }
     render() {
-        const { } = this.state;
+        const { canvasLeft } = this.state;
         const { gjsSelected, dispatch } = this.props
         return (
-            <div className={`canvas-custom-action`} style={{ position: 'fixed', left: 0, top: 0, zIndex: 1 }}>
+            <div className={`canvas-custom-action`} style={{ position: 'fixed', left: canvasLeft, top: 0, zIndex: 1 }}>
                 {this.state.swapperBtns}
             </div>
         );

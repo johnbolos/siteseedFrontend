@@ -5,6 +5,8 @@ import { connect } from "react-redux"
 import Request from '../../request'
 import { showToast } from "../../components/utils"
 import moment from "moment"
+import { hideLoader, showLoader } from "../../reducers/actions"
+import { getPushPathWrapper, getPushPathWrapperWithObj } from "../../routes"
 
 class AccountNSecurity extends React.Component {
     state = {
@@ -18,7 +20,7 @@ class AccountNSecurity extends React.Component {
         return Object.assign(...Array.from(formEntries, ([name, value]) => ({ [name]: value })));
     }
     renderCollaborators = () => {
-        let { contributors, userSites } = this.props
+        let { contributors, userSites, dispatch } = this.props
         console.log(userSites, contributors, 'sss.p...account')
         if (!userSites || !contributors) {
             return null
@@ -54,7 +56,11 @@ class AccountNSecurity extends React.Component {
 
                                         </div>
                                         <div className="right">
-                                            <a className="expnd" href=""><span className="icon-Expand darkgrey"></span></a>
+                                            <a className="expnd" onClick={() => {
+                                                dispatch(getPushPathWrapperWithObj('siteSettings', { tab: 'contributor' }, { siteId: '1' }))
+                                                // dispatch(getPushPathWrapper('siteSettings', {siteId: '1'}))
+                                                // dispatch(getPushPathWrapper('siteSettings', { siteId: 1 }))
+                                            }}><span className="icon-Expand darkgrey"></span></a>
                                         </div>
                                     </li>
                                 ))}
@@ -93,7 +99,7 @@ class AccountNSecurity extends React.Component {
         //                                 <span className="synom-right-main">
         //                                     <span className="synom-right-name oss-13 black">Greg Jacoby</span>
         //                                     <span className="synom-right-email osr-9 darkgrey">gregjacoby@example.com
-		// 																					<span className="synom-divider">|</span>
+        // 																					<span className="synom-divider">|</span>
         //                                         <span className="synom-role">Admin</span></span>
         //                                 </span>
 
@@ -108,7 +114,7 @@ class AccountNSecurity extends React.Component {
         //                                 <span className="synom-right-main">
         //                                     <span className="synom-right-name oss-13 black">Greg Jacoby</span>
         //                                     <span className="synom-right-email osr-9 darkgrey">gregjacoby@example.com
-		// 																					<span className="synom-divider">|</span>
+        // 																					<span className="synom-divider">|</span>
         //                                         <span className="synom-role">Admin</span></span>
         //                                 </span>
 
@@ -146,9 +152,9 @@ class AccountNSecurity extends React.Component {
             showToast({ type: 'error', message: 'New Password and Confirm Password do not match' })
             return
         }
-        this.setState({ loading: true })
+        dispatch(showLoader())
         const apiRequest = await Request.updatePassword(data)
-        this.setState({ loading: false })
+        dispatch(hideLoader())
         if (apiRequest.messageType == 'error') {
             showToast({ type: 'error', message: apiRequest.message || 'Unable to save, try again' })
             return
@@ -169,7 +175,7 @@ class AccountNSecurity extends React.Component {
                 <div className="account-tab-content">
                     <div className="account-tab-content-inner">
                         <div className="row">
-                            <div className="col-md-8 col-lg-8 col-sm-12 account-tab-coll">
+                            <div className="col-md-8 col-lg-8 col-sm-12">
                                 <h1 className="osb-22 black">Account {'&'} Security</h1>
                                 <div className="account-data">
                                     <div className=" p-data-cmn account-data-row1">
@@ -192,15 +198,15 @@ class AccountNSecurity extends React.Component {
                                     </div>
                                     <div className=" p-data-cmn account-data-row2">
                                         <p className="osb-22 black">Two-Factor Authentication</p>
-                                        <p className="osr-13 darkgrey">Enabling this will provide an extra layer of security for your account. When logging in, we will ask for a <br /> special authentication code from your device.</p>
+                                        <p className="osr-13 darkgrey">Enable Two-Factor Authentication to add an extra layer of security to your account.  If you enable this feature, <br /> we will ask for a unique authentication code each time you log in.</p>
                                         <button type="submit" className="btn btn-primary green-btn oss-13 white">Enable Two-Factor Authentication</button>
                                     </div>
                                 </div>
                             </div>
                             <div className="col-md-4 col-lg-4 col-sm-12 account-tab-colr">
-                                <p className="oss-22 black gs-border">Get Started <br /> Collaborating.</p>
+                                {/* <p className="oss-22 black gs-border">Start Collaborating.</p>
                                 <div className="account-tab-colr-inner">
-                                    <p className="osr-13 darkgrey">Invite friends, colleagues, clients, or whoever you want <br /> to provide feedback and insights on your site.  </p>
+                                    <p className="osr-13 darkgrey">Invite friends, colleagues, clients, and anyone else you choose <br /> to provide feedback and notes on your websites and help improve your site.  </p>
                                     <div className="upgrade-plan">
                                         <p className="oss-13 black">Upgrade your plan now to get started!</p>
                                         <button type="submit" className="btn btn-primary green-btn oss-13 white">Upgrade your plan</button>
@@ -209,237 +215,14 @@ class AccountNSecurity extends React.Component {
                                         <p className="oss-13 black">This feature is included free with your plan!</p>
                                         <button type="submit" className="btn btn-primary green-btn oss-13 white">+ Invite People</button>
                                     </div>
-                                </div>
+                                </div> */}
 
-                                <div className="account-tab-colr-inner1">
+                                <div className="account-tab-colr-inner1" style={{ padding: 0, border: 'none' }}>
                                     <p className="oss-22 black gs-border">Site Collaborators</p>
                                     <div className="account-tab-colr-inner1d">
                                         <p className="osr-13 darkgrey">Invite friends, colleagues, clients, or whoever you want to provide feedback and insights on your site.  </p>
                                         <div className="sc-accordion">
                                             {this.renderCollaborators()}
-
-                                            {/* <button className="accordion"><span className="icon-Globe"></span><h3 className="oss-13 turq">Mysite 01</h3></button>
-                                            <div className="panel">
-                                                <div className="row">
-                                                    <div className="col-sm-12 col-md-12 col-lg-12">
-                                                        <ul>
-                                                            <li>
-                                                                <div className="left">
-                                                                    <span className="synom-left osb-13 white">GJ</span>
-                                                                    <span className="synom-right-main">
-                                                                        <span className="synom-right-name oss-13 black">Greg Jacoby</span>
-                                                                        <span className="synom-right-email osr-9 darkgrey">gregjacoby@example.com
-																							<span className="synom-divider">|</span>
-                                                                            <span className="synom-role">Admin</span></span>
-                                                                    </span>
-
-                                                                </div>
-                                                                <div className="right">
-                                                                    <a className="expnd" href=""><span className="icon-Expand darkgrey"></span></a>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className="left">
-                                                                    <span className="synom-left osb-13 white">GJ</span>
-                                                                    <span className="synom-right-main">
-                                                                        <span className="synom-right-name oss-13 black">Greg Jacoby</span>
-                                                                        <span className="synom-right-email osr-9 darkgrey">gregjacoby@example.com
-																							<span className="synom-divider">|</span>
-                                                                            <span className="synom-role">Admin</span></span>
-                                                                    </span>
-
-                                                                </div>
-                                                                <div className="right">
-                                                                    <a className="expnd" href=""><span className="icon-Expand darkgrey"></span></a>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className="left">
-                                                                    <span className="synom-left osb-13 white">GJ</span>
-                                                                    <span className="synom-right-main">
-                                                                        <span className="synom-right-name oss-13 black">Greg Jacoby</span>
-                                                                        <span className="synom-right-email osr-9 darkgrey">gregjacoby@example.com
-																							<span className="synom-divider">|</span>
-                                                                            <span className="synom-role">Admin</span></span>
-                                                                    </span>
-
-                                                                </div>
-                                                                <div className="right">
-                                                                    <a className="expnd" href=""><span className="icon-Expand darkgrey"></span></a>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <button className="accordion"><span className="icon-Globe"></span><h3 className="oss-13 turq">Mysite 02</h3></button>
-                                            <div className="panel">
-                                                <div className="row">
-                                                    <div className="col-sm-12 col-md-12 col-lg-12">
-                                                        <ul>
-                                                            <li>
-                                                                <div className="left">
-                                                                    <span className="synom-left osb-13 white">GJ</span>
-                                                                    <span className="synom-right-main">
-                                                                        <span className="synom-right-name oss-13 black">Greg Jacoby</span>
-                                                                        <span className="synom-right-email osr-9 darkgrey">gregjacoby@example.com
-																							<span className="synom-divider">|</span>
-                                                                            <span className="synom-role">Admin</span></span>
-                                                                    </span>
-
-                                                                </div>
-                                                                <div className="right">
-                                                                    <a className="expnd" href=""><span className="icon-Expand darkgrey"></span></a>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className="left">
-                                                                    <span className="synom-left osb-13 white">GJ</span>
-                                                                    <span className="synom-right-main">
-                                                                        <span className="synom-right-name oss-13 black">Greg Jacoby</span>
-                                                                        <span className="synom-right-email osr-9 darkgrey">gregjacoby@example.com
-																							<span className="synom-divider">|</span>
-                                                                            <span className="synom-role">Admin</span></span>
-                                                                    </span>
-
-                                                                </div>
-                                                                <div className="right">
-                                                                    <a className="expnd" href=""><span className="icon-Expand darkgrey"></span></a>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className="left">
-                                                                    <span className="synom-left osb-13 white">GJ</span>
-                                                                    <span className="synom-right-main">
-                                                                        <span className="synom-right-name oss-13 black">Greg Jacoby</span>
-                                                                        <span className="synom-right-email osr-9 darkgrey">gregjacoby@example.com
-																							<span className="synom-divider">|</span>
-                                                                            <span className="synom-role">Admin</span></span>
-                                                                    </span>
-
-                                                                </div>
-                                                                <div className="right">
-                                                                    <a className="expnd" href=""><span className="icon-Expand darkgrey"></span></a>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <button className="accordion"><span className="icon-Globe"></span><h3 className="oss-13 turq">Mysite 03</h3></button>
-                                            <div className="panel">
-                                                <div className="row">
-                                                    <div className="col-sm-12 col-md-12 col-lg-12">
-                                                        <ul>
-                                                            <li>
-                                                                <div className="left">
-                                                                    <span className="synom-left osb-13 white">GJ</span>
-                                                                    <span className="synom-right-main">
-                                                                        <span className="synom-right-name oss-13 black">Greg Jacoby</span>
-                                                                        <span className="synom-right-email osr-9 darkgrey">gregjacoby@example.com
-																							<span className="synom-divider">|</span>
-                                                                            <span className="synom-role">Admin</span></span>
-                                                                    </span>
-
-                                                                </div>
-                                                                <div className="right">
-                                                                    <a className="expnd" href=""><span className="icon-Expand darkgrey"></span></a>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className="left">
-                                                                    <span className="synom-left osb-13 white">GJ</span>
-                                                                    <span className="synom-right-main">
-                                                                        <span className="synom-right-name oss-13 black">Greg Jacoby</span>
-                                                                        <span className="synom-right-email osr-9 darkgrey">gregjacoby@example.com
-																							<span className="synom-divider">|</span>
-                                                                            <span className="synom-role">Admin</span></span>
-                                                                    </span>
-
-                                                                </div>
-                                                                <div className="right">
-                                                                    <a className="expnd" href=""><span className="icon-Expand darkgrey"></span></a>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className="left">
-                                                                    <span className="synom-left osb-13 white">GJ</span>
-                                                                    <span className="synom-right-main">
-                                                                        <span className="synom-right-name oss-13 black">Greg Jacoby</span>
-                                                                        <span className="synom-right-email osr-9 darkgrey">gregjacoby@example.com
-																							<span className="synom-divider">|</span>
-                                                                            <span className="synom-role">Admin</span></span>
-                                                                    </span>
-
-                                                                </div>
-                                                                <div className="right">
-                                                                    <a className="expnd" href=""><span className="icon-Expand darkgrey"></span></a>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <button className="accordion"><span className="icon-Globe"></span><h3 className="oss-13 turq">Mysite 04</h3></button>
-                                            <div className="panel">
-                                                <div className="row">
-                                                    <div className="col-sm-12 col-md-12 col-lg-12">
-                                                        <ul>
-                                                            <li>
-                                                                <div className="left">
-                                                                    <span className="synom-left osb-13 white">GJ</span>
-                                                                    <span className="synom-right-main">
-                                                                        <span className="synom-right-name oss-13 black">Greg Jacoby</span>
-                                                                        <span className="synom-right-email osr-9 darkgrey">gregjacoby@example.com
-																							<span className="synom-divider">|</span>
-                                                                            <span className="synom-role">Admin</span></span>
-                                                                    </span>
-
-                                                                </div>
-                                                                <div className="right">
-                                                                    <a className="expnd" href=""><span className="icon-Expand darkgrey"></span></a>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className="left">
-                                                                    <span className="synom-left osb-13 white">GJ</span>
-                                                                    <span className="synom-right-main">
-                                                                        <span className="synom-right-name oss-13 black">Greg Jacoby</span>
-                                                                        <span className="synom-right-email osr-9 darkgrey">gregjacoby@example.com
-																							<span className="synom-divider">|</span>
-                                                                            <span className="synom-role">Admin</span></span>
-                                                                    </span>
-
-                                                                </div>
-                                                                <div className="right">
-                                                                    <a className="expnd" href=""><span className="icon-Expand darkgrey"></span></a>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className="left">
-                                                                    <span className="synom-left osb-13 white">GJ</span>
-                                                                    <span className="synom-right-main">
-                                                                        <span className="synom-right-name oss-13 black">Greg Jacoby</span>
-                                                                        <span className="synom-right-email osr-9 darkgrey">gregjacoby@example.com
-																							<span className="synom-divider">|</span>
-                                                                            <span className="synom-role">Admin</span></span>
-                                                                    </span>
-
-                                                                </div>
-                                                                <div className="right">
-                                                                    <a className="expnd" href=""><span className="icon-Expand darkgrey"></span></a>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                         */}
                                         </div>
                                     </div>
                                 </div>

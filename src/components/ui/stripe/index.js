@@ -1,120 +1,105 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import _ from 'lodash'
+import DatePicker from 'react-datepicker'
+import "react-datepicker/dist/react-datepicker.css";
 import { loadStripe } from '@stripe/stripe-js';
-import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js';
+import { CardCvcElement, CardExpiryElement, CardNumberElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js';
 import './index.scss'
+import mapDivisions from 'countrycitystatejson'
+import { showToast } from '../../utils';
 
-const CARD_OPTIONS = {
-  iconStyle: 'solid',
-  style: {
-    base: {
-      iconColor: '#c4f0ff',
-      color: '#fff',
-      fontWeight: 500,
-      fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
-      fontSize: '16px',
-      fontSmoothing: 'antialiased',
-      ':-webkit-autofill': {
-        color: '#fce883',
-      },
-      '::placeholder': {
-        color: '#87bbfd',
-      },
-    },
-    invalid: {
-      iconColor: '#ffc7ee',
-      color: '#ffc7ee',
-    },
-  },
-};
-
-const CardField = ({ onChange }) => (
-  <div className="FormRow">
-    <CardElement options={CARD_OPTIONS} onChange={onChange} />
-  </div>
-);
-
-const Field = ({
-  label,
-  labelClasses,
-  id,
-  type,
-  inputClasses,
-  placeholder,
-  required,
-  autoComplete,
-  value,
-  onChange,
-}) => (
-  <div className="FormRow">
-    <label htmlFor={id} className={"FormRowLabel"}>
-      {label}
-    </label>
-    <input
-      className={"FormRowInput"}
-      id={id}
-      type={type}
-      placeholder={placeholder}
-      required={required}
-      autoComplete={autoComplete}
-      value={value}
-      onChange={onChange}
-    />
-  </div>
-);
-
-const SubmitButton = ({ processing, error, children, disabled }) => (
+const SubmitButton = ({ processing, error, children, disabled, onClick }) => (
   <button
-    className={`SubmitButton ${error ? 'SubmitButton--error' : ''}`}
+    className={`btn btn-primary oss-13 white green-btn update-changes SubmitButton ${error ? 'SubmitButton--error' : ''}`}
     type="submit"
     disabled={processing || disabled}
+    onClick={onClick}
   >
     {processing ? 'Processing...' : children}
   </button>
 );
 
-const ErrorMessage = ({ children }) => (
-  <div className="ErrorMessage" role="alert">
-    <svg width="16" height="16" viewBox="0 0 17 17">
-      <path
-        fill="#FFF"
-        d="M8.5,17 C3.80557963,17 0,13.1944204 0,8.5 C0,3.80557963 3.80557963,0 8.5,0 C13.1944204,0 17,3.80557963 17,8.5 C17,13.1944204 13.1944204,17 8.5,17 Z"
-      />
-      <path
-        fill="#6772e5"
-        d="M8.5,7.29791847 L6.12604076,4.92395924 C5.79409512,4.59201359 5.25590488,4.59201359 4.92395924,4.92395924 C4.59201359,5.25590488 4.59201359,5.79409512 4.92395924,6.12604076 L7.29791847,8.5 L4.92395924,10.8739592 C4.59201359,11.2059049 4.59201359,11.7440951 4.92395924,12.0760408 C5.25590488,12.4079864 5.79409512,12.4079864 6.12604076,12.0760408 L8.5,9.70208153 L10.8739592,12.0760408 C11.2059049,12.4079864 11.7440951,12.4079864 12.0760408,12.0760408 C12.4079864,11.7440951 12.4079864,11.2059049 12.0760408,10.8739592 L9.70208153,8.5 L12.0760408,6.12604076 C12.4079864,5.79409512 12.4079864,5.25590488 12.0760408,4.92395924 C11.7440951,4.59201359 11.2059049,4.59201359 10.8739592,4.92395924 L8.5,7.29791847 L8.5,7.29791847 Z"
-      />
-    </svg>
-    {children}
-  </div>
-);
 
-const ResetButton = ({ onClick }) => (
-  <button type="button" className="ResetButton" onClick={onClick}>
-    <svg width="32px" height="32px" viewBox="0 0 32 32">
-      <path
-        fill="#FFF"
-        d="M15,7.05492878 C10.5000495,7.55237307 7,11.3674463 7,16 C7,20.9705627 11.0294373,25 16,25 C20.9705627,25 25,20.9705627 25,16 C25,15.3627484 24.4834055,14.8461538 23.8461538,14.8461538 C23.2089022,14.8461538 22.6923077,15.3627484 22.6923077,16 C22.6923077,19.6960595 19.6960595,22.6923077 16,22.6923077 C12.3039405,22.6923077 9.30769231,19.6960595 9.30769231,16 C9.30769231,12.3039405 12.3039405,9.30769231 16,9.30769231 L16,12.0841673 C16,12.1800431 16.0275652,12.2738974 16.0794108,12.354546 C16.2287368,12.5868311 16.5380938,12.6540826 16.7703788,12.5047565 L22.3457501,8.92058924 L22.3457501,8.92058924 C22.4060014,8.88185624 22.4572275,8.83063012 22.4959605,8.7703788 C22.6452866,8.53809377 22.5780351,8.22873685 22.3457501,8.07941076 L22.3457501,8.07941076 L16.7703788,4.49524351 C16.6897301,4.44339794 16.5958758,4.41583275 16.5,4.41583275 C16.2238576,4.41583275 16,4.63969037 16,4.91583275 L16,7 L15,7 L15,7.05492878 Z M16,32 C7.163444,32 0,24.836556 0,16 C0,7.163444 7.163444,0 16,0 C24.836556,0 32,7.163444 32,16 C32,24.836556 24.836556,32 16,32 Z"
-      />
-    </svg>
-  </button>
-);
-
-const CheckoutForm = ({ formFields }) => {
+const CheckoutForm = ({ addCard, billingDetailsProp, addCardRequest, updateCardRequest, loading: loadingProp, submitTxt, deleteCard }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [error, setError] = useState(null);
-  const [cardComplete, setCardComplete] = useState(false);
-  const [processing, setProcessing] = useState(false);
+  const [cardNumerComplete, setCardNumberComplete] = useState(false);
+  const [cardExpiryComplete, setCardExpiryComplete] = useState(false);
+  const [cardCvvComplete, setCardCvvComplete] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(null);
+  const [processing, setProcessing] = useState(false);
   const [billingDetails, setBillingDetails] = useState({
-    email: '',
-    phone: '',
-    name: '',
+    name: ''
+  });
+  const [extraDetails, setExtraDetails] = useState({
+    address1: '',
+    address2: '',
+    city: '',
+    state: '',
+    zip_code: '',
+    country: '',
+    phone: ''
   });
 
+  const [expDate, setExpDate] = useState(new Date());
+  const [updateCardDetails, setUpdateDetails] = useState({
+    exp_month: null,
+    exp_year: null,
+    is_default: false
+  })
+  // const expiryRef = useRef(null);
+  const formRef = useRef(null);
+  useEffect(() => {
+    if (!billingDetailsProp) {
+      // call in reset
+      reset()
+    }
+    if (billingDetailsProp && billingDetailsProp.exp_month && billingDetailsProp.exp_year && !deleteCard) {
+      let expiryDate = `${billingDetailsProp.exp_year}-${billingDetailsProp.exp_month.length == 1 ? '0' + billingDetailsProp.exp_month : billingDetailsProp.exp_month}`
+      // expiryRef.current.value = expiryDate
+      setExpDate(new Date(expiryDate))
+      setUpdateDetails({
+        exp_month: billingDetailsProp.exp_month,
+        exp_year: billingDetailsProp.exp_year,
+        is_default: billingDetailsProp.is_default,
+      })
+      const { billing_info } = billingDetailsProp
+      setExtraDetails({
+        address1: (billing_info.address_line_1 && billing_info.address_line_1 != 'undefined') ? billing_info.address_line_1 : '',
+        address2: (billing_info.address_line_2 && billing_info.address_line_2 != 'undefined') ? billing_info.address_line_2 : '',
+        city: (billing_info.city && billing_info.city != 'undefined') ? billing_info.city : '',
+        state: (billing_info.state && billing_info.state != 'undefined') ? billing_info.state : '',
+        zip_code: (billing_info.zipcode && billing_info.zipcode != 'undefined') ? billing_info.zipcode : '',
+        country: (billing_info.country && billing_info.country != 'undefined') ? billing_info.country : '',
+        phone: (billing_info.phone && billing_info.phone != 'undefined') ? billing_info.phone : '',
+      })
+    }
+  }, [billingDetailsProp,  deleteCard])
+
+  const checkEmpty = (obj) => {
+    let resp = false
+    _.forEach(obj, (value, key) => {
+      if (value == '' || !value) {
+        resp = true
+      }
+    })
+    return resp
+  }
+
+  const cardUpdate = () => {
+    updateCardRequest && updateCardRequest(updateCardDetails, extraDetails)
+  }
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    if (extraDetails.phone.length != 10) {
+      showToast({ type: 'error', message: "Phone Number should be 10 digits long" })
+      return
+    }
+    if (!addCard) {
+      cardUpdate()
+      return
+    }
     if (!stripe || !elements) {
       // Stripe.js has not loaded yet. Make sure to disable
       // form submission until Stripe.js has loaded.
@@ -122,215 +107,301 @@ const CheckoutForm = ({ formFields }) => {
     }
 
     if (error) {
-      elements.getElement('card').focus();
+      elements.getElement('cardNumber');
       return;
     }
 
-    if (cardComplete) {
+    if (checkEmpty(billingDetails)) {
+      return
+    }
+
+    if (cardNumerComplete || cardExpiryComplete || cardCvvComplete) {
       setProcessing(true);
     }
+    const cardElement = elements.getElement('cardNumber');
 
     const payload = await stripe.createPaymentMethod({
       type: 'card',
-      card: elements.getElement(CardElement),
+      card: cardElement,
       billing_details: billingDetails,
+      metadata: extraDetails,
     });
-
     setProcessing(false);
-
     if (payload.error) {
+      showToast({ type: 'error', message: payload.error && payload.error.message })
       setError(payload.error);
     } else {
       setPaymentMethod(payload.paymentMethod);
+      const token = await stripe.createToken(cardElement, {
+        name: billingDetails.name,
+        address_line1: extraDetails.address1,
+        address_line2: extraDetails.address2,
+        address_city: extraDetails.city,
+        address_state: extraDetails.state,
+        address_zip: extraDetails.zip_code,
+        address_country: extraDetails.country,
+      });
+      if (token.token) {
+        formReset()
+        reset()
+        addCardRequest && addCardRequest(token.token.id, extraDetails)
+      }
     }
   };
+
+  const formReset = () => {
+    let form = formRef.current
+    Array.from(form.elements).forEach(field => {
+      field.value = ''
+    })
+  }
 
   const reset = () => {
     setError(null);
     setProcessing(false);
     setPaymentMethod(null);
     setBillingDetails({
-      email: '',
-      phone: '',
-      name: '',
+      name: ''
     });
+    setExtraDetails({
+      address1: '',
+      address2: '',
+      city: '',
+      state: '',
+      zip_code: '',
+      country: '',
+      phone: ''
+    })
+    setUpdateDetails({
+      exp_month: null,
+      exp_year: null,
+      is_default: false
+    })
   };
 
-  return paymentMethod ? (
-    <div className="Result">
-      <div className="ResultTitle" role="alert">
-        Payment successful
-        </div>
-      <div className="ResultMessage">
-        Thanks for trying Stripe Elements. No money was charged, but we
-          generated a PaymentMethod: {paymentMethod.id}
-      </div>
-      <ResetButton onClick={reset} />
-    </div>
-  ) : (
-      <form className="Form" onSubmit={handleSubmit}>
-        <ul>
+  return <form className="Form" onSubmit={handleSubmit} ref={formRef}>
+    <ul>
+      {
+        addCard && (
           <li className="center">
             <div className="">
               <label htmlFor="noc" className="form-label oss-16 black">Name on card</label>
               <input type="text" className="form-control osr-13 darkgrey" id="noc"
+                required
                 value={billingDetails.name}
                 onChange={(e) => {
                   setBillingDetails({ ...billingDetails, name: e.target.value });
                 }} />
             </div>
           </li>
-          {/* ======================================Stripe Field========================================= */}
-          <li className="center">
-            <div className="">
-              <CardField
+        )
+      }
+      {/* ======================================Stripe Field========================================= */}
+      <li className="center">
+        <div className="">
+          <label htmlFor="c-number" className="form-label oss-16 black">Card Number</label>
+          {
+            addCard ? (
+              <CardNumberElement className="form-control osr-13 darkgrey" id="c-number" options={{ placeholder: 'Enter Account Number', showIcon: true }}
                 onChange={(e) => {
                   setError(e.error);
-                  setCardComplete(e.complete);
+                  setCardNumberComplete(e.complete);
                 }}
               />
-            </div>
-          </li>
-          {/* ======================================Static Fields========================================= */}
-          {/* <li className="center">
-            <div className="">
-              <label htmlFor="c-number" className="form-label oss-16 black">Card Number</label>
-              <input type="text" className="form-control osr-13 darkgrey" id="c-number"
-                value={billingDetails.number}
-                onChange={(e) => {
-                  setBillingDetails({ ...billingDetails, number: e.target.value });
-                }} />
-            </div>
-          </li>
-          <div className="date-cvv">
-            <li className="center left">
-              <div className="">
-                <label htmlFor="inputExpDate" className="form-label oss-16 black">Expiry Date</label>
-                <input className="form-control osr-13 darkgrey" type="text" id="inputExpDate" placeholder="MM / YY" maxLength='7'
-                  value={billingDetails.expDate}
+            ) : (
+                <input type="text" className="form-control osr-13 darkgrey" id="c-number"
+                  disabled={true}
+                  value={`xxxx-xxxx-xxxx-${billingDetailsProp && billingDetailsProp.last4}`}
+                />
+              )
+          }
+        </div>
+      </li>
+      <div className="date-cvv">
+        <li className="center left" style={addCard ? {} : { width: '50%' }}>
+          <div className="">
+            <label htmlFor="inputExpDate" className="form-label oss-16 black">Expiration Date</label>
+            {
+              addCard ? (
+                <CardExpiryElement className="form-control osr-13 darkgrey" id="inputExpDate"
                   onChange={(e) => {
-                    setBillingDetails({ ...billingDetails, expDate: e.target.value });
-                  }} />
-              </div>
-            </li>
-
-            <li className="center right">
-              <div className="">
-                <label htmlFor="cvv-number" className="form-label oss-16 black">CVV<span className="icon-Question-Mark darkgrey"></span></label>
-                <input id="cvv-number" type="password" className="cvv form-control osr-13 darkgrey" placeholder="CVV" />
-              </div>
-            </li>
-          </div> */}
-          {/* ============================================================================================ */}
-          <li className="center">
-            <div className="">
-              <label htmlFor="address-l1" className="form-label oss-16 black">Address Line 1</label>
-              <input type="text" className="form-control osr-13 darkgrey" id="address-l1"
-                value={billingDetails.address1}
-                onChange={(e) => {
-                  setBillingDetails({ ...billingDetails, address1: e.target.value });
-                }} />
-            </div>
-          </li>
-
-          <li className="center">
-            <div className="">
-              <label htmlFor="address-l2" className="form-label oss-16 black">Address Line 2</label>
-              <input type="text" className="form-control osr-13 darkgrey" id="address-l2"
-                value={billingDetails.address2}
-                onChange={(e) => {
-                  setBillingDetails({ ...billingDetails, address2: e.target.value });
-                }} />
-            </div>
-          </li>
-          <div className="cou-state">
-            <li className="center left">
-              <div className="">
-                <label htmlFor="address-l2" className="form-label oss-16 black">Country</label>
-                <select defaultValue={'Select a country'} className="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                  value={billingDetails.country}
-                  onChange={(e) => {
-                    setBillingDetails({ ...billingDetails, country: e.target.value });
-                  }} >
-                  <option value="1">America</option>
-                  <option value="2">india</option>
-                  <option value="3">japan</option>
-                </select>
-              </div>
-            </li>
-            <li className="center right">
-              <div className="">
-                <label htmlFor="address-l2" className="form-label oss-16 black">State</label>
-                <select defaultValue={'Choose'} className="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                  value={billingDetails.state}
-                  onChange={(e) => {
-                    setBillingDetails({ ...billingDetails, state: e.target.value });
-                  }} >
-                  <option value="1">Nagpur</option>
-                  <option value="2">Delhi</option>
-                  <option value="3">kochi</option>
-                </select>
-              </div>
-            </li>
+                    setError(e.error);
+                    setCardExpiryComplete(e.complete);
+                  }}
+                />
+              ) : (
+                  <DatePicker
+                    selected={expDate}
+                    onChange={value => {
+                      value = value.toISOString().split('T')[0]
+                      if (!value || value == '') {
+                        return
+                      }
+                      setExpDate(new Date(value))
+                      value = value.split('-')
+                      setUpdateDetails({ ...updateCardDetails, exp_year: parseInt(value[0]), exp_month: parseInt(value[1]) })
+                    }}
+                    dateFormat="MM/yyyy"
+                    showMonthYearPicker
+                  />
+                )
+            }
           </div>
-        </ul>
+        </li>
 
-        {/* ======================================Stripe Fields========================================= */}
-        {/* <fieldset className="FormGroup">
-          <Field
-            label="Name"
-            id="name"
-            type="text"
-            placeholder="Jane Doe"
+        {
+          addCard && (
+            <li className="center right">
+              <div className="">
+                <label htmlFor="cvv-number" className="form-label oss-16 black" style={{ position: 'relative' }}>
+                  CVV
+                  <span className="icon-Question-Mark darkgrey"></span>
+                  <span className="comment" style={{ position: 'absolute', background: '#011627', borderRadius: '3px 3px 3px 0px', color: '#fff', padding: '8px 25px 8px 11px', bottom: '40px', left: '40px' }}>CVV is the three-digit or four-digit <br/>security code on the back of your card.</span>
+                  <span className="comment" style={{ position: 'absolute', background: 'transparent', borderRadius: '0px', bottom: '24px', left: '40px', width: '0px', height: '0px', borderLeft: '8px solid #011627', borderTop: '8px solid #011627', borderRight: '8px solid transparent', borderBottom: '8px solid transparent'  }}></span>
+                  </label>
+                <CardCvcElement id="cvv-number" className="cvv form-control osr-13 darkgrey"
+                  onChange={(e) => {
+                    setError(e.error);
+                    setCardCvvComplete(e.complete);
+                  }}
+                />
+              </div>
+            </li>
+          )
+        }
+      </div>
+      <li className="center">
+        <div className="">
+          <label htmlFor="phoneNo" className="form-label oss-16 black">Phone Number</label>
+          <input type="number" className="form-control osr-13 darkgrey" id="phoneNo"
             required
-            autoComplete="name"
-            value={billingDetails.name}
+            value={extraDetails.phone}
             onChange={(e) => {
-              setBillingDetails({ ...billingDetails, name: e.target.value });
-            }}
-          />
-          <Field
-            label="Email"
-            id="email"
-            type="email"
-            placeholder="janedoe@gmail.com"
-            required
-            autoComplete="email"
-            value={billingDetails.email}
-            onChange={(e) => {
-              setBillingDetails({ ...billingDetails, email: e.target.value });
-            }}
-          />
-          <Field
-            label="Phone"
-            id="phone"
-            type="tel"
-            placeholder="(941) 555-0123"
-            required
-            autoComplete="tel"
-            value={billingDetails.phone}
-            onChange={(e) => {
-              setBillingDetails({ ...billingDetails, phone: e.target.value });
-            }}
-          />
-        </fieldset>
-        <fieldset className="FormGroup">
-          <CardField
-            onChange={(e) => {
-              setError(e.error);
-              setCardComplete(e.complete);
-            }}
-          />
-        </fieldset> */}
-        {/* ============================================================================================ */}
+              setExtraDetails({ ...extraDetails, phone: e.target.value });
+            }} />
+        </div>
+      </li>
 
-        {error && <ErrorMessage>{error.message}</ErrorMessage>}
-        <SubmitButton processing={processing} error={error} disabled={!stripe}>
-          Submit
-          {/* <button type="button" className="btn btn-primary oss-13 white green-btn update-changes">Save Changes</button> */}
-        </SubmitButton>
-      </form>
-    );
+      <li className="center">
+        <div className="">
+          <label htmlFor="address-l1" className="form-label oss-16 black">Address Line 1</label>
+          <input type="text" className="form-control osr-13 darkgrey" id="address-l1"
+            required
+            value={extraDetails.address1}
+            onChange={(e) => {
+              setExtraDetails({ ...extraDetails, address1: e.target.value });
+            }} />
+        </div>
+      </li>
+
+      <li className="center">
+        <div className="">
+          <label htmlFor="address-l2" className="form-label oss-16 black">Address Line 2</label>
+          <input type="text" className="form-control osr-13 darkgrey" id="address-l2"
+            value={extraDetails.address2}
+            onChange={(e) => {
+              setExtraDetails({ ...extraDetails, address2: e.target.value });
+            }} />
+        </div>
+      </li>
+      <div className="cou-state">
+        <li className="center left">
+          <div className="">
+            <label htmlFor="country" className="form-label oss-16 black">Country</label>
+            <select className="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="country"
+              required
+              value={extraDetails.country || 'Select a country'}
+              onChange={(e) => {
+                setExtraDetails({ ...extraDetails, country: e.target.value });
+              }} >
+              <option value="">Select a Country</option>
+              {
+                [...mapDivisions.getCountries()].map((item, index) => {
+                  return <option key={index} value={item.shortName}>{item.name}</option>
+                })
+              }
+            </select>
+          </div>
+        </li>
+        <li className="center right">
+          <div className="">
+            <label htmlFor="state" className="form-label oss-16 black">State</label>
+            <select className="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="state"
+              required
+              disabled={extraDetails.country == ''}
+              value={extraDetails.state || 'Choose'}
+              onChange={(e) => {
+                setExtraDetails({ ...extraDetails, state: e.target.value });
+              }} >
+              <option value="">Choose</option>
+              {
+                extraDetails.country != '' && [...mapDivisions.getStatesByShort(extraDetails.country)].map((item, index) => {
+                  return <option key={index} value={item}>{item}</option>
+                })
+              }
+            </select>
+          </div>
+        </li>
+      </div>
+      <div className="cou-state">
+        <li className="center left">
+          <div className="">
+            <label htmlFor="city" className="form-label oss-16 black">City</label>
+            <select className="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="city"
+              required
+              disabled={extraDetails.state == ''}
+              value={extraDetails.city || 'Select a city'}
+              onChange={(e) => {
+                setExtraDetails({ ...extraDetails, city: e.target.value });
+              }} >
+              <option value="">Select a city</option>
+              {
+                extraDetails.state != '' && [...mapDivisions.getCities(extraDetails.country, extraDetails.state)].map((item, index) => {
+                  return <option key={index} value={item}>{item}</option>
+                })
+              }
+            </select>
+          </div>
+        </li>
+        <li className="center right">
+          <div className="">
+            <label htmlFor="postalCode" className="form-label oss-16 black">Postal Code</label>
+            <input id="postalCode" type="number" class="form-control osr-13 darkgrey" placeholder={'Enter your postal code'}
+              required
+              value={extraDetails.zip_code}
+              onChange={(e) => {
+                setExtraDetails({ ...extraDetails, zip_code: e.target.value });
+              }} />
+          </div>
+        </li>
+      </div>
+      {
+        !addCard && (billingDetailsProp && !billingDetailsProp.is_default) && (
+          <li style={{ float: 'left', marginBottom: '0px' }}>
+            <div className="notify-data-row1" style={{ borderBottom: 'none' }}>
+              <label className="form-label oss-16 black">Default</label>
+              <label className="switch left">
+                <div className="">
+                  <input id="default-toggle" type="checkbox" checked={updateCardDetails.is_default} onChange={(e) => {
+                    setUpdateDetails({ ...updateCardDetails, is_default: e.target.checked ? 1 : 0 })
+                  }} />
+                  <span className="slider round" htmlFor="default-toggle"></span>
+                </div>
+              </label>
+            </div>
+          </li>
+        )
+      }
+      {/* {
+        addCard && (
+          <>
+          </>
+        )
+      } */}
+    </ul>
+    <SubmitButton processing={processing} error={error} disabled={!stripe} >{!loadingProp ? (submitTxt || 'Save Changes') : 'Processing...'}</SubmitButton>
+  </form>
+
 };
 
 const ELEMENTS_OPTIONS = {
@@ -343,14 +414,13 @@ const ELEMENTS_OPTIONS = {
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
-const stripePromise = loadStripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
-
-const StripeForm = () => {
+const StripeForm = (props) => {
   return (
     <div className="AppWrapper">
       <Elements stripe={stripePromise} options={ELEMENTS_OPTIONS}>
-        <CheckoutForm />
+        <CheckoutForm {...props} />
       </Elements>
     </div>
   );

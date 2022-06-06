@@ -29,23 +29,22 @@ export const setStyleStr = (data, options = {}) => {
 }
 
 export const undoOnce = () => {
-  // update style and html tag
   return ActionCreators.undo()
 }
 
 export const redoOnce = () => {
-  // update style and html tag
   return ActionCreators.redo()
 }
 
 export const undoTimes = (times) => {
-  // update style and html tag
   return ActionCreators.jump(-1 * times)
 }
 
 export const redoTimes = (times) => {
-  // update style and html tag
   return ActionCreators.jump(times)
 }
 
+export const resetHistory = () => {
+  return ActionCreators.clearHistory()
+}
 export default {}

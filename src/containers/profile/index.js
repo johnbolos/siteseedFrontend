@@ -11,7 +11,12 @@ import { getPushPathWrapper, getUrlParams } from "../../routes"
 import { apiUrl } from "../../settings"
 import ProfileNotifSettings from './notif'
 import AccountNSecurity from "./accountNSecurity"
+import { hideLoader, showLoader } from "../../reducers/actions"
+import Icons from "../../assets/Icons"
+import "./index.scss"
 
+
+import LoggedinHeader from '../../layout/loggedinLayouts/header-profile'
 
 class Profile extends React.Component {
     state = {
@@ -433,13 +438,13 @@ class Profile extends React.Component {
         })
     }
     apiRequestDashboard = async () => {
-        let { tokenInfo } = this.props
+        let { tokenInfo, dispatch } = this.props
         if (!tokenInfo.access_token) {
             return
         }
-        this.setState({ loading: true })
+        dispatch(showLoader())
         const apiRequest = await Request.dashboard()
-        this.setState({ loading: false })
+        dispatch(hideLoader())
         if (apiRequest.messageType && apiRequest.messageType == 'error') {
             showToast({ type: 'error', message: 'Unable to fetch data, Try Relogging' })
             return
@@ -448,9 +453,9 @@ class Profile extends React.Component {
     }
     apiRequestProfile = async () => {
         let { dispatch } = this.props
-        this.setState({ loading: true })
+        dispatch(showLoader())
         const apiRequest = await Request.getProfile()
-        this.setState({ loading: false })
+        dispatch(hideLoader())
         if (apiRequest.messageType && apiRequest.messageType == 'error') {
             showToast({ type: 'error', message: apiRequest.details || 'Unable to fetch data, Try Relogging' })
             return
@@ -543,9 +548,9 @@ class Profile extends React.Component {
         _.each(data, (val, key) => {
             formData.append(key, val)
         })
-        this.setState({ loading: true })
+        dispatch(showLoader())
         const apiRequest = await Request.setProfile(formData)
-        this.setState({ loading: false })
+        dispatch(hideLoader())
         if (apiRequest.messageType == 'error') {
             showToast({ type: 'error', message: 'Unable to save, try again' })
             return
@@ -591,136 +596,26 @@ class Profile extends React.Component {
         this.setState({ profilePic: null, profilePicSrc: apiUrl + this.state.profileData.profile_picture, imgAdded: false })
     }
     render() {
-        const { dispatch, currentUser } = this.props
-        const { dashboardData, profileData, profilePicSrc, activeTab,imgAdded } = this.state
+        const { dispatch, currentUser, loading } = this.props
+        const { dashboardData, profileData, profilePicSrc, activeTab, imgAdded } = this.state
         return (
             <>
+                {
+                    loading && <div className={'backdrop-loading'}>
+                        <Icons.Loading style={{ width: '70px', height: '70px' }} className={'searchLoading'} />
+                    </div>
+                }
+                <LoggedinHeader />
                 <div className="admin-main-panel">
                     <div className="admin-main-panel-inner">
-                        {/* <!----------------------------------Top-Bar----------------------------------> */}
-                        <section className="topbar-main">
-                            <div className="topbar-main-inner main-inner">
-                                <div className="container">
-                                    <div className="row">
-                                        <div className="col-md-12 col-lg-12 ">
-                                            <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-                                                <div className="container-fluid">
-                                                    <a className="navbar-brand"><img src="./assets/website/images/Logo.svg" className="img-fluid" alt="Responsive image" /></a>
-                                                    {/* <!--<button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                                    <span className="navbar-toggler-icon"></span>
-                                    </button>
-                                                <div className="collapse navbar-collapse" id="navbarSupportedContent" style={{display:"none"}}>
-                                                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                                                        <li className="nav-item">
-                                                            <a className="nav-link active" aria-current="page">Home</a>
-                                                        </li>
-                                                        <li className="nav-item">
-                                                            <a className="nav-link">Link</a>
-                                                        </li>
-                                                        <li className="nav-item dropdown">
-                                                            <a className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                Dropdown
-                                     </a>
-                                                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                                <li><a className="dropdown-item">Action</a></li>
-                                                                <li><a className="dropdown-item">Another action</a></li>
-                                                                <li><hr className="dropdown-divider"></li>
-                                                                    <li><a className="dropdown-item">Something else here</a></li>
-                                     </ul>
-                                    </li>
-                                                            <li className="nav-item">
-                                                                <a className="nav-link disabled" tabIndex="-1" aria-disabled="true">Disabled</a>
-                                                            </li>
-                                    </ul>
-                                    </div>--> */}
-                                                    <ul className="nav cs-topright">
-                                                        <li className="nav-item cs-topright-left">
-                                                            <a className="nav-link left-top darkgrey osr-13">Need Support?</a>
-                                                        </li>
-                                                        <li className="nav-item cs-topright-right">
-                                                            {/* <img src="./assets/website/images/Greg-jacoby.png" className="img-fluid" alt="Responsive image" /> */}
-                                                            {
-                                                                currentUser.profile_picture ? (
-                                                                    <img src={currentUser.profile_picture} className="img-fluid" alt="Responsive image"
-                                                                        style={{
-                                                                            float: 'left',
-                                                                            height: '35px',
-                                                                            width: '35px',
-                                                                            marginRight: '10px',
-                                                                            color: '#31cdb9',
-                                                                            borderRadius: '50%'
-                                                                        }}
-                                                                    />
-                                                                ) : (
-                                                                        <i
-                                                                            class="fa fa-user-circle-o"
-                                                                            aria-hidden="true"
-                                                                            style={{
-                                                                                float: 'left',
-                                                                                fontSize: '35px',
-                                                                                marginRight: '10px',
-                                                                                color: '#31cdb9',
-                                                                            }}
-                                                                        ></i>
-                                                                    )
-                                                            }
-                                                            <a className="nav-link dropdown-toggle right-top black osr-13" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                {currentUser.display_name || currentUser.first_name}
-                                                                {/* Greg Jacoby */}
-                                                            </a>
-                                                            <ul className="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
-                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.goto('profile', { activeTab: 'details' }) }}>Profile</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.goto('profile', { activeTab: 'account' }) }}>Account {'&'} Security</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.goto('profile', { activeTab: 'notification' }) }}>Notifications</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey" data-bs-toggle="modal" data-bs-target="#choose-lang1">Language</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey" >Help Center</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={this.logout}>Log Out</a></li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </nav>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                        {/* <!---------------------------------- /Top-Bar----------------------------------> */}
-
-
-                        {/* <!---------------------------------- Dashboard-Export----------------------------------> */}
-                        <section className="dashboard-main">
-                            <div className="dashboard-main-inner main-inner">
-                                <div className="container">
-                                    <div className="row cs-dashboard1">
-                                        <div className="col-sm-12 col-md-8 col-lg-8 col1"></div>
-                                        <div className=" col-sm-12 col-md-4 col-lg-4 col2">
-                                            <ul>
-                                                <li className="tw-main"><span className="tw-main-inner"><span className="tw-t oss-13 turq"><span className="num-chng">{dashboardData && (dashboardData.total_user_sites || 0)}</span>/<span className="total-num">{dashboardData && (dashboardData.total_sites || 0)}</span> left</span> <br /> <span className="tw-b osr-11 darkgrey">Total Website</span></span></li>
-                                                <li className="ec-main"><span className="ec-main-inner"><span className="ec-t oss-13 turq"><span className="num-chng">{dashboardData && (dashboardData.total_user_exports || 0)}</span><span className="total-num">/{dashboardData && (dashboardData.export_credits || 0)}</span> left</span> <br /> <span className="ec-b osr-11 darkgrey">Export Credits</span></span></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                        {/* <!---------------------------------- /Dashboard-Export----------------------------------> */}
-
+                        
 
                         {/* <!---------------------------------- Profile-setting----------------------------------> */}
-                        <section className="profile-main">
-                            <div className="profile-main-inner main-inner">
+                        <div className="loggedin-content-container  profile-main">
+                            <div className="profile-main-inner">
                                 <div className="container">
                                     <div className="row profile-row1">
                                         <div className="col-sm-12 col-md-12 col-lg-12 col1">
-                                            <nav>
-                                                <div className="nav nav-tabs" id="nav-tab" role="tablist">
-                                                    <a className="nav-link  darkgrey osr-16" id="" onClick={() => { this.goto('dashboard') }} >Dashboard</a>
-                                                    <a className={`nav-link ${activeTab == 'details' ? 'active' : ''} darkgrey osr-16`} id="nav-profile-tab" data-bs-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
-                                                    <a className={`nav-link ${activeTab == 'account' ? 'active' : ''} darkgrey osr-16`} id="nav-account-tab" data-bs-toggle="tab" href="#account" role="tab" aria-controls="nav-account" aria-selected="false">Account {'&'} Security</a>
-                                                    <a className={`nav-link ${activeTab == 'notification' ? 'active' : ''} darkgrey osr-16`} id="nav-contact-tab" data-bs-toggle="tab" href="#notification" role="tab" aria-controls="nav-contact" aria-selected="false">Notification</a>
-                                                </div>
-                                            </nav>
                                             <div className="tab-content" id="nav-tabContent">
                                                 <div className="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"></div>
 
@@ -742,16 +637,16 @@ class Profile extends React.Component {
                                                                                         profilePicSrc ? (
                                                                                             <img src={profilePicSrc} id="myImg" alt="your image" height="93px" width="93px" />
                                                                                         ) : (
-                                                                                                <i
-                                                                                                    class="fa fa-user-circle-o"
-                                                                                                    aria-hidden="true"
-                                                                                                    style={{
-                                                                                                        fontSize: '93px',
-                                                                                                        margin: '2px',
-                                                                                                        color: '#31cdb9',
-                                                                                                    }}
-                                                                                                ></i>
-                                                                                            )
+                                                                                            <i
+                                                                                                class="fa fa-user-circle-o"
+                                                                                                aria-hidden="true"
+                                                                                                style={{
+                                                                                                    fontSize: '93px',
+                                                                                                    margin: '2px',
+                                                                                                    color: '#31cdb9',
+                                                                                                }}
+                                                                                            ></i>
+                                                                                        )
                                                                                     }
                                                                                     <button id="remove-img" type="button" style={{ display: "none" }} onClick={this.removeImage}><span className="icon-Delete"></span></button>
                                                                                 </div>
@@ -797,7 +692,8 @@ class Profile extends React.Component {
                                                                                 </div>
                                                                                 <div className="bio">
                                                                                     <label htmlFor="bio" className="form-label oss-16 black">Bio</label>
-                                                                                    <textarea type="text" className="form-control oss-13 darkgrey" id="bio" placeholder="enter a short description about yourself" name={'bio'}></textarea>
+                                                                                    {/* <p>Enter a short description about yourself.</p> */}
+                                                                                    <textarea type="text" className="form-control oss-13 darkgrey" id="bio" placeholder="Enter a short description about yourself" name={'bio'}></textarea>
                                                                                 </div>
                                                                                 <button type="submit" className="btn btn-primary green-btn oss-13 white">Save Changes</button>
                                                                             </form>
@@ -811,7 +707,7 @@ class Profile extends React.Component {
                                                 </div>
 
                                                 <div className={`tab-pane fade ${activeTab == 'account' ? 'show active' : ''}`} id="account" role="tabpanel" aria-labelledby="nav-account-tab">
-                                                    <AccountNSecurity userSites={this.state.userSites} contributors={this.state.contributors}/>
+                                                    <AccountNSecurity userSites={this.state.userSites} contributors={this.state.contributors} />
                                                 </div>
                                                 <div className={`tab-pane fade ${activeTab == 'notification' ? 'show active' : ''}`} id="notification" role="tabpanel" aria-labelledby="nav-contact-tab">
                                                     <ProfileNotifSettings />
@@ -821,26 +717,10 @@ class Profile extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                        </section>
+                        </div>
                         {/* <!---------------------------------- /Profile-setting----------------------------------> */}
 
-
-
-                        {/* <!---------------------------------- temporary-popup-code----------------------------------> */}
-                        <ul className="temporary">
-                            <li><a data-bs-toggle="modal" data-bs-target="#update-card1">update-card</a></li>
-                            <li><a data-bs-toggle="modal" data-bs-target="#invite-contributor1">invite-contributor</a></li>
-                            <li><a data-bs-toggle="modal" data-bs-target="#downgrade-plan1">downgrade-plan</a></li>
-                            <li><a data-bs-toggle="modal" data-bs-target="#delete-confirm1">Delete Confirmation</a></li>
-                            <li><a data-bs-toggle="modal" data-bs-target="#confirm-downgrade1">Confirm Downgrade</a></li>
-                            <li><a data-bs-toggle="modal" data-bs-target="#your-subdomain1">your-subdomain</a></li>
-                        </ul>
-                        {/* <!---------------------------------- /temporary-popup code----------------------------------> */}
-
-
-
                         {/* <!---------------------------------- Pop-up----------------------------------> */}
-
 
                         {/* <!---------------------------------- Update-card-detail---------------------------------->			 */}
                         <div className="modal fade update-card" id="update-card1" tabIndex="-1" role="dialog" aria-labelledby="update-card1" aria-hidden="true">
@@ -1216,7 +1096,9 @@ const mapStateToProps = ({ global, layout, templates, router }) => {
         templates,
         currentUser: global.currentUser,
         pathname: router.location.pathname,
-        tokenInfo: global.tokenInfo
+        tokenInfo: global.tokenInfo,
+        generalData: global.generalData,
+        profileData: global.profileData
     }
 }
 

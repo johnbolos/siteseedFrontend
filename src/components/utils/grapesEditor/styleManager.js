@@ -1,7 +1,5 @@
 import _ from "lodash";
 
-// import { template1StyleMedia } from "../../../containers/designerStudio/dummieTemp";
-import { template1StyleMedia } from "../../../containers/designerStudio/dummiev3";
 import {
 	setEditorStyleData,
 	setStyleStr,
@@ -13,7 +11,22 @@ const styleManager = {
 		//options = { pseudoClass: 'hover' }
 		customEvents.saveStyleInfo(meta, options);
 	},
-	init: (styleStr, dispatch, styleFontStr, customCss) => {
+	init: (payload) => {
+		let { styleStr, dispatch, styleFontStr, customCss, reset } = payload
+		let frame = document.getElementsByClassName("gjs-frame");
+		if (!frame[0]) {
+			return
+		}
+		const grapesDocument = frame[0].contentWindow.document;
+		if (reset) {
+			// remove any remenents of previous style tags
+			grapesDocument.querySelector("#ss-customStyles") && grapesDocument.querySelector("#ss-customStyles").remove()
+			grapesDocument.querySelector("#ss-style") && grapesDocument.querySelector("#ss-style").remove()
+			grapesDocument.querySelector("#ss-style-assets") && grapesDocument.querySelector("#ss-style-assets").remove()
+			grapesDocument.querySelector("#ss-animate-init") && grapesDocument.querySelector("#ss-animate-init").remove()
+			// ===========================================
+		}
+
 		//create object
 		let styleObj = styleManager.strToObj(styleStr);
 		if (styleObj.error) {
@@ -25,32 +38,6 @@ const styleManager = {
 		dispatch(setStyleStr(styleStr));
 		//==================================================================================
 
-		// let frame = document.getElementsByClassName("gjs-frame");
-		// const body = frame[0].contentWindow.document.getElementsByTagName(
-		// 	"body"
-		// )[0];
-		// //add the style tag in dom
-		// let styleId = "ss-style";
-		// let style = document.createElement("style");
-		// style.id = styleId;
-		// style.innerHTML = styleObj.data.filteredStr;
-		// body.insertBefore(style, body.firstChild);
-		// if (
-		// 	styleObj.data &&
-		// 	styleObj.data.stylesObj[0] &&
-		// 	styleObj.data.stylesObj[0].custom
-		// ) {
-		// 	let style = document.createElement("style");
-		// 	style.id = "ss-customStyles";
-		// 	style.innerHTML = styleObj.data.stylesObj[0].styles;
-		// 	body.insertBefore(style, body.firstChild);
-		// }
-
-		let frame = document.getElementsByClassName("gjs-frame");
-		if (!frame[0]) {
-			return
-		}
-		const grapesDocument = frame[0].contentWindow.document;
 		let body = grapesDocument.getElementsByTagName("body");
 		frame[0].contentWindow.addEventListener(
 			"DOMNodeInserted",
@@ -120,7 +107,7 @@ const styleManager = {
 					// 	  scene = []
 					// 	}
 					// 	  controller = new ScrollMagic.Controller();
-						
+
 					// 	tl = new TimelineMax();
 					// 	var child = $(".know-more-button.click-btn");
 					// 	tl.to(child, 1, {
@@ -133,7 +120,7 @@ const styleManager = {
 					// 	//   autoAlpha: 0,	//transparency
 					// 	  ease: Linear.easeNone
 					// 	});
-						
+
 					// 	scene.push(
 					// 		new ScrollMagic.Scene({
 					// 			//   triggerElement: "#uniqueId",
@@ -153,24 +140,44 @@ const styleManager = {
 					// 	  `;
 
 					gjsCssRules.insertAdjacentElement("afterend", script);
-
-					// if (
-					// 	styleObj.data &&
-					// 	styleObj.data.stylesObj[0] &&
-					// 	styleObj.data.stylesObj[0].custom
-					// ) {
-					// 	let style = document.createElement("style");
-					// 	style.id = "ss-customStyles";
-					// 	// style.innerHTML = styleObj.data.stylesObj[0].styles;	//adds custom stylesss
-
-					// 	style.innerHTML = template1StyleMedia;
-					// 	gjsCssRules.appendChild(style);
-					// 	// body.insertBefore(style, body.firstChild);
-					// }
 				}
 			},
 			false
 		);
+
+		if (reset) {
+			const gjsCssRules = grapesDocument.querySelector(
+				".gjs-css-rules"
+			);
+
+			// -------------------------------------------Style-Custom----------------------------------------------------
+			let style = document.createElement("style")
+			style.id = "ss-customStyles"
+			style.innerHTML = customCss
+			gjsCssRules.insertAdjacentElement("afterend", style)
+			// ------------------------------------------------------------------------------------------------------------
+			// -------------------------------------------Style-----------------------------------------------------------
+			//add the style tag in dom
+			style = document.createElement("style")
+			style.id = "ss-style";
+			style.innerHTML = styleObj.data.filteredStr
+			gjsCssRules.insertAdjacentElement("afterend", style)
+			// ------------------------------------------------------------------------------------------------------------
+			// -------------------------------------------Style-font-assets------------------------------------------------
+			if (styleFontStr) {
+				style = document.createElement("style");
+				style.id = "ss-style-assets";
+				style.innerHTML = styleFontStr;
+				gjsCssRules.insertAdjacentElement("afterend", style)
+			}
+			// ------------------------------------------------------------------------------------------------------------
+			// -------------------------------------------Style-Animation------------------------------------------------
+			let script = document.createElement("script");
+			script.id = 'ss-animate-init'
+			script.innerHTML = `ssAnimateInit()`
+			gjsCssRules.insertAdjacentElement("afterend", script)
+			// ------------------------------------------------------------------------------------------------------------
+		}
 	},
 	strToObj: (str) => {
 		//does not support media queries

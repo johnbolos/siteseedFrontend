@@ -359,7 +359,7 @@ export default function (editor, opt = {}) {
 						{
 							label: c.labelTraitType,
 							type: "select",
-							name: "type",
+							name: "Button Action",
 							options: [
 								{ value: "submit", name: c.labelTypeSubmit },
 								{ value: "reset", name: c.labelTypeReset },
@@ -368,7 +368,7 @@ export default function (editor, opt = {}) {
 						},
 						{
 							type: 'urlInput',
-							label: 'URL',
+							label: 'Link To',
 							name: 'onClick'
 						}
 					],

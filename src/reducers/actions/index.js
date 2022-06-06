@@ -1,9 +1,9 @@
 export const showLoader = () => {
-  return { type: 'SHOW_LOADING' }
+  return { type: 'SHOW_LOADER' }
 }
 
 export const hideLoader = () => {
-  return { type: 'HIDE_LOADING' }
+  return { type: 'HIDE_LOADER' }
 }
 
 export const setTheme = (value) => {

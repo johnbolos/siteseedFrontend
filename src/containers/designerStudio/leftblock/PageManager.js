@@ -18,6 +18,8 @@ import {
 	saveChanges,
 } from "../../../reducers/actions/pageActions";
 import PageSettingModal from "./PageSettingModal";
+import { resetHistory } from "../../../reducers/actions/editorHistoryActions";
+import styleManager from "../../../components/utils/grapesEditor/styleManager";
 
 class PageManager extends Component {
 	state = {
@@ -43,7 +45,7 @@ class PageManager extends Component {
 	changePage = (index, changeCurrentPageState = true) => {
 		return new Promise(async resolve => {
 			const { editor } = _grapesEditor;
-			let { pageReducer } = this.props;
+			let { pageReducer, dispatch } = this.props;
 			if (pageReducer.currentPage == index) {
 				return
 			}
@@ -51,7 +53,18 @@ class PageManager extends Component {
 				await this.props.changeCurrentPage(pageReducer.currentPage, index);
 			}
 			editor.setComponents(pageReducer.pages[index].components);
+
+			console.log(index, 'sss.p page change index')
+			// Reinit Style Manager
+			let style = `<style> ${pageReducer.pages[index].style} </style>`
+			styleManager.init({ styleStr: style, dispatch, styleFontStr: pageReducer.pages[index].styleFontStr, customCss: pageReducer.pages[index].customCss, reset: true });
+
 			// editor.setStyle(pageReducer.pages[index].style);
+			this.props.designerStudioNode.setState({ gjsSelected: null, selected: { node: null, styleInfo: null } })
+			editor.select()
+			const um = editor.UndoManager
+			um.clear()
+			dispatch(resetHistory())
 			return resolve()
 		})
 	};

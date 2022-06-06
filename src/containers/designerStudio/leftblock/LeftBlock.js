@@ -62,7 +62,10 @@ class LeftBlock extends Component {
 			const gjsWindow = document.getElementsByClassName("gjs-frame")[0]
 				.contentWindow;
 			gjsWindow.addEventListener("mousedown", () => {
-				// this.reset();
+				if (this.state.layers != 'none') {
+					return
+				}
+				this.reset();
 			});
 			/* editor.on("component:update", () => {
 				this.reset();
@@ -191,7 +194,7 @@ class LeftBlock extends Component {
 				/>
 				<div id='page-manager' style={{ display: this.state.pages }}>
 					<h4 className='pages-title'>Pages</h4>
-					<PageManager />
+					<PageManager designerStudioNode={this.props.designerStudioNode} />
 				</div>
 			</>
 		);

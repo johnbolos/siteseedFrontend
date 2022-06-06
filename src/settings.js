@@ -22,7 +22,8 @@ export const appUrl = 'http://localhost:3000'
 //==============================================
 
 //==============Development=====================
-export const apiUrl = 'http://159.65.145.117'
+// export const apiUrl = 'http://159.65.145.117'
+export const apiUrl = 'http://143.198.169.204'
 //==============================================
 
 //==============Production=====================

@@ -26,7 +26,7 @@ class StylePanel extends React.Component {
 					{/* Settings */}
 					<Traits gjsSelected={this.props.gjsSelected}/>
 					{/* styles */}
-					<StyleManager selected={selected} editorNode={parentNode} resetBuilder={this.props.resetBuilder} />
+					<StyleManager selected={selected} editorNode={parentNode} resetBuilder={this.props.resetBuilder} setBackgroundPropertyValue={this.props.setBackgroundPropertyValue}/>
 				</div>
 				{/* View Mode */}
 				<ViewMode selected={selected} editorNode={parentNode} />

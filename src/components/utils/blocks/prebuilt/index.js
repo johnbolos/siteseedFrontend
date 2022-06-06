@@ -95,7 +95,7 @@ export const prebuiltBlocks = (editor) => {
         </div>`,
         category: "Prebuilt",
         content: `
-        <div class="ss-header-container">
+        <nav class="ss-header-container">
                 <div class="ss-nav">
                     <div class="ss-logo">
                         <a href="#"><img class="ss-logo-img" src="${assetsUrl}/images/imagePlaceholder.png"/></a>
@@ -289,7 +289,7 @@ export const prebuiltBlocks = (editor) => {
                     }
                 }
                 </style>
-            </div>
+            </nav>
         `
     })
 
@@ -1308,68 +1308,76 @@ export const prebuiltBlocks = (editor) => {
                 <H1>FAQ</H1>
             </div>
             <div class="ss-faq-main">
-                <div class="accordion">
-                    Do you help with relocation?
-					<svg class="plus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M15.8333 10.8334H10.8333V15.8334H9.16666V10.8334H4.16666V9.16675H9.16666V4.16675H10.8333V9.16675H15.8333V10.8334Z" fill="#006CFF"/>
-					</svg>
+                <div class="list-container">
+                    <div class="accordion" data-gjs-draggable="false" data-gjs-propagate='["draggable"]'>
+                        <p>Do you help with relocation?</p>
+				    	<svg class="plus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+				    		<path d="M15.8333 10.8334H10.8333V15.8334H9.16666V10.8334H4.16666V9.16675H9.16666V4.16675H10.8333V9.16675H15.8333V10.8334Z" fill="#006CFF"/>
+				    	</svg>
 
-					<svg class="minus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M4.16666 10.8334V9.16675H15.8333V10.8334H4.16666Z" fill="#006CFF"/>
-					</svg>
-				</div>
-                <div class="panel">
-                    <p>Do you sometimes have the feeling that you’re running into the same obstacles over and over again? Many of my conflicts have the same feel to them, like “Hey, I think I’ve been here before,” but I can’t figure out how I wound up in the same place. 
+				    	<svg class="minus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+				    		<path d="M4.16666 10.8334V9.16675H15.8333V10.8334H4.16666Z" fill="#006CFF"/>
+				    	</svg>
+				    </div>
+                    <div class="panel" data-gjs-draggable="false" data-gjs-propagate='["draggable"]'>
+                        <p>Do you sometimes have the feeling that you’re running into the same obstacles over and over again? Many of my conflicts have the same feel to them, like “Hey, I think I’ve been here before,” but I can’t figure out how I wound up in the same place. 
 
-                    The situation is different, but the conflict feels the same. I first read this poem in “The Tibetan Book of Living and Dying” by Sogyal Rinpoche. When I “Googled” it, I found fourteen pages of links. It’s clearly a favorite with many people; I know it speaks volumes to me. “Autobiography in Five Chapters”</p>
+                        The situation is different, but the conflict feels the same. I first read this poem in “The Tibetan Book of Living and Dying” by Sogyal Rinpoche. When I “Googled” it, I found fourteen pages of links. It’s clearly a favorite with many people; I know it speaks volumes to me. “Autobiography in Five Chapters”</p>
+                    </div>
                 </div>
 
-                <div class="accordion">
-                    How does your hiring process work?
-					<svg class="plus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M15.8333 10.8334H10.8333V15.8334H9.16666V10.8334H4.16666V9.16675H9.16666V4.16675H10.8333V9.16675H15.8333V10.8334Z" fill="#006CFF"/>
-					</svg>
+                <div class="list-container">
+                    <div class="accordion" data-gjs-draggable="false" data-gjs-propagate='["draggable"]'>
+                        <p>How does your hiring process work?</p>
+				    	<svg class="plus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+				    		<path d="M15.8333 10.8334H10.8333V15.8334H9.16666V10.8334H4.16666V9.16675H9.16666V4.16675H10.8333V9.16675H15.8333V10.8334Z" fill="#006CFF"/>
+				    	</svg>
 
-					<svg class="minus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M4.16666 10.8334V9.16675H15.8333V10.8334H4.16666Z" fill="#006CFF"/>
-					</svg>
-				</div>
-                <div class="panel">
-                    <p>Do you sometimes have the feeling that you’re running into the same obstacles over and over again? Many of my conflicts have the same feel to them, like “Hey, I think I’ve been here before,” but I can’t figure out how I wound up in the same place. 
+				    	<svg class="minus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+				    		<path d="M4.16666 10.8334V9.16675H15.8333V10.8334H4.16666Z" fill="#006CFF"/>
+				    	</svg>
+				    </div>
+                    <div class="panel" data-gjs-draggable="false" data-gjs-propagate='["draggable"]'>
+                        <p>Do you sometimes have the feeling that you’re running into the same obstacles over and over again? Many of my conflicts have the same feel to them, like “Hey, I think I’ve been here before,” but I can’t figure out how I wound up in the same place. 
 
-                    The situation is different, but the conflict feels the same. I first read this poem in “The Tibetan Book of Living and Dying” by Sogyal Rinpoche. When I “Googled” it, I found fourteen pages of links. It’s clearly a favorite with many people; I know it speaks volumes to me. “Autobiography in Five Chapters”</p>
+                        The situation is different, but the conflict feels the same. I first read this poem in “The Tibetan Book of Living and Dying” by Sogyal Rinpoche. When I “Googled” it, I found fourteen pages of links. It’s clearly a favorite with many people; I know it speaks volumes to me. “Autobiography in Five Chapters”</p>
+                    </div>
                 </div>
 
-                <div class="accordion">
-                    Do you have an internship program?
-					<svg class="plus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M15.8333 10.8334H10.8333V15.8334H9.16666V10.8334H4.16666V9.16675H9.16666V4.16675H10.8333V9.16675H15.8333V10.8334Z" fill="#006CFF"/>
-					</svg>
+                <div class="list-container">
+                    <div class="accordion" data-gjs-draggable="false" data-gjs-propagate='["draggable"]'>
+                        <p>Do you have an internship program?</p>
+				    	<svg class="plus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+				    		<path d="M15.8333 10.8334H10.8333V15.8334H9.16666V10.8334H4.16666V9.16675H9.16666V4.16675H10.8333V9.16675H15.8333V10.8334Z" fill="#006CFF"/>
+				    	</svg>
 
-					<svg class="minus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M4.16666 10.8334V9.16675H15.8333V10.8334H4.16666Z" fill="#006CFF"/>
-					</svg>
-				</div>
-                <div class="panel">
-                    <p>Do you sometimes have the feeling that you’re running into the same obstacles over and over again? Many of my conflicts have the same feel to them, like “Hey, I think I’ve been here before,” but I can’t figure out how I wound up in the same place. 
+				    	<svg class="minus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+				    		<path d="M4.16666 10.8334V9.16675H15.8333V10.8334H4.16666Z" fill="#006CFF"/>
+				    	</svg>
+				    </div>
+                    <div class="panel" data-gjs-draggable="false" data-gjs-propagate='["draggable"]'>
+                        <p>Do you sometimes have the feeling that you’re running into the same obstacles over and over again? Many of my conflicts have the same feel to them, like “Hey, I think I’ve been here before,” but I can’t figure out how I wound up in the same place. 
 
-                    The situation is different, but the conflict feels the same. I first read this poem in “The Tibetan Book of Living and Dying” by Sogyal Rinpoche. When I “Googled” it, I found fourteen pages of links. It’s clearly a favorite with many people; I know it speaks volumes to me. “Autobiography in Five Chapters”</p>
+                        The situation is different, but the conflict feels the same. I first read this poem in “The Tibetan Book of Living and Dying” by Sogyal Rinpoche. When I “Googled” it, I found fourteen pages of links. It’s clearly a favorite with many people; I know it speaks volumes to me. “Autobiography in Five Chapters”</p>
+                    </div>
                 </div>
                 
-                <div class="accordion">
-                    What are your working hours?
-					<svg class="plus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M15.8333 10.8334H10.8333V15.8334H9.16666V10.8334H4.16666V9.16675H9.16666V4.16675H10.8333V9.16675H15.8333V10.8334Z" fill="#006CFF"/>
-					</svg>
+                <div class="list-container">
+                    <div class="accordion" data-gjs-draggable="false" data-gjs-propagate='["draggable"]'>
+                        <p>What are your working hours?</p>
+				    	<svg class="plus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+				    		<path d="M15.8333 10.8334H10.8333V15.8334H9.16666V10.8334H4.16666V9.16675H9.16666V4.16675H10.8333V9.16675H15.8333V10.8334Z" fill="#006CFF"/>
+				    	</svg>
 
-					<svg class="minus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M4.16666 10.8334V9.16675H15.8333V10.8334H4.16666Z" fill="#006CFF"/>
-					</svg>
-				</div>
-                <div class="panel">
-                    <p>Do you sometimes have the feeling that you’re running into the same obstacles over and over again? Many of my conflicts have the same feel to them, like “Hey, I think I’ve been here before,” but I can’t figure out how I wound up in the same place. 
+				    	<svg class="minus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+				    		<path d="M4.16666 10.8334V9.16675H15.8333V10.8334H4.16666Z" fill="#006CFF"/>
+				    	</svg>
+				    </div>
+                    <div class="panel" data-gjs-draggable="false" data-gjs-propagate='["draggable"]'>
+                        <p>Do you sometimes have the feeling that you’re running into the same obstacles over and over again? Many of my conflicts have the same feel to them, like “Hey, I think I’ve been here before,” but I can’t figure out how I wound up in the same place. 
 
-                    The situation is different, but the conflict feels the same. I first read this poem in “The Tibetan Book of Living and Dying” by Sogyal Rinpoche. When I “Googled” it, I found fourteen pages of links. It’s clearly a favorite with many people; I know it speaks volumes to me. “Autobiography in Five Chapters”</p>
+                        The situation is different, but the conflict feels the same. I first read this poem in “The Tibetan Book of Living and Dying” by Sogyal Rinpoche. When I “Googled” it, I found fourteen pages of links. It’s clearly a favorite with many people; I know it speaks volumes to me. “Autobiography in Five Chapters”</p>
+                    </div>
                 </div>
             </div>
             <style>
@@ -1387,6 +1395,9 @@ export const prebuiltBlocks = (editor) => {
                     text-align: center;
                     margin-bottom: 50px;
                 }
+                .ss-faq-container .list-container {
+                    margin-top: 20px;
+                }
                 .ss-faq-container .accordion {
                     position: relative;
                     pointer: cursor;
@@ -1394,7 +1405,6 @@ export const prebuiltBlocks = (editor) => {
                     border: 1px solid #E1E5EE;
 					background: transparent;
 					border-radius: 4px;
-                    margin-top: 20px;
                     box-sizing: border-box;
 					transition: 0.4s;
                 }

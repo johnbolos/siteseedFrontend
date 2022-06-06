@@ -9,7 +9,7 @@ export const basicBlocks = (editor) => {
 	});
 	editor.BlockManager.add("tooltip", {
 		label: `${tooltip}
-        <div>Tooltips</div>`,
+        <div style="font-size: 10px;">Text + Tooltip</div>`,
 		category: "Basic",
 		content: `<div class="ss-tooltip">Hover over me
 		<span class="ss-tooltiptext">Tooltip text</span>

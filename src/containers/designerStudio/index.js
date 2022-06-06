@@ -12,13 +12,12 @@ import StylePanel from "./stylePanel/index";
 import AssetsManager from './assetsManager'
 import { undoOnce, redoOnce, setHistoryStatus, undoTimes, redoTimes } from "../../reducers/actions/editorHistoryActions";
 import { setGoogleFonts } from "../../reducers/actions/editor"
-import { updateAssets } from '../../reducers/actions/userActions'
+import { setLocalFonts, updateAssets } from '../../reducers/actions/userActions'
 import { saveChanges } from "../../reducers/actions/pageActions";
 import { closestElement, showToast } from "../../components/utils/index";
 import { setCustomCss } from "../../reducers/actions/templateActions";
 
 // Templates =========================================================================
-import { template1Html, template1Style, template1StyleCss, template1StyleMedia } from "./dummiev3";
 import therapists from "../../assets/templates/therapists";
 import landingPageTemplate from "../../assets/templates/landingPage";
 import agencyGreyTemplate from "../../assets/templates/agencyGrey";
@@ -26,8 +25,9 @@ import agencyDarkTemplate from "../../assets/templates/agencyDark";
 import restaurant1 from "../../assets/templates/restaurant1";
 import carpentry from "../../assets/templates/carpentry";
 import spa from "../../assets/templates/spa";
-import { landingHtml, landingStyle } from "./templates/landing";
-import { landing2Html, landing2Style } from "./templates/landing2";
+import event from "../../assets/templates/event";
+import musician from "../../assets/templates/musician";
+import blog from "../../assets/templates/blog";
 // ===================================================================================
 
 import {
@@ -52,7 +52,11 @@ import viewCode from "../../components/utils/grapesEditor/viewCode/viewCode";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import CanvasActions from "./canvasActions";
-import event from "../../assets/templates/event";
+import { getPushPathWrapper } from "../../routes";
+import _s3 from "../../components/utils/s3";
+import { assetsUrl } from "../../settings";
+import isImageUrl from "is-image-url";
+import gym from "../../assets/templates/gym";
 
 
 class HelpNSupport extends React.Component {
@@ -119,10 +123,27 @@ const initialState = {
 class DesignerStudio extends React.Component {
 	state = initialState;
 
+    styleArray = [
+        {
+            type: "text/css",
+			innerHTML: `
+				.zsiq_theme1.zsiq_floatmain {
+				  display: none !important;
+				}			
+			`
+        },
+    ]
 	componentDidMount() {
-		let { currentUser, dispatch, assets } = this.props
+		let { currentUser, dispatch, assets, currentBuilderSiteId } = this.props
+		// this.loadScriptNStyle()
+		if (!currentBuilderSiteId) {
+			showToast({ type: 'error', message: 'Unable to find associated site, please try again!' })
+			// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Uncomment once handled all templates ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			// dispatch(getPushPathWrapper('dashboard'))
+			// return
+			// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		}
 		this.addCloseEvent()
-		dispatch(selectTemplate('inProgress'))
 		if (currentUser) {
 			// initialise different settings.....
 			if (currentUser.assets && currentUser.assets.image) {
@@ -130,15 +151,40 @@ class DesignerStudio extends React.Component {
 				dispatch(updateAssets(assets))
 			}
 		}
+
+		// get pageManager variable from location
+		this.setState({ pageManager: this.props.location.state && this.props.location.state.pageManager }, () => {
+			this.apiRequest();
+		})
+
 		//window.addEventListener("scroll", this.handleScroll, true);
 		// get google api fonts
 		this.setGoogleFonts()
-		this.apiRequest();
 		setTimeout(() => {
 			// this.setScrollBarStyle()
 			// this.temp();
 		}, 5000);
 	}
+    loadScriptNStyle = () => {
+        const { scriptArray, styleArray } = this
+        styleArray.forEach(styleData => {
+            let elem = document.createElement("style")
+            _.each(styleData, (val, key) => {
+                elem[key] = val
+            })
+            elem.id = 'ss-styles-load'
+            document.head.appendChild(elem)
+        })
+
+        // scriptArray.forEach(scriptData => {
+        //     let elem = document.createElement("script")
+        //     _.each(scriptData, (val, key) => {
+        //         elem[key] = val
+        //     })
+        //     elem.id = 'ss-script-load'
+        //     document.body.appendChild(elem)
+        // })
+    }
 	componentDidUpdate(prevProps, prevState) {
 		if (prevProps.theme != this.props.theme) {
 			this.setScrollBarStyle()
@@ -151,6 +197,10 @@ class DesignerStudio extends React.Component {
 			this.setSettingsMessage('hide')
 		}
 	}
+    componentWillUnmount() {
+        document.querySelectorAll('#ss-script-load').forEach(e => e.remove())
+        document.querySelectorAll('#ss-styles-load').forEach(e => e.remove())
+    }
 	addCloseEvent = () => {
 		window.addEventListener("beforeunload", function (event) {
 			// send data to backend before we leave page!!!!
@@ -248,64 +298,133 @@ class DesignerStudio extends React.Component {
 		}
 	};
 
+	handleAddImage = (value) => {
+		const { assets, dispatch } = this.props
+		if (value == '' || !isImageUrl(value)) {
+			return
+		}
+		const find = assets.image.find((v) => v == value)
+		if (find) {
+			return
+		}
+		assets.image.push(value)
+		dispatch(updateAssets(assets))
+	}
+	handleAddFont = (fontObj) => {
+		let { dispatch, localFonts } = this.props
+		const find = localFonts.find((obj) => obj.url == fontObj.url)
+		if (find) {
+			return
+		}
+		localFonts.push(fontObj)
+		dispatch(setLocalFonts(localFonts))
+	}
+	gets3Assets = () => {
+		const { currentBuilderSiteId, userS3Dir, dispatch, assets } = this.props
+		if (!currentBuilderSiteId) {
+			return
+		}
+		let assetsType = ['fonts', 'images']
+		assetsType.forEach((type) => {
+			_s3.listFiles({ Prefix: `${userS3Dir}/sites/${currentBuilderSiteId}/${type}` }, (resp) => {
+				if (resp.error || !resp.data) {
+					showToast({ type: 'error', message: (resp.data && resp.data.message) || 'Error Occured while fetching, Try Again!' })
+					return
+				}
+				const { Contents } = resp.data
+				Contents.forEach((content, index) => {
+					if (type == 'fonts') {
+						if (index == 0) {
+							dispatch(setLocalFonts([]))
+						}
+						const payload = {
+							family: content.Key.split('/').pop().replace(/(?:\.([^.]+))?$/, ''),
+							url: assetsUrl + '/' + content.Key
+						}
+						this.handleAddFont(payload)
+					} else {
+						if (index == 0) {
+							assets.image = []
+							dispatch(updateAssets(assets))
+						}
+						this.handleAddImage(assetsUrl + '/' + content.Key)
+					}
+				})
+			})
+		})
+	}
 	apiRequest = () => {
 		return new Promise((resolve) => {
 			const { pageReducer, dispatch } = this.props
 			const { templateName: projectType } = this.props.templates;
-			let style, html, customCss;
+			let style, html, customCss, defaultPageData;
+			this.gets3Assets()
 			switch (projectType) {
-				case "template1":
-					html = template1Html
-					style = template1StyleCss
-					customCss = template1StyleMedia
-					break;
-				case "template2":
-					html = landing2Html
-					style = landing2Style
-					break;
-				case "template3":
-					html = landingHtml
-					style = landingStyle
-					break;
 				case "therapists":
-					html = therapists.html
-					style = therapists.baseCss
-					customCss = therapists.customCss
+					// html = therapists.html
+					// style = therapists.baseCss
+					// customCss = therapists.customCss
+					defaultPageData = therapists.pageData
 					break;
 				case "spa":
-					html = spa.html
-					style = spa.baseCss
-					customCss = spa.customCss
+					// html = spa.html
+					// style = spa.baseCss
+					// customCss = spa.customCss
+					defaultPageData = spa.pageData
 					break;
 				case "landingPage":
-					html = landingPageTemplate.html
-					style = landingPageTemplate.baseCss
-					customCss = landingPageTemplate.customCss
+					// html = landingPageTemplate.html
+					// style = landingPageTemplate.baseCss
+					// customCss = landingPageTemplate.customCss
+					defaultPageData = landingPageTemplate.pageData
 					break;
 				case "agencyGrey":
-					html = agencyGreyTemplate.html
-					style = agencyGreyTemplate.baseCss
-					customCss = agencyGreyTemplate.customCss
+					// html = agencyGreyTemplate.html
+					// style = agencyGreyTemplate.baseCss
+					// customCss = agencyGreyTemplate.customCss
+					defaultPageData = agencyGreyTemplate.pageData
 					break;
 				case "agencyDark":
-					html = agencyDarkTemplate.html
-					style = agencyDarkTemplate.baseCss
-					customCss = agencyDarkTemplate.customCss
+					// html = agencyDarkTemplate.html
+					// style = agencyDarkTemplate.baseCss
+					// customCss = agencyDarkTemplate.customCss
+					defaultPageData = agencyDarkTemplate.pageData
 					break;
 				case "restaurant1":
-					html = restaurant1.html
-					style = restaurant1.baseCss
-					customCss = restaurant1.customCss
+					// html = restaurant1.html
+					// style = restaurant1.baseCss
+					// customCss = restaurant1.customCss
+					defaultPageData = restaurant1.pageData
 					break;
 				case "carpentry":
-					html = carpentry.html
-					style = carpentry.baseCss
-					customCss = carpentry.customCss
+					// html = carpentry.html
+					// style = carpentry.baseCss
+					// customCss = carpentry.customCss
+					defaultPageData = carpentry.pageData
 					break;
 				case "event":
-					html = event.html
-					style = event.baseCss
-					customCss = event.customCss
+					// html = event.html
+					// style = event.baseCss
+					// customCss = event.customCss
+					defaultPageData = event.pageData
+					break;
+				case "musician":
+					// html = musician.html
+					// style = musician.baseCss
+					// customCss = musician.customCss
+					defaultPageData = musician.pageData
+					break;
+				case "blog":
+					// html = blog.html
+					// style = blog.baseCss
+					// customCss = blog.customCss
+					defaultPageData = blog.pageData
+					break;
+				case "gym":
+					// html = blog.html
+					// style = blog.baseCss
+					// customCss = blog.customCss
+					defaultPageData = gym.pageData
 					break;
 				case "myProject1":
 					// html = xyzHtml
@@ -318,7 +437,22 @@ class DesignerStudio extends React.Component {
 			}
 
 			// reset page manager here =========================================
-			if (html && style) {
+			if (this.state.pageManager) {
+				// set page manager relating data from content.json
+				this.props.dispatch({ type: 'RESET_PAGES' })
+				window.localStorage.removeItem("gjs-styles")
+				window.localStorage.removeItem("gjs-css")
+				window.localStorage.removeItem("gjs-components")
+				window.localStorage.removeItem("gjs-html")
+				window.localStorage.removeItem("gjs-assets")
+				_.forEach(this.state.pageManager, (page, index) => {
+					this.props.saveCurrentChanges(index, {
+						...page
+					});
+				})
+				// dispatch(setCustomCss(customCss))
+			} else if (defaultPageData) {
+				// set page manager relating data from default data
 				let { pages, currentPage } = pageReducer
 				// if (pages.length > 1) {
 				// 	// reset pages
@@ -331,29 +465,38 @@ class DesignerStudio extends React.Component {
 				window.localStorage.removeItem("gjs-components")
 				window.localStorage.removeItem("gjs-html")
 				window.localStorage.removeItem("gjs-assets")
-				this.props.saveCurrentChanges(0, {
-					// ...this.props.pageReducer.pages[0],
-					components: html,
-					style: style,
-					name: "Home",
-					homePage: true,
-					styleFontStr: null,
-					hidden: false,
-					desp: null,
-					favicon: null,
-					seo: {
-						name: null,
-						desp: null
-					}
-					// styleFontStr
-				});
-				dispatch(setCustomCss(customCss))
+
+				defaultPageData.forEach((page, index) => {
+					this.props.saveCurrentChanges(index, page)
+				})
+				// this.props.saveCurrentChanges(0, {
+				// 	// ...this.props.pageReducer.pages[0],
+				// 	components: html,
+				// 	style: style,
+				// 	customCss: customCss,
+				// 	name: "Home",
+				// 	homePage: true,
+				// 	styleFontStr: null,
+				// 	hidden: false,
+				// 	desp: null,
+				// 	favicon: null,
+				// 	seo: {
+				// 		name: null,
+				// 		desp: null
+				// 	}
+				// 	// styleFontStr
+				// });
+
+
+				// dispatch(setCustomCss(customCss))
+
 			}
 
 			// ===============================================================
 
 			this.setState({ customCss }, () => {
 				this.StartEditor();
+				dispatch(selectTemplate('inProgress'))
 			});
 			return resolve();
 		});
@@ -384,11 +527,13 @@ class DesignerStudio extends React.Component {
 
 	StartEditor = () => {
 		const { dispatch, pageReducer } = this.props;
-		const { templateName, currentTemplate, customCss } = this.props.templates;
+		const { templateName, currentTemplate } = this.props.templates;
+		// const { templateName, currentTemplate, customCss } = this.props.templates;
 		// const { customCss } = this.state
 		// set template html and style from page manager
 		let html = pageReducer.pages[pageReducer.currentPage].components
 		let style = `<style> ${pageReducer.pages[pageReducer.currentPage].style} </style>`
+		let customCss = pageReducer.pages[pageReducer.currentPage].customCss
 		let styleFontStr = pageReducer.pages[pageReducer.currentPage].styleFontStr
 		let mouseInLayers = false
 		// ==========================================================
@@ -414,7 +559,6 @@ class DesignerStudio extends React.Component {
 				// Temporary - Imp ==================================================================================================
 				let currentReactNode = this
 				editor.on("component:selected", function (args) {
-					console.log(args, 'sss.p')
 					let gjsSelected = editor.getSelected()
 					const dc = editor.DomComponents;
 					const findFirstValidComp = (editor, key = 0) => {
@@ -510,8 +654,8 @@ class DesignerStudio extends React.Component {
 			let doc = frame[0] && frame[0].contentWindow.document
 			let style = doc.getElementById("ss-style")
 			style = (style && style.innerHTML) || ''
-			// style = style + styleGrapejs
-			style = style
+			style = styleGrapejs + '\n\n\n\n' + style
+			// style = style
 			// let customStyles = doc.getElementById("ss-customStyles")
 			// let styleAssets = doc.getElementById("ss-style-assets")
 			// ======================================
@@ -540,9 +684,21 @@ class DesignerStudio extends React.Component {
 			if (this.props.past && this.props.past.length > 2) {
 				await this.historyChange("undo", times)
 			}
+			this.setBackgroundPropertyValue()
 			_grapesEditor.editor.store(res => { });
 			// ==============
 		});
+		// ==================When device change desktop-tablet-mobile====================
+		editor.on('run:set-device-desktop', (some, argument) => {
+			this.canvasDimensionChange(true)
+		})
+		editor.on('run:set-device-tablet', (some, argument) => {
+			this.canvasDimensionChange()
+		})
+		editor.on('run:set-device-mobile', (some, argument) => {
+			this.canvasDimensionChange()
+		})
+		//  =============================================================================
 		editor.on('change:changesCount', e => {
 			if (document.activeElement.className == 'gjs-frame') {
 				// if mouse was in side canvas then set history as canvas/grapesjs
@@ -563,6 +719,19 @@ class DesignerStudio extends React.Component {
 		})
 		editor.on('component:drag:end', model => {
 			_grapesEditor.styleManager.resetAnim()
+			if (model.target.view.el) {
+				let target = model.target.view.el
+				if (target.parentElement && target.parentElement.classList.contains("ss-faq-main")) {
+					let script = target.parentElement.nextElementSibling
+					if (script.tagName == 'SCRIPT') {
+						let content = script.innerHTML
+						script.remove()
+						script = document.createElement('script')
+						script.innerHTML = content
+						target.parentElement.parentElement.appendChild(script)
+					}
+				}
+			}
 		})
 		editor.Commands.add("ss-redo", async editor => {
 			let times = 1
@@ -580,6 +749,7 @@ class DesignerStudio extends React.Component {
 			if (this.props.future && this.props.future.length > 0) {
 				await this.historyChange("redo", times)
 			}
+			this.setBackgroundPropertyValue()
 			_grapesEditor.editor.store(res => { });
 		});
 		// =============Toolbar events==============
@@ -595,18 +765,33 @@ class DesignerStudio extends React.Component {
 		editor.on('load', () => {
 			this.setScrollBarStyle()
 			this.temp();
+			this.restrictDrop('input')
 			setTimeout(() => {
 				_grapesEditor.styleManager.resetAnim()
 			}, 500)
 
 			// ==========================Workaround mandatory to run certain templates which uses aos script===============================
-			_grapesEditor.editor.runCommand('preview')
-			_grapesEditor.editor.stopCommand('preview')
+			// _grapesEditor.editor.runCommand('preview')
+			// _grapesEditor.editor.stopCommand('preview')
 			// ============================================================================================================================
 
 			// let frame = document.getElementsByClassName("gjs-frame");
 			// const grapesDocument = frame[0].contentWindow.document;
 
+
+			// =================================solution for => Text Editor adds <div> when enter is pressed, and adds <br> when Shift + Enter is pressed===========================
+			var iframeBody = editor.Canvas.getBody();
+			$(iframeBody).on("keydown", "[contenteditable]", e => {
+				// trap the return key being pressed
+				if (e.keyCode === 13) {
+					e.preventDefault();
+					// insert 2 br tags (if only one br tag is inserted the cursor won't go to the next line)
+					e.target.ownerDocument.execCommand("insertHTML", false, "<br><br>");
+					// prevent the default behaviour of return key pressed
+					return false;
+				}
+			});
+			// =====================================================================================================================================================================
 		});
 		// =========================================
 	};
@@ -654,6 +839,19 @@ class DesignerStudio extends React.Component {
 		// 		<span data-js="countdown-endtext" class="${pfx}-endtext"></span>
 		// 	  `
 		// })
+	}
+	restrictDrop = (componentType) => {	//currently not in use / WORKING ==> change properties of components dynamically
+		const { editor } = _grapesEditor;
+		let wrapper = editor.getWrapper()
+		let component = wrapper.findType(componentType)
+		if (component.length) {
+			component.forEach(comp => {
+				comp.set({
+					droppable: false
+					// propagate: ['droppable']
+				})
+			})
+		}
 	}
 	@Debounce(500)
 	fun(mouse) {
@@ -750,7 +948,7 @@ class DesignerStudio extends React.Component {
 								className='body-container'
 							// style={{ height: `${window.innerHeight - 40}px` }}
 							>
-								<LeftBlock />
+								<LeftBlock designerStudioNode={this} />
 								<div id='grapesEditor'></div>
 								<div id='zoom'>
 									<span className='minus' onClick={this.minus}>
@@ -761,9 +959,14 @@ class DesignerStudio extends React.Component {
 										<Plus />
 									</span>
 								</div>
-								<CanvasActions gjsSelected={this.state.gjsSelected} resetSwapper={(fn) => {
-									this.resetSwapper = fn
-								}} />
+								<CanvasActions gjsSelected={this.state.gjsSelected}
+									resetSwapper={(fn) => {
+										this.resetSwapper = fn
+									}}
+									canvasDimensionChange={(fn) => {
+										this.canvasDimensionChange = fn
+									}}
+								/>
 								<HelpNSupport />
 								<div
 									id='style-manager'
@@ -776,7 +979,11 @@ class DesignerStudio extends React.Component {
 									{/* <button onClick={this.addStyleData}>Add Data</button> */}
 									{/* <button onClick={() => { this.historyChange('undo') }}>Undo</button>
                                 <button onClick={() => { this.historyChange('redo') }}>Redo</button> */}
-									<StylePanel selected={selected} gjsSelected={this.state.gjsSelected} parentNode={this} resetBuilder={this.resetBuilder} />
+									<StylePanel selected={selected} gjsSelected={this.state.gjsSelected} parentNode={this} resetBuilder={this.resetBuilder}
+										setBackgroundPropertyValue={(fn) => {
+											this.setBackgroundPropertyValue = fn
+										}}
+									/>
 								</div>
 								{assetsManager && <AssetsManager selected={selected} />}
 							</div>
@@ -795,6 +1002,7 @@ const mapStateToProps = ({
 	templates,
 	editorHistory,
 	pageReducer,
+	router,
 }) => {
 
 	return {
@@ -810,7 +1018,11 @@ const mapStateToProps = ({
 		pageReducer,
 		assetsManager: editor.assetsManager,
 		assets: global.assets,
-		currentUser: global.currentUser
+		currentUser: global.currentUser,
+		currentBuilderSiteId: global.currentBuilderSiteId,
+		location: router.location,
+		userS3Dir: global.userS3Dir,
+		localFonts: global.localFonts,
 	};
 };
 

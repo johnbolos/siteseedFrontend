@@ -4,22 +4,24 @@ import $ from 'jquery'
 import { connect } from "react-redux"
 
 import Request from '../../request'
-import { showToast } from "../../components/utils"
+import { openTemplateInEditor, showToast, staticJSONContent, uploadSiteJSONObj, uploadStaticTemplateForPreview } from "../../components/utils"
 import moment from "moment"
 import { setTokenInfo, setUser } from "../../reducers/actions/userActions"
-import { getPushPathWrapper, getUrlParams } from "../../routes"
+import { getPushPathWrapper, getPushPathWrapperWithObj, getUrlParams } from "../../routes"
 import { apiUrl } from "../../settings"
-import FormSettings from "../siteSettings/formSettings.js"
-import FontSettings from "../siteSettings/fontSettings.js"
-import CollabSettings from "../siteSettings/collabSettings.js"
+import './index.scss'
+import { selectTemplate, setCurrentTemplate } from "../../reducers/actions/templateActions"
+import { hideLoader, showLoader } from "../../reducers/actions"
 
+import LoggedinHeader from '../../layout/loggedinLayouts/header'
 
 class BuyTemplate extends React.Component {
     state = {
         data: null,
         dashboardData: null,
         settingsData: null,
-        availableDomainsElem: null
+        availableDomainsElem: null,
+        site_id: null
     }
     scriptArray = [
         // {
@@ -38,13 +40,13 @@ class BuyTemplate extends React.Component {
         // {
         //     src: './assets/website/js/zangdar.min.js'
         // },
-        {
-            innerHTML: `
-            $(document).ready(function() {
-            $('select').niceSelect();
-            });
-            `
-        },
+        // {
+        //     innerHTML: `
+        //     $(document).ready(function() {
+        //     $('select').niceSelect();
+        //     });
+        //     `
+        // },
     ]
     styleArray = [
         {
@@ -52,6 +54,10 @@ class BuyTemplate extends React.Component {
             rel: "stylesheet",
             // integrity: "sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1",
             crossorigin: "anonymous",
+        },
+        {
+            href: 'https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css',
+            rel: "stylesheet"
         },
         {
             rel: "stylesheet",
@@ -68,7 +74,13 @@ class BuyTemplate extends React.Component {
     ]
     componentDidMount() {
         this.loadScriptNStyle()
-        this.apiRequestDashboard()
+        this.setState({ site_id: getUrlParams('buyTemplate', this.props.pathname).siteId }, () => {
+            if (!this.state.site_id) {
+                this.goto('dashboard')
+            }
+            this.apiRequestDashboard()
+            this.getTemplatesData()
+        })
     }
     loadScriptNStyle = () => {
         const { scriptArray, styleArray } = this
@@ -91,13 +103,13 @@ class BuyTemplate extends React.Component {
         })
     }
     apiRequestDashboard = async () => {
-        let { tokenInfo } = this.props
+        let { tokenInfo, dispatch } = this.props
         if (!tokenInfo.access_token) {
             return
         }
-        this.setState({ loading: true })
+        dispatch(showLoader())
         const apiRequest = await Request.dashboard()
-        this.setState({ loading: false })
+        dispatch(hideLoader())
         if (apiRequest.messageType && apiRequest.messageType == 'error') {
             showToast({ type: 'error', message: 'Unable to fetch data, Try Relogging' })
             return
@@ -154,358 +166,202 @@ class BuyTemplate extends React.Component {
         const formEntries = new FormData(form).entries();
         return Object.assign(...Array.from(formEntries, ([name, value]) => ({ [name]: value })));
     }
+    getTemplatesData = async () => {
+        
+        const { dispatch } = this.props
+        dispatch(showLoader())
+        const apiRequest = await Request.getTemplates()
+        dispatch(hideLoader())
+
+        if (apiRequest.messageType && apiRequest.messageType == 'error') {
+            showToast({ type: 'error', message: apiRequest.message || 'Unable to get Templates, try again later' })
+            return
+        }
+        this.setState({ templatesData: apiRequest.templates }, () => {
+            this.createTemplates()
+        })
+    }
+    createTemplates = () => {
+        const { templatesData } = this.state
+        let resp = null
+        let purchasedTemplates = templatesData.filter(t => t.is_purchased == 'Yes')
+        let freeTemplates = templatesData.filter(t => (t.template_type == 'Free' && t.is_purchased == 'No'))
+        let paidTemplates = templatesData.filter(t => (t.template_type == 'Paid' && t.is_purchased == 'No'))
+        purchasedTemplates = purchasedTemplates.map((template, key) => {
+            return (<div className="col-sm-12 col-md-3 col-lg-3 col1" key={key}>
+                <div className="col1-inner" style={{ height: '100%' }}>
+                    <div className="restro-bg" style={{ height: '80%' }}>
+                        {/* <img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" /> */}
+                        <img src={`${apiUrl + template.thumbnail}`} className="img-fluid " alt="Responsive image" style={{ boxShadow: '0 2px 6px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%)', height: '100%' }} />
+                        <div className="shadow-up">
+                            <div className="shadow-up-inner">
+                                <span className="osr-13 black white-bg" onClick={() => { window.open(template.path, '_blank') }}><a className="black">Live preview</a></span>
+                                <span className="osr-13 white turq-bg" onClick={() => { this.linkTemplateNOpemTemplate(template) }}>
+                                    <a className="white">
+                                        Use in Editor
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col1-content">
+                        <ul>
+                            <li className="li-left oss-16 black">Template : <span>{template.name}</span> <br /> <span className="template-prize darkgrey osr-11">Regular License</span></li>
+                            <li className="li-right"><span className="oss-13 turq">${template.price}</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>)
+        })
+        freeTemplates = freeTemplates.map((template, key) => {
+            return (<div className="col-sm-12 col-md-3 col-lg-3 col1" key={key}>
+                <div className="col1-inner" style={{ height: '100%' }}>
+                    <div className="restro-bg" style={{ height: '80%' }}>
+                        {/* <img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" /> */}
+                        <img src={`${apiUrl + template.thumbnail}`} className="img-fluid " alt="Responsive image" style={{ boxShadow: '0 2px 6px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%)', height: '100%' }} />
+                        <div className="shadow-up">
+                            <div className="shadow-up-inner">
+                                <span className="osr-13 black white-bg" onClick={() => { window.open(template.path, '_blank') }}><a className="black">Live preview</a></span>
+                                <span className="osr-13 white turq-bg" onClick={() => { this.linkTemplateNOpemTemplate(template) }}>
+                                    <a className="white">
+                                        Use in Editor
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col1-content">
+                        <ul>
+                            <li className="li-left oss-16 black">Template : <span>{template.name}</span> <br /> <span className="template-prize darkgrey osr-11">Regular License</span></li>
+                            <li className="li-right"><span className="oss-13 turq">${template.price}</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>)
+        })
+        paidTemplates = paidTemplates.map((template, key) => {
+            return (<div className="col-sm-12 col-md-3 col-lg-3 col1" key={key}>
+                <div className="col1-inner" style={{ height: '100%' }}>
+                    <div className="restro-bg" style={{ height: '80%' }}>
+                        {/* <img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" /> */}
+                        <img src={`${apiUrl + template.thumbnail}`} className="img-fluid " alt="Responsive image" style={{ boxShadow: '0 2px 6px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%)', height: '100%' }}/>
+                        <div className="shadow-up">
+                            <div className="shadow-up-inner">
+                                <span className="osr-13 black white-bg" onClick={() => { window.open(template.path, '_blank') }}><a className="black">Live preview</a></span>
+                                <span className="osr-13 white turq-bg" onClick={() => { this.buyTemplate(template) }}><a className="white">Buy for ${template.price}</a></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col1-content">
+                        <ul>
+                            <li className="li-left oss-16 black">Template : <span>{template.name}</span> <br /> <span className="template-prize darkgrey osr-11">Regular License</span></li>
+                            <li className="li-right"><span className="oss-13 turq">${template.price}</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>)
+        })
+        this.setState({ freeTemplatesElem: freeTemplates, paidTemplatesElem: paidTemplates, purchasedTemplatesElem: purchasedTemplates })
+    }
+    buyTemplate = (templateData) => {
+        const { dispatch } = this.props
+        const { site_id } = this.state
+        dispatch(getPushPathWrapperWithObj('checkout', { ...templateData, site_id }))
+    }
+    linkTemplateNOpemTemplate = async (template) => {
+        const { site_id } = this.state
+        const { dispatch } = this.props
+        dispatch(showLoader())
+        let data = {
+            site_id,
+            template_id: template.template_id
+        }
+        let formData = new FormData()
+        _.each(data, (val, key) => {
+            formData.append(key, val)
+        })
+        const apiRequest = await Request.linkTemplateToSite(formData)
+        dispatch(hideLoader())
+        if (apiRequest.messageType && apiRequest.messageType == 'error') {
+            showToast({ type: 'error', message: apiRequest.message || 'Unable to link Template, try again later' })
+            return
+        }
+        this.openTemplate(template)
+    }
+    openTemplate = async (meta) => {
+        const { site_id } = this.state
+        const { dispatch, s3Dir, pagesStore, currentUser } = this.props
+        const staticJSON = staticJSONContent(meta.name)
+        const upload = await uploadSiteJSONObj({ ...staticJSON, headerJSON: '', socialJSON: '', footerJSON: '', 'index.html': '', css: { 'index.css': '' }, pageManager: [] }, site_id)
+        if (upload.error) {
+            showToast({ type: 'error', message: 'Unable to initiate cloud storage, try again later' })
+            return
+        }
+        // Upload static template content to s3 for preview
+        uploadStaticTemplateForPreview({ projectType: meta.name, s3Dir, dispatch, pagesStore, currentUser, projectId: site_id })
+
+        meta.site_id = site_id
+        meta.content_path = upload.path
+        openTemplateInEditor(meta, dispatch)
+    }
     render() {
-        const { dispatch, currentUser } = this.props
-        const { dashboardData } = this.state
+        const { dispatch, currentUser, loading } = this.props
+        const { dashboardData, paidTemplatesElem, freeTemplatesElem, purchasedTemplatesElem } = this.state
         return (
             <>
                 <div className="admin-main-panel">
                     <div className="admin-main-panel-inner">
-                        {/* <!----------------------------------Top-Bar----------------------------------> */}
-                        <section className="topbar-main">
-                            <div className="topbar-main-inner main-inner">
-                                <div className="container">
-                                    <div className="row">
-                                        <div className="col-md-12 col-lg-12 ">
-                                            <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-                                                <div className="container-fluid">
-                                                    <a className="navbar-brand" onClick={() => { this.goto('dashboard') }}><img src="./assets/website/images/Logo.svg" className="img-fluid" alt="Responsive image" /></a>
-                                                    <ul className="nav cs-topright">
-                                                        <li className="nav-item cs-topright-left">
-                                                            <a className="nav-link left-top darkgrey osr-13" >Need Support?</a>
-                                                        </li>
-                                                        <li className="nav-item cs-topright-right">
-                                                            {/* <img src="./assets/website/images/Greg-jacoby.png" className="img-fluid" alt="Responsive image" /> */}
-                                                            {
-                                                                currentUser.profile_picture ? (
-                                                                    <img src={currentUser.profile_picture} className="img-fluid" alt="Responsive image"
-                                                                        style={{
-                                                                            float: 'left',
-                                                                            height: '35px',
-                                                                            width: '35px',
-                                                                            marginRight: '10px',
-                                                                            color: '#31cdb9',
-                                                                            borderRadius: '50%'
-                                                                        }}
-                                                                    />
-                                                                ) : (
-                                                                        <i
-                                                                            className="fa fa-user-circle-o"
-                                                                            aria-hidden="true"
-                                                                            style={{
-                                                                                float: 'left',
-                                                                                fontSize: '35px',
-                                                                                marginRight: '10px',
-                                                                                color: '#31cdb9',
-                                                                            }}
-                                                                        ></i>
-                                                                    )
-                                                            }
-                                                            <a className="nav-link dropdown-toggle right-top black osr-13" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                {currentUser.display_name || currentUser.first_name}
-                                                                {/* Greg Jacoby */}
-                                                            </a>
-                                                            <ul className="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
-                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.goto('profile', { activeTab: 'details' }) }}>Profile</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.goto('profile', { activeTab: 'account' }) }}>Account {'&'} Security</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.goto('profile', { activeTab: 'notification' }) }}>Notifications</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey" data-bs-toggle="modal" data-bs-target="#choose-lang1">Language</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey" >Help Center</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey" onClick={this.logout}>Log Out</a></li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </nav>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                        {/* <!---------------------------------- /Top-Bar----------------------------------> */}
-                        {/* <!---------------------------------- Dashboard-Export----------------------------------> */}
-                        <section className="dashboard-main">
-                            <div className="dashboard-main-inner main-inner">
-                                <div className="container">
-                                    <div className="row cs-dashboard1">
-                                        <div className="col-md-6 col-lg-6 col1">
-                                            <ul>
-                                                <li><a className="osb-16 turq">Dashboard</a></li>
-                                            </ul>
-                                        </div>
-                                        <div className="col-md-6 col-lg-6 col2">
-                                            <ul>
-                                                <li className="tw-main"><span className="tw-main-inner"><span className="tw-t oss-13 turq"><span className="num-chng">{dashboardData && (dashboardData.total_user_sites || 0)}</span>/<span className="total-num">{dashboardData && (dashboardData.total_sites || 0)}</span> left</span> <br /> <span className="tw-b osr-11 darkgrey">Total Website</span></span></li>
-                                                <li className="ec-main"><span className="ec-main-inner"><span className="ec-t oss-13 turq"><span className="num-chng">{dashboardData && (dashboardData.total_user_exports || 0)}</span><span className="total-num">/{dashboardData && (dashboardData.export_credits || 0)}</span> left</span> <br /> <span className="ec-b osr-11 darkgrey">Export Credits</span></span></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
+                        <LoggedinHeader />
                         {/* <!---------------------------------- /Dashboard-Export----------------------------------> */}
                         {/* <!---------------------------------- My-sites----------------------------------> */}
                         <section className="my-sites my-sites-templates">
                             <div className="my-sites-inner main-inner">
                                 <div className="container">
-                                    <div className="row cs-my-sites-templates1">
-                                        <div className="col-sm-12 col-md-7 col-lg-7 col1">
-                                            <h1 className="my osb-22 black">New template...</h1>
-                                        </div>
-                                        <div className="col-sm-12 col-md-5 col-lg-5 col2">
-                                            <div className="c-new-btn"><button type="button" className="btn btn-outline-primary oss-13 turq"> + View all</button></div>
-                                        </div>
-                                    </div>
-                                    <div className="row cs-my-sites2 white-bg">
-                                        <div className="col-sm-12 col-md-3 col-lg-3 col1">
-                                            <div className="col1-inner">
-                                                <div className="restro-bg">
-                                                    <img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
-                                                    <div className="shadow-up">
-                                                        <div className="shadow-up-inner">
-                                                            <span className="osr-13 black white-bg"><a className="black">Live preview</a></span>
-                                                            <span className="osr-13 white turq-bg" data-bs-toggle="modal" data-bs-target="#nameyoursite1" ><a className="white">Buy for $46</a></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col1-content">
-                                                    <ul>
-                                                        <li className="li-left oss-16 black">Template : <span>Spa {'&'} Wellness</span> <br /> <span className="template-prize darkgrey osr-11">Regular License</span></li>
-                                                        <li className="li-right"><span className="oss-13 turq">$46</span></li>
-                                                    </ul>
-                                                </div>
+                                    {(purchasedTemplatesElem && purchasedTemplatesElem.length) ? <>
+                                        <div className="row cs-my-sites-templates1">
+                                            <div className="col-sm-12 col-md-7 col-lg-7 col1">
+                                                <h1 className="my osb-22 black">Purchased templates</h1>
                                             </div>
+                                            {/* <div className="col-sm-12 col-md-5 col-lg-5 col2">
+                                                <div className="c-new-btn"><button type="button" className="btn btn-outline-primary oss-13 turq"> + View all</button></div>
+                                            </div> */}
                                         </div>
-                                        <div className="col-sm-12 col-md-3 col-lg-3 col1">
-                                            <div className="col1-inner">
-                                                <div className="restro-bg">
-                                                    <img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
-                                                    <div className="shadow-up">
-                                                        <div className="shadow-up-inner">
-                                                            <span className="osr-13 black white-bg"><a className="black">Live preview</a></span>
-                                                            <span className="osr-13 white turq-bg" data-bs-toggle="modal" data-bs-target="#nameyoursite1" ><a className="white">Buy for $46</a></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col1-content">
-                                                    <ul>
-                                                        <li className="li-left oss-16 black">Template : <span>Spa {'&'} Wellness</span> <br /> <span className="template-prize darkgrey osr-11">Regular License</span></li>
-                                                        <li className="li-right"><span className="oss-13 turq">$46</span></li>
-                                                    </ul>
-                                                </div>
+                                        <div className={`row cs-my-sites2 white-bg ${loading ? 'loading' : ''}`}>
+                                            {
+                                                purchasedTemplatesElem
+                                            }
+                                        </div>
+                                    </> : null}
+                                    {(freeTemplatesElem && freeTemplatesElem.length) ? <>
+                                        <div className="row cs-my-sites-templates1">
+                                            <div className="col-sm-12 col-md-7 col-lg-7 col1">
+                                                <h1 className="my osb-22 black">Free templates</h1>
                                             </div>
+                                            {/* <div className="col-sm-12 col-md-5 col-lg-5 col2">
+                                                <div className="c-new-btn"><button type="button" className="btn btn-outline-primary oss-13 turq"> + View all</button></div>
+                                            </div> */}
                                         </div>
-                                        <div className="col-sm-12 col-md-3 col-lg-3 col1">
-                                            <div className="col1-inner">
-                                                <div className="restro-bg">
-                                                    <img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
-                                                    <div className="shadow-up">
-                                                        <div className="shadow-up-inner">
-                                                            <span className="osr-13 black white-bg"><a className="black">Live preview</a></span>
-                                                            <span className="osr-13 white turq-bg" data-bs-toggle="modal" data-bs-target="#nameyoursite1" ><a className="white">Buy for $46</a></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col1-content">
-                                                    <ul>
-                                                        <li className="li-left oss-16 black">Template : <span>Spa {'&'} Wellness</span> <br /> <span className="template-prize darkgrey osr-11">Regular License</span></li>
-                                                        <li className="li-right"><span className="oss-13 turq">$46</span></li>
-                                                    </ul>
-                                                </div>
+                                        <div className={`row cs-my-sites2 white-bg ${loading ? 'loading' : ''}`}>
+                                            {
+                                                freeTemplatesElem
+                                            }
+                                        </div>
+                                    </> : null}
+                                    {(paidTemplatesElem && paidTemplatesElem.length) ? <>
+                                        <div className="row cs-my-sites-templates1 cs-my-sites-templates1-2">
+                                            <div className="col-sm-12 col-md-7 col-lg-7 col1">
+                                                <h1 className="my osb-22 black">Paid templates</h1>
                                             </div>
+                                            {/* <div className="col-sm-12 col-md-5 col-lg-5 col2">
+                                                <div className="c-new-btn"><button type="button" className="btn btn-outline-primary oss-13 turq"> + View all</button></div>
+                                            </div> */}
                                         </div>
-                                        <div className="col-sm-12 col-md-3 col-lg-3 col1">
-                                            <div className="col1-inner">
-                                                <div className="restro-bg">
-                                                    <img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
-                                                    <div className="shadow-up">
-                                                        <div className="shadow-up-inner">
-                                                            <span className="osr-13 black white-bg"><a className="black">Live preview</a></span>
-                                                            <span className="osr-13 white turq-bg" data-bs-toggle="modal" data-bs-target="#nameyoursite1" ><a className="white">Buy for $46</a></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col1-content">
-                                                    <ul>
-                                                        <li className="li-left oss-16 black">Template : <span>Spa {'&'} Wellness</span> <br /> <span className="template-prize darkgrey osr-11">Regular License</span></li>
-                                                        <li className="li-right"><span className="oss-13 turq">$46</span></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
+                                        <div className={`row cs-my-sites2 white-bg ${loading ? 'loading' : ''}`}>
+                                            {
+                                                paidTemplatesElem
+                                            }
                                         </div>
-                                    </div>
-                                    <div className="row cs-my-sites-templates1 cs-my-sites-templates1-2">
-                                        <div className="col-sm-12 col-md-7 col-lg-7 col1">
-                                            <h1 className="my osb-22 black">Free templates</h1>
-                                        </div>
-                                        <div className="col-sm-12 col-md-5 col-lg-5 col2">
-                                            <div className="c-new-btn"><button type="button" className="btn btn-outline-primary oss-13 turq"> + View all</button></div>
-                                        </div>
-                                    </div>
-                                    <div className="row cs-my-sites2 white-bg">
-                                        <div className="col-sm-12 col-md-3 col-lg-3 col1">
-                                            <div className="col1-inner">
-                                                <div className="restro-bg">
-                                                    <img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
-                                                    <div className="shadow-up">
-                                                        <div className="shadow-up-inner">
-                                                            <span className="osr-13 black white-bg"><a className="black">Live preview</a></span>
-                                                            <span className="osr-13 white turq-bg" data-bs-toggle="modal" data-bs-target="#nameyoursite1" ><a className="white">Buy for $46</a></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col1-content">
-                                                    <ul>
-                                                        <li className="li-left oss-16 black">Template : <span>Spa {'&'} Wellness</span> <br /> <span className="template-prize darkgrey osr-11">Regular License</span></li>
-                                                        <li className="li-right"><span className="oss-13 turq">$46</span></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-12 col-md-3 col-lg-3 col1">
-                                            <div className="col1-inner">
-                                                <div className="restro-bg">
-                                                    <img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
-                                                    <div className="shadow-up">
-                                                        <div className="shadow-up-inner">
-                                                            <span className="osr-13 black white-bg"><a className="black">Live preview</a></span>
-                                                            <span className="osr-13 white turq-bg" data-bs-toggle="modal" data-bs-target="#nameyoursite1" ><a className="white">Buy for $46</a></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col1-content">
-                                                    <ul>
-                                                        <li className="li-left oss-16 black">Template : <span>Spa {'&'} Wellness</span> <br /> <span className="template-prize darkgrey osr-11">Regular License</span></li>
-                                                        <li className="li-right"><span className="oss-13 turq">$46</span></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-12 col-md-3 col-lg-3 col1">
-                                            <div className="col1-inner">
-                                                <div className="restro-bg">
-                                                    <img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
-                                                    <div className="shadow-up">
-                                                        <div className="shadow-up-inner">
-                                                            <span className="osr-13 black white-bg"><a className="black">Live preview</a></span>
-                                                            <span className="osr-13 white turq-bg" data-bs-toggle="modal" data-bs-target="#nameyoursite1" ><a className="white">Buy for $46</a></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col1-content">
-                                                    <ul>
-                                                        <li className="li-left oss-16 black">Template : <span>Spa {'&'} Wellness</span> <br /> <span className="template-prize darkgrey osr-11">Regular License</span></li>
-                                                        <li className="li-right"><span className="oss-13 turq">$46</span></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-12 col-md-3 col-lg-3 col1">
-                                            <div className="col1-inner">
-                                                <div className="restro-bg">
-                                                    <img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
-                                                    <div className="shadow-up">
-                                                        <div className="shadow-up-inner">
-                                                            <span className="osr-13 black white-bg"><a className="black">Live preview</a></span>
-                                                            <span className="osr-13 white turq-bg" data-bs-toggle="modal" data-bs-target="#nameyoursite1" ><a className="white">Buy for $46</a></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col1-content">
-                                                    <ul>
-                                                        <li className="li-left oss-16 black">Template : <span>Spa {'&'} Wellness</span> <br /> <span className="template-prize darkgrey osr-11">Regular License</span></li>
-                                                        <li className="li-right"><span className="oss-13 turq">$46</span></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="row cs-my-sites-templates1 cs-my-sites-templates1-3">
-                                        <div className="col-sm-12 col-md-7 col-lg-7 col1">
-                                            <h1 className="my osb-22 black">Agency templates</h1>
-                                        </div>
-                                        <div className="col-sm-12 col-md-5 col-lg-5 col2">
-                                            <div className="c-new-btn"><button type="button" className="btn btn-outline-primary oss-13 turq"> + View all</button></div>
-                                        </div>
-                                    </div>
-                                    <div className="row cs-my-sites2 white-bg">
-                                        <div className="col-sm-12 col-md-3 col-lg-3 col1">
-                                            <div className="col1-inner">
-                                                <div className="restro-bg">
-                                                    <img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
-                                                    <div className="shadow-up">
-                                                        <div className="shadow-up-inner">
-                                                            <span className="osr-13 black white-bg"><a className="black">Live preview</a></span>
-                                                            <span className="osr-13 white turq-bg" data-bs-toggle="modal" data-bs-target="#nameyoursite1" ><a className="white">Buy for $46</a></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col1-content">
-                                                    <ul>
-                                                        <li className="li-left oss-16 black">Template : <span>Spa {'&'} Wellness</span> <br /> <span className="template-prize darkgrey osr-11">Regular License</span></li>
-                                                        <li className="li-right"><span className="oss-13 turq">$46</span></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-12 col-md-3 col-lg-3 col1">
-                                            <div className="col1-inner">
-                                                <div className="restro-bg">
-                                                    <img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
-                                                    <div className="shadow-up">
-                                                        <div className="shadow-up-inner">
-                                                            <span className="osr-13 black white-bg"><a className="black">Live preview</a></span>
-                                                            <span className="osr-13 white turq-bg" data-bs-toggle="modal" data-bs-target="#nameyoursite1" ><a className="white">Buy for $46</a></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col1-content">
-                                                    <ul>
-                                                        <li className="li-left oss-16 black">Template : <span>Spa {'&'} Wellness</span> <br /> <span className="template-prize darkgrey osr-11">Regular License</span></li>
-                                                        <li className="li-right"><span className="oss-13 turq">$46</span></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-12 col-md-3 col-lg-3 col1">
-                                            <div className="col1-inner">
-                                                <div className="restro-bg">
-                                                    <img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
-                                                    <div className="shadow-up">
-                                                        <div className="shadow-up-inner">
-                                                            <span className="osr-13 black white-bg"><a className="black">Live preview</a></span>
-                                                            <span className="osr-13 white turq-bg" data-bs-toggle="modal" data-bs-target="#nameyoursite1" ><a className="white">Buy for $46</a></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col1-content">
-                                                    <ul>
-                                                        <li className="li-left oss-16 black">Template : <span>Spa {'&'} Wellness</span> <br /> <span className="template-prize darkgrey osr-11">Regular License</span></li>
-                                                        <li className="li-right"><span className="oss-13 turq">$46</span></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-12 col-md-3 col-lg-3 col1">
-                                            <div className="col1-inner">
-                                                <div className="restro-bg">
-                                                    <img src="./assets/website/images/mysite-img1.jpg" className="img-fluid " alt="Responsive image" />
-                                                    <div className="shadow-up">
-                                                        <div className="shadow-up-inner">
-                                                            <span className="osr-13 black white-bg"><a className="black">Live preview</a></span>
-                                                            <span className="osr-13 white turq-bg" data-bs-toggle="modal" data-bs-target="#nameyoursite1" ><a className="white">Buy for $46</a></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col1-content">
-                                                    <ul>
-                                                        <li className="li-left oss-16 black">Template : <span>Spa {'&'} Wellness</span> <br /> <span className="template-prize darkgrey osr-11">Regular License</span></li>
-                                                        <li className="li-right"><span className="oss-13 turq">$46</span></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </> : null}
                                 </div>
                             </div>
                         </section>
@@ -555,14 +411,16 @@ class BuyTemplate extends React.Component {
     }
 }
 
-const mapStateToProps = ({ global, layout, templates, router }) => {
+const mapStateToProps = ({ global, layout, templates, router, pageReducer }) => {
     return {
         loading: global.loading,
         theme: layout.theme,
         templates,
         currentUser: global.currentUser,
         pathname: router.location.pathname,
-        tokenInfo: global.tokenInfo
+        tokenInfo: global.tokenInfo,
+		pagesStore: pageReducer,
+		s3Dir: global.userS3Dir,
     }
 }
 

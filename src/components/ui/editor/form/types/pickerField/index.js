@@ -54,7 +54,9 @@ class PickerField extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         if ((prevProps.meta.value != this.props.meta.value)) {
             this.setState({ unitWidth: document.querySelector('.unit-select > select') && document.querySelector('.unit-select > select').clientWidth })
-            this.initValue(this.props.meta.value)
+            if (!this.state.openPicker) {   // only update value if picker is closed
+                this.initValue(this.props.meta.value)
+            }
         }
     }
     initValue = (value) => {

@@ -1,0 +1,20 @@
+.generated-beta-code {
+    h1 {
+        padding: 20px 50px;
+        border: 2px solid rgb(49, 205, 185);
+        border-radius: 5px;
+        color: rgb(49, 205, 185);
+        margin: 15px 15px 30px;
+        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+    h1:hover {
+        background: #000000;
+        color: #fff;
+        border-color: #fff;
+    }
+    h1:active {
+        background: #31cdb9;
+        color: #fff;
+        border-color: #fff;
+    }
+}

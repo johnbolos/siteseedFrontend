@@ -29,7 +29,9 @@ class Integer extends React.Component {
         let { meta: { value, unit } } = this.props
         let defaultUnit = ''
         if (!unit || unit.length == 0 || value == '' || value == null) {
-            this.setState({ value: isNaN(parseInt(this.props.meta.value)) ? '' : parseInt(this.props.meta.value) })
+            this.setState({ value: isNaN(parseInt(this.props.meta.value)) ? '' : parseInt(this.props.meta.value) }, () => {
+                this.setHTMLInput()
+            })
             return
         }
         unit.forEach((item) => {
@@ -41,7 +43,7 @@ class Integer extends React.Component {
             }
         })
         this.setState({ value: value.replace(defaultUnit, '') }, () => {
-
+            this.setHTMLInput()
         })
     }
     componentDidUpdate(prevProps) {
@@ -60,12 +62,21 @@ class Integer extends React.Component {
             let resp = `${this.state.value}${this.state.unitValue}`
             if (resp.includes('none')) {
                 resp = 'none'
+            } else if (resp.includes('auto')) {
+                resp = 'auto'
+            }
+            if (value == '-') {
+                return
             }
             onChange && onChange(resp)
             globalOnChange && globalOnChange(resp)
         })
     }
     handleFocus = (event) => event.target.select();
+    setHTMLInput = () => {
+        const { value } = this.state
+        this.inputRef.current.value = value
+    }
     render() {
         const {
             meta: {
@@ -88,7 +99,7 @@ class Integer extends React.Component {
             <div className={'integer-container'} style={disabled ? { pointerEvents: 'none' } : {}}>
                 <input type="number" name="int"
                     ref={this.inputRef}
-                    value={disabled ? '' : value}
+                    // value={value}
                     onFocus={this.handleFocus}
                     disabled={disabled}
                     className={stopScrollValue ? 'no-scroll' : ''}

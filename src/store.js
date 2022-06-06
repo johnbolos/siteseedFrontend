@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === "development") {
 let persistConfig = {
 	key: "root",
 	storage,
-	blacklist: ['editorHistory', 'editor']
+	blacklist: ['editorHistory', 'editor', 'router']
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

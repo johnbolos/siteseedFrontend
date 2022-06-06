@@ -9,13 +9,19 @@ import { apiUrl, assetsUrl, fontsUrl } from './settings.js'
 // })
 const googleFontsAxios = axios.create({
     baseURL: fontsUrl,
-    timeout: 10000,
+    timeout: 100000,
     // headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
 })
 
 const basicAxios = axios.create({
     baseURL: apiUrl,
     timeout: 10000,
+    headers: { 'Content-Type': 'application/json' }
+})
+
+const basicAxiosHighTimeout = axios.create({
+    baseURL: apiUrl,
+    // timeout: 10000,
     headers: { 'Content-Type': 'application/json' }
 })
 
@@ -31,9 +37,15 @@ let getToken = () => {
 
 class Request {
 
-    test = () => {
+    test = (jsonLoc) => {
         return new Promise((next) => {
-            basicAxios.get('/test')
+            const axiosObj = axios.create({
+                // baseURL: 'http://localhost:3000',
+                timeout: 10000,
+                headers: { 'Content-Type': 'application/json' }
+            })
+
+            axiosObj.get(jsonLoc)
                 .then(d => {
                     return next(d.data)
                 })
@@ -155,6 +167,21 @@ class Request {
                 })
         })
     }
+    updateExportCredits = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/save-export/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
     createNewSite = (data) => {
         return new Promise((next) => {
             basicAxios.post('/create-site/', data, getToken())
@@ -170,7 +197,235 @@ class Request {
                 })
         })
     }
+    deleteSite = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/delete-site/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    inviteContributor = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/site-contributors/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
 
+    getBillingInfo = () => {
+        return new Promise((next) => {
+            basicAxios.get('/billing-information/', getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    addBillingCard = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/add-card/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    updateBillingCard = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/update-card/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    deleteBillingCard = (data) => {
+        return new Promise((next) => {
+            basicAxios.delete('/update-card/', { data, ...getToken() })
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    getSubscriptionInfo = () => {
+        return new Promise((next) => {
+            basicAxios.get('/user-subscription/', getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    updateSubscriptionPlan = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/change-plan/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    siteSearch = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/search/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    getDomainsInfo = () => {
+        return new Promise((next) => {
+            basicAxios.get('/user-domains/', getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    removeDomain = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/remove-domain/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    assignDomainToSite = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/assign-domain/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    unassignDomainToSite = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/unassign-domain/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    // ============================================================
+
+    // =======================Buy- Domains===========================
+    getDomainsList = (data) => {
+        return new Promise((next) => {
+            basicAxiosHighTimeout.post('/search-domain/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    purchaseDomain = (data) => {
+        return new Promise((next) => {
+            basicAxiosHighTimeout.post('/purchase-domain/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
     // ============================================================
 
     // =======================Profile===========================
@@ -350,9 +605,193 @@ class Request {
                 })
         })
     }
+
+    editCollabRole = (data) => {
+        return new Promise((next) => {
+            basicAxios.put('/site-contributors/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+
+    removeCollab = (data) => {
+        return new Promise((next) => {
+            basicAxios.delete('/site-contributors/', { data, ...getToken() })
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
     // =========================================================
+    // =======================Buy Templates + Checkout===========================
+    getTemplates = () => {
+        return new Promise((next) => {
+            basicAxios.get(`/ss-templates/`, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    checkPromoCode = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/check-promo-code/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    purchaseTemplate = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/purchase-template/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    linkTemplateToSite = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/save-template-to-site/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    // =========================================================
+
+    // =======================Builder===========================
+    setSiteContentFilePath = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/save-site-path/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    builderContentJSON = (jsonLoc) => {
+        return new Promise((next) => {
+            const axiosObj = axios.create({
+                timeout: 10000,
+                headers: { 'Content-Type': 'application/json' }
+            })
+
+            axiosObj.get(jsonLoc)
+                .then(d => {
+                    return next(d.data)
+                })
+                .catch(err => {
+                    return next({ messageType: true, err })
+                })
+        })
+    }
+    uploadToHosting = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/save-files/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    // =========================================================
+    
+    // =======================Beta Test api's===========================
+    generateCode = (data) => {
+        return new Promise((next) => {
+            basicAxios.post('/beta-code/', data, getToken())
+                .then(d => {
+                    if (d.data.status == 200) {
+                        return next({ messageType: 'success', ...d.data })
+                    } else {
+                        return next({ messageType: 'error', ...d.data })
+                    }
+                })
+                .catch(err => {
+                    return next({ messageType: 'error', err })
+                })
+        })
+    }
+    // =================================================================
     // ==============================================================================================
 
+    roadmap = () => {
+        return new Promise((next) => {
+            basicAxios.get('/roadmap/')
+                .then(d => {
+                    return next(d.data)
+                })
+                .catch(err => {
+                    return next({ messageType: true, err })
+                })
+        })
+    }
+
+    roadmapCards = () => {
+        return new Promise((next) => {
+            basicAxios.get('/roadmapCards/')
+                .then(d => {
+                    return next(d.data)
+                })
+                .catch(err => {
+                    return next({ messageType: true, err })
+                })
+        })
+    }
 }
 
 export default new Request

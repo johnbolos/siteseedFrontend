@@ -11,6 +11,8 @@ import {
 import { getPushPathWrapper } from "../../../routes";
 import $ from "jquery";
 import { addStaticContent } from "../../../components/utils";
+import Request from "../../../request";
+import { setCurrentBuilderTemplateData } from "../../../reducers/actions/userActions";
 
 class TopPanel extends Component {
 	changeDevice = () => {
@@ -19,59 +21,44 @@ class TopPanel extends Component {
 		$(".device-text").toggleClass("hide-top");
 	};
 	showPreview = async () => {
-		const { s3Dir, pagesStore, dispatch } = this.props
+		const { s3Dir, pagesStore, dispatch, currentUser, currentBuilderSiteId, currentBuilderTemplateId } = this.props
 		// call grapes export config function
+		const { templates } = await Request.getTemplates()
+		if (templates) {
+			const templateItem = templates.find(item => item.template_id == currentBuilderTemplateId)
+			dispatch(setCurrentBuilderTemplateData(templateItem))
+		}
 		const exportContent = _grapesEditor.exportConfigData()
-		const location = await addStaticContent(exportContent, { s3Dir, dispatch, pagesStore })
+		const location = await addStaticContent(exportContent, { s3Dir, dispatch, pagesStore, currentUser, projectId: currentBuilderSiteId })
 		if (location != '') { window.open(location, '_blank'); }
 	}
 	render() {
 		const { s3Dir, dispatch } = this.props
 		return (
 			<>
-				<div className='logo' onClick={() => { dispatch(getPushPathWrapper("home")) }}>
+				<div className='logo' onClick={() => { dispatch(getPushPathWrapper("dashboard")) }}>
 					<Logo />
-					{/* <img src={logo} alt='logo'></img> */}
 				</div>
 				<div className='panel__devices'></div>
 				<div className='panel__basic-actions'>
-					{/* <span className='gjs-pn-btn'>
-						<div className='tooltip'>
-							<div>
-								<Bell />
-							</div>
-							<span className='tooltiptext' style={{ left: "-85%" }}>
-								Notification
-							</span>
-						</div>
-					</span> */}
 					<span className='gjs-pn-btn'>
 						<div className='tooltip'>
 							<div onClick={this.changeDevice}>
 								<Mobile style={{ height: '22px', width: '22px' }} />
-								{/* <img
-									src={mobile}
-									alt='erase'
-									height='22px'
-									width='22px'
-								/> */}
 							</div>
 							<span className='tooltiptext device-text'>Device</span>
 							<div className={'responsive-overlay hide-top'} onClick={this.changeDevice}></div>
 							<div id='device' className='hide-top'>
 								<div onClick={() => _grapesEditor.editor.runCommand("set-device-desktop")}>
 									<Desktop style={{ height: '20px', width: '20px' }} />
-									{/* <img src={desktop} alt='Desktop' width='20px' height='20px' /> */}
 										Desktop
 									</div>
 								<div onClick={() => _grapesEditor.editor.runCommand("set-device-tablet")}>
 									<Ipad style={{ height: '20px', width: '20px' }} />
-									{/* <img src={ipad} alt='Tablet' width='20px' height='20px' /> */}
 										Tablet
 									</div>
 								<div onClick={() => _grapesEditor.editor.runCommand("set-device-mobile")} >
 									<Mobile style={{ height: '20px', width: '20px' }} />
-									{/* <img src={mobile} alt='Mobile' width='20px' height='20px' /> */}
 										Mobile
 									</div>
 							</div>
@@ -103,6 +90,8 @@ const mapStateToProps = ({ global, layout, pageReducer, }) => {
 		pagesStore: pageReducer,
 		currentUser: global.currentUser,
 		s3Dir: global.userS3Dir,
+		currentBuilderSiteId: global.currentBuilderSiteId,
+		currentBuilderTemplateId: global.currentBuilderTemplateId
 	}
 }
 

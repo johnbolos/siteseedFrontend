@@ -32,7 +32,8 @@ function AllTemplates({ dispatch, loading, templates }) {
 					<div
 						class="lead-btn"
 						onClick={() => {
-							dispatch(selectTemplate("template1"))
+							dispatch(selectTemplate("spa"))
+							dispatch(setCurrentTemplate("spa"))
 							dispatch(getPushPathWrapper("designerStudio"))
 						}}
 					>
@@ -104,9 +105,23 @@ function AllTemplates({ dispatch, loading, templates }) {
 							dispatch(getPushPathWrapper("designerStudio"))
 						}}>
 						</div>
-						<div class="card">
+						<div class="card" style={{ backgroundImage: 'url("/assets/templates/musician/thumbnail.jpg")' }} onClick={() => {
+							dispatch(selectTemplate("musician"))
+							dispatch(setCurrentTemplate("musician"))
+							dispatch(getPushPathWrapper("designerStudio"))
+						}}>
 						</div>
-						<div class="card">
+						<div class="card" style={{ backgroundImage: 'url("/assets/templates/blog/thumbnail.jpg")' }} onClick={() => {
+							dispatch(selectTemplate("blog"))
+							dispatch(setCurrentTemplate("blog"))
+							dispatch(getPushPathWrapper("designerStudio"))
+						}}>
+						</div>
+						<div class="card" style={{ backgroundImage: 'url("/assets/templates/gym/thumbnail.png")' }} onClick={() => {
+							dispatch(selectTemplate("gym"))
+							dispatch(setCurrentTemplate("gym"))
+							dispatch(getPushPathWrapper("designerStudio"))
+						}}>
 						</div>
 						<div class="card">
 						</div>

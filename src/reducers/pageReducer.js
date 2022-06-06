@@ -93,7 +93,8 @@ export default (state = initialState, action) => {
 					{
 						name: "Home",
 						components: [],
-						style: [],
+						style: null,
+						customCss: null,
 						homePage: true,
 						styleFontStr: null,
 						hidden: false,
@@ -107,7 +108,8 @@ export default (state = initialState, action) => {
 					{
 						name: "Contact",
 						components: [],
-						style: [],
+						style: null,
+						customCss: null,
 						homePage: false,
 						styleFontStr: null,
 						hidden: false,

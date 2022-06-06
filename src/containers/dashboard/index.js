@@ -5,18 +5,35 @@ import { connect } from "react-redux"
 
 import "./index.scss"
 import Request from '../../request'
-import { showToast } from "../../components/utils"
+import { openTemplateInEditor, showToast } from "../../components/utils"
 import moment from "moment"
 import { setNewSiteDetails, setTokenInfo, setUser } from "../../reducers/actions/userActions"
 import { getPushPathWrapper } from "../../routes"
 import StripeForm from "../../components/ui/stripe"
+import BillingInformation from "./billingInformation"
+import Subscription from "./subscription"
+import Icons from "../../assets/Icons"
+import { hideLoader, showLoader } from "../../reducers/actions"
+import ExportSite from "./exportSite/index.js"
+import Domains from "./domains"
+import { apiUrl, assetsUrl } from "../../settings"
+import _s3 from "../../components/utils/s3"
+import { ReactComponent as Empty } from "../../assets/website/icons/empty.svg";
+
+import LoggedinHeader from '../../layout/loggedinLayouts/header'
 
 class Dashboard extends React.Component {
     state = {
         data: null,
         updatesFilter: 'all',
         choosePlatformSelect: 'Choose Platform',
-        site_name: ''
+        site_name: '',
+        searchBarList: null,
+        searchLoading: false,
+        siteSelectForDelete: null,
+        siteSelectForInvite: null,
+        inviteRole: 1,
+        selectSiteForExport: null,
     }
     scriptArray = [
         // {
@@ -45,91 +62,83 @@ class Dashboard extends React.Component {
             innerHTML: `
             var acc = document.getElementsByClassName("accordion");
             var i;
-            
+    
             for (i = 0; i < acc.length; i++) {
-              acc[i].addEventListener("click", function() {
-                this.classList.toggle("active");
-                var panel = this.nextElementSibling;
-                if (panel.style.maxHeight) {
-                  panel.style.maxHeight = null;
-                } else {
-                  panel.style.maxHeight = panel.scrollHeight + "px";
-                } 
-              });
-            }	  
-            
-                        
-                $(document).ready(function(){
-             var submitIcon = $('.searchbar-icon');
-             var inputBox = $('.searchbar-input');
-             var searchbar = $('.searchbar');
-             var isOpen = false;
-             submitIcon.click(function(){
-             if(isOpen == false){
-             searchbar.addClass('searchbar-open');
-             inputBox.focus();
-             isOpen = true;
-             } else {
-             searchbar.removeClass('searchbar-open');
-             inputBox.focusout();
-             isOpen = false;
-             }
-             });
-             submitIcon.mouseup(function(){
-             return false;
-             });
-             searchbar.mouseup(function(){
-             return false;
-             });
-             $(document).mouseup(function(){
-             if(isOpen == true){
-             $('.searchbar-icon').css('display','block');
-             submitIcon.click();
-             }
-             });
-             });
-             function buttonUp(){
-             var inputVal = $('.searchbar-input').val();
-             inputVal = $.trim(inputVal).length;
-             if( inputVal !== 0){
-             $('.searchbar-icon').css('display','none');
-             } else {
-             $('.searchbar-input').val('');
-             $('.searchbar-icon').css('display','block');
-             }
-             }
-            
-            
-            
-              $( function() {
-                var availableTags = [
-                  "ActionScript",
-                  "AppleScript",
-                  "Asp",
-                  "BASIC",
-                  "C",
-                  "C++",
-                  "Clojure",
-                  "COBOL",
-                  "ColdFusion",
-                  "Erlang",
-                  "Fortran",
-                  "Groovy",
-                  "Haskell",
-                  "Java",
-                  "JavaScript",
-                  "Lisp",
-                  "Perl",
-                  "PHP",
-                  "Python",
-                  "Ruby",
-                  "Scala",
-                  "Scheme"
-                ];
-                $( "#tags" ).autoComplete({
-                  source: availableTags
+                acc[i].addEventListener("click", function () {
+                    this.classList.toggle("active");
+                    var panel = this.nextElementSibling;
+                    if (panel.style.maxHeight) {
+                        panel.style.maxHeight = null;
+                    } else {
+                        panel.style.maxHeight = panel.scrollHeight + "px";
+                    }
                 });
-              } );`
+            }
+    
+    
+            $(document).ready(function () {
+                var submitIcon = $('.searchbar-icon');
+                var inputBox = $('.searchbar-input');
+                var searchbar = $('.searchbar');
+                var isOpen = false;
+                submitIcon.mouseup(function () {
+                    return false;
+                });
+                searchbar.mouseup(function () {
+                    return false;
+                });
+                $(document).mouseup(function () {
+                    if (isOpen == true) {
+                        $('.searchbar-icon').css('display', 'block');
+                        submitIcon.click();
+                    }
+                });
+            });
+    
+    
+            function buttonUp() {
+                var inputVal = $('.searchbar-input').val();
+                inputVal = $.trim(inputVal).length;
+                if (inputVal !== 0) {
+                    $('.searchbar-icon').css('display', 'none');
+                } else {
+                    $('.searchbar-input').val('');
+                    $('.searchbar-icon').css('display', 'block');
+                }
+            }
+    
+    
+    
+            $(function () {
+                var availableTags = [
+                    "ActionScript",
+                    "AppleScript",
+                    "Asp",
+                    "BASIC",
+                    "C",
+                    "C++",
+                    "Clojure",
+                    "COBOL",
+                    "ColdFusion",
+                    "Erlang",
+                    "Fortran",
+                    "Groovy",
+                    "Haskell",
+                    "Java",
+                    "JavaScript",
+                    "Lisp",
+                    "Perl",
+                    "PHP",
+                    "Python",
+                    "Ruby",
+                    "Scala",
+                    "Scheme"
+                ];
+                // $("#tags").autoComplete({
+                //     source: availableTags
+                // });
+            });
+            `
         },
         // {
         //     innerHTML: `
@@ -158,11 +167,17 @@ class Dashboard extends React.Component {
             rel: "stylesheet",
             href: "./assets/website/css/style.css"
         },
+        {
+            rel: "stylesheet",
+            href: "https://fonts.googleapis.com/icon?family=Material+Icons"
+        },
     ]
     componentDidMount() {
         this.loadScriptNStyle()
         this.apiRequest()
         this.setBodyAttributes()
+        // _s3.listFiles('14/sites/21/fonts/')
+        // _s3.copyFiles('temp/', 'temp1/')
     }
     setBodyAttributes = (close = false) => {
         if (close) {
@@ -192,19 +207,34 @@ class Dashboard extends React.Component {
         })
     }
     apiRequest = async () => {
-        let { tokenInfo } = this.props
+        let { tokenInfo, dispatch } = this.props
         if (!tokenInfo.access_token) {
             return
         }
-        this.setState({ loading: true })
+        dispatch(showLoader())
         const apiRequest = await Request.dashboard()
-        this.setState({ loading: false })
+        dispatch(hideLoader())
         if (apiRequest.messageType && apiRequest.messageType == 'error') {
             showToast({ type: 'error', message: 'Unable to fetch data, Try Relogging' })
             return
         }
         this.setState({ data: apiRequest.data }, () => {
             this.createUpdatesContent()
+            this.getTemplatesData()
+        })
+    }
+    getTemplatesData = async () => {
+        const { dispatch } = this.props
+        dispatch(showLoader())
+        const apiRequest = await Request.getTemplates()
+        dispatch(hideLoader())
+        if (apiRequest.messageType && apiRequest.messageType == 'error') {
+            showToast({ type: 'error', message: apiRequest.message || 'Unable to get Templates, try again later' })
+            return
+        }
+        this.setState({ templatesData: apiRequest.templates }, () => {
+            // this.createTemplates()
+            this.renderUserSites(this.state.data.user_sites)
         })
     }
 
@@ -217,6 +247,9 @@ class Dashboard extends React.Component {
             this.goto('loginPage')
         })
     }
+    set = (key, value) => {
+        this.setState({ [key]: value })
+    }
     goto = (key, params = {}) => {   // push to the specifies location/key
         const { dispatch } = this.props
         dispatch(getPushPathWrapper(key, params))
@@ -225,28 +258,91 @@ class Dashboard extends React.Component {
         document.querySelectorAll('#ss-script-load').forEach(e => e.remove())
         document.querySelectorAll('#ss-styles-load').forEach(e => e.remove())
     }
-
+    openTemplate = (siteData) => {
+        const { templatesData } = this.state
+        const { dispatch } = this.props
+        // find template name from id
+        let meta = templatesData.find((d) => d.template_id == siteData.template_id)
+        meta = {
+            ...meta,
+            ...siteData
+        }
+        console.log(meta, 'sss.p')
+        openTemplateInEditor(meta, dispatch)
+    }
+    viewSite = (siteData) => {
+        const { site_id, is_published, live_site_url } = siteData
+        const { userS3Dir } = this.props
+        // if (is_published) {
+        //     live_site_url && window.open(live_site_url, '_blank')
+        //     return
+        // }
+        window.open(`${assetsUrl}/${userS3Dir}/sites/${site_id}/preview/index.html`, '_blank')
+    }
     renderUserSites = (sites) => {
-        if (!sites || _.isEmpty(sites)) {
+        const { templatesData, data } = this.state
+        if (!sites || _.isEmpty(sites) || !templatesData) {
             return null
         }
         let selectPos = null
         return sites.map((item, key) => {
+            let findTemplate = templatesData.find((template) => template.template_id == item.template_id)
+            if (!findTemplate) {
+                return (
+                    <div className="col-sm-12 col-md-3 col-lg-3 col1" key={key} style={key > 3 ? { marginTop: '20px', height: '360px' } : {}}>
+                        <div className="col1-inner" style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <div className="restro-bg" style={{ flex: 1 }}><img style={{ height: '100%' }} src={"./assets/website/images/mysite-img1.jpg"} className="img-fluid " alt="Responsive image" />
+                                <div className="shadow-up">
+                                    <a className="nav-link dropdown-toggle right-top darkgrey osr-13 cs-shadow-anchor" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manage sites</a>
+                                    <ul className="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
+                                        <li><a className="dropdown-item osr-13 darkgrey active" onClick={() => {
+                                            this.goto('buyTemplate', { siteId: item.site_id })
+                                        }}>
+                                            <span class="material-icons">shopping_cart</span>
+                                            Buy Template
+                                        </a></li>
+                                        <li><a className="dropdown-item osr-13 darkgrey" data-bs-toggle="modal" data-bs-target="#delete-confirm1" onClick={() => {
+                                            this.setState({ siteSelectForDelete: item.site_id })
+                                        }}><span className="icon-Delete darkgrey"></span>Delete</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="col1-content">
+                                <h3 className="oss-13 black">{item.site_name}</h3>
+                                <p style={{ marginTop: '0px', height: '18px' }}><a className="osr-11" style={{ color: '#EE6055', textDecoration: 'underline' }} onClick={() => {
+                                    this.goto('buyTemplate', { siteId: item.site_id })
+                                }}>Template: Not Connected</a></p>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
             return (
-                <div className="col-sm-12 col-md-3 col-lg-3 col1" key={key} style={key >= 3 ? { marginTop: '20px', height: '360px' } : {}}>
-                    <div className="col1-inner">
-                        <div className="restro-bg"><img src={item.siteImg || "./assets/website/images/mysite-img1.jpg"} className="img-fluid " alt="Responsive image" />
+                <div className="col-sm-12 col-md-3 col-lg-3 col1" key={key} style={key > 3 ? { marginTop: '20px', height: '360px' } : {}}>
+                    <div className="col1-inner" style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <div className="restro-bg" style={{ flex: 1 }}><img style={{ height: '100%' }} src={(findTemplate.thumbnail && apiUrl + findTemplate.thumbnail) || item.siteImg || "./assets/website/images/mysite-img1.jpg"} className="img-fluid " alt="Responsive image" />
                             <div className="shadow-up">
                                 <a className="nav-link dropdown-toggle right-top darkgrey osr-13 cs-shadow-anchor" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manage sites</a>
                                 <ul className="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
-                                    <li><a className="dropdown-item osr-13 darkgrey active" ><span className="icon-Edit darkgrey"></span>Edit Site</a></li>
-                                    <li><a className="dropdown-item osr-13 darkgrey" ><span className="icon-Eye darkgrey"></span>View Live Site</a></li>
-                                    <li><a className="dropdown-item osr-13 darkgrey" data-bs-toggle="modal" data-bs-target="#duplicate1"><span className="icon-Duplicate darkgrey"></span>Duplicate Site</a></li>
-                                    <li><a className="dropdown-item osr-13 darkgrey" data-bs-toggle="modal" data-bs-target="#invite-contributor1"><span className="icon-Add-User darkgrey"></span>Invite Contributor</a></li>
+                                    <li><a className="dropdown-item osr-13 darkgrey active" onClick={() => {
+                                        this.openTemplate(item)
+                                    }}><span className="icon-Edit darkgrey"></span>Edit Site</a></li>
+                                    <li><a className="dropdown-item osr-13 darkgrey" onClick={() => {
+                                        this.viewSite(item)
+                                    }}>
+                                        {/* <span className="icon-Eye darkgrey"></span>{item.is_published ? 'View Live Site' : 'Preview Site'} */}
+                                        <span className="icon-Eye darkgrey"></span>Preview Site
+                                    </a></li>
+                                    {/* <li><a className="dropdown-item osr-13 darkgrey" data-bs-toggle="modal" data-bs-target="#duplicate1"><span className="icon-Duplicate darkgrey"></span>Duplicate Site</a></li> */}
+                                    <li><a className="dropdown-item osr-13 darkgrey" data-bs-toggle="modal" data-bs-target="#invite-contributor1" onClick={() => {
+                                        this.setState({ siteSelectForInvite: item.site_id })
+                                    }}><span className="icon-Add-User darkgrey"></span>Invite Contributor</a></li>
                                     <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.goto('siteSettings', { siteId: item.site_id }) }}><span className="icon-Setting darkgrey"></span>Setting</a></li>
-                                    <li><a className="dropdown-item osr-13 darkgrey" data-bs-toggle="modal" data-bs-target="#delete-confirm1" ><span className="icon-Delete darkgrey"></span>Delete</a></li>
+                                    <li><a className="dropdown-item osr-13 darkgrey" data-bs-toggle="modal" data-bs-target="#delete-confirm1" onClick={() => {
+                                        this.setState({ siteSelectForDelete: item.site_id })
+                                    }}><span className="icon-Delete darkgrey"></span>Delete</a></li>
                                 </ul>
-                                <span className="oss-16 white" style={{ display: 'none' }}><a >Edit Now</a></span>
+                                {/* <span className="oss-16 white" style={{ display: 'none' }}><a >Edit Now</a></span> */}
                             </div>
 
 
@@ -258,15 +354,36 @@ class Dashboard extends React.Component {
                                 {item.is_published ? (
                                     <li className="li-right"><a className="oss-9 turq-bg white">Published</a></li>
                                 ) : (
-                                        <li className="li-right"><a className="oss-9 redish-btn-bg white">Not Published</a></li>
-                                    )}
+                                    <li className="li-right"><a className="oss-9 redish-btn-bg white">Not Published</a></li>
+                                )}
                             </ul>
                             {item.is_domain_connected ? (
                                 <p style={{ marginTop: '0px', height: '18px' }}><a className="darkgrey osr-11">{' '}</a></p>
                             ) : (
-                                    <p style={{ marginTop: '0px' }}><a className="darkgrey osr-11">{'Connect Domain'}</a></p>
-                                )}
-                            <span className="darkgrey osr-11" data-bs-toggle="modal" data-bs-target="#export-zip">Export Site</span>
+                                <p style={{ marginTop: '0px' }}><a className="darkgrey osr-11" onClick={() => {
+                                    document.querySelector('#nav-home-domains').click()
+                                    document.body.scrollTo(0, 0)
+                                }}>{'Connect Domain'}</a></p>
+                            )}
+                            <span className="darkgrey osr-11" onClick={(e) => {
+                                if (data.total_user_exports >= data.export_credits) {
+                                    showToast({ type: 'error', message: 'Maximum Credit Limit Reached! Please upgrade your plan' })
+                                    document.querySelector('#nav-home-subscriptions').click()
+                                    document.body.scrollTo(0, 0)
+                                    return
+                                }
+                                if (!item.is_published || item.is_published == 0) {
+                                    showToast({ type: 'error', message: 'This site needs to be published from builder, in order to export.' })
+                                    return
+                                }
+                                $("#export-zip").modal('show')
+                                this.set('choosePlatformSelect', 'Choose Platform')
+                                this.selectPlatformElem.classList.remove('open')
+                                this.set("site_name", item.site_name);
+                                this.set("site_key", key);
+
+                                this.set("selectSiteForExport", { ...item, thumbnail: (findTemplate.thumbnail && apiUrl + findTemplate.thumbnail) || './assets/website/images/mysite-img1.jpg' })
+                            }}>Export Site</span>
                         </div>
                     </div>
                 </div>
@@ -274,25 +391,27 @@ class Dashboard extends React.Component {
         })
     }
     createUpdatesContent = () => {
-        const { data, filter } = this.state
+        const { data, updatesFilter, filter } = this.state
         if (!data) {
             return
         }
         const { future_updates } = data
         let resp = null
-        if (future_updates) {
-            resp = (
-                <li>
-                    <h3 className="oss-13 black">{future_updates.title}</h3>
-                    <p className="osr-11 darkgrey">{future_updates.description}</p>
-                    <p className="osr-9 black"><span className="cmnt-date">{moment(future_updates.release_date, 'yyyy-mm-dd').format("MMM DD, YYYY")}</span> | <span className="cmnt-feat"><a href="" className="black">{future_updates.update_type}</a></span></p>
-                </li>
-            )
+        if (future_updates && future_updates.length) {
+            resp = future_updates.map((update => {
+                if (updatesFilter != 'all' && !moment(update.release_date, 'YYYY-MM-DD').isSame(moment(Date.now()), updatesFilter)) {
+                    return null
+                }
+                return (
+                    <li>
+                        <h3 className="oss-13 black">{update.title}</h3>
+                        <p className="osr-11 darkgrey">{update.description}</p>
+                        <p className="osr-9 black"><span className="cmnt-date">{moment(update.release_date, 'YYYY-MM-DD').format("MMM DD, YYYY")}</span> | <span className="cmnt-feat"><a className="black">{update.update_type}</a></span></p>
+                    </li>
+                )
+            }))
         }
         this.setState({ updatesContent: resp })
-    }
-    set = (key, value) => {
-        this.setState({ [key]: value })
     }
     createNewSite = async () => {
         const { dispatch } = this.props
@@ -308,29 +427,179 @@ class Dashboard extends React.Component {
         _.each(data, (val, key) => {
             formData.append(key, val)
         })
-        this.setState({ loading: true })
+        dispatch(showLoader())
         const apiRequest = await Request.createNewSite(formData)
-        this.setState({ loading: false })
+        dispatch(hideLoader())
         if (apiRequest.messageType && apiRequest.messageType == 'error') {
             showToast({ type: 'error', message: apiRequest.message || 'Unable to create new site, try again' })
             return
         }
-        dispatch(setNewSiteDetails({ site_name: 'Site1' }))
+
+        // dispatch(setNewSiteDetails({ site_name: 'Site1' }))
         $("#nameyoursite1").modal('hide')
-        this.goto('buyTemplate')
+        this.goto('buyTemplate', { siteId: apiRequest.site_info.site_id })
+    }
+    deleteSite = async () => {
+        const { dispatch } = this.props
+        const { siteSelectForDelete } = this.state
+        if (!siteSelectForDelete) {
+            return
+        }
+        let data = {
+            site_id: siteSelectForDelete
+        }
+        let formData = new FormData()
+        _.each(data, (val, key) => {
+            formData.append(key, val)
+        })
+        dispatch(showLoader())
+        const apiRequest = await Request.deleteSite(formData)
+        dispatch(hideLoader())
+        if (apiRequest.messageType && apiRequest.messageType == 'error') {
+            showToast({ type: 'error', message: apiRequest.message || 'Unable to Delete site, try again' })
+            return
+        }
+        this.apiRequest()
+    }
+    createSearchBoxList = async (e) => {
+        e && e.preventDefault()
+        let val = document.querySelector("#tags")
+        val = val && val.value
+        if (!val || val.trim() == '') {
+            return
+        }
+        let resp = [
+            {
+                "title": "No Data",
+                "summary": "No data",
+                "short_description": ""
+            }
+        ]
+        const data = {
+            query: _.lowerCase(val)
+        }
+        let formData = new FormData()
+        _.each(data, (val, key) => {
+            formData.append(key, val)
+        })
+        this.setState({ searchLoading: true })
+        const apiRequest = await Request.siteSearch(formData)
+        this.setState({ searchLoading: false })
+        if (apiRequest.messageType && apiRequest.messageType == 'error') {
+            showToast({ type: 'error', message: apiRequest.message || 'Error finding Data, try again' })
+            return
+        }
+        if (apiRequest && apiRequest.search_result && apiRequest.search_result.length != 0) {
+            resp = apiRequest.search_result
+        }
+        resp = (
+            <ul
+                id="ui-id-1"
+                tabIndex="0"
+                className="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front"
+                style={{ top: '100%', marginTop: '10px', left: 0, width: '100%', borderRadius: '5px', maxHeight: '310px', overflowY: 'auto' }}
+            // onBlur={() => { this.set('searchBarList', null) }}
+            >
+                <div class={'search-detail'}>Search Results for ‘<span>{val}</span>’</div>
+                {
+                    resp.map((item, key) => {
+                        return (<li className="ui-menu-item" key={key} onClick={() => {
+                            if (item.portalUrl) {
+                                window.open(item.portalUrl)
+                                // window.open(item.url, '_self')
+                            }
+                        }}>
+                            <div id="ui-id-36" tabIndex="-1" className="ui-menu-item-wrapper title">{item.title}</div>
+                            <div id="ui-id-36" tabIndex="-1" className="ui-menu-item-wrapper summary">{item.summary}</div>
+                        </li>)
+                    })
+                }
+            </ul>)
+        this.setState({ searchBarList: resp }, () => {
+            // document.getElementById("ui-id-1").focus()
+        })
+    }
+    inviteContributor = async () => {
+        const { dispatch } = this.props
+        const { siteSelectForInvite, inviteRole } = this.state
+        let contribName = document.querySelector('#contributor-name').value,
+            contribEmail = document.querySelector('#contributor').value;
+        if (contribEmail.trim() == '' || !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(contribEmail)) {
+            showToast({ type: 'error', message: 'Please Enter valid Contributor Email' })
+            return
+        }
+        if (contribName.trim() == '') {
+            showToast({ type: 'error', message: 'Please Enter Contributor Name' })
+            return
+        }
+        let data = {
+            site_id: siteSelectForInvite,
+            name: contribName,
+            email: contribEmail,
+            role: inviteRole
+        }
+        let formData = new FormData()
+        _.each(data, (val, key) => {
+            formData.append(key, val)
+        })
+        dispatch(showLoader())
+        const apiRequest = await Request.inviteContributor(formData)
+        dispatch(hideLoader())
+        if (apiRequest.messageType && apiRequest.messageType == 'error') {
+            showToast({ type: 'error', message: apiRequest.message || 'Unable to Invite Contributor, try again' })
+            return
+        }
+        showToast({ type: 'success', message: 'Contributor added successfully' })
+        document.querySelector('#invite-contributor1 .close').click()
+    }
+    prepareNDownloadExportZip = () => {
+        const { choosePlatformSelect, selectSiteForExport } = this.state
+        const { dispatch } = this.props
+        if (choosePlatformSelect == 'Choose Platform') {
+            showToast({ type: 'error', message: 'Please choose a platform to export to!' })
+            return
+        }
+        dispatch(showLoader())
+        setTimeout(async () => {
+            // document.querySelector('#trigger-download-modal').click()
+            let data = {
+                site_id: selectSiteForExport.site_id,
+                platform: _.upperFirst(choosePlatformSelect)
+            }
+            let formData = new FormData()
+            _.each(data, (val, key) => {
+                formData.append(key, val)
+            })
+            const apiRequest = await Request.updateExportCredits(formData)
+            if (apiRequest.error) {
+                showToast({ type: 'error', message: 'Unable to Export Site, Try again in a moment!' })
+                dispatch(hideLoader())
+                return
+            }
+            this.exportSite.downloadFile();
+            dispatch(hideLoader())
+            this.apiRequest()
+        }, 1000)
     }
     render() {
-        const { dispatch, currentUser } = this.props
-        const { data, updatesContent, updatesFilter } = this.state
+        const { dispatch, currentUser, loading, userS3Dir } = this.props
+        const { data, updatesContent, updatesFilter, searchBarList, searchLoading, siteSelectForDelete, siteSelectForInvite, inviteRole, selectSiteForExport, choosePlatformSelect } = this.state
         let active_user_plan = null
         if (data) {
             active_user_plan = data.active_user_plan
         }
         return (
             <>
+                {
+                    loading && <div className={'backdrop-loading'}>
+                        <Icons.Loading style={{ width: '70px', height: '70px' }} className={'searchLoading'} />
+                    </div>
+                }
+                <ExportSite onRef={ref => (this.exportSite = ref)} {...this.state} />
                 <div className="admin-main-panel">
                     <div className="admin-main-panel-inner">
                         {/* <!----------------------------------Top-Bar----------------------------------> */}
+                        <LoggedinHeader />
                         <section className="topbar-main">
                             <div className="topbar-main-inner main-inner">
                                 <div className="container">
@@ -385,17 +654,17 @@ class Dashboard extends React.Component {
                                                                         }}
                                                                     />
                                                                 ) : (
-                                                                        <i
-                                                                            className="fa fa-user-circle-o"
-                                                                            aria-hidden="true"
-                                                                            style={{
-                                                                                float: 'left',
-                                                                                fontSize: '35px',
-                                                                                marginRight: '10px',
-                                                                                color: '#31cdb9',
-                                                                            }}
-                                                                        ></i>
-                                                                    )
+                                                                    <i
+                                                                        className="fa fa-user-circle-o"
+                                                                        aria-hidden="true"
+                                                                        style={{
+                                                                            float: 'left',
+                                                                            fontSize: '35px',
+                                                                            marginRight: '10px',
+                                                                            color: '#31cdb9',
+                                                                        }}
+                                                                    ></i>
+                                                                )
                                                             }
                                                             <a className="nav-link dropdown-toggle right-top black osr-13" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                                 {currentUser.display_name || currentUser.first_name}
@@ -405,8 +674,8 @@ class Dashboard extends React.Component {
                                                                 <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.goto('profile', { activeTab: 'details' }) }}>Profile</a></li>
                                                                 <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.goto('profile', { activeTab: 'account' }) }}>Account {'&'} Security</a></li>
                                                                 <li><a className="dropdown-item osr-13 darkgrey" onClick={() => { this.goto('profile', { activeTab: 'notification' }) }}>Notifications</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey" data-bs-toggle="modal" data-bs-target="#choose-lang1">Language</a></li>
-                                                                <li><a className="dropdown-item osr-13 darkgrey" >Help Center</a></li>
+                                                                {/* <li><a className="dropdown-item osr-13 darkgrey" data-bs-toggle="modal" data-bs-target="#choose-lang1">Language</a></li>
+                                                                <li><a className="dropdown-item osr-13 darkgrey" >Help Center</a></li> */}
                                                                 <li><a className="dropdown-item osr-13 darkgrey" onClick={this.logout}>Log Out</a></li>
                                                             </ul>
                                                         </li>
@@ -450,8 +719,9 @@ class Dashboard extends React.Component {
                                                 <div className="nav nav-tabs" id="nav-tab" role="tablist">
                                                     <a className="nav-link darkgrey osr-16 active" id="nav-home-dashboard" data-bs-toggle="tab" href="#nav-dashboard" role="tab" aria-controls="nav-dashboard" aria-selected="false"><span>Dashboard</span></a>
                                                     <a className="nav-link darkgrey osr-16" id="nav-home-domains" data-bs-toggle="tab" href="#nav-domains" role="tab" aria-controls="nav-profile" aria-selected="false"><span>Domains</span></a>
-                                                    <a className="nav-link darkgrey osr-16" id="nav-home-integrations" data-bs-toggle="tab" href="#nav-integrations" role="tab" aria-controls="nav-account" aria-selected="false"><span>Integrations</span></a>
+                                                    {/* <a className="nav-link darkgrey osr-16" id="nav-home-integrations" data-bs-toggle="tab" href="#nav-integrations" role="tab" aria-controls="nav-account" aria-selected="false"><span>Integrations</span></a> */}
                                                     <a className="nav-link darkgrey osr-16" id="nav-home-billinginformation" data-bs-toggle="tab" href="#nav-billinginformation" role="tab" aria-controls="nav-contact" aria-selected="false"><span>Billing Information</span></a>
+                                                    <a className="nav-link darkgrey osr-16" id="nav-home-subscriptions" data-bs-toggle="tab" href="#nav-subscriptions" role="tab" aria-controls="nav-contact" aria-selected="false"><span>Subscriptions</span></a>
                                                 </div>
                                             </nav>
                                             <div className="tab-content" id="nav-tabContent">
@@ -480,10 +750,32 @@ class Dashboard extends React.Component {
                                                                 </div>
                                                                 <div className="col-sm-12 col-md-5 col-lg-5 col2">
                                                                     <div className="container">
-                                                                        <form className="searchbar searchbar-open">
-                                                                            <input id="tags" type="search" placeholder="Search something..." name="search" className="searchbar-input"
+                                                                        <form className="searchbar searchbar-open" onSubmit={(e) => { this.createSearchBoxList(e) }}
+                                                                            style={{ overflow: 'visible' }}
+                                                                            onBlur={(e) => {
+                                                                                // this.set('searchBarList', null)
+                                                                            }}
+                                                                        >
+                                                                            <input id="tags" type="search" placeholder="Search something..." name="search" className="searchbar-input" autoComplete={'off'}
                                                                                 required /> <input type="submit" className="searchbar-submit" value="GO" />
-                                                                            <span className="searchbar-icon"><span className="icon-Search"></span></span>
+                                                                            <span className="searchbar-icon">
+                                                                                {searchLoading ? (
+                                                                                    <Icons.Loading style={{ width: '25px', height: '25px', fill: '#31cdb9' }} className={'searchLoading'} />
+                                                                                ) : (
+                                                                                    searchBarList && searchBarList.length != 0 ? (
+                                                                                        // <i class="fa fa-times" aria-hidden="true" style={{ color: '#011627' }} onClick={() => { this.set('searchBarList', null) }}></i>
+                                                                                        <span class="material-icons" style={{ color: '#011627' }} onClick={() => {
+                                                                                            document.querySelector("#tags").value = ''
+                                                                                            this.set('searchBarList', null)
+                                                                                        }}>close</span>
+                                                                                    ) : (
+                                                                                        <span className="icon-Search" onClick={() => { this.createSearchBoxList() }}></span>
+                                                                                    )
+                                                                                )}
+                                                                            </span>
+                                                                            {
+                                                                                searchBarList
+                                                                            }
                                                                         </form>
                                                                     </div>
                                                                 </div>
@@ -499,34 +791,58 @@ class Dashboard extends React.Component {
                                                                     <h2>
                                                                         <span className="icon-Layout orange g-lay"></span><span className="my oss-16 black">My Sites</span>
                                                                     </h2>
-                                                                    <p className="osr-11 darkgrey">Lorem ipsum dolor sit amet, consectetur <br /> adipiscing elit. Sed vel.</p>
+                                                                    <p className="osr-11 darkgrey">Below you’ll find all of the sites you have created and their status. <br />Select a site to view or edit.</p>
                                                                 </div>
                                                                 <div className="col-sm-12 col-md-5 col-lg-5 col2">
-                                                                    <div className="c-new-btn"><button type="button" className="btn btn-outline-primary oss-13 turq" data-bs-toggle="modal" data-bs-target="#nameyoursite1" > + Create a New Site</button></div>
+                                                                    <div className="c-new-btn"><button type="button" className="btn btn-outline-primary oss-13 turq" onClick={() => {
+                                                                        if (data.total_user_sites >= data.total_sites) {
+                                                                            showToast({ type: 'error', message: 'Maximum Limit Reached! Please upgrade your plan' })
+                                                                            document.querySelector('#nav-home-subscriptions').click()
+                                                                            document.body.scrollTo(0, 0)
+                                                                            return
+                                                                        }
+                                                                        $("#nameyoursite1").modal('show')
+                                                                    }}> + Create a New Site</button></div>
                                                                 </div>
                                                             </div>
                                                             <div className="row cs-my-sites2 white-bg">
                                                                 {
-                                                                    data && this.renderUserSites(data.user_sites)
+                                                                    !data || (this.renderUserSites(data.user_sites) == null) || (this.renderUserSites(data.user_sites).length == 0) ? (
+                                                                        <div className={'empty-sites-container'}
+                                                                            style={{
+                                                                                display: 'flex',
+                                                                                flexDirection: 'column',
+                                                                                justifyContent: 'center',
+                                                                                alignItems: 'center',
+                                                                                background: '#f2f2f2',
+                                                                                boxShadow: 'inset 4px 4px 10px 0px #e2e2e2',
+                                                                                padding: '25px 20px',
+                                                                                width: '100%',
+                                                                            }}
+                                                                        >
+                                                                            <Empty height={'auto'} width={'70px'} style={{ fill: '#67737D' }} />
+                                                                            <span class="oss-16 darkgrey">No Sites Created Yet!</span>
+                                                                        </div>
+                                                                    ) : this.renderUserSites(data.user_sites)
                                                                 }
                                                                 {
-                                                                    data && data.latest_offer && (
-                                                                        <div className="col-sm-12 col-md-3 col-lg-3 col1 col4" style={data.user_sites.length > 3 ? { marginTop: '20px', height: '360px' } : {}}>
-                                                                            <div className="col1-inner light-orange-bg">
-                                                                                <img src="./assets/website/images/hot-sale.png" className="img-fluid" alt="Responsive image" />
-                                                                                <div className="col1-content">
-                                                                                    <h2 className="oss-16 white">Latest Offer</h2>
-                                                                                    <div className="fify-main">
-                                                                                        <p className="osb-42 white fifty">{data.latest_offer.title}</p>
-                                                                                        <p className="osb-42 white fifty">{data.latest_offer.description}</p>
-                                                                                        {/* <p className="osr-13 white">Export Credits Just <span className="oss-16">$7</span> <br /> for each export</p> */}
-                                                                                        <p className="osr-13 white">{data.latest_offer.short_description}</p>
-                                                                                    </div>
-                                                                                    <p className="oss-13 fifty-buy" style={{ marginTop: '14%', width: 'auto' }}><a className="oss-13 white">Buy now <span className="icon-right-arrow-6-1 white"></span></a></p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    )
+                                                                    // data && data.latest_offer && (
+                                                                    //     <div className="col-sm-12 col-md-3 col-lg-3 col1 col4" style={data.user_sites.length > 3 ? { marginTop: '20px', height: '360px' } : {}}>
+                                                                    //         <div className="col1-inner light-orange-bg" style={{ minHeight: '300px' }}>
+                                                                    //             <img src="./assets/website/images/hot-sale.png" className="img-fluid" alt="Responsive image" />
+                                                                    //             <div className="col1-content">
+                                                                    //                 <h2 className="oss-16 white">Latest Offer</h2>
+                                                                    //                 <div className="fify-main">
+                                                                    //                     <p className="osb-42 white fifty">{data.latest_offer.title}</p>
+                                                                    //                     <p className="osb-42 white fifty">{data.latest_offer.description}</p>
+                                                                    //                     {/* <p className="osr-13 white">Export Credits Just <span className="oss-16">$7</span> <br /> for each export</p> */}
+                                                                    //                     <p className="osr-13 white">{data.latest_offer.short_description}</p>
+                                                                    //                 </div>
+                                                                    //                 <p className="oss-13 fifty-buy" style={{ marginTop: '14%', width: 'auto' }}><a className="oss-13 white">Buy now <span className="icon-right-arrow-6-1 white"></span></a></p>
+                                                                    //             </div>
+                                                                    //         </div>
+                                                                    //     </div>
+                                                                    // )
                                                                 }
                                                             </div>
                                                         </div>
@@ -539,64 +855,46 @@ class Dashboard extends React.Component {
                                                                 <div className="col-sm-12 col-md-6 col-lg-6 col1 white-bg">
                                                                     <h2>
                                                                         <span className="icon-Signal yellow y-lay"></span><span className="my oss-16 black">Updates {'&'} Releases (Roadmap)</span>
-                                                                        <a className="expnd" href=""><span className="icon-Expand darkgrey"></span></a>
+                                                                        <a className="expnd"><span className="icon-Expand darkgrey"></span></a>
                                                                     </h2>
-                                                                    <p className="osr-11 darkgrey">Lorem ipsum dolor sit amet, consectetur <br /> adipiscing elit. Sed vel.</p>
+                                                                    <p className="osr-11 darkgrey">We’re continually rolling out new changes. Stay up to date with the <br /> latest SiteSeed developments to see what features will be released soon.</p>
                                                                     <ul>
                                                                         <li className="update oss-13 black">All Updates</li>
-                                                                        <li className="featured oss-13 darkgrey">
+                                                                        {/* <li className="featured oss-13 darkgrey">
                                                                             Filtered by:
                                                                             <a className="nav-link dropdown-toggle right-top black osr-13" id="navbarDropdown" role="button" data-bs-toggle="dropdown" data-bs-target="#filter" aria-expanded="false">
                                                                                 {_.startCase(updatesFilter)}
                                                                             </a>
                                                                             <ul className="dropdown-menu animate slideIn" id={'filter'} aria-labelledby="navbarDropdown">
-                                                                                <li><a className={`dropdown-item osr-13 darkgrey ${updatesFilter == 'all' && 'active'}`} onClick={() => { this.set('updatesFilter', 'all') }}>All</a></li>
-                                                                                <li><a className={`dropdown-item osr-13 darkgrey ${updatesFilter == 'date' && 'active'}`} onClick={() => { this.set('updatesFilter', 'date') }}>Date</a></li>
-                                                                                <li><a className={`dropdown-item osr-13 darkgrey ${updatesFilter == 'month' && 'active'}`} onClick={() => { this.set('updatesFilter', 'month') }}>Month</a></li>
+                                                                                <li><a className={`dropdown-item osr-13 darkgrey ${updatesFilter == 'all' && 'active'}`} onClick={() => {
+                                                                                    this.setState({ updatesFilter: 'all' }, () => {
+                                                                                        this.createUpdatesContent()
+                                                                                    })
+                                                                                }}>All</a></li>
+                                                                                <li><a className={`dropdown-item osr-13 darkgrey ${updatesFilter == 'day' && 'active'}`} onClick={() => {
+                                                                                    this.setState({ updatesFilter: 'day' }, () => {
+                                                                                        this.createUpdatesContent()
+                                                                                    })
+                                                                                }}>Date</a></li>
+                                                                                <li><a className={`dropdown-item osr-13 darkgrey ${updatesFilter == 'month' && 'active'}`} onClick={() => {
+                                                                                    this.setState({ updatesFilter: 'month' }, () => {
+                                                                                        this.createUpdatesContent()
+                                                                                    })
+                                                                                }}>Month</a></li>
                                                                             </ul>
-                                                                        </li>
+                                                                        </li> */}
                                                                     </ul>
                                                                     <ul className="cs-update-account-data">
                                                                         {
                                                                             data && updatesContent
                                                                         }
-                                                                        {/* <li>
-                                                                            <h3 className="oss-13 black">Increment Inventory with New Wix Stores API</h3>
-                                                                            <p className="osr-11 darkgrey">With the new Wix Stores incrementInventory() API, you can increment a product variant's stock in your store's inventory. Learn more</p>
-                                                                            <p className="osr-9 black"><span className="cmnt-date">Jan 5, 2021</span> | <span className="cmnt-feat"><a href="" className="black">New Features</a></span></p>
-                                                                        </li>
-                                                                        <li>
-                                                                            <h3 className="oss-13 black">Increment Inventory with New Wix Stores API</h3>
-                                                                            <p className="osr-11 darkgrey">With the new Wix Stores incrementInventory() API, you can increment a product variant's stock in your store's inventory. Learn more</p>
-                                                                            <p className="osr-9 black"><span className="cmnt-date">Jan 5, 2021</span> | <span className="cmnt-feat"><a href="" className="black">New Features</a></span></p>
-                                                                        </li>
-                                                                        <li>
-                                                                            <h3 className="oss-13 black">Increment Inventory with New Wix Stores API</h3>
-                                                                            <p className="osr-11 darkgrey">With the new Wix Stores incrementInventory() API, you can increment a product variant's stock in your store's inventory. Learn more</p>
-                                                                            <p className="osr-9 black"><span className="cmnt-date">Jan 5, 2021</span> | <span className="cmnt-feat"><a href="" className="black">New Features</a></span></p>
-                                                                        </li>
-                                                                        <li>
-                                                                            <h3 className="oss-13 black">Increment Inventory with New Wix Stores API</h3>
-                                                                            <p className="osr-11 darkgrey">With the new Wix Stores incrementInventory() API, you can increment a product variant's stock in your store's inventory. Learn more</p>
-                                                                            <p className="osr-9 black"><span className="cmnt-date">Jan 5, 2021</span> | <span className="cmnt-feat"><a href="" className="black">New Features</a></span></p>
-                                                                        </li>
-                                                                        <li>
-                                                                            <h3 className="oss-13 black">Increment Inventory with New Wix Stores API</h3>
-                                                                            <p className="osr-11 darkgrey">With the new Wix Stores incrementInventory() API, you can increment a product variant's stock in your store's inventory. Learn more</p>
-                                                                            <p className="osr-9 black"><span className="cmnt-date">Jan 5, 2021</span> | <span className="cmnt-feat"><a href="" className="black">New Features</a></span></p>
-                                                                        </li>
-                                                                        <li>
-                                                                            <h3 className="oss-13 black">Increment Inventory with New Wix Stores API</h3>
-                                                                            <p className="osr-11 darkgrey">With the new Wix Stores incrementInventory() API, you can increment a product variant's stock in your store's inventory. Learn more</p>
-                                                                            <p className="osr-9 black"><span className="cmnt-date">Jan 5, 2021</span> | <span className="cmnt-feat"><a href="" className="black">New Features</a></span></p>
-                                                                        </li> */}
                                                                     </ul>
                                                                 </div>
                                                                 <div className="col-sm-12 col-md-6 col-lg-6 col1 col2 white-bg">
                                                                     <h2>
                                                                         <span className="icon-Bot light-orange y-lay"></span><span className="my oss-16 black">Account Plan {'&'} Subscription</span>
                                                                     </h2>
-                                                                    <p className="osr-11 darkgrey">Lorem ipsum dolor sit amet, consectetur <br /> adipiscing elit. Sed vel.</p>
+                                                                    <p className="osr-11 darkgrey">See the details of your current plan, <br />or upgrade your plan to access additional features.</p>
                                                                     <div className="plans-data">
                                                                         {
                                                                             data && !_.isEmpty(data.upgrade_plan) && (<>
@@ -623,10 +921,10 @@ class Dashboard extends React.Component {
 
                                                                             </>)
                                                                         }
-                                                                        <button className="accordion">
+                                                                        <button className="accordion active">
                                                                             <h3 className="oss-13 black">Your current plan</h3>
                                                                         </button>
-                                                                        <div className="panel">
+                                                                        <div className="panel" style={{ maxHeight: '184px' }}>
                                                                             <div className="row current-data-main">
                                                                                 <div className="col-sm-12 col-md-12 col-lg-12">
                                                                                     {
@@ -651,26 +949,41 @@ class Dashboard extends React.Component {
                                                                                                             _.isEmpty(active_user_plan) ?
                                                                                                                 '-'
                                                                                                                 :
+                                                                                                                // (
+                                                                                                                //     moment(active_user_plan.billing_period, 'YYYY-MM-DD').isValid() ?
+                                                                                                                //         moment(active_user_plan.billing_period, 'YYYY-MM-DD').format("MMM DD, YYYY")
+                                                                                                                //         :
+                                                                                                                //         (active_user_plan.billing_period.trim() == '') ?
+                                                                                                                //             '-'
+                                                                                                                //             :
+                                                                                                                //             active_user_plan.billing_period
+                                                                                                                // )
                                                                                                                 (
-                                                                                                                    moment(active_user_plan.billing_period, 'yyyy-mm-dd').isValid() ?
-                                                                                                                        moment(active_user_plan.billing_period, 'yyyy-mm-dd').format("MMM DD, YYYY")
-                                                                                                                        :
-                                                                                                                        (active_user_plan.billing_period.trim() == '') ?
-                                                                                                                            '-'
-                                                                                                                            :
-                                                                                                                            active_user_plan.billing_period
+                                                                                                                    (active_user_plan.billing_period == '') ? '-' : active_user_plan.billing_period
                                                                                                                 )
                                                                                                         }
                                                                                                     </div>
                                                                                                 </li>
                                                                                                 <li className="">
                                                                                                     <div className="left osr-11 black ">Expired on</div>
-                                                                                                    <div className="right oss-11 turq">{_.isEmpty(active_user_plan) ? 'Never' : (moment(active_user_plan.expires_on, 'yyyy-mm-dd').isValid() ? moment(active_user_plan.expires_on, 'yyyy-mm-dd').format("MMM DD, YYYY") : active_user_plan.expires_on)}</div>
+                                                                                                    <div className="right oss-11 turq">
+                                                                                                        {
+                                                                                                            _.isEmpty(active_user_plan) ?
+                                                                                                                'Never'
+                                                                                                                :
+                                                                                                                (
+                                                                                                                    (active_user_plan.expires_on == '') ? '-' : active_user_plan.expires_on
+                                                                                                                )
+                                                                                                        }
+                                                                                                    </div>
                                                                                                 </li>
                                                                                             </ul>
                                                                                         )
                                                                                     }
-                                                                                    <p className="oss-13 see-detail"><a className="oss-13 turq">See more Details <span className="icon-right-arrow-6-1 turq"></span></a></p>
+                                                                                    <p className="oss-13 see-detail"><a className="oss-13 turq" onClick={() => {
+                                                                                        document.querySelector('#nav-home-subscriptions').click()
+                                                                                        document.body.scrollTo(0, 0)
+                                                                                    }}>See more Details <span className="icon-right-arrow-6-1 turq"></span></a></p>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -682,118 +995,13 @@ class Dashboard extends React.Component {
                                                     {/* <!---------------------------------- /update-account----------------------------------> */}
                                                 </div>
                                                 <div className="tab-pane fade" id="nav-domains" role="tabpanel" aria-labelledby="nav-home-domains">
-                                                    Lorem ipsum	 Lorem ipsum	 Lorem ipsum	 Lorem ipsum	 Lorem ipsum	 Lorem ipsum
-                              </div>
-                                                <div className="tab-pane fade" id="nav-integrations" role="tabpanel" aria-labelledby="nav-home-integrations">
-                                                    Lorem ipsum	 Lorem ipsum	 Lorem ipsum	 Lorem ipsum	 Lorem ipsum	 Lorem ipsum
-                              </div>
+                                                    <Domains />
+                                                </div>
                                                 <div className="tab-pane fade" id="nav-billinginformation" role="tabpanel" aria-labelledby="nav-home-billinginformation">
-                                                    <div className="billing-tab-content">
-                                                        <div className="billing-tab-content-inner">
-                                                            <div className="row">
-                                                                <div className="col-md-8 col-lg-8 col-sm-12 billing-tab-coll">
-                                                                    <h1 className="osb-22 black">Billing Information</h1>
-                                                                    <div className="billing-data">
-                                                                        <div className=" p-data-cmn billing-data-row1">
-                                                                            <div className="billing-data-row1-inner">
-                                                                                <div className="col-lg-5 col-md-5 col-sm-12 coll">
-                                                                                    <div className="card-number">
-                                                                                        <img src="./assets/website/images/CREDTCARD1.png" className="img-fluid" alt="Responsive image" /><span className="oss-16 darkgrey">xxxx-xxxx-xxxx-5461</span>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div className="col-lg-7 col-md-7 col-sm-12 colr">
-                                                                                    <div className="left"><span className="oss-13 darkgrey">Expires</span><br /><span className="oss-16 darkgrey">22 / 2025</span></div>
-                                                                                    <div className="right"><button className="btn btn-primary turq-btn oss-13 white " data-bs-toggle="modal" data-bs-target="#update-card1">Update Card</button></div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div className=" p-data-cmn billing-data-row2">
-                                                                            <p className="osb-22 black">Account Plan {'&'} Subscription</p>
-                                                                            <ul>
-                                                                                <li>
-                                                                                    <div className="left plan-heading oss-13 darkgrey">Plan Name</div>
-                                                                                    <div className="right p-name-ex oss-13 turq">Plan B $25/mo</div>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <div className="left subscri-heading oss-13 darkgrey">Subscription Status</div>
-                                                                                    <div className="right subs-status oss-13 turq">Plan B $25/mo</div>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <div className="left period-start oss-13 darkgrey">Billing Period Start</div>
-                                                                                    <div className="right period-date oss-13 turq">January 9th 2021, 02: 15:42 pm</div>
-                                                                                </li>
-                                                                            </ul>
-                                                                            <button type="button" className="btn btn-primary green-btn oss-13 white turq-bg">Change Subscription Plan</button>
-                                                                        </div>
-                                                                        <div className=" p-data-cmn billing-data-row3">
-                                                                            <p className="osb-22 black">Domains</p>
-                                                                            <ul>
-                                                                                <li>
-                                                                                    <div className="left domain-heading oss-13 turq"><span className="icon-Globe"></span>mydomain.com</div>
-                                                                                    <div className="right domain-things">
-                                                                                        <span className="domain-regis oss-13 darkgrey">Private Registration</span>
-                                                                                        <span className="expiry domain-expiry oss-13 darkgrey redish-dark">Expired on 11/28/2021</span>
-                                                                                        <span className="domain-renew oss-13 darkgrey" style={{ display: 'none' }}>Renews On 01/12/2021</span>
-                                                                                        <span className="domain-action osb-13 turq"><a className="osb-13 turq">Renew Now</a></span>
-                                                                                    </div>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <div className="left domain-heading oss-13 turq"><span className="icon-Globe"></span>mydomain.com</div>
-                                                                                    <div className="right domain-things">
-                                                                                        <span className="domain-regis oss-13 darkgrey">Private Registration</span>
-                                                                                        <span className="expiry domain-expiry oss-13 darkgrey redish-dark" style={{ display: 'none' }}>Expired on 11/28/2021</span>
-                                                                                        <span className="domain-renew oss-13 darkgrey">Renews On 01/12/2021</span>
-                                                                                        <span className="domain-action osb-13 turq"><a className="osb-13 turq">Cancel Renewal</a></span>
-                                                                                    </div>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                        <div className=" p-data-cmn billing-data-row4">
-                                                                            <p className="osb-22 black">Purchased Templates</p>
-                                                                            <div className="table-responsive1">
-                                                                                <table className="table table-bordered align-middle">
-                                                                                    <thead>
-                                                                                        <tr>
-                                                                                            <th scope="col" className="oss-16 black">Categories</th>
-                                                                                            <th scope="col" className="oss-16 black">Name</th>
-                                                                                        </tr>
-                                                                                    </thead>
-                                                                                    <tbody>
-                                                                                        <tr>
-                                                                                            <td className="oss-13 black">Beauty {'&'} Wellness</td>
-                                                                                            <td className="oss-13 turq">SiteSeed Beauty {'&'} Wellness Template</td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td className="oss-13 black">Beauty {'&'} Wellness</td>
-                                                                                            <td className="oss-13 turq">SiteSeed Beauty {'&'} Wellness Template</td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td className="oss-13 black">Beauty {'&'} Wellness</td>
-                                                                                            <td className="oss-13 turq">SiteSeed Beauty {'&'} Wellness Template</td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td className="oss-13 black">Beauty {'&'} Wellness</td>
-                                                                                            <td className="oss-13 turq">SiteSeed Beauty {'&'} Wellness Template</td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td className="oss-13 black">Beauty {'&'} Wellness</td>
-                                                                                            <td className="oss-13 turq">SiteSeed Beauty {'&'} Wellness Template</td>
-                                                                                        </tr>
-                                                                                    </tbody>
-                                                                                </table>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-md-4 col-lg-4 col-sm-12 billing-tab-colr">
-                                                                    <p className="osr-13 darkgrey gs-border billing-data-row1r">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In dictum eu dui vel tempor. Duis a tortor dignissim ante interdum.</p>
-                                                                    <p className="osr-13 darkgrey gs-border billing-data-row2r">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In dictum eu dui vel tempor. Duis a tortor dignissim ante interdum.</p>
-                                                                    <p className="osr-13 darkgrey gs-border billing-data-row3r">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In dictum eu dui vel tempor. Duis a tortor dignissim ante interdum.</p>
-                                                                    <p className="osr-13 darkgrey gs-border billing-data-row4r">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In dictum eu dui vel tempor. Duis a tortor dignissim ante interdum.</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <BillingInformation />
+                                                </div>
+                                                <div className="tab-pane fade" id="nav-subscriptions" role="tabpanel" aria-labelledby="nav-home-subscriptions">
+                                                    <Subscription getDashboardData={this.apiRequest} />
                                                 </div>
                                             </div>
                                         </div>
@@ -802,42 +1010,11 @@ class Dashboard extends React.Component {
                             </div>
                         </section>
                         {/* <!---------------------------------- /Dashboard-Data----------------------------------> */}
-                        {/* <!---------------------------------- temporary-popup code----------------------------------> */}
-                        <ul className="temporary">
-                            <li><a id={'trigger-download-modal'} data-bs-toggle="modal" data-bs-target="#export-download">export-download</a></li>
-                        </ul>
-                        {/* <!---------------------------------- /temporary-popup code----------------------------------> */}
+
                         {/* <!----------------------------------------------------popup---------------------------------------------------->  */}
 
-                        {/* <!---------------------------------- Update-card-detail---------------------------------->			 */}
-                        <div className="modal fade update-card" id="update-card1" tabIndex="-1" role="dialog" aria-labelledby="update-card1" aria-hidden="true">
-                            <div className="modal-dialog modal-dialog-centered modal-dialog-zoom modal-lg" role="document">
-                                <div className="modal-content">
-                                    <div className="modal-header">
-                                        <div className="row">
-                                            <div className="col-lg-6 col-md-6 col-sm-6 coll">
-                                                <h1 className="osb-22 black">Update Card Details</h1>
-                                            </div>
-                                            <div className="col-lg-6 col-md-6 col-sm-6 colr">
-                                                <button type="button" className="close" data-bs-dismiss="modal" aria-label="Close"><span className="icon-Close darkgrey"></span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="modal-body">
-                                        <div className="row">
-                                            <div className="col-lg-12 col-md-12 col-sm-12">
-                                                <StripeForm />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {/* <!---------------------------------- /Update-card-detail----------------------------------> */}
-
-
                         {/* <!---------------------------------- Language popup---------------------------------->			 */}
-                        <div className="modal fade choose-lang" id="choose-lang1" tabIndex="-1" role="dialog" aria-labelledby="choose-lang1" aria-hidden="true">
+                        {/* <div className="modal fade choose-lang" id="choose-lang1" tabIndex="-1" role="dialog" aria-labelledby="choose-lang1" aria-hidden="true">
                             <div className="modal-dialog modal-dialog-centered modal-dialog-zoom modal-lg" role="document">
                                 <div className="modal-content">
                                     <div className="modal-header">
@@ -845,9 +1022,6 @@ class Dashboard extends React.Component {
                                             <div className="col-lg-12 col-md-12 col-sm-12 coll text-center">
                                                 <h1 className="oss-18 black">Choose Language</h1>
                                             </div>
-                                            {/* <!--<div className="col-lg-6 col-md-6 col-sm-6 colr">
-                              <button type="button" className="close" data-bs-dismiss="modal" aria-label="Close"><span className="icon-Close darkgrey"></span></button>
-                               </div>--> */}
                                         </div>
                                     </div>
                                     <div className="modal-body">
@@ -871,7 +1045,7 @@ class Dashboard extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                         {/* <!---------------------------------- /Language popup----------------------------------> */}
                         {/* <!---------------------------------- Duplicate Site---------------------------------->			 */}
                         <div className="modal fade duplicate" id="duplicate1" tabIndex="-1" role="dialog" aria-labelledby="duplicate1" aria-hidden="true">
@@ -928,34 +1102,50 @@ class Dashboard extends React.Component {
                                     <div className="modal-body">
                                         <div className="row">
                                             <div className="col-lg-12 col-md-12 col-sm-12">
-                                                <p className="osr-13 darkgrey">Give people access to this site and assign them roles. <span><a className="turq" href="">Learn more</a></span></p>
+                                                <p className="osr-13 darkgrey">
+                                                    Submit an email below to give people access to this site and assign them roles.
+                                                    {/* <span><a className="turq" href="">Learn more</a></span> */}
+                                                </p>
+                                                <div className="ic-cont" style={{ marginBottom: '10px' }}>
+                                                    {/* <label>Name</label> */}
+                                                    <input type="email" style={{ float: 'none', width: '100%' }} className="form-control osr-13 darkgrey" id="contributor-name" aria-describedby="emailHelp" placeholder="Contributor Name" />
+                                                    {/* <button type="submit" className="btn btn-primary green-btn oss-13 white">Send</button> */}
+                                                </div>
                                                 <div className="ic-cont">
                                                     <input type="email" className="form-control osr-13 darkgrey" id="contributor" aria-describedby="emailHelp" placeholder="Enter an email address" />
-                                                    <button type="submit" className="btn btn-primary green-btn oss-13 white">Send</button>
+                                                    <button type="submit" className="btn btn-primary green-btn oss-13 white" onClick={() => {
+                                                        this.inviteContributor()
+                                                    }}>Send</button>
                                                 </div>
                                                 <div className="general-roles">
                                                     <h2 className="osb-16 black">General Roles <span className="sup turq">*</span></h2>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In bibendum massa justo, eget lobortis neque hendrerit non.</p>
+                                                    <p>Assign roles to control what permissions are given to each person you invite.</p>
                                                     <ul>
                                                         <li>
-                                                            <div className="left"><input type="checkbox" className="" id="admin-co" autoComplete="off" /></div>
+                                                            <div className="left"><input type="checkbox" checked={inviteRole == 3} className="" id="admin-co" autoComplete="off" onClick={() => {
+                                                                this.setState({ inviteRole: 3 })
+                                                            }} /></div>
                                                             <div className="right">
                                                                 <h3 className="oss-13 black">Admin (Co-Owner)</h3>
-                                                                <p className="osr-13 darkgrey">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In bibendum <br />massa justo, eget lobortis neque hendrerit non.</p>
+                                                                <p className="osr-13 darkgrey">Admins can view and manage settings, account and billing info, domains, invite more people, delete a site, and transfer a site.</p>
                                                             </div>
                                                         </li>
                                                         <li>
-                                                            <div className="left"><input type="checkbox" className="" id="view-on" autoComplete="off" /></div>
+                                                            <div className="left"><input type="checkbox" checked={inviteRole == 2} className="" id="edit-web" autoComplete="off" onClick={() => {
+                                                                this.setState({ inviteRole: 2 })
+                                                            }} /></div>
+                                                            <div className="right">
+                                                                <h3 className="oss-13 black">Editor</h3>
+                                                                <p className="osr-13 darkgrey">Editors can make changes to the site, but not account settings.  They can view your dashboard, but will only see the sites they have been invited to.</p>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div className="left"><input type="checkbox" checked={inviteRole == 1} className="" id="view-on" autoComplete="off" onClick={() => {
+                                                                this.setState({ inviteRole: 1 })
+                                                            }} /></div>
                                                             <div className="right">
                                                                 <h3 className="oss-13 black">View Only</h3>
-                                                                <p className="osr-13 darkgrey">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In bibendum <br />massa justo, eget lobortis neque hendrerit non.</p>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div className="left"><input type="checkbox" className="" id="edit-web" autoComplete="off" /></div>
-                                                            <div className="right">
-                                                                <h3 className="oss-13 black">Edit Website</h3>
-                                                                <p className="osr-13 darkgrey">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In bibendum <br />massa justo, eget lobortis neque hendrerit non.</p>
+                                                                <p className="osr-13 darkgrey">View Only access invites people to see the site. They will be unable to make any changes to the site or your account.</p>
                                                             </div>
                                                         </li>
                                                     </ul>
@@ -967,9 +1157,13 @@ class Dashboard extends React.Component {
                                         <div className="row">
                                             <div className="col-lg-12 col-md-12 col-sm-12">
                                                 <h2 className="oss-16 black"> Your Project invite link</h2>
+                                                <p>Invite people to preview your site by sending them the link below.</p>
                                                 <div className="ic-cont-btm">
-                                                    <input type="text" className="form-control osr-13 darkgrey" id="invite-link" aria-describedby="emailHelp" placeholder="https://preview.siteseed.io/preview/naveens-initial-project-2-9e7c" />
-                                                    <button type="submit" className="btn btn-primary green-btn oss-13 white">Copy</button>
+                                                    <input type="text" className="form-control osr-13 darkgrey" id="invite-link" value={`${assetsUrl}/${userS3Dir}/sites/${siteSelectForInvite}/preview/index.html`} aria-describedby="emailHelp" placeholder="https://preview.siteseed.io/preview/naveens-initial-project-2-9e7c" />
+                                                    <button type="submit" className="btn btn-primary green-btn oss-13 white" onClick={(e) => {
+                                                        navigator.clipboard.writeText(`${assetsUrl}/${userS3Dir}/sites/${siteSelectForInvite}/preview/index.html`)
+                                                        showToast({ type: 'success', message: 'Copied to clipboard' })
+                                                    }}>Copy</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -995,13 +1189,13 @@ class Dashboard extends React.Component {
                                     <div className="modal-body">
                                         <div className="row">
                                             <div className="col-lg-12 col-md-12 col-sm-12">
-                                                <h2 className="oss-16 black">Sure you want to delete <span className="turq"> Mysite </span> ? </h2>
-                                                <p className="osr-13 darkgrey ">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In bibendum massa justo, eget lobortis neque hendrerit non. Etiam fringilla cursus enim vitae euismod. Duis pellentesque justo a dolor posuere lobortis. Sed ultricies interdum purus. Maecenas et erat in velit posuere.</p>
+                                                <h2 className="oss-16 black">Sure you want to delete <span className="turq"> {siteSelectForDelete && (data.user_sites.find(s => s.site_id == siteSelectForDelete)) && (data.user_sites.find(s => s.site_id == siteSelectForDelete)).site_name} </span> ? </h2>
+                                                <p className="osr-13 darkgrey ">After you click delete below, you will not be able to undo this action, nor get this site back on your dashboard. It becomes unpublished, and we are unable to retrieve it.</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="modal-footer">
-                                        <button type="button" className="btn btn-primary oss-13 white green-btn">Delete Forever</button>
+                                        <button type="button" className="btn btn-primary oss-13 white green-btn" data-bs-dismiss="modal" onClick={this.deleteSite}>Delete Forever</button>
                                     </div>
                                 </div>
                             </div>
@@ -1025,11 +1219,11 @@ class Dashboard extends React.Component {
                                         <div className="row">
                                             <div className="row-inner">
                                                 <div className="col-lg-8 col-md-8 col-sm-12 coll">
-                                                    <div className="left">
-                                                        <img id="myImg" src="./assets/website/images/SpaWellness.jpg" alt="your image" />
+                                                    <div className="left" style={{ marginRight: '0', width: '30%', boxShadow: 'rgb(0 0 0 / 20%) 0px 2px 6px 0px, rgb(0 0 0 / 19%) 0px 6px 20px 0px' }}>
+                                                        <img id="myImg" style={{ width: '100%' }} src={selectSiteForExport && selectSiteForExport.thumbnail} alt="your image" />
                                                     </div>
-                                                    <div className="right">
-                                                        <h2 className="oss-16 black">Template : Spa {'&'} Wellness</h2>
+                                                    <div className="right" style={{ float: 'right', width: '65%' }}>
+                                                        <h2 className="oss-16 black">Template : {selectSiteForExport && selectSiteForExport.site_name}</h2>
                                                         <p className="osr-13 darkgrey">Regular License</p>
                                                     </div>
                                                 </div>
@@ -1048,11 +1242,10 @@ class Dashboard extends React.Component {
                                                             }
                                                         }} onBlur={() => {
                                                             this.selectPlatformElem.classList.remove('open')
-                                                        }} tabindex="0">
+                                                        }} tabIndex="0">
                                                             <span className="current">{this.state.choosePlatformSelect}</span>
                                                             <ul className="list">
                                                                 <li data-value="Nothing" data-display="Choose Platform" className="option selected focus" onClick={(e) => {
-                                                                    console.log(this.selectPlatformElem, 'sss.p')
                                                                     this.selectPlatformElem.classList.remove('open')
                                                                     this.set('choosePlatformSelect', 'Choose Platform')
                                                                 }}
@@ -1080,13 +1273,6 @@ class Dashboard extends React.Component {
                                                                 >
                                                                     Htmlcss
                                                                     </li>
-                                                                <li data-value="4" className="option" onClick={(e) => {
-                                                                    this.selectPlatformElem.classList.remove('open')
-                                                                    this.set('choosePlatformSelect', 'Wordpress')
-                                                                }}
-                                                                >
-                                                                    Wordpress
-                                                                    </li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -1096,9 +1282,7 @@ class Dashboard extends React.Component {
                                     </div>
                                     <div className="modal-footer">
                                         <button type="button" className="btn btn-primary oss-13 white green-btn" onClick={() => {
-                                            setTimeout(() => {
-                                                document.querySelector('#trigger-download-modal').click()
-                                            }, 1000)
+                                            this.prepareNDownloadExportZip()
                                         }} data-bs-dismiss="modal"
                                         >Prepare .Zip File</button>
                                     </div>
@@ -1128,7 +1312,7 @@ class Dashboard extends React.Component {
                                                         <img id="myImg" src="./assets/website/images/SpaWellness.jpg" alt="your image" />
                                                     </div>
                                                     <div className="right">
-                                                        <h2 className="oss-16 black">Template : Spa {'&'} Wellness</h2>
+                                                        <h2 className="oss-16 black">Template : {this.state.site_name}</h2>
                                                         <p className="osr-13 darkgrey">Regular License</p>
                                                     </div>
                                                 </div>
@@ -1141,7 +1325,7 @@ class Dashboard extends React.Component {
                                                             <option value="3">Htmlcss</option>
                                                             <option value="4">Wordpress</option>
                                                         </select> */}
-                                                        <div className="nice-select form-select osr-13 darkgrey disabled" tabindex="0">
+                                                        <div className="nice-select form-select osr-13 darkgrey disabled" tabIndex="0">
                                                             <span className="current">{this.state.choosePlatformSelect}</span>
                                                             <ul className="list">
                                                                 <li data-value="Nothing" data-display="Choose Platform" className="option selected focus" onClick={(e) => {
@@ -1187,7 +1371,10 @@ class Dashboard extends React.Component {
                                         </div>
                                     </div>
                                     <div className="modal-footer">
-                                        <button type="button" className="btn btn-primary oss-13 white green-btn">Download Now</button>
+                                        <button type="button" className="btn btn-primary oss-13 white green-btn" onClick={e => {
+                                            // if (this.state.choosePlatformSelect === "Wordpress")
+                                            this.exportSite.downloadFile();
+                                        }}>Download Now</button>
                                     </div>
                                 </div>
                             </div>
@@ -1210,16 +1397,14 @@ class Dashboard extends React.Component {
                                     <div className="modal-body">
                                         <div className="row">
                                             <div className="col-lg-12 col-md-12 col-sm-12">
-                                                <form>
-                                                    <ul>
-                                                        <li className="center">
-                                                            <div className="">
-                                                                <label htmlFor="re-name" className="form-label oss-16 black">Site Name</label>
-                                                                <input type="text" className="form-control osr-13 darkgrey" id="re-name" placeholder="Mysite Copy" onChange={(e) => { this.set('site_name', e.target.value) }} />
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </form>
+                                                <ul style={{ width: '100%' }}>
+                                                    <li className="center">
+                                                        <div className="">
+                                                            <label htmlFor="re-name" className="form-label oss-16 black">Site Name</label>
+                                                            <input type="text" className="form-control osr-13 darkgrey" id="re-name" placeholder="Mysite Copy" onChange={(e) => { this.set('site_name', e.target.value) }} />
+                                                        </div>
+                                                    </li>
+                                                </ul>
                                                 <p className="osr-13 darkgrey cs-ur-data">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec maximus, velit ac congue interdum, augue neque gravida sem, sed fermentum.</p>
                                             </div>
                                         </div>
@@ -1237,6 +1422,14 @@ class Dashboard extends React.Component {
 
                 {/* <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script> */}
 
+                {/* {
+                    searchBarList
+                } */}
+                {/* <ul id="ui-id-1" tabIndex="0" className="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style={{ top: '304px', left: '1111.16px', width: '658px', }}>
+                    <li className="ui-menu-item">
+                        <div id="ui-id-36" tabIndex="-1" className="ui-menu-item-wrapper">ActionScript</div>
+                    </li>
+                </ul> */}
             </>
         )
     }
@@ -1248,7 +1441,8 @@ const mapStateToProps = ({ global, layout, templates, }) => {
         theme: layout.theme,
         templates,
         currentUser: global.currentUser,
-        tokenInfo: global.tokenInfo
+        tokenInfo: global.tokenInfo,
+        userS3Dir: global.userS3Dir,
     }
 }
 

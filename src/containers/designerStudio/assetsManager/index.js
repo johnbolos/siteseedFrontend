@@ -103,7 +103,7 @@ class AssetsManager extends React.Component {
         this.createLocalFonts()
     }
     handleUpload = async (e, mouseDrop) => {
-        let { dispatch, assets, userS3Dir } = this.props
+        let { dispatch, assets, userS3Dir, currentBuilderSiteId } = this.props
         let files = []
         if (mouseDrop) {
             // e.preventDefault()
@@ -127,12 +127,12 @@ class AssetsManager extends React.Component {
         }
         this.setState({ loading: true })
         let s3Dir = userS3Dir
-        if (!s3Dir) {
-            // create new userS3Dir
-            s3Dir = 's3Dir' || shortid.generate() //replace this with user _id
-            dispatch(setS3Dir(s3Dir))
-        }
-        _s3.uploadFile(files[0], s3Dir, (resp) => {
+        // if (!s3Dir) {
+        //     // create new userS3Dir
+        //     s3Dir = 's3Dir' || shortid.generate() //replace this with user _id
+        //     dispatch(setS3Dir(s3Dir))
+        // }
+        _s3.uploadFile(files[0], s3Dir + `/sites/${currentBuilderSiteId}/images`, (resp) => {
             this.setState({ loading: false })
             if (resp.error) {
                 if (resp.message) {
@@ -157,7 +157,7 @@ class AssetsManager extends React.Component {
         // this.handleAddImage(apiRequest.secure_url)
     }
     handleFontsUpload = async (e, mouseDrop) => {
-        let { dispatch, assets, userS3Dir } = this.props
+        let { dispatch, assets, userS3Dir, currentBuilderSiteId } = this.props
         let files = []
         files = e.target.files
         if (files && files.length == 0) {
@@ -165,24 +165,22 @@ class AssetsManager extends React.Component {
         }
         if (files[0].size > 2000000) {
             showToast({ type: 'warning', message: 'Please upload a file smaller than 2MB' })
-            // toast("please upload a file smaller than 2MB")
             return
         }
         // handle multiple files upload instead of one
         _.each(files, (file, index) => {
             if (!['woff', 'woff2', 'ttf'].includes(/(?:\.([^.]+))?$/.exec(file.name)[1])) {
                 showToast({ type: 'warning', message: 'Invalid File format' })
-                // toast('Invalid File format')
                 return
             }
             let s3Dir = userS3Dir
             this.setState({ loading: true })
-            if (!s3Dir) {
-                // create new userS3Dir
-                s3Dir = 's3Dir' || shortid.generate()  //replace this with user _id
-                dispatch(setS3Dir(s3Dir))
-            }
-            _s3.uploadFile(file, s3Dir + '/fonts', (resp) => {
+            // if (!s3Dir) {
+            //     // create new userS3Dir
+            //     s3Dir = 's3Dir' || shortid.generate()  //replace this with user _id
+            //     dispatch(setS3Dir(s3Dir))
+            // }
+            _s3.uploadFile(file, s3Dir + `/sites/${currentBuilderSiteId}/fonts`, (resp) => {
                 if (index == files.length - 1) {
                     this.setState({ loading: false })
                 }
@@ -190,11 +188,9 @@ class AssetsManager extends React.Component {
                     if (resp.message) {
                         console.error(resp.message)
                         showToast({ type: 'error', message: resp.message })
-                        // toast(resp.message)
                     }
                     return
                 }
-                // this.handleAddImage(resp.data.location)
                 let payload = {
                     family: file.name.replace(/(?:\.([^.]+))?$/, ''),
                     url: resp.data.location
@@ -420,8 +416,8 @@ class AssetsManager extends React.Component {
                                         {/* <div className={'upload-btn'} for="ss-assets-manager-upload">Upload Images</div> */}
                                         <label className={'assets-upload-btn'} for="ss-assets-manager-upload">
                                             {loading && <Icons.Loading style={{ width: '16px', height: '16px', marginRight: '5px' }} />}
-                                    Upload Images
-                                </label>
+                                            Upload Images
+                                        </label>
                                         <input
                                             type="file"
                                             id="ss-assets-manager-upload"
@@ -553,7 +549,8 @@ const mapStateToProps = ({ global, layout, templates, editor, editorHistory }) =
         imageAssetsTarget: editor.imageAssetsTarget,
         backgroundImage: editor.backgroundImage,
         googleFonts: editor.googleFonts,
-        userS3Dir: global.userS3Dir
+        userS3Dir: global.userS3Dir,
+		currentBuilderSiteId: global.currentBuilderSiteId,
     }
 }
 

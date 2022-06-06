@@ -5,6 +5,7 @@ import { connect } from "react-redux"
 import Request from '../../request'
 import { showToast } from "../../components/utils"
 import moment from "moment"
+import { hideLoader, showLoader } from "../../reducers/actions"
 
 class ProfileNotifSettings extends React.Component {
     state = {
@@ -16,10 +17,9 @@ class ProfileNotifSettings extends React.Component {
     // Notif tab functions
     apiRequestNotifSettings = async () => {
         let { dispatch } = this.props
-        this.setState({ loading: true })
+        dispatch(showLoader())
         const apiRequest = await Request.getNotifSettings()
-        console.log(apiRequest, 'sss.p notif')
-        this.setState({ loading: false })
+        dispatch(hideLoader())
         if (apiRequest.messageType && apiRequest.messageType == 'error') {
             showToast({ type: 'error', message: apiRequest.details || 'Unable to fetch data, Try Relogging' })
             return
@@ -45,15 +45,15 @@ class ProfileNotifSettings extends React.Component {
         this.setState({ notifHTMLData: resp })
     }
     notifDataChange = async (value, key) => {
+        const { dispatch } = this.props
         let { notifData } = this.state
         notifData[key] = {
             ...notifData[key],
             value
         }
-        this.setState({ loading: true })
+        dispatch(showLoader())
         const apiRequest = await Request.setNotifSettings({ user_notifications: notifData })
-        console.log(apiRequest, notifData, 'sss.p')
-        this.setState({ loading: false })
+        dispatch(hideLoader())
         if (apiRequest.messageType == 'error') {
             showToast({ type: 'error', message: 'Unable to save, try again' })
             return
@@ -69,12 +69,12 @@ class ProfileNotifSettings extends React.Component {
                 <div className="notify-tab-content">
                     <div className="notify-tab-content-inner">
                         <div className="row">
-                            <div className="col-md-8 col-lg-8 col-sm-12 notify-tab-coll">
+                            <div className="col-md-8 col-lg-8 col-sm-12">
                                 <h1 className="osb-22 black">Notifications Setting</h1>
                                 <div className="notify-data">
                                     <div className=" p-data-cmn notify-data-row1">
-                                        <p className="osb-22 black">Email Notification</p>
-                                        <p className="osr-13 darkgrey">Enabling this will provide an extra layer of security for your account. When logging in, we will ask for a <br /> special authentication code from your device.</p>
+                                        <p className="osb-22 black">Email Notifications</p>
+                                        <p className="osr-13 darkgrey">Select the items below that you would like to receive an email notification for.  <br /> You can change these settings at any time.</p>
                                         {/* <form ref={(form) => this.notifForm = form}> */}
                                         <ul>
                                             {

@@ -43,6 +43,7 @@ class StyleManager extends React.Component {
     }
     componentDidMount() {
         this.getFonts()
+        this.props.setBackgroundPropertyValue(this.setBackgroundPropertyValue.bind(this))
     }
     componentDidUpdate(prevProps, prevState) {
         const { selected, pseudoClass } = this.props
@@ -111,7 +112,7 @@ class StyleManager extends React.Component {
         // }
 
         if (/px|em|%/g.test(item.value)) {
-            if(['auto', 'none'].includes(item.value)) {
+            if (['auto', 'none'].includes(item.value)) {
                 item.value = item.value.replace(/px|em|%/g, '')
             }
         }
@@ -257,9 +258,9 @@ class StyleManager extends React.Component {
             })
             if (item.key == 'position') {
                 if (item.value.replace(' !important', '').trim() == 'fixed') {
-                    this.globalOnChange({key: 'z-index', value: '5'})
+                    this.globalOnChange({ key: 'z-index', value: '5' })
                 } else {
-                    this.globalOnChange({key: 'z-index', value: 'auto'})
+                    this.globalOnChange({ key: 'z-index', value: 'auto' })
                 }
             }
             return
@@ -277,9 +278,9 @@ class StyleManager extends React.Component {
         })
         if (item.key == 'position') {
             if (item.value.replace(' !important', '').trim() == 'fixed') {
-                this.globalOnChange({key: 'z-index', value: '5'})
+                this.globalOnChange({ key: 'z-index', value: '5' })
             } else {
-                this.globalOnChange({key: 'z-index', value: 'auto'})
+                this.globalOnChange({ key: 'z-index', value: 'auto' })
             }
         }
 
@@ -335,6 +336,15 @@ class StyleManager extends React.Component {
             }
         }
         this.setState({ transformValue: resp })
+    }
+    setBackgroundPropertyValue = () => {
+        const { selected, editorNode } = this.props
+        if (!selected.node) {
+            return
+        }
+        customEvents.saveStyleInfo({ elem: selected.node, node: editorNode }, {}, () => {
+            this.setState({ backgroundValue: this.extractBackgroundProperty() })
+        })
     }
     extractBackgroundProperty = () => {
         const { selected, pseudoClass } = this.props
@@ -465,14 +475,13 @@ class StyleManager extends React.Component {
             css['background-repeat'].push(item.repeat)
             css['background-image'].push(item.image)
         })
-        
+
         //loop css and up date  color->image->position->size->attachment->repeat->blendMode
         Async.eachOf(css, (value, key, next) => {
             setTimeout(() => {
                 if (key == 'background-image' && value.join(', ').trim() == '') {
                     this.globalOnChange({ key, value: 'none' })
                 } else {
-                    console.log('sss.p updating', value, key, Date.now())
                     this.globalOnChange({ key, value: value.join(', ') })
                 }
                 next()
@@ -508,13 +517,19 @@ class StyleManager extends React.Component {
         }, [assetsManager])
         useEffect(() => {
             if (value) {
-                setState({ ...state, backgroundKey: value.type, position: value.position })
+                if (value.blendMode && state.blendModeChange && state.blendModeChange != value.blendMode) {
+                    return
+                }
+                setState({ ...state, backgroundKey: value.type, position: value.position, blendModeChange: false })
             }
         }, [value])
         let handleOnChange = (item, action = '') => {
             if (action === 'backgroundRemove') {
                 onChange(item, key, 'backgroundRemove')
                 return
+            }
+            if (item.key == 'blendMode') {
+                setState({ ...state, blendModeChange: item.value })
             }
             onChange(item, key, 'background')
         }
@@ -585,10 +600,10 @@ class StyleManager extends React.Component {
             }
         ]
         let blendMode = {
-            label: 'Blend Mode',
+            label: 'Image Effects',
             key: 'blendMode',
             type: 'select', //required
-            value: value && value.blendMode,
+            value: state.blendModeChange || (value && value.blendMode),
             // width: '48%',
             fieldClass: 'field-class blend-mode-field',
             options: [  //optional type: Array of string, Array of objects
@@ -769,7 +784,7 @@ class StyleManager extends React.Component {
                 ],
             },
             {
-                label: 'Attachment',
+                label: 'Style',
                 key: 'attachment',
                 type: 'select', //required
                 value: value && value.attachment,
@@ -1588,54 +1603,67 @@ class StyleManager extends React.Component {
                             value: `${evaluatedValue.top} ${evaluatedValue.right} ${evaluatedValue.bottom} ${evaluatedValue.left}`
                         })
                     }
-                    let inputFunc = (val, key) => {
-                        let unit = 'px'
-                        if (val) {
-                            unit = val.replace(/[0-9]|\./gi, '')
-                            val = val.replace(unit, '')
-                        }
-                        let handleFocus = (event) => event.target.select()
-                        return <input onFocus={handleFocus} type={'number'} value={val || 0} onChange={(e) => {
-                            if (e.target.value < -9999 || e.target.value > 9999) {
-                                return
+                    function InputFunc(props) {
+                        const [state, setState] = useState({ ref: React.createRef(), unit: 'px' })
+                        useEffect(() => {
+                            if (props.val) {
+                                state.ref.current.value = props.val.replace(state.unit, '')
                             }
-                            handleOnChange(`${e.target.value}${unit}`, key)
-                        }} />
+                        }, [props.val])
+                        let handleFocus = (event) => event.target.select()
+                        return <input onFocus={handleFocus} type={'number'} ref={state.ref}
+                            defaultValue={0}
+                            // value={props.val}
+                            onKeyPress={(e) => {
+                                if (e.key === 'Enter') {
+                                    if (e.target.value < -9999 || e.target.value > 9999) {
+                                        return
+                                    }
+                                    props.handleOnChange(`${e.target.value}${state.unit}`, props.index)
+                                }
+                            }}
+                            onBlur={(e) => {
+                                if (e.target.value < -9999 || e.target.value > 9999) {
+                                    return
+                                }
+                                props.handleOnChange(`${e.target.value}${state.unit}`, props.index)
+                            }}
+                        />
                     }
                     // extract margin and padding values
                     return <div className={'margin-padding'}>
                         <div className={'label'}>Margin</div>
                         <div className={'margin-left-div'}>
-                            {inputFunc(margin.left, 'margin.left')}
+                            <InputFunc val={margin.left} index={'margin.left'} handleOnChange={handleOnChange} />
                         </div>
                         <div className={'margin-center-div'}>
                             <div className={'margin-top-div'}>
-                                {inputFunc(margin.top, 'margin.top')}
+                                <InputFunc val={margin.top} index={'margin.top'} handleOnChange={handleOnChange} />
                             </div>
                             <div className={'margin-middle-div'}>
                                 <div className={'label'}>Padding</div>
                                 <div className={'padding-left-div'}>
-                                    {inputFunc(padding.left, 'padding.left')}
+                                    <InputFunc val={padding.left} index={'padding.left'} handleOnChange={handleOnChange} />
                                 </div>
                                 <div className={'padding-center-div'}>
                                     <div className={'padding-top-div'}>
-                                        {inputFunc(padding.top, 'padding.top')}
+                                        <InputFunc val={padding.top} index={'padding.top'} handleOnChange={handleOnChange} />
                                     </div>
                                     <div className={'padding-middle-div'}></div>
                                     <div className={'padding-bottom-div'}>
-                                        {inputFunc(padding.bottom, 'padding.bottom')}
+                                        <InputFunc val={padding.bottom} index={'padding.bottom'} handleOnChange={handleOnChange} />
                                     </div>
                                 </div>
                                 <div className={'padding-right-div'}>
-                                    {inputFunc(padding.right, 'padding.right')}
+                                    <InputFunc val={padding.right} index={'padding.right'} handleOnChange={handleOnChange} />
                                 </div>
                             </div>
                             <div className={'margin-bottom-div'}>
-                                {inputFunc(margin.bottom, 'margin.bottom')}
+                                <InputFunc val={margin.bottom} index={'margin.bottom'} handleOnChange={handleOnChange} />
                             </div>
                         </div>
                         <div className={'margin-right-div'}>
-                            {inputFunc(margin.right, 'margin.right')}
+                            <InputFunc val={margin.right} index={'margin.right'} handleOnChange={handleOnChange} />
                         </div>
                     </div>
                 }
@@ -1889,7 +1917,7 @@ class StyleManager extends React.Component {
                 inline: true,
                 render: (value, globalOnChange) => {
                     const { integratedBorderRadius } = this.state
-                    let unit = '%'
+                    let unit = 'px'
                     if (value) {
                         if (value.split(' ').length > 1) {
                             //multiple disable this field to be done =======================
@@ -1936,20 +1964,36 @@ class StyleManager extends React.Component {
                         bottomL: '',
                     }
                     if (value) {
-                        if (value.split(' ').length > 1) {
-                            value = value.split(' ')
-                            border = {
-                                topL: value[0],
-                                topR: value[1],
-                                bottomR: value[2],
-                                bottomL: value[3],
-                            }
-                        } else {
+                        if (value.split(' ').length === 1) {
                             border = {
                                 topL: value,
                                 topR: value,
                                 bottomL: value,
                                 bottomR: value,
+                            }
+                        } else if (value.split(' ').length == 2) {
+                            value = value.split(' ')
+                            border = {
+                                topL: value[0] || '0px',
+                                topR: value[1] || '0px',
+                                bottomR: value[0] || '0px',
+                                bottomL: value[1] || '0px',
+                            }
+                        } else if (value.split(' ').length == 3) {
+                            value = value.split(' ')
+                            border = {
+                                topL: value[0] || '0px',
+                                topR: value[1] || '0px',
+                                bottomR: value[2] || '0px',
+                                bottomL: value[2] || '0px',
+                            }
+                        } else if (value.split(' ').length == 4) {
+                            value = value.split(' ')
+                            border = {
+                                topL: value[0] || '0px',
+                                topR: value[1] || '0px',
+                                bottomR: value[2] || '0px',
+                                bottomL: value[3] || '0px',
                             }
                         }
                     }
@@ -2166,7 +2210,7 @@ class StyleManager extends React.Component {
                 width: '38%',
             },
             {
-                label: 'Easing',
+                label: 'Ease Motion',
                 key: 'transition-timing-function',
                 type: 'select',
                 value: (selected.node && _grapesEditor.styleManager.getStyles(selected, pseudoClass, 'transition-timing-function')) || 'Auto',
@@ -2448,7 +2492,7 @@ class StyleManager extends React.Component {
 
         const categories = [
             {
-                label: 'General',
+                label: 'Position',
                 children: (<CreateForm fields={generalFormFields} globalOnChange={this.globalOnChange} getFormData={(fn) => {
                     this.getFormDataGeneral = fn
                 }} />),
@@ -2457,31 +2501,31 @@ class StyleManager extends React.Component {
                 // }
             },
             {
-                label: 'Dimension',
+                label: 'Size',
                 children: (<CreateForm fields={dimensionFormFields} globalOnChange={this.globalOnChange} getFormData={(fn) => {
                     this.getFormDataDimension = fn
                 }} />),
             },
             {
-                label: 'Typography',
+                label: 'Text Formatting',
                 children: (<CreateForm fields={typographyFormFields} globalOnChange={this.globalOnChange} getFormData={(fn) => {
                     this.getFormDataTypography = fn
                 }} />),
             },
             {
-                label: 'Decorations',
+                label: 'Image Formattin',
                 children: (<CreateForm fields={decorationsFormFields} globalOnChange={this.globalOnChange} getFormData={(fn) => {
                     this.getFormDataDecorations = fn
                 }} />),
             },
             {
-                label: 'Extra',
+                label: 'Transform',
                 children: (<CreateForm fields={transformKey == 'rotate' ? extraFieldRotate : extraFieldScale} globalOnChange={this.globalOnChange} getFormData={(fn) => {
                     this.getFormDataExtra = fn
                 }} />),
             },
             {
-                label: 'Flex',
+                label: 'Layout',
                 children: (<CreateForm fields={flexFormFields} globalOnChange={this.globalOnChange} getFormData={(fn) => {
                     this.getFormDataFlex = fn
                 }} />),

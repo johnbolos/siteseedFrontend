@@ -62,6 +62,9 @@ const initialState = {
         '#000000',
         '#000000',
     ],
+    currentBuilderSiteId: null,
+    currentBuilderTemplateId: null,
+    currentBuilderTemplateData: null,
     tokenInfo: {},
     buttonLoading: false,
     loading: false,
@@ -75,6 +78,18 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 currentUser: action.user
+            }
+
+        case 'SET_GENERAL_DATA':
+            return {
+                ...state,
+                generalData: action.generalData
+            }
+
+        case 'SET_PROFILE_DATA':
+            return {
+                ...state,
+                profileData: action.profileData
             }
 
         case 'APPEND_COLOR':
@@ -104,19 +119,37 @@ export default (state = initialState, action) => {
                 assets: action.value
             }
 
+        case 'SET_CURRENT_BUILDER_SITE_ID':
+            return {
+                ...state,
+                currentBuilderSiteId: action.value
+            }
+
+        case 'SET_CURRENT_BUILDER_TEMPLATE_ID':
+            return {
+                ...state,
+                currentBuilderTemplateId: action.value
+            }
+            
+        case 'SET_CURRENT_BUILDER_TEMPLATE_DATA':
+            return {
+                ...state,
+                currentBuilderTemplateData: action.value
+            }
+
         case 'LOGOUT':
             return {
                 ...state,
                 currentUser: {}
             }
 
-        case 'SHOW_LOADING':
+        case 'SHOW_LOADER':
             return {
                 ...state,
                 loading: true
             }
 
-        case 'HIDE_LOADING':
+        case 'HIDE_LOADER':
             return {
                 ...state,
                 loading: false
