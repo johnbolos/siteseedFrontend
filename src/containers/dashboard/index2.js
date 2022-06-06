@@ -3,6 +3,7 @@ import { useSelector, useDispatch, connect } from 'react-redux'
 import Request from '../../request'
 import _ from 'lodash'
 import Img from 'react-cloudinary-lazy-image'
+import { getPushPathWrapper } from "../../routes"
 import { showToast } from "../../components/utils"
 import { hideLoader, showLoader } from "../../reducers/actions"
 import { setGeneralData, setUser } from "../../reducers/actions/userActions"
@@ -127,7 +128,7 @@ const DashboardNew = () => {
         if( generalData?.total_user_sites < generalData?.total_sites ){
             setShowNameSite(true)
         }else{
-            showToast({ type: 'error', message: 'Already used up all site credits.' })
+            showToast({ type: 'error', message: 'Maximum Limit Reached! Please upgrade your plan.' })
             return
         }
     }
@@ -218,9 +219,9 @@ const DashboardNew = () => {
                             <div className="col-wrapper start-now">
                                 <Img cloudName={'siteseed'} imageName={'hire-editor'} style={{ width: 'auto', height: 'auto' }} imgStyle={{ height: 'auto', display: 'block' }} fluid={{ maxWidth: 1000 }} />
                                 <div className="hire-editor-specialist">
-                                    <h2>Hire an Editor X specialist</h2>
-                                    <p>Get matched with a freelancer or agecny specialized in Editor X.</p>
-                                    <button>START NOW</button>
+                                    <h2>Hire an Expert</h2>
+                                    <p>Get matched with one of our resident pros who can help you design, develop, or market your site!</p>
+                                    <button>Schedule Now</button>
                                 </div>
                                 <Img cloudName={'siteseed'} imageName={'hire-specialist-gardener'} style={{ width: 'auto', height: 'auto' }} imgStyle={{ height: 'auto', display: 'block', maxWidth: 132 }} fluid={{ maxWidth: 132 }} />
                             </div>

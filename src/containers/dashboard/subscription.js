@@ -28,7 +28,6 @@ class Subscriptions extends React.Component {
         dispatch(showLoader())
         const apiRequest = await Request.getSubscriptionInfo()
         dispatch(hideLoader())
-        console.log('Subscription data ==>', apiRequest)
 
         if (apiRequest.messageType && apiRequest.messageType == 'error') {
             showToast({ type: 'error', message: apiRequest.details || 'Unable to fetch data, Try Relogging' })

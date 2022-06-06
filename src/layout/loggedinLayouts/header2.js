@@ -166,7 +166,7 @@ const Header2 = ({ currentUser }) => {
                                         </div>
                                         <div>
                                             <p><b>{ userGeneralData?.total_user_sites }/{ userGeneralData?.total_sites } left</b> Total Website</p>
-                                            <a className="btn-buymore">BUY MORE</a>
+                                            <a className="btn-buymore">ADD MORE SITES</a>
                                         </div>
                                     </div>
                                     <div className="d-flex">
@@ -177,7 +177,7 @@ const Header2 = ({ currentUser }) => {
                                         </div>
                                         <div>
                                             <p><b>{ userGeneralData?.total_user_exports }/{ userGeneralData?.export_credits } left</b> Export Credits</p>
-                                            <a className="btn-buymore">BUY MORE</a>
+                                            <a className="btn-buymore">ADD MORE CREDITS</a>
                                         </div>
                                     </div>
                                 </div>
