@@ -4,7 +4,7 @@ import SplitButton from 'react-bootstrap/SplitButton'
 import { showToast, openTemplateInEditor } from "../../../components/utils"
 import Request from '../../../request'
 import _ from 'lodash'
-import { getPushPathWrapper } from "../../../routes"
+import { getPushPathWrapper, getUrlPushWrapper } from "../../../routes"
 import { connect, useDispatch, useSelector } from "react-redux"
 import { setGeneralData } from "../../../reducers/actions/userActions"
 import { apiUrl, assetsUrl } from "../../../settings"
@@ -17,6 +17,7 @@ import InviteCollab from '../modals/collab'
 import DuplicateModal from '../modals/duplicate'
 import DeleteModal from '../modals/deleteConfirmation'
 import ExportSite from './export'
+import PublishModal from '../modals/togglePublishConfirmation'
 
 const SiteData = ({ siteData, templateData }) => {
     const dispatch = useDispatch()
@@ -24,6 +25,7 @@ const SiteData = ({ siteData, templateData }) => {
     const [count, setCount] = useState(0)
     const [refetch, setRefetch] = useState(false)
     const [show, setShow] = useState(false)
+    const [publishShow, setPublishShow] = useState(false)
     const [showDuplicate, setShowDuplicate] = useState(false)
     const [showCollab, setShowCollab] = useState(false)
     const [showExport, setShowExport] = useState(false)
@@ -56,6 +58,10 @@ const SiteData = ({ siteData, templateData }) => {
 
     const goto = ( key, params = {} ) => {
         dispatch(getPushPathWrapper(key, params))
+    }
+
+    const gotoWithQueryString = (key, queryString = {}) => {
+        dispatch(getUrlPushWrapper(key, queryString))
     }
 
     const DuplicateSiteHelper = async () => {
@@ -161,6 +167,8 @@ const SiteData = ({ siteData, templateData }) => {
 
         <DeleteModal show={show} onHide={setShow} deleteSite={DeleteSite} site_id={site_id} siteName={siteData.site_name} />
 
+        {/* <PublishModal show={publishShow} onHide={setPublishShow} site_id={site_id} siteData={siteData} isPublished={siteData?.is_published} /> */}
+
         <ExportSite show={showExport} setShow={setShowExport} site_id={site_id} siteData={siteData} templateData={findTemplate}/>
     
         <div className="col-4">
@@ -190,8 +198,8 @@ const SiteData = ({ siteData, templateData }) => {
                     <h3 className="sitedata-title">{ siteData?.site_name ? siteData?.site_name : 'Sample Site Name' }</h3>
                     <p className={`siteData-domain${ siteData?.is_domain_connected ? ' connected-domain' : ''}`}>Domain: {siteData?.is_domain_connected ? 'Connected' : 'Not Connected' }</p>
                     <div className="d-flex flex-wrap siteData-quickActions">
-                        {siteData?.is_published ? <span className="published">Published</span> : <span>Not Published</span> }
-                        {siteData?.is_domain_connected ? <span className="connected-domain">Connected</span> : <span onClick={() => goto('domains') }>Connect Domain</span> }
+                        {siteData?.is_published ? <span className="published" onClick={() => setPublishShow(true) }>Published</span> : <span onClick={() => setPublishShow(true) }>Not Published</span> }
+                        {siteData?.is_domain_connected ? <span className="connected-domain" onClick={() => gotoWithQueryString('domains', {site_id}) }>Connected</span> : <span onClick={() => goto('domains') }>Connect Domain</span> }
                         <span onClick={() => { validateExport() } }>Export Site</span>
                     </div>
                 </div>
