@@ -190,7 +190,6 @@ const SiteData = ({ siteData, templateData }) => {
                     <h3 className="sitedata-title">{ siteData?.site_name ? siteData?.site_name : 'Sample Site Name' }</h3>
                     <p className={`siteData-domain${ siteData?.is_domain_connected ? ' connected-domain' : ''}`}>Domain: {siteData?.is_domain_connected ? 'Connected' : 'Not Connected' }</p>
                     <div className="d-flex flex-wrap siteData-quickActions">
-                        { console.log('SITE DATA ->', siteData) }
                         {siteData?.is_published ? <span className="published">Published</span> : <span>Not Published</span> }
                         {siteData?.is_domain_connected ? <span className="connected-domain" onClick={() => window.open( 'https://'+ siteData.custom_domain, '_blank' ).focus()}>Connected</span> : <span onClick={() => goto('domains') }>Connect Domain</span> }
                         <span onClick={() => { validateExport() } }>Export Site</span>

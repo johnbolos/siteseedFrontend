@@ -853,7 +853,7 @@ class DesignerStudio extends React.Component {
 			})
 		}
 	}
-	@Debounce(500)
+	//@Debounce(500)
 	fun(mouse) {
 
 		// const el = closestElement({ x: mouse.pageX, y: mouse.pageY }, "draggable");

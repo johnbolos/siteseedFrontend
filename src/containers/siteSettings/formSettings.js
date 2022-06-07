@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect} from "react"
 import _ from 'lodash'
 import $ from 'jquery'
 import { connect } from "react-redux"
@@ -18,11 +18,28 @@ class FormSettings extends React.Component {
         settingsData: null
     }
     componentDidMount() {
-        this.setState({ site_id: getUrlParams('siteSettings', this.props.pathname).siteId }, () => {
+        // this.setState({ site_id: getUrlParams('siteSettings', this.props.pathname).siteId }, () => {
+        //     this.apiRequestFormSettings()
+        // })
+
+        this.setState({ site_id: this.props.siteId }, () => {
             this.apiRequestFormSettings()
         })
     }
+
+    componentDidUpdate(prevProps) {
+        
+        if( prevProps.siteId !== this.props.siteId ){
+            this.formSettingForm.reset();
+            this.setState({ site_id: this.props.siteId }, () => {
+                this.apiRequestFormSettings()
+            })
+        }
+        
+    } 
+    
     apiRequestFormSettings = async () => {
+        console.log('fired');
         let { dispatch } = this.props
         const { site_id } = this.state
         if (!site_id) {

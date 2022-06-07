@@ -435,7 +435,6 @@ class SiteSettings extends React.Component {
         //     this.goto('dashboard')
         // }
         this.setState({ tab: this.props.location.state && this.props.location.state.tab }, () => {
-            console.log(this.state.tab, 'sss.p')
             if (this.state.tab && this.state.tab == 'contributor') {
                 document.querySelector("#nav-contributor-tab").click()
             }
@@ -630,9 +629,21 @@ class SiteSettings extends React.Component {
     removeImage = () => {
         this.setState({ faviconPic: null, faviconPicSrc: apiUrl + this.state.settingsData.favicon, imgAdded: false })
     }
+
+    selectedOnChange = ( event ) => {
+        this.goto('siteSettings', { siteId : event.target.value } )
+
+        this.setState({ site_id : event.target.value }, () => {
+          this.apiRequestDashboard()
+          this.apiRequestGeneralSettings()
+      })
+
+        // window.location.reload(false)
+        // this.componentDidMount()
+    }
     render() {
         const { dispatch, currentUser, loading } = this.props
-        const { dashboardData, imgAdded, faviconPicSrc } = this.state
+        const { dashboardData, imgAdded, faviconPicSrc, site_id } = this.state
         return (
             <>
                 {
@@ -649,6 +660,16 @@ class SiteSettings extends React.Component {
                                 <div className="container">
                                     <div className="row dash-set-row1">
                                         <div className="col-sm-12 col-md-12 col-lg-12 col1">
+                                            <div className="custom-selectSiteID-wrapper">
+                                              <h4 className="selectSiteID">Select a site to update</h4>
+                                              <select value={ site_id } id="siteIDSelect" onChange={ this.selectedOnChange }>
+                                                { dashboardData?.user_sites?.length !== 0 && 
+                                                    dashboardData?.user_sites?.map((item, index) => (
+                                                        <option key={index} value={ item.site_id }>{ item.site_name }</option>
+                                                    ))
+                                                }
+                                              </select>
+                                            </div>
                                             <div className="tab-content" id="nav-tabContent">
                                                 <div className="tab-pane fade  " id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"></div>
                                                 <div className="tab-pane fade show active" id="ds-general" role="tabpanel" aria-labelledby="nav-general-tab">
@@ -668,7 +689,7 @@ class SiteSettings extends React.Component {
                                                                                     }}>Save</button>
                                                                                 </div>
                                                                                 <div className="dash-set-name">
-                                                                                    <label for="ep-name" className="form-label oss-16 black">Name</label>
+                                                                                    <label htmlFor="ep-name" className="form-label oss-16 black">Name</label>
                                                                                     <input type="d-name" className="form-control osr-13 darkgrey" id="ep-name" placeholder="Enter Project Name" name={'site_name'} onChange={() => {
                                                                                         // this.handleGeneralSettingSubmit(this.generalSettingForm)
                                                                                     }} />
@@ -762,13 +783,13 @@ class SiteSettings extends React.Component {
                                                     </div>
                                                 </div>
 
-                                                <FormSettings />
+                                                <FormSettings siteId={site_id} />
 
-                                                <FontSettings />
+                                                <FontSettings siteId={site_id} />
 
-                                                <BackupSettings />
+                                                <BackupSettings siteId={site_id} />
 
-                                                <CollabSettings />
+                                                <CollabSettings siteId={site_id} />
 
                                             </div>
 

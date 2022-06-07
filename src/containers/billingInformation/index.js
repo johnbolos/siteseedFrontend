@@ -424,7 +424,7 @@ const BillingInformation = () => {
                                         }}
                                     >
                                         <Empty height={'auto'} width={'70px'} style={{ fill: '#67737D' }} />
-                                        <span class="oss-16 darkgrey">No Data</span>
+                                        <span className="oss-16 darkgrey">No Data</span>
                                     </div> : 
                                     billing?.payment_methods.map((paymentMethod, index) => ( 
                                         <div key={index} className="billing-data-row1-inner" style={{ padding: '0px', display: 'flex', margin: '1px' }}>
@@ -503,7 +503,7 @@ const BillingInformation = () => {
                                             }}
                                         >
                                             <Empty height={'auto'} width={'70px'} style={{ fill: '#67737D' }} />
-                                            <span class="oss-16 darkgrey">No Data</span>
+                                            <span className="oss-16 darkgrey">No Data</span>
                                         </div>
                                     ) : <div>
                                             <div className="bills-container">
@@ -517,7 +517,7 @@ const BillingInformation = () => {
                                                                     createPdf(bill)
                                                                 }}>
                                                                     {bill.orderID}&nbsp;
-                                                                    <span class="material-icons">download</span>
+                                                                    <span className="material-icons">download</span>
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -566,23 +566,23 @@ const BillingInformation = () => {
                                             { Math.ceil(billsFilter.length / 10) > 1 &&
                                             <div className={'pagination'} style={{ justifyContent: 'flex-end', alignItems: 'center' }}>
                                                 <button
-                                                    class="btn btn-primary turq-btn oss-13 white "
+                                                    className="btn btn-primary turq-btn oss-13 white "
                                                     style={{ background: 'transparent', color: '#31cdb9', border: '1px solid #31cdb9' }}
                                                     disabled={pagination == 1}
                                                     onClick={() => { setPagination( pagination - 1 ); createBillsFiltered(); }}
                                                 >
-                                                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                                                    <i className="fa fa-chevron-left" aria-hidden="true"></i>
                                                 </button>
                                                 {
                                                     `${pagination} of ${Math.ceil(billsFilter.length / 10)}`
                                                 }
                                                 <button
-                                                    class="btn btn-primary turq-btn oss-13 white "
+                                                    className="btn btn-primary turq-btn oss-13 white "
                                                     style={{ background: 'transparent', color: '#31cdb9', border: '1px solid #31cdb9' }}
                                                     disabled={pagination == Math.ceil(billsFilter.length / 10)}
                                                     onClick={() => { setPagination(pagination + 1); createBillsFiltered(); }}
                                                 >
-                                                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                                    <i className="fa fa-chevron-right" aria-hidden="true"></i>
                                                 </button>
                                             </div>
                                             }

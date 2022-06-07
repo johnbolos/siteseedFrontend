@@ -21,10 +21,22 @@ class CollabSettings extends React.Component {
         inviteRole: 1,
     }
     componentDidMount() {
-        this.setState({ site_id: getUrlParams('siteSettings', this.props.pathname).siteId }, () => {
+        this.setState({ site_id: this.props.siteId }, () => {
             this.apiRequestCollabSettings()
         })
+        // this.setState({ site_id: getUrlParams('siteSettings', this.props.pathname).siteId }, () => {
+        //     this.apiRequestCollabSettings()
+        // })
     }
+    componentDidUpdate(prevProps) {
+        
+        if( prevProps.siteId !== this.props.siteId ){
+            this.setState({ site_id: this.props.siteId }, () => {
+                this.apiRequestCollabSettings()
+            })
+        }
+        
+    } 
     apiRequestCollabSettings = async () => {
         let { dispatch } = this.props
         const { site_id } = this.state
@@ -253,7 +265,7 @@ class CollabSettings extends React.Component {
                                                                     <td className="oss-13 black" style={{ border: '0px' }}></td>
                                                                     <td className="oss-13 black" style={{ border: '0px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                                                         <Empty height={'auto'} width={'70px'} style={{ fill: '#67737D' }} />
-                                                                        <span class="oss-16 darkgrey">No contributors added to this site yet!</span>
+                                                                        <span className="oss-16 darkgrey">No contributors added to this site yet!</span>
                                                                     </td>
                                                                     <td className="oss-13 black" style={{ border: '0px' }}></td>
                                                                     <td className="csd-down" style={{ border: '0px' }}></td>

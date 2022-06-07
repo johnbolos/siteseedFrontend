@@ -169,3 +169,42 @@
         }
     }
 }
+
+
+.custom-selectSiteID-wrapper {
+    display: flex;
+    align-items: center;
+    padding-bottom: 30px;
+
+    h4 {
+        margin-right: 30px;
+        margin-bottom: 0;
+        color: #281C73;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 33px;
+    }
+
+    select#siteIDSelect {
+        background: #f2f2f2;
+        height: 49px;
+        border-radius: 0;
+        border: 0;
+        font-size: 15px;
+        line-height: 20px;
+        font-weight: 400;
+        outline: none;
+        box-shadow: none;
+        margin-bottom: 0 !important;
+        display: block;
+        width: 100%;
+        max-width: 320px;
+        padding: .375rem 1.75rem .375rem .75rem;
+        color: #212529;
+        vertical-align: middle;
+        appearance: auto;
+    }
+}
+.tab-content {
+    padding: 0 10px;
+}
