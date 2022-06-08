@@ -27,10 +27,24 @@ import { store } from "../../../store";
 import viewCode from "./viewCode/viewCode";
 import mediaTraits from "../blocks/media/mediaTraits";
 import { prebuiltBlocks } from "../blocks/prebuilt";
-import { assetsUrl } from "../../../settings";
+import { assetsUrl, stagingUrl } from "../../../settings";
 import Request from "../../../request";
 // import { countdown } from "../blocks/extras/icons";
 
+
+
+/* Template Component Blocks */
+import { agencyDark } from "../blocks/templateComponents/agencyDark";
+import { agencyGrey } from "../blocks/templateComponents/agencyGrey";
+import { blog } from "../blocks/templateComponents/blog";
+import { carpentry } from "../blocks/templateComponents/carpentry";
+import { event } from "../blocks/templateComponents/event";
+import { gym } from "../blocks/templateComponents/gym";
+import { landingPage } from "../blocks/templateComponents/landingPage";
+import { musician } from "../blocks/templateComponents/musician";
+import { restaurant1 } from "../blocks/templateComponents/restaurant1";
+import { spa } from "../blocks/templateComponents/spa";
+import { therapists } from "../blocks/templateComponents/therapists";
 
 const _grapesEditor = {
 	editor: null,
@@ -171,6 +185,7 @@ const _grapesEditor = {
 				// `http://localhost:3000/assets/script/ssAnimation.js`
 			]
 		}
+
 		switch (templateName) {
 			case "template1":
 			case "spa":
@@ -471,6 +486,7 @@ const _grapesEditor = {
 					"https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400&display=swap",
 					`${assetsUrl}/templates/gym/vendor/bootstrap/css/bootstrap.min.css`,
 					`${assetsUrl}/templates/gym/Fonts/stylesheet.css`,
+					`${stagingUrl}/assets/templates/gym/defaultStyle.css`,
 				]
 				resp.scripts = [
 					...resp.scripts,
@@ -898,7 +914,7 @@ const _grapesEditor = {
 	],
 	config: {
 		container: "#grapesEditor",
-		height: "100%",
+		height: "100%", 
 		// storageManager: { type: "none" },
 		// richTextEditor: {
 		// 	stylePrefix: 'rte-',
@@ -972,6 +988,35 @@ const _grapesEditor = {
 		if (defaultConfig.styleManager)
 			defaultConfig.styleManager.sectors = _grapesEditor.styleSectors;
 		defaultConfig.canvas = _grapesEditor.canvasConfigData(config.currentTemplate)
+
+		/* Add Prebuilt Section based on Template used */
+		console.log( 'Template => ', config.currentTemplate );
+		if( config.currentTemplate == 'event' ){
+			defaultConfig.plugins.push( event )
+		}else if( config.currentTemplate == 'agencyDark' ){
+			defaultConfig.plugins.push( agencyDark )
+		}else if( config.currentTemplate == 'agencyGrey' ){
+			defaultConfig.plugins.push( agencyGrey )
+		}else if( config.currentTemplate == 'blog' ){
+			defaultConfig.plugins.push( blog )
+		}else if( config.currentTemplate == 'carpentry' ){
+			defaultConfig.plugins.push( carpentry )
+		}else if( config.currentTemplate == 'gym' ){
+			defaultConfig.plugins.push( gym )
+		}else if( config.currentTemplate == 'landingPage' ){
+			defaultConfig.plugins.push( landingPage )
+		}else if( config.currentTemplate == 'musician' ){
+			defaultConfig.plugins.push( musician )
+		}else if( config.currentTemplate == 'restaurant1' ){
+			defaultConfig.plugins.push( restaurant1 )
+		}else if( config.currentTemplate == 'spa' ){
+			defaultConfig.plugins.push( spa )
+		}else{
+			defaultConfig.plugins.push( therapists )
+		} 
+
+
+
 		if (config.plugins) {
 			config.plugins.push(defaultConfig.plugins);
 		}

@@ -359,6 +359,7 @@ class DesignerStudio extends React.Component {
 			const { templateName: projectType } = this.props.templates;
 			let style, html, customCss, defaultPageData;
 			this.gets3Assets()
+
 			switch (projectType) {
 				case "therapists":
 					// html = therapists.html
@@ -385,7 +386,7 @@ class DesignerStudio extends React.Component {
 					defaultPageData = agencyGreyTemplate.pageData
 					break;
 				case "agencyDark":
-					// html = agencyDarkTemplate.html
+					// html = agencyDarkTemplate.html 
 					// style = agencyDarkTemplate.baseCss
 					// customCss = agencyDarkTemplate.customCss
 					defaultPageData = agencyDarkTemplate.pageData

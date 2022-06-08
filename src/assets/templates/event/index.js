@@ -4048,9 +4048,29 @@ $('#navbarResponsive').toggleClass('hideshow');
 });    
 </script> 
 */
+
+export const pageData = [
+  {
+      components: html,
+      style: baseCss,
+      customCss: customCss,
+      name: "Home",
+      homePage: true,
+      styleFontStr: null,
+      hidden: false,
+      desp: null,
+      favicon: null,
+      seo: {
+          name: null,
+          desp: null
+      }
+  },
+]
+
 export default {
 	html,
 	baseCss,
 	customCss,
 	style,
+    pageData
 }
