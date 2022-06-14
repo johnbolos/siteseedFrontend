@@ -96,7 +96,7 @@ class LayerManager extends React.Component {
 						onClick={this.collapseAll}
 						title={'Collapse All'}
 					>
-						<i class="fa fa-compress" aria-hidden="true"></i>
+						<i className="fa fa-compress" aria-hidden="true"></i>
 					</div>
 				</div>
 				<div style={{ borderBottom: "none" }}>
