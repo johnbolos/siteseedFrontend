@@ -1,4 +1,5 @@
 import "grapesjs/dist/css/grapes.min.css";
+import gjsEdit from '@truenorthtechnology/grapesjs-code-editor';
 import _ from "lodash";
 import grapesjs from "grapesjs";
 //import "grapesjs-blocks-basic";
@@ -22,6 +23,8 @@ import { media } from "../blocks/media";
 import { extras } from "../blocks/extras";
 import { slider } from "../blocks/basic/icons";
 import "grapesjs-lory-slider";
+import grapesjsComponentCodeEditor from 'grapesjs-component-code-editor';
+import parserPostCSS from 'grapesjs-parser-postcss';
 import { useStore } from "react-redux";
 import { store } from "../../../store";
 import viewCode from "./viewCode/viewCode";
@@ -45,6 +48,7 @@ import { musician } from "../blocks/templateComponents/musician";
 import { restaurant1 } from "../blocks/templateComponents/restaurant1";
 import { spa } from "../blocks/templateComponents/spa";
 import { therapists } from "../blocks/templateComponents/therapists";
+
 
 const _grapesEditor = {
 	editor: null,
@@ -204,6 +208,7 @@ const _grapesEditor = {
 					// "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css",
 
 					// `${assetsUrl}/templates/spa/vendor/bootstrap/css/bootstrap.min.css`,
+					`${stagingUrl}/assets/templates/spa/fonts/stylesheet.css`, 
 				]
 				resp.scripts = [
 					...resp.scripts,
@@ -298,7 +303,8 @@ const _grapesEditor = {
 					"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css",
 					"https://unpkg.com/swiper/swiper-bundle.min.css",
 					`${assetsUrl}/templates/therapists/vendor/bootstrap/css/bootstrap.min.css`,
-					"https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css"
+					"https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css",
+					`${stagingUrl}/assets/templates/therapists/fonts/stylesheet.css`, 
 					
 				]
 				resp.scripts = [
@@ -332,6 +338,7 @@ const _grapesEditor = {
 					"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css",	//diff version
 					"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css",
 					"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css",
+					`${stagingUrl}/assets/templates/landingPage/css/stylesheet.css`, 
 				]
 				resp.scripts = [
 					...resp.scripts,
@@ -349,6 +356,7 @@ const _grapesEditor = {
 					"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css",
 					`${assetsUrl}/templates/agencyGrey/vendor/bootstrap/css/bootstrap.min.css`,
 					"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
+					`${stagingUrl}/assets/templates/agencyGrey/css/style.css`, 
 				]
 				resp.scripts = [
 					...resp.scripts,
@@ -367,6 +375,7 @@ const _grapesEditor = {
 					"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css",
 					`${assetsUrl}/templates/agencyDark/vendor/bootstrap/css/bootstrap.min.css`,
 					"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
+					`${stagingUrl}/assets/templates/agencyDark/css/style.css`, 
 				]
 				resp.scripts = [
 					...resp.scripts,
@@ -386,6 +395,7 @@ const _grapesEditor = {
 					"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
 					"https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css",
 					`${assetsUrl}/templates/restaurant1/vendor/bootstrap/css/bootstrap.min.css`,
+					`${stagingUrl}/assets/templates/restaurant1/css/styleresto.css`, 
 				]
 				resp.scripts = [
 					...resp.scripts,
@@ -415,6 +425,7 @@ const _grapesEditor = {
 					"https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@400&display=swap",
 					"https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@800&display=swap",
 					"https://fonts.googleapis.com/css2?family=Roboto&display=swap",
+					`${stagingUrl}/assets/templates/carpentry/css/style.css`, 
 				]
 				resp.scripts = [
 					...resp.scripts,
@@ -443,6 +454,7 @@ const _grapesEditor = {
 					"https://fonts.googleapis.com/css2?family=Barlow:wght@600&display=swap",
 					"https://fonts.googleapis.com/css2?family=Barlow:wght@700&display=swap",
 					"https://fonts.googleapis.com/css2?family=Raleway&display=swap",
+					`${stagingUrl}/assets/templates/event/css/style.css`,
 				]
 				resp.scripts = [
 					...resp.scripts,
@@ -464,6 +476,7 @@ const _grapesEditor = {
 					"https://fonts.googleapis.com/css2?family=Barlow:wght@600&display=swap",
 					"https://fonts.googleapis.com/css2?family=Barlow:wght@700&display=swap",
 					`${assetsUrl}/templates/musician/fonts/stylesheet.css`,
+					`${stagingUrl}/assets/templates/musician/css/style.css`,
 				]
 				// resp.scripts = [
 				// 	...resp.scripts,
@@ -486,7 +499,7 @@ const _grapesEditor = {
 					"https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400&display=swap",
 					`${assetsUrl}/templates/gym/vendor/bootstrap/css/bootstrap.min.css`,
 					`${assetsUrl}/templates/gym/Fonts/stylesheet.css`,
-					`${stagingUrl}/assets/templates/gym/defaultStyle.css`,
+					`${stagingUrl}/assets/templates/gym/css/gym.css`, 
 				]
 				resp.scripts = [
 					...resp.scripts,
@@ -512,6 +525,7 @@ const _grapesEditor = {
 					"https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap",
 					"https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap",
 					`${assetsUrl}/templates/blog/fonts/stylesheet.css`,
+					`${stagingUrl}/assets/templates/blog/style.css`,
 				]
 				resp.scripts = [
 					...resp.scripts,
@@ -942,6 +956,8 @@ const _grapesEditor = {
 			prebuiltBlocks,
 			formTraits,
 			mediaTraits,
+			grapesjsComponentCodeEditor,
+			parserPostCSS,
 			// 'gjs-component-countdown',
 			// 'gjs-navbar'
 		],
@@ -962,7 +978,7 @@ const _grapesEditor = {
 					<div>Slider</div>`,
 					category: "Basic",
 				},
-			},
+			}
 		},
 		allowScripts: 1,
 		components: `<div style="display: flex; justify-content: center; align-items: center">This is the default Page</div>`,
@@ -1020,9 +1036,10 @@ const _grapesEditor = {
 		if (config.plugins) {
 			config.plugins.push(defaultConfig.plugins);
 		}
-
+		
 		_grapesEditor.editor = grapesjs.init({ ...defaultConfig, ...config });
 		let editor = _grapesEditor.editor;
+
 		panels(editor, config);
 
 		//fires for every change in the canvas

@@ -55,13 +55,13 @@ const DashboardNew = () => {
 
                 dispatch(hideLoader())
                 if (apiRequest.messageType && apiRequest.messageType == 'error') {
-                    showToast({ type: 'error', message: 'Unable to fetch data, Try Relogging' })
+                    showToast({ type: 'error', message: 'Unable to fetch dashboard data, Try Relogging' })
                     return
                 }
                 
                 dispatch( setGeneralData( apiRequest.data ) )
             }else{
-                showToast({ type: 'error', message: 'Unable to fetch data, Try Relogging' })
+                showToast({ type: 'error', message: 'Unable to fetch dashboard data, Try Relogging' })
                 return
             }
         }
@@ -94,7 +94,7 @@ const DashboardNew = () => {
             const apiRequest = await Request.getTemplates()
             
             if( apiRequest.messageType && apiRequest.messageType == 'error' ){
-                showToast({ type: 'error', message: 'Unable to fetch roadmap data.' })
+                showToast({ type: 'error', message: 'Unable to fetch template data.' })
                 return
             }
 
@@ -107,7 +107,7 @@ const DashboardNew = () => {
             dispatch(hideLoader())
             
             if (apiRequest.messageType && apiRequest.messageType == 'error') {
-                showToast({ type: 'error', message: apiRequest.details || 'Unable to fetch data, Try Relogging' })
+                showToast({ type: 'error', message: apiRequest.details || 'Unable to fetch profile data, Try Relogging' })
                 return
             }
     
