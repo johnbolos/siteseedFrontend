@@ -182,6 +182,9 @@ class Subscriptions extends React.Component {
         _.each(data, (val, key) => {
             formData.append(key, val)
         })
+
+        // console.log( 'UPDATE SUBS => ', data);
+        
         const apiRequest = await Request.updateSubscriptionPlan(formData)
         dispatch(hideLoader())
         if (apiRequest.messageType && apiRequest.messageType == 'error') {

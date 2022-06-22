@@ -149,6 +149,7 @@
             font-weight: 600;
             font-size: 11px;
             text-align: center;
+            white-space: nowrap;
         }
 
         .total-export-credits {
@@ -188,4 +189,9 @@
     svg{
         height: auto;
     }
+}
+span.infinite {
+    transform: rotate(90deg);
+    display: inline-block;
+    margin: 0 2px;
 }

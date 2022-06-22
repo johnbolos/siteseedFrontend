@@ -1,12 +1,15 @@
 import React, {useState, useEffect} from 'react'
 import _ from 'lodash'
 import Table from 'react-bootstrap/Table'
-import { connect, useDispatch, useSelector } from "react-redux"
+import { useSelector, useDispatch, connect } from 'react-redux'
 import { showToast } from "../../components/utils"
 import Request from '../../request'
-import { hideLoader, showLoader } from "../../reducers/actions"
 import LoggedinHeader from '../../layout/loggedinLayouts/header'
+import { setGeneralData } from "../../reducers/actions/userActions"
+import { hideLoader, showLoader } from "../../reducers/actions"
+import Modal from 'react-bootstrap/Modal'
 import { apiUrl } from "../../settings"
+import Icons from "../../assets/Icons"
 
 import SubscriptionFeature from './subscription_features'
 
@@ -16,6 +19,17 @@ const Subscription = () => {
     const dispatch = useDispatch();
     const [subscription, setSubscription] = useState([])
     const [priceYearly, setPriceYearly] = useState(false)
+    const [refetch, setRefetch] = useState(false)
+    const [show, setShow] = useState(false)
+    const [selectedPlan, setSelectedPlan] = useState([])
+    const { currentUser, tokenInfo, generalData, loading } = useSelector(
+		(state) => ({
+            loading: state.global.loading,
+			currentUser: state.global.currentUser,
+			tokenInfo: state.global.tokenInfo,
+            generalData: state.global.generalData
+		})
+	)
 
     async function apiRequestSubscription(){
         dispatch(showLoader())
@@ -34,9 +48,46 @@ const Subscription = () => {
         setPriceYearly(!priceYearly)
     }
 
-    const featuresStringToArray = () => {
+    async function updateSubscription( planData ){
+        dispatch(showLoader())
 
+        let planType = !priceYearly ? 'monthly' : 'yearly';
+
+        let data = {
+            subscription_plan_id: planData.plan_id,
+            plan_type: _.lowerCase( planType )
+        }
+        let formData = new FormData()
+        _.each(data, (val, key) => {
+            formData.append(key, val)
+        })
+        
+        const apiRequest = await Request.updateSubscriptionPlan(formData)
+
+        dispatch(hideLoader())
+        if (apiRequest.messageType && apiRequest.messageType == 'error') {
+            showToast({ type: 'error', message: apiRequest.message || 'Unable to update plan, Try again after some time' })
+            return
+        }
+        showToast({ type: 'success', message: apiRequest.message })
+
+        setRefetch(true)
     }
+
+    useEffect(() => {
+        async function dataRefetch(){
+            const apiRequest = await Request.dashboard()
+            dispatch( setGeneralData( apiRequest.data ) )
+
+            apiRequestSubscription()
+
+            setRefetch(false)
+        }
+
+        if( refetch ){
+            dataRefetch()
+        }
+    }, [refetch])
 
 
     useEffect(() => {
@@ -49,6 +100,31 @@ const Subscription = () => {
 
     return(
         <>
+            {
+                loading && <div className={'backdrop-loading'}>
+                    <Icons.Loading style={{ width: '70px', height: '70px' }} className={'searchLoading'} />
+                </div>
+            }
+
+            <Modal className="custom-modal changePlanConfirmation" show={show} onHide={() => setShow(false)} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Update Subscription</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="d-flex">
+                        <div className="col-12">
+                            <div className="icon-box">
+                                <i class="fa fa-question" aria-hidden="true"></i>
+                            </div>
+                            <h2>Are you sure?</h2>
+                        </div>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button type="button" className="delete-btn" onClick={() => { updateSubscription( selectedPlan ); setShow(false); }}>Change</button>
+                </Modal.Footer>
+            </Modal>
+
             <LoggedinHeader />
             <div className="loggedin-content-container">
                 <div className="container flex-column">
@@ -72,7 +148,6 @@ const Subscription = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            { console.log('SUBSCRIPTION DATA => ', subscription) }
                                             { subscription.length === 0 ?
                                             <tr>
                                                 <td colSpan="4" className="text-center no-subscription">
@@ -84,10 +159,10 @@ const Subscription = () => {
                                             </tr>
                                             :
                                             <tr>
-                                                <td>{ subscription.active_user_plan.name }</td>
-                                                <td>{ subscription.active_user_plan.end_date ? subscription.active_user_plan.end_date : '-' }</td>
-                                                <td>{ subscription.active_user_plan.validity }</td>
-                                                <td>{ subscription.active_user_plan.validity === 'lifetime' ? 'Active' : '-' }</td>
+                                                <td>{ subscription?.active_user_plan.name }</td>
+                                                <td>{ subscription?.active_user_plan.validity !== 'lifetime' ? subscription?.active_user_plan.end_date : '-' }</td>
+                                                <td>{ subscription?.active_user_plan.validity }</td>
+                                                <td>{ subscription?.active_user_plan.length !== 0 ? 'Active' : '-' }</td>
                                             </tr>
                                             }
                                         </tbody>
@@ -121,9 +196,9 @@ const Subscription = () => {
                                             <div className="other-plan-wrapper">
                                                 <h3>{ item.name }</h3>
                                                 <p>{ item.description }</p>
-                                                <h2>${ priceYearly ? item.price_yearly : item.price_monthly }<sub>/{ priceYearly ? 'Year' : 'Month' }</sub></h2>
+                                                <h2 className={`${ item.name === 'Free' ? 'freePlan' : '' }`}>${ priceYearly ? item.price_yearly : item.price_monthly }<sub>/{ priceYearly ? 'Year' : 'Month' }</sub></h2>
                                                 {/* <p className="mb-1 price-per-label">Per { priceYearly ? 'Year' : 'Month' }</p> */}
-                                                <button className="btn-primary">Change</button>
+                                                <button className="btn-primary" onClick={() => { setSelectedPlan(item); setShow(true) }}>Change</button>
                                                 { item.features && 
                                                     <SubscriptionFeature features={item.features} />
                                                 }
@@ -148,7 +223,8 @@ const mapStateToProps = ({ global, layout, templates, }) => {
         theme: layout.theme,
         templates,
         currentUser: global.currentUser,
-        tokenInfo: global.tokenInfo
+        tokenInfo: global.tokenInfo,
+        generalData: global.generalData,
     }
 }
 
@@ -157,5 +233,6 @@ const mapDispatchToProps = (dispatch) => {
         dispatch,
     }
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Subscription);
