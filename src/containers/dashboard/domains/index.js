@@ -145,7 +145,7 @@ class Domains extends React.Component {
         const { dispatch } = this.props
         const { selectedDomainToRemove: domain } = this.state
         dispatch(showLoader())
-        const data = { domain_id: domain.domain_id }
+        const data = { domain_id: domain.id }
         let formData = new FormData()
         _.each(data, (val, key) => {
             formData.append(key, val)
@@ -217,9 +217,8 @@ class Domains extends React.Component {
         }
         dispatch(showLoader())
         const data = {
-            domain_id: domain.domain_id,
-            site_id: selectedSiteCard.site_id,
-            domain_name: domain.domain_name
+            domain_id: domain.id,
+            site_id: selectedSiteCard.site_id
         }
         let formData = new FormData()
         _.each(data, (val, key) => {
@@ -245,7 +244,7 @@ class Domains extends React.Component {
         // }
         dispatch(showLoader())
         const data = {
-            domain_id: domain.domain_id,
+            domain_id: domain.id,
             site_id: domain.assign_to_site.site_id,
         }
         let formData = new FormData()
