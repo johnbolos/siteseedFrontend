@@ -445,7 +445,7 @@ const BillingInformation = () => {
                                                 {!paymentMethod.is_default && (
                                                     <button
                                                         className="btn btn-primary turq-btn oss-13 white"
-                                                        style={{ backgroundColor: '#67737D', width: '50%', height: '100%', marginTop: '0' }}
+                                                        style={{ backgroundColor: '#67737D', width: '100%', height: '100%', marginTop: '0' }}
                                                         onClick={() => { setDeleteCardModal(true); setSelectedMethod(paymentMethod); }}
                                                     >
                                                         Delete Card
@@ -453,7 +453,7 @@ const BillingInformation = () => {
                                                 )}
                                                 <button
                                                     className="btn btn-primary turq-btn oss-13 white "
-                                                    style={{ width: '50%', height: '100%', marginTop: '0' }}
+                                                    style={{ width: '100%', height: '100%', marginTop: '0' }}
                                                     onClick={() => { setShowCard(true); setAddCards(false); setDeleteCards(false); setSelectedMethod(paymentMethod); }}>Update Card</button>
                                             </div>
                                         </div>
@@ -567,7 +567,6 @@ const BillingInformation = () => {
                                             <div className={'pagination'} style={{ justifyContent: 'flex-end', alignItems: 'center' }}>
                                                 <button
                                                     className="btn btn-primary turq-btn oss-13 white "
-                                                    style={{ background: 'transparent', color: '#31cdb9', border: '1px solid #31cdb9' }}
                                                     disabled={pagination == 1}
                                                     onClick={() => { setPagination( pagination - 1 ); createBillsFiltered(); }}
                                                 >
@@ -578,7 +577,6 @@ const BillingInformation = () => {
                                                 }
                                                 <button
                                                     className="btn btn-primary turq-btn oss-13 white "
-                                                    style={{ background: 'transparent', color: '#31cdb9', border: '1px solid #31cdb9' }}
                                                     disabled={pagination == Math.ceil(billsFilter.length / 10)}
                                                     onClick={() => { setPagination(pagination + 1); createBillsFiltered(); }}
                                                 >

@@ -708,9 +708,8 @@ class SiteSettings extends React.Component {
                                                                     <div className="col-md-8 col-lg-8 col-sm-12 dash-set-tab-coll">
                                                                         <div className="dash-set-data">
                                                                             <div className=" p-data-cmn dash-set-data-row1">
-                                                                                <p className="osb-22 black">Icons</p>
+                                                                                <p className="osb-22 black">Favicon Icon</p>
                                                                                 <div id="dash-set-fav-img" className={`img-upload ${imgAdded && 'dash-img-added'}`} >
-                                                                                    <p className="oss-16 black">Favicon icon</p>
                                                                                     <div className="img-upload-left">
                                                                                         {
                                                                                             faviconPicSrc ? (

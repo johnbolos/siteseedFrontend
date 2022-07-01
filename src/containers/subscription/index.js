@@ -22,6 +22,7 @@ const Subscription = () => {
     const [refetch, setRefetch] = useState(false)
     const [show, setShow] = useState(false)
     const [selectedPlan, setSelectedPlan] = useState([])
+    const [upgrade, setUpgrade] = useState(false)
     const { currentUser, tokenInfo, generalData, loading } = useSelector(
 		(state) => ({
             loading: state.global.loading,
@@ -48,6 +49,22 @@ const Subscription = () => {
         setPriceYearly(!priceYearly)
     }
 
+    const checkUpgradeDowngrade = ( planData ) => {
+        if( priceYearly ){
+            if( planData.price_yearly > subscription.active_user_plan.price_yearly ){
+                setUpgrade(true)
+            }else{
+                setUpgrade(false)
+            }
+        }else{
+            if( planData.price_monthly > subscription.active_user_plan.price_monthly ){
+                setUpgrade(true)
+            }else{
+                setUpgrade(false)
+            }
+        }
+    }
+
     async function updateSubscription( planData ){
         dispatch(showLoader())
 
@@ -65,6 +82,7 @@ const Subscription = () => {
         const apiRequest = await Request.updateSubscriptionPlan(formData)
 
         dispatch(hideLoader())
+
         if (apiRequest.messageType && apiRequest.messageType == 'error') {
             showToast({ type: 'error', message: apiRequest.message || 'Unable to update plan, Try again after some time' })
             return
@@ -94,10 +112,6 @@ const Subscription = () => {
         apiRequestSubscription()
     }, [])
 
-    useEffect(() => {
-        
-    }, [priceYearly])
-
     return(
         <>
             {
@@ -113,10 +127,7 @@ const Subscription = () => {
                 <Modal.Body>
                     <div className="d-flex">
                         <div className="col-12">
-                            <div className="icon-box">
-                                <i class="fa fa-question" aria-hidden="true"></i>
-                            </div>
-                            <h2>Are you sure?</h2>
+                            <h2>Are you sure you want to <span>{ upgrade ? 'upgrade' : 'downgrade' }</span> your plan?</h2>
                         </div>
                     </div>
                 </Modal.Body>
@@ -198,7 +209,7 @@ const Subscription = () => {
                                                 <p>{ item.description }</p>
                                                 <h2 className={`${ item.name === 'Free' ? 'freePlan' : '' }`}>${ priceYearly ? item.price_yearly : item.price_monthly }<sub>/{ priceYearly ? 'Year' : 'Month' }</sub></h2>
                                                 {/* <p className="mb-1 price-per-label">Per { priceYearly ? 'Year' : 'Month' }</p> */}
-                                                <button className="btn-primary" onClick={() => { setSelectedPlan(item); setShow(true) }}>Change</button>
+                                                <button className="btn-primary" onClick={() => { setSelectedPlan(item); setShow(true); checkUpgradeDowngrade( item ); }}>Change</button>
                                                 { item.features && 
                                                     <SubscriptionFeature features={item.features} />
                                                 }

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { NavLink,Link } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown'
 import { connect } from "react-redux"
-import { getPushPathWrapper } from "../../routes"
+import { getPushPathWrapper, getUrlParams } from "../../routes"
 import _ from 'lodash'
 
 import Request from '../../request'
@@ -18,12 +18,14 @@ import './header.scss'
 const HeaderProfile = ({ currentUser }) => {
     const dispatch = useDispatch();
 
+    const [activeTab, setActiveTab] = useState('details')
     const [updateLanguage, setUpdateLanguage] = useState(false)
     const [language, setLanguage] = useState('English')
     const [hamburger, setHamburger] = useState(false)
-    const { generalData } = useSelector(
+    const { generalData, pathname } = useSelector(
 		(state) => ({
-			generalData: state.global.generalData
+			generalData: state.global.generalData,
+            pathname: state.router.location.pathname
 		})
 	)
     const [userGeneralData, setUserGeneralData] = useState( generalData )
@@ -48,6 +50,11 @@ const HeaderProfile = ({ currentUser }) => {
     useEffect(() => {
         setUserGeneralData( generalData )
     }, [generalData])
+
+    useEffect(() => {
+        let activeTab = getUrlParams('profile', pathname).activeTab
+        setActiveTab( activeTab )
+    }, [])
 
     useEffect(() => {
         let styleArray = [
@@ -140,13 +147,13 @@ const HeaderProfile = ({ currentUser }) => {
                                     <nav>
                                         <ul className="nav nav-tabs" id="nav-tab" role="tablist">
                                             <li>
-                                                <a className="nav-link darkgrey osr-16 active" id="nav-profile-tab" data-bs-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
+                                                <a className={`${ activeTab === 'details' ? 'active' : '' } nav-link darkgrey osr-16`} id="nav-profile-tab" data-bs-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
                                             </li>
                                             <li>
-                                                <a className="nav-link darkgrey osr-16" id="nav-account-tab" data-bs-toggle="tab" href="#account" role="tab" aria-controls="nav-account" aria-selected="false">Account {'&'} Security</a>
+                                                <a className={`${ activeTab === 'account' ? 'active' : '' } nav-link darkgrey osr-16`} id="nav-account-tab" data-bs-toggle="tab" href="#account" role="tab" aria-controls="nav-account" aria-selected="false">Account {'&'} Security</a>
                                             </li>
                                             <li>
-                                                <a className="nav-link darkgrey osr-16" id="nav-contact-tab" data-bs-toggle="tab" href="#notification" role="tab" aria-controls="nav-contact" aria-selected="false">Notification</a>
+                                                <a className={`${ activeTab === 'notification' ? 'active' : '' } nav-link darkgrey osr-16`} id="nav-contact-tab" data-bs-toggle="tab" href="#notification" role="tab" aria-controls="nav-contact" aria-selected="false">Notification</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -190,7 +197,7 @@ const HeaderProfile = ({ currentUser }) => {
 }
 
 
-const mapStateToProps = ({ global, layout, templates, }) => {
+const mapStateToProps = ({ global, layout, templates, router }) => {
     return {
         loading: global.loading,
         theme: layout.theme,
@@ -198,7 +205,8 @@ const mapStateToProps = ({ global, layout, templates, }) => {
         currentUser: global.currentUser,
         tokenInfo: global.tokenInfo,
         generalData: global.generalData,
-        profileData: global.profileData
+        profileData: global.profileData,
+        pathname: router.location.pathname,
     }
 }
 

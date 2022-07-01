@@ -229,10 +229,10 @@ class FormSettings extends React.Component {
                                     </div>
                                 </div>
                                 <div className="col-md-4 col-lg-4 col-sm-12 dash-set-tab-colr">
-                                    <div className="dash-set-data-colr1" style={{ paddingTop: '116px' }}><p className="osr-13 darkgrey gs-border">Give your form a name that will help you easily identify what it’s used for.</p></div>
-                                    <div className="dash-set-data-colr2" style={{ paddingTop: '50px' }}><p className="osr-13 darkgrey gs-border">Send email notifications upon form submission.  You can include multiple emails for notifications, just separate each with a comma.</p></div>
-                                    <div className="dash-set-data-colr3" style={{ paddingTop: '50px' }}><p className="osr-13 darkgrey gs-border">Include the information you would like to see in the subject line of form notification emails.</p></div>
-                                    <div className="dash-set-data-colr4" style={{ paddingTop: '76px' }}><p className="osr-13 darkgrey gs-border">Enter the email address that you want replies to your form emails to be sent to.</p></div>
+                                    <div className="dash-set-data-colr1" style={{ paddingTop: '70px' }}><p className="osr-13 darkgrey gs-border">Give your form a name that will help you easily identify what it’s used for.</p></div>
+                                    <div className="dash-set-data-colr2" style={{ paddingTop: '30px' }}><p className="osr-13 darkgrey gs-border">Send email notifications upon form submission.  You can include multiple emails for notifications, just separate each with a comma.</p></div>
+                                    <div className="dash-set-data-colr3" style={{ paddingTop: '30px' }}><p className="osr-13 darkgrey gs-border">Include the information you would like to see in the subject line of form notification emails.</p></div>
+                                    <div className="dash-set-data-colr4" style={{ paddingTop: '65px' }}><p className="osr-13 darkgrey gs-border">Enter the email address that you want replies to your form emails to be sent to.</p></div>
                                     <div className="dash-set-data-colr4" style={{ paddingTop: '60px' }}><p className="osr-13 darkgrey gs-border">Include submission count in the form notification email</p></div>
                                 </div>
 

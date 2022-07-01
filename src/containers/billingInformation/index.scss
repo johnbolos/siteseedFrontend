@@ -63,6 +63,26 @@
             > div:not(.default){
                 padding: 16px 20px;
             }
+
+            + div .pagination {
+                margin: 0 -10px;
+                padding-top: 20px;
+
+                button {
+                    height: auto;
+                    margin: 0 10px;
+                    background: transparent;
+                    border: 1px solid #F17D53;
+                    color: #F17D53;
+                }
+            }
+            .card-number{
+                img{
+                    width: auto;
+                    margin-right: 15px;
+                    min-width: 150px;
+                }
+            }
         }
         .default {
             position: absolute;
