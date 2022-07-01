@@ -14,11 +14,19 @@ Modal.setAppElement("#root");
 class PageSettingModal extends Component {
 	state = {
 		title: "",
+		url: "",
 		description: "",
 		previewTitle: "",
 		previewDescription: "",
 		favicon: null,
 	};
+
+	handlePageNameChange = (e) => {
+		const pageName = e.target.value;
+		this.handleChange(e);
+		const url = pageName.replace(/ /g, "-").toLowerCase();
+		this.setState({ url })
+	}
 
 	handleChange = (e) => {
 		const { name, value } = e.target;
@@ -26,11 +34,31 @@ class PageSettingModal extends Component {
 			[name]: value,
 		});
 	};
+
+	handlePageUrl = (e) => {
+		const url = e.target.value;
+		const { pageReducer } = this.props
+		const isUrlValid = /[0-9\-_A-Za-z]+/g.test(url)
+		const isUrlAssigned = pageReducer.pages.find((page) => page.url === url)
+		if (!isUrlValid) {
+			e.target.setCustomValidity('Please enter a valid Url');
+		}
+		else if (!!isUrlAssigned) {
+			e.target.setCustomValidity('Please enter a unique Url for the page');
+		}
+		else {
+			e.target.setCustomValidity('')
+		}
+		this.setState({ url });
+	}
+
+
 	handleFormSubmit = (e) => {
 		const { dispatch, pageReducer, editPageIndex } = this.props
 		e.preventDefault();
 		const {
 			title,
+			url,
 			description,
 			previewTitle,
 			previewDescription,
@@ -42,6 +70,7 @@ class PageSettingModal extends Component {
 			pageObj = {
 				...pageObj,
 				name: _.startCase(title),
+				url,
 				desp: description,
 				favicon: favicon,
 				seo: {
@@ -53,6 +82,7 @@ class PageSettingModal extends Component {
 		} else {
 			let pageObj = {
 				name: _.startCase(title),
+				url,
 				desp: description,
 				favicon: favicon,
 				seo: {
@@ -64,6 +94,7 @@ class PageSettingModal extends Component {
 		}
 		this.setState({
 			title: "",
+			url: "",
 			description: "",
 			previewTitle: "",
 			previewDescription: "",
@@ -76,6 +107,7 @@ class PageSettingModal extends Component {
 		if (!pageSetting || Object.keys(pageSetting).length === 0) {
 			this.setState({
 				title: '',
+				url: '',
 				description: '',
 				favicon: null,
 				previewTitle: '',
@@ -85,6 +117,7 @@ class PageSettingModal extends Component {
 		}
 		this.setState({
 			title: _.startCase(pageSetting.name),
+			url: pageSetting.url,
 			description: pageSetting.desp,
 			favicon: pageSetting.favicon,
 			previewTitle: _.startCase(pageSetting.seo.name),
@@ -136,9 +169,15 @@ class PageSettingModal extends Component {
 			let pageExists = _.find(pageReducer.pages, (item) => {
 				return _.startCase(e.target.value) == item.name
 			})
+			let urlExists = _.find(pageReducer.pages, (item) => {
+				return _.startCase(e.target.value) == item.url
+			})
 			if (pageExists) {
-				e.target.setCustomValidity('Please enter a unique Page Name')
-			} else {
+				e.target.setCustomValidity('Please enter a unique Name for the page')
+			} else if (urlExists) {
+				e.target.setCustomValidity('Please enter a unique URL')
+			}
+			else {
 				e.target.setCustomValidity('')
 			}
 		}
@@ -157,7 +196,22 @@ class PageSettingModal extends Component {
 							type='text'
 							name='title'
 							value={this.state.title}
-							onChange={this.handleChange}></input>
+							onChange={this.handlePageNameChange}></input>
+						<label className='helper-text'>
+							<HelperIcon />
+							character. Most search engines use a maximum of 57 chars for the
+							home title
+						</label>
+
+						<label htmlFor='page-url'>Page URL</label>
+						<input
+							type='text'
+							name='url'
+							onInput={isInvalid}
+							required
+							value={this.state.url}
+							onChange={this.handlePageUrl}
+						></input>
 						<label className='helper-text'>
 							<HelperIcon />
 						character. Most search engines use a maximum of 57 chars for the
