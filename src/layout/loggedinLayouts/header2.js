@@ -18,6 +18,7 @@ import './header.scss'
 const Header2 = ({ currentUser }) => {
     const dispatch = useDispatch();
 
+    const [activeTab, setActiveTab] = useState('details')
     const [updateLanguage, setUpdateLanguage] = useState(false)
     const [language, setLanguage] = useState('English')
     const [hamburger, setHamburger] = useState(false)
@@ -75,6 +76,10 @@ const Header2 = ({ currentUser }) => {
         })
     })
 
+    const goto = (key, params = {}) => {
+        dispatch(getPushPathWrapper(key, params))
+    }
+
     return (
         <>
         <UpdateLanguage show={updateLanguage} setShow={setUpdateLanguage} language={language} setLanguage={setLanguage}/>
@@ -99,13 +104,13 @@ const Header2 = ({ currentUser }) => {
 
                                 <Dropdown.Menu className="animate slideIn">
                                     <Dropdown.Item as="div">
-                                        <NavLink activeClassName="active" to="/profile">Profile</NavLink>
+                                        <a onClick={() => { goto('profile', { activeTab: 'details' }) }}>Profile</a>
                                     </Dropdown.Item>
                                     <Dropdown.Item as="div">
-                                        <NavLink activeClassName="active" to="/profile">Account & Security</NavLink>
+                                        <a onClick={() => { goto('profile', { activeTab: 'account' }) }}>Account & Security</a>
                                     </Dropdown.Item>
                                     <Dropdown.Item as="div">
-                                        <NavLink activeClassName="active" to="/profile">Notifications</NavLink>
+                                        <a onClick={() => { goto('profile', { activeTab: 'notification' }) }}>Notifications</a>
                                     </Dropdown.Item>
                                     {/* <Dropdown.Item as="div">
                                         <NavLink activeClassName="active" onClick={() => {setUpdateLanguage(true)}} to="#">Language</NavLink>

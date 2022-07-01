@@ -257,7 +257,7 @@ class FontSettings extends React.Component {
                                     </div>
                                 </div>
                                 <div className="col-md-4 col-lg-4 col-sm-12 dash-set-tab-colr">
-                                    <div className="dash-set-data-colr1" style={{ paddingTop: '194px' }}>
+                                    <div className="dash-set-data-colr1" style={{ paddingTop: '140px' }}>
                                         <p className="osr-13 darkgrey gs-border" style={{ paddingBottom: '13px' }}>You can create and retrieve Adobe Fonts API tokens on your <a className="turq oss-13">Adobe Fonts account page.</a></p>
                                     </div>
                                 </div>

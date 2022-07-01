@@ -446,7 +446,7 @@ class Profile extends React.Component {
         const apiRequest = await Request.dashboard()
         dispatch(hideLoader())
         if (apiRequest.messageType && apiRequest.messageType == 'error') {
-            showToast({ type: 'error', message: 'Unable to fetch data, Try Relogging' })
+            showToast({ type: 'error', message: 'Unable to fetch dashboard data, Try Relogging' })
             return
         }
         this.setState({ dashboardData: apiRequest.data })
@@ -456,8 +456,11 @@ class Profile extends React.Component {
         dispatch(showLoader())
         const apiRequest = await Request.getProfile()
         dispatch(hideLoader())
+
+        console.log('PROFILE DATA => ', apiRequest);
+
         if (apiRequest.messageType && apiRequest.messageType == 'error') {
-            showToast({ type: 'error', message: apiRequest.details || 'Unable to fetch data, Try Relogging' })
+            showToast({ type: 'error', message: apiRequest.details || 'Unable to fetch profile data, Try Relogging' })
             return
         }
 

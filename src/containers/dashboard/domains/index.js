@@ -301,9 +301,7 @@ class Domains extends React.Component {
                                 <div className={'right'}>
                                     <button
                                         className="btn btn-primary turq-btn oss-13 white "
-                                        onClick={() => { this.buyDomain() }}
-                                        style={{ background: 'transparent', color: '#31cdb9', border: '1px solid #31cdb9', padding: '10px 20px' }}
-                                    >
+                                        onClick={() => { this.buyDomain() }}>
                                         <span>+</span> Buy a Domain
                                     </button>
                                 </div>

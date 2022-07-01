@@ -17,3 +17,58 @@
         }
     }
 }
+
+.profile-data, .account-data, .notify-data{
+    p.black {
+        color: #281C73;
+        font-size: 20px;
+    }
+
+    form{
+        ul{
+            padding-left: 0;
+        }
+        label{
+            color: #281C73;
+            font-weight: 500;
+            font-size: 16px;
+        }
+    }
+    button.btn-primary.green-btn{
+        border-radius: 100px;
+        background: #F17D53;
+    }
+}
+.profile-data{
+    .profile-data-row1,
+    .profile-data-row2 {
+        padding-left: 0;
+    }
+
+    .profile-data-row1{
+        .img-upload-left{
+            border-color: #F17D53;
+        }
+    }
+
+    #profile-img{
+        input.cs-get-file{
+            border-radius: 100px;
+            background: #F17D53;
+
+            &:after, &:before{
+                background: #F17D53;
+            }
+        }
+    }
+}
+.account-data{
+    .account-data-row1, .account-data-row2{
+        padding-left: 0;
+    }
+}
+.notify-data{
+    .notify-data-row1, .notify-data-row2{
+        padding-left: 0;
+    }
+}
