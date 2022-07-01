@@ -89,7 +89,8 @@ const _grapesEditor = {
 			// },
 		}
 		_.each(storeState.pageReducer.pages, (page, pageNo) => {
-			let title = (page.seo && page.seo.name) || page.name
+			let title = (page.seo && page.seo.name) || page.name;
+			const pageUrl = page.url || page.name;
 			let pageFunc = () => {
 				let title = (page.seo && page.seo.name) || page.name
 				let desp = (page.seo && page.seo.desp) || page.desp
@@ -105,7 +106,7 @@ const _grapesEditor = {
 					<!-- icon --><link rel="icon" href="${favicon}" /><!-- End-icon -->
 					${_grapesEditor.getTags()}
 					<!-- stylesheet -->
-						<link rel="stylesheet" href="./css/${page.homePage ? 'index' : _.camelCase(title)}.css">
+						<link rel="stylesheet" href="./css/${page.homePage ? 'index' : pageUrl}.css">
 					<!-- End-stylesheet -->
 					</head>
 					<body>
@@ -117,9 +118,9 @@ const _grapesEditor = {
 			if (page.homePage) {
 				title = 'index'
 			}
-			resp[_.camelCase(title) + '.html'] = pageFunc
-			resp.css[_.camelCase(title) + '.css'] = () => {
-				if (storeState.pageReducer.pages.currentPage == pageNo) {
+			resp[(page.homePage ? 'index' : pageUrl) + '.html'] = pageFunc
+			resp.css[(page.homePage ? 'index' : pageUrl) + '.css'] = () => {
+				if (storeState.pageReducer.currentPage === pageNo) {
 					let respString = ''
 					let style = page.style
 					let customStyles = page.customCss
