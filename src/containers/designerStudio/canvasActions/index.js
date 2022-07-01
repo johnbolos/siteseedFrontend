@@ -118,7 +118,7 @@ class CanvasActions extends React.Component {
                             backgroundColor: '#3b97e3'
                         }}
                     >
-                        <i class="fa fa-exchange" aria-hidden="true" style={{ color: '#ffffff' }}></i>
+                        <i className="fa fa-exchange" aria-hidden="true" style={{ color: '#ffffff' }}></i>
                     </button>
                 </>
             })
