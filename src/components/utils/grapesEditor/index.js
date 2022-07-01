@@ -134,6 +134,7 @@ const _grapesEditor = {
 					if (customStyles) {
 						respString += '\n\n' + customStyles.replace(/<[^>]*>/g, "")
 					}
+					// TODO: Theme prefix need to be dynamic based on theme
 					let prefix = `/*\nTheme Name: ${templateName}\nTheme URI: http://159.65.145.117:8090/SiteSeed/ \nDescription: Our theme is basically designed for spa & wellness\nVersion: 1.0\nAuthor: SiteSeed\nAuthor URI: http://159.65.145.117:8090/SiteSeed/ \n*/\n\n\n\n\n\n`
 					if (currentBuilderTemplateData) {
 						prefix = `/*\nTheme Name: ${currentBuilderTemplateData.name}\nTheme URI: ${currentBuilderTemplateData.path} \nDescription: Our theme is basically designed for spa & wellness\nVersion: 1.0\nAuthor: SiteSeed\nAuthor URI: http://159.65.145.117:8090/SiteSeed/ \n*/\n\n\n\n\n\n`
