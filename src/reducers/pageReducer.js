@@ -73,9 +73,10 @@ export default (state = initialState, action) => {
 			};
 
 		case "DELETE_PAGE":
+			const deletePageIndex = action.payload.index;
 			return {
 				...state,
-				pages: action.payload
+				pages: state.pages.filter((page, index) => index != deletePageIndex)
 			};
 
 		case "SET_HOME":
