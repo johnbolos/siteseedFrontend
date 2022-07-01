@@ -55,6 +55,7 @@ class App extends Component {
 						if (item.redirect) {
 							return (<Route
 								exact
+								key={item.path}
 								path={item.path}
 								render={(route) => {
 									return <Redirect to={item.redirect} />
@@ -88,6 +89,7 @@ class App extends Component {
 								return (<Route
 									exact
 									path={child.path}
+									key={child.path}
 									render={(route) => {
 										return <Redirect to={child.redirect} />
 									}}
