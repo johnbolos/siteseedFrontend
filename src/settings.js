@@ -8,6 +8,7 @@ export const appUrl = 'http://localhost:3000'
 //==============================================
 
 //==============Development=====================
+// export const appUrl = 'http://147.182.206.114'
 export const stagingUrl = 'http://147.182.206.114'
 //==============================================
 

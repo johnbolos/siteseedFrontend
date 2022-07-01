@@ -366,7 +366,7 @@ const CheckoutForm = ({ addCard, billingDetailsProp, addCardRequest, updateCardR
         <li className="center right">
           <div className="">
             <label htmlFor="postalCode" className="form-label oss-16 black">Postal Code</label>
-            <input id="postalCode" type="number" class="form-control osr-13 darkgrey" placeholder={'Enter your postal code'}
+            <input id="postalCode" type="number" className="form-control osr-13 darkgrey" placeholder={'Enter your postal code'}
               required
               value={extraDetails.zip_code}
               onChange={(e) => {

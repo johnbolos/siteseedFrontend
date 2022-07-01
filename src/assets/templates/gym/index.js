@@ -3082,7 +3082,7 @@ export const pageData = [
         style: baseCss,
         customCss: customCss,
         name: "Home",
-        homePage: false,
+        homePage: true,
         styleFontStr: null,
         hidden: false,
         desp: null,
