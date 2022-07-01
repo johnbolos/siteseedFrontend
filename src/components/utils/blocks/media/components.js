@@ -10,8 +10,8 @@ export default function (editor, opt = {}) {
   const linkPageTraitName = 'url-type';
   let storeUnSubscriber;
 
-  const processPagesObject = (pageData) => {
-    return pageData.pages.map((page) => ({ name: page.name, id: page.url + ".html" })
+  const processPagesObject = (pages) => {
+    return pages.map((page) => ({ name: page.name, id: page.url + ".html" })
     )
     /*return pages.filter((_, i) => currentPage !== i
     ).map((page) => ({ name: page.name, id: page.url + ".html" })
@@ -33,13 +33,13 @@ export default function (editor, opt = {}) {
       if (hrefTrait) {
         hrefTrait.set(
           "options",
-          processPagesObject(store.getState().pageReducer)
+          processPagesObject(store.getState().pageReducer?.pages)
         );
       } else
         component.addTrait({
           type: "select",
           name: "href",
-          options: processPagesObject(store.getState().pageReducer),
+          options: processPagesObject(store.getState().pageReducer?.pages),
         });
     } 
     else if(selectedUrlType === "fromUrl"){
@@ -130,6 +130,21 @@ export default function (editor, opt = {}) {
         traits: [
           {
             type: "select",
+            name: 'target',
+            label: "Target",
+            options: [
+              {
+                id: '_blank',
+                name: 'New window'
+              },
+              {
+                id: '_self',
+                name: 'This window'
+              }
+            ]
+          },
+          {
+            type: "select",
             name: linkPageTraitName,
             label: "Enter URL or Select From Pages",
             pages: [],
@@ -143,21 +158,6 @@ export default function (editor, opt = {}) {
                 name: "From Pages",
               },
             ],
-          },
-          {
-            type: "select",
-            name: 'target',
-            label: "Target",
-            options: [
-              {
-                id: '_blank',
-                name: 'New window'
-              },
-              {
-                id: '_self',
-                name: 'This window'
-              }
-            ]
           }
         ],
       },
@@ -175,13 +175,15 @@ export default function (editor, opt = {}) {
           this.addTrait({
             type: "text",
             name: "href",
+            label: "URL",
             placeholder: "Enter URL",
           });
         } else if (changedValue === "fromPages") {
           this.addTrait({
             type: "select",
             name: "href",
-            options: processPagesObject(store.getState().pageReducer),
+            label: "Page",
+            options: processPagesObject(store.getState().pageReducer?.pages),
           });
         }
       },
