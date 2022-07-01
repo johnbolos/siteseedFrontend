@@ -197,7 +197,7 @@ class Domains extends React.Component {
         let resp = null
         resp = unassignedSites.map((item, index) => {
             return (
-                <div style={{ display: 'flex' }}>
+                <div style={{ display: 'flex' }} key={index}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                         {/* <div className="left">
                             <span className="oss-13 darkgrey">Address Line 1</span><br /><span className="oss-16 darkgrey">{(extraDetails && extraDetails.address_line_1) ? extraDetails.address_line_1 : '-'}</span>
