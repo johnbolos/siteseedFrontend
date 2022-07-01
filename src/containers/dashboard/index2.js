@@ -17,6 +17,8 @@ import RoadMaps from './components/roadmapData'
 import SiteData from './components/siteData'
 import LoggedinHeader from '../../layout/loggedinLayouts/header'
 
+import SubscriptionFeature from '../subscription/subscription_features'
+
 import './index.scss'
 
 const DashboardNew = () => {
@@ -257,7 +259,7 @@ const DashboardNew = () => {
                                     </div>
                                     <div className="col-6">
                                         <h4>What's included?</h4>
-                                        {generalData?.active_user_plan?.features}
+                                        {generalData?.active_user_plan?.features &&  <SubscriptionFeature features={generalData?.active_user_plan?.features} />}
                                         {/* <ul>
                                             <li>All functionality</li>
                                             <li>Export upto 5 sites per month (Wordpress theme-no Shopify)</li>
