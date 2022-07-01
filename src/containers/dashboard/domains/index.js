@@ -11,6 +11,7 @@ import { hideLoader, showLoader } from "../../../reducers/actions"
 import './index.scss'
 import DNSRecords from "./dnsRecords"
 import { getPushPathWrapper, getPushPathWrapperWithObj } from "../../../routes"
+import { apiUrl } from "../../../settings"
 
 class Domains extends React.Component {
     state = {
@@ -22,11 +23,42 @@ class Domains extends React.Component {
         selectedDomainToUnassign: null,
         unassignedSites: [],
         selectedSiteCard: null,
-        selected_site_id: (+this?.props?.router?.location?.query?.site_id || null)
+        selected_site_id: (+this?.props?.router?.location?.query?.site_id || null),
+        templateData: [],
     }
     componentDidMount() {
         this.apiRequestDomains()
+        this.getTemplateData()
         // this.createDoaminsElem()
+    }
+    getTemplateData = async () => {
+        const apiRequest = await Request.getTemplates()
+
+        if (apiRequest.messageType && apiRequest.messageType == 'error') {
+            showToast({ type: 'error', message: 'Unable to fetch roadmap data.' })
+            return
+        }
+
+        this.setState({ templateData: apiRequest.templates })
+    }
+    getUnassignedSitesCardsImages = (item) => {
+
+        const { templateData } = this.state
+        const { generalData: {
+            user_sites
+        } } = this.props
+
+        const site = user_sites?.find((siteData) => siteData.site_id === item?.site_id)
+        const temp = templateData?.find((template) => template.template_id === site?.template_id)
+        return (
+            <>
+                <div style={{ marginBottom: '15px', textAlign: "left"}}>
+                    <span className="oss-16 darkgrey">{item.site_name}</span>
+                </div>
+                <img src={(temp ? apiUrl + temp.thumbnail : "./assets/website/images/mysite-img1.jpg")} className="img-fluid" alt="Responsive image" />
+            </>
+        )
+
     }
     apiRequestDomains = async () => {
         const { dispatch } = this.props
@@ -165,28 +197,20 @@ class Domains extends React.Component {
         let resp = null
         resp = unassignedSites.map((item, index) => {
             return (
-                <div key={index} className={"unassigned-site-card-row"} style={{ cursor: 'pointer' }}
-                    onClick={() => {
-                        this.setState({ selectedSiteCard: item }, () => {
-                            this.createUnassignedSitesCards()
-                        })
-                    }}>
-                    <div className="col-lg-10 col-md-10 col-sm-12 coll">
-                        <div className="card-number" style={{ display: 'flex' }}>
-                            <img src="./assets/website/images/CREDTCARD1.png" className="img-fluid" alt="Responsive image" /><div style={{ display: 'flex', alignItems: 'center', marginLeft: '10px' }}><span className="oss-16 darkgrey">{item.site_name}</span></div>
-                        </div>
-                    </div>
-                    {/* <div className="col-lg-2 col-md-2 col-sm-12 colr">
-                        <div className="left"><span className="oss-13 darkgrey">Expires</span><br /><span className="oss-16 darkgrey">{paymentMethod.exp_month} / {paymentMethod.exp_year}</span></div>
-                    </div> */}
-                    <div className="col-lg-2 col-md-2 col-sm-12 colr" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                         {/* <div className="left">
                             <span className="oss-13 darkgrey">Address Line 1</span><br /><span className="oss-16 darkgrey">{(extraDetails && extraDetails.address_line_1) ? extraDetails.address_line_1 : '-'}</span>
                         </div> */}
                         <div className="right">
                             <button
                                 className="btn btn-primary turq-btn oss-13 white"
-                                style={{ backgroundColor: 'rgb(255 255 255)', width: '40px', minWidth: 'auto', borderRadius: '50%', border: '1px solid #31cdb9', padding: '5px' }}
+                                style={{ backgroundColor: 'rgb(255 255 255)', width: '40px', minWidth: 'auto', borderRadius: '50%', border: '1px solid #31cdb9', padding: '5px', height: "40px" }}
+                                onClick={() => {
+                                    this.setState({ selectedSiteCard: item }, () => {
+                                        this.createUnassignedSitesCards()
+                                    })
+                                }}
                             >
                                 <div style={(selectedSiteCard && (selectedSiteCard.site_id == item.site_id)) ? {
                                     height: '28px',
@@ -202,6 +226,14 @@ class Domains extends React.Component {
                                 </div>
                             </button>
                         </div>
+                    </div>
+                    <div key={index} className={"unassigned-site-card-row"} >
+                        <div className="card-number" style={{width: "100%"}}>
+                            {this.getUnassignedSitesCardsImages(item)}
+                        </div>
+                        {/* <div className="col-lg-2 col-md-2 col-sm-12 colr">
+                        <div className="left"><span className="oss-13 darkgrey">Expires</span><br /><span className="oss-16 darkgrey">{paymentMethod.exp_month} / {paymentMethod.exp_year}</span></div>
+                    </div> */}
                     </div>
                 </div>
             )
@@ -432,7 +464,8 @@ const mapStateToProps = ({ global, layout, templates, router }) => {
         theme: layout.theme,
         templates,
         currentUser: global.currentUser,
-        tokenInfo: global.tokenInfo
+        tokenInfo: global.tokenInfo,
+        generalData: global.generalData,
     }
 }
 

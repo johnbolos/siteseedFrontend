@@ -125,7 +125,7 @@
     }
     #modal-assign-site, #modal-unassign-site {
         .modal-dialog {
-            top: 25%;
+            top: 15%;
         }
     }
     #modal-assign-site, #modal-unassign-site {
@@ -172,8 +172,9 @@
             .unassigned-site-card-row {
                 display: flex;
                 margin-bottom: 20px;
+                width: 100%;
                 padding: 20px;
-                background: #f2f2f2;
+                // background: #f2f2f2;
             }
         }
         .modal-dialog .modal-footer {
