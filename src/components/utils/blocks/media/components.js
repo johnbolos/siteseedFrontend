@@ -10,18 +10,13 @@ export default function (editor, opt = {}) {
   const linkPageTraitName = 'url-type';
   let storeUnSubscriber;
 
-  const processPagesObject = (pages) => {
-    return pages.map((page) => {
-      return { name: page.name, id: page.name + ".html" };
-    });
+  const processPagesObject = (pageData) => {
+    return pageData.pages.map((page) => ({ name: page.name, id: page.url + ".html" })
+    )
+    /*return pages.filter((_, i) => currentPage !== i
+    ).map((page) => ({ name: page.name, id: page.url + ".html" })
+    )*/
   }
-  function a(){
-    console.log("HERE")
-  }
-  editor.editor.on('page:add', a)
-  editor.editor.on('page', a)
-  editor.on('page:add', a)
-  editor.on('page', a)
 
   editor.on("component:selected", function (a, b) {
     const component = editor.getSelected();
@@ -38,13 +33,13 @@ export default function (editor, opt = {}) {
       if (hrefTrait) {
         hrefTrait.set(
           "options",
-          processPagesObject(store.getState().pageReducer.pages)
+          processPagesObject(store.getState().pageReducer)
         );
       } else
         component.addTrait({
           type: "select",
           name: "href",
-          options: processPagesObject(store.getState().pageReducer.pages),
+          options: processPagesObject(store.getState().pageReducer),
         });
     } 
     else if(selectedUrlType === "fromUrl"){
@@ -149,6 +144,21 @@ export default function (editor, opt = {}) {
               },
             ],
           },
+          {
+            type: "select",
+            name: 'target',
+            label: "Target",
+            options: [
+              {
+                id: '_blank',
+                name: 'New window'
+              },
+              {
+                id: '_self',
+                name: 'This window'
+              }
+            ]
+          }
         ],
       },
       init: function () {
@@ -171,7 +181,7 @@ export default function (editor, opt = {}) {
           this.addTrait({
             type: "select",
             name: "href",
-            options: processPagesObject(store.getState().pageReducer.pages),
+            options: processPagesObject(store.getState().pageReducer),
           });
         }
       },
