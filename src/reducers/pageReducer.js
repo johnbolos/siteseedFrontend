@@ -3,6 +3,7 @@ const initialState = {
 	pages: [
 		{
 			name: "Home",
+			url: "index",
 			components: [],
 			style: [],
 			homePage: true,
@@ -17,6 +18,7 @@ const initialState = {
 		},
 		{
 			name: "Contact",
+			url: "contact",
 			components: [],
 			style: [],
 			homePage: false,
@@ -93,6 +95,7 @@ export default (state = initialState, action) => {
 				pages: [
 					{
 						name: "Home",
+						url: "index",
 						components: [],
 						style: null,
 						customCss: null,
@@ -108,6 +111,7 @@ export default (state = initialState, action) => {
 					},
 					{
 						name: "Contact",
+						url: "contact",
 						components: [],
 						style: null,
 						customCss: null,
