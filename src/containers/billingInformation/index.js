@@ -46,9 +46,9 @@ const BillingInformation = () => {
         dispatch(showLoader())
         const apiRequest = await Request.getBillingInfo()
         dispatch(hideLoader())
-      
+
         if (apiRequest.messageType && apiRequest.messageType == 'error') {
-            showToast({ type: 'error', message: apiRequest.details || 'Unable to fetch data, Try Relogging' })
+            showToast({ type: 'error', message: apiRequest.details || 'Unable to fetch billing data, Try Relogging' })
             return
         }
 
@@ -224,10 +224,10 @@ const BillingInformation = () => {
                 font-size: 10px;
             }
             </style>
-            <div class='head'>
+            <div className='head'>
                 <div>
                     <div style='display: flex; align-items: center;'>
-                        <img src='${invoiceLogoImage}' class='logo'/>
+                        <img src='${invoiceLogoImage}' className='logo'/>
                         <h1>SiteSeed</h1>
                     </div>
                 </div>
@@ -235,7 +235,7 @@ const BillingInformation = () => {
                     <h1>Invoice</h1>
                 </div>
             </div>
-            <div class='head'>
+            <div className='head'>
                 <div style='opacity: 0'>
                     <h1>Invoice</h1>
                 </div>
@@ -244,7 +244,7 @@ const BillingInformation = () => {
                     <h6>${data.billing_date}</h6>
                 </div>
             </div>
-            <div class='head'>
+            <div className='head'>
                 <div>
                     <h6 style='width: 200px; border-bottom: 1px solid #dddddd; padding-bottom: 2px;'>BILL TO</h6>
                     <h6>Client Name: ${billing.user_details.first_name + " " + billing.user_details.last_name}</h6>
@@ -258,7 +258,7 @@ const BillingInformation = () => {
             </div>
             <div>
                 <table>
-                    <tr class='heading'>
+                    <tr className='heading'>
                       <th>No.</th>
                       <th>Description</th>
                       <th>Payment Method</th>
@@ -283,15 +283,15 @@ const BillingInformation = () => {
                       <td></td>
                       <td>
                       <div>
-                        <div class='summary'>
+                        <div className='summary'>
                             <p>SUBTOTAL ($)</p>
                             <p>${data.subtotal}</p>
                         </div>
-                        <div class='summary'>
+                        <div className='summary'>
                             <p>TAX ($)</p>
                             <p>${data.tax}</p>
                         </div>
-                        <div class='summary' style='border-top: 1px solid #dddddd'>
+                        <div className='summary' style='border-top: 1px solid #dddddd'>
                             <h6>TOTAL ($)</h6>
                             <h6>${data.total}</h6>
                         </div>
@@ -424,7 +424,7 @@ const BillingInformation = () => {
                                         }}
                                     >
                                         <Empty height={'auto'} width={'70px'} style={{ fill: '#67737D' }} />
-                                        <span class="oss-16 darkgrey">No Data</span>
+                                        <span className="oss-16 darkgrey">No Data</span>
                                     </div> : 
                                     billing?.payment_methods.map((paymentMethod, index) => ( 
                                         <div key={index} className="billing-data-row1-inner" style={{ padding: '0px', display: 'flex', margin: '1px' }}>
@@ -503,7 +503,7 @@ const BillingInformation = () => {
                                             }}
                                         >
                                             <Empty height={'auto'} width={'70px'} style={{ fill: '#67737D' }} />
-                                            <span class="oss-16 darkgrey">No Data</span>
+                                            <span className="oss-16 darkgrey">No Data</span>
                                         </div>
                                     ) : <div>
                                             <div className="bills-container">
@@ -517,7 +517,7 @@ const BillingInformation = () => {
                                                                     createPdf(bill)
                                                                 }}>
                                                                     {bill.orderID}&nbsp;
-                                                                    <span class="material-icons">download</span>
+                                                                    <span className="material-icons">download</span>
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -566,23 +566,23 @@ const BillingInformation = () => {
                                             { Math.ceil(billsFilter.length / 10) > 1 &&
                                             <div className={'pagination'} style={{ justifyContent: 'flex-end', alignItems: 'center' }}>
                                                 <button
-                                                    class="btn btn-primary turq-btn oss-13 white "
+                                                    className="btn btn-primary turq-btn oss-13 white "
                                                     style={{ background: 'transparent', color: '#31cdb9', border: '1px solid #31cdb9' }}
                                                     disabled={pagination == 1}
                                                     onClick={() => { setPagination( pagination - 1 ); createBillsFiltered(); }}
                                                 >
-                                                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                                                    <i className="fa fa-chevron-left" aria-hidden="true"></i>
                                                 </button>
                                                 {
                                                     `${pagination} of ${Math.ceil(billsFilter.length / 10)}`
                                                 }
                                                 <button
-                                                    class="btn btn-primary turq-btn oss-13 white "
+                                                    className="btn btn-primary turq-btn oss-13 white "
                                                     style={{ background: 'transparent', color: '#31cdb9', border: '1px solid #31cdb9' }}
                                                     disabled={pagination == Math.ceil(billsFilter.length / 10)}
                                                     onClick={() => { setPagination(pagination + 1); createBillsFiltered(); }}
                                                 >
-                                                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                                    <i className="fa fa-chevron-right" aria-hidden="true"></i>
                                                 </button>
                                             </div>
                                             }

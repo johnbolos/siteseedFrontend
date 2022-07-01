@@ -25,10 +25,24 @@ class BackupSettings extends React.Component {
         originalBackupsElems: null
     }
     componentDidMount() {
-        this.setState({ site_id: getUrlParams('siteSettings', this.props.pathname).siteId }, () => {
+        this.setState({ site_id: this.props.siteId }, () => {
             this.getBackupsList()
         })
+        // this.setState({ site_id: getUrlParams('siteSettings', this.props.pathname).siteId }, () => {
+        //     this.getBackupsList()
+        // })
     }
+
+    componentDidUpdate(prevProps) {
+        
+        if( prevProps.siteId !== this.props.siteId ){
+            this.setState({ site_id: this.props.siteId }, () => {
+                this.getBackupsList()
+            })
+        }
+        
+    } 
+
     addBackup = () => {
         const { s3Dir } = this.props
         const { site_id } = this.state
@@ -237,7 +251,7 @@ class BackupSettings extends React.Component {
                                                     }}
                                                 >
                                                     <Empty height={'auto'} width={'70px'} style={{ fill: '#67737D' }} />
-                                                    <span class="oss-16 darkgrey">No Data</span>
+                                                    <span className="oss-16 darkgrey">No Data</span>
                                                 </div>)
                                             }
                                         </div>
@@ -270,7 +284,7 @@ class BackupSettings extends React.Component {
                                                     }}
                                                 >
                                                     <Empty height={'auto'} width={'70px'} style={{ fill: '#67737D' }} />
-                                                    <span class="oss-16 darkgrey">No Data</span>
+                                                    <span className="oss-16 darkgrey">No Data</span>
                                                 </div>)
                                             }
                                         </div>

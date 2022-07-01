@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink,Link } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown'
 import { connect } from "react-redux"
 import { getPushPathWrapper } from "../../routes"
@@ -159,8 +159,10 @@ const HeaderProfile = ({ currentUser }) => {
                                             </svg>
                                         </div>
                                         <div>
-                                            <p><b>{ userGeneralData?.total_user_sites }/{ userGeneralData?.total_sites } left</b> Total Website</p>
-                                            <a className="btn-buymore">BUY MORE</a>
+                                            <p><b>
+                                                { userGeneralData?.total_sites === 999 ? <span className="infinite">8 </span> : userGeneralData?.total_sites - userGeneralData?.total_user_sites < 0 ? 0 : userGeneralData?.total_sites - userGeneralData?.total_user_sites }/
+                                                {  userGeneralData?.total_sites === 999 ? <span className="infinite">8 </span> : userGeneralData?.total_sites + ' left' }</b> Total Website</p>
+                                            <Link to="subscription" className="btn-buymore">ADD MORE SITES</Link>
                                         </div>
                                     </div>
                                     <div className="d-flex">
@@ -170,8 +172,10 @@ const HeaderProfile = ({ currentUser }) => {
                                             </svg>
                                         </div>
                                         <div>
-                                            <p><b>{ userGeneralData?.total_user_exports }/{ userGeneralData?.export_credits } left</b> Export Credits</p>
-                                            <a className="btn-buymore">BUY MORE</a>
+                                            <p><b>
+                                                {  userGeneralData?.export_credits === 999 ? <span className="infinite">8 </span> : userGeneralData?.export_credits - userGeneralData?.total_user_exports < 0 ? 0 : userGeneralData?.export_credits - userGeneralData?.total_user_exports }/
+                                                { userGeneralData?.export_credits === 999 ? <span className="infinite"> 8 </span> : userGeneralData?.export_credits + ' left' }</b> Export Credits</p>
+                                            <Link to="subscription" className="btn-buymore">ADD MORE CREDITS</Link>
                                         </div>
                                     </div>
                                 </div>

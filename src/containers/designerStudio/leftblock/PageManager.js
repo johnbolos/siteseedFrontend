@@ -141,8 +141,8 @@ class PageManager extends Component {
 			let switchPage = (index == pages.length - 1) ? index - 1 : index + 1
 			await this.changePage(switchPage, false)
 		}
-		pages.splice(index, 1)
-		await dispatch({ type: 'DELETE_PAGE', payload: pages })
+		// pages.splice(index, 1)
+		await dispatch({ type: 'DELETE_PAGE', payload: {index} })
 	}
 	setHomePage = (index) => {
 		const { dispatch } = this.props

@@ -2820,10 +2820,28 @@ $("[data-trigger]").on("click", function(){
   6. If you want to drag and move components which has scripts. The script tags should be in the immediate parent of that component.
   */
 
+export const pageData = [
+  {
+      components: html,
+      style: baseCss,
+      customCss: customCss,
+      name: "Home",
+      homePage: true,
+      styleFontStr: null,
+      hidden: false,
+      desp: null,
+      favicon: null,
+      seo: {
+          name: null,
+          desp: null
+      }
+  },
+]
 
   export default {
 	  html,
 	  baseCss,
 	  customCss,
 	  style,
+	  pageData
   }

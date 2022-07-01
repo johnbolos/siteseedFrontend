@@ -20,11 +20,29 @@ class FontSettings extends React.Component {
         settingsData: {}
     }
     componentDidMount() {
+        
+        // this.setState({ site_id: getUrlParams('siteSettings', this.props.pathname).siteId }, () => {
+        //     this.apiRequestFontSettings()
+        // })
         this.addImageDragDropListner()
-        this.setState({ site_id: getUrlParams('siteSettings', this.props.pathname).siteId }, () => {
+        this.setState({ site_id: this.props.siteId }, () => {
             this.apiRequestFontSettings()
         })
     }
+
+    componentDidUpdate(prevProps) {
+        
+        if( prevProps.siteId !== this.props.siteId ){
+            this.fontSettingForm.reset();
+            this.addImageDragDropListner()
+
+            this.setState({ site_id: this.props.siteId }, () => {
+                this.apiRequestFontSettings()
+            })
+        }
+        
+    } 
+
     apiRequestFontSettings = async () => {
         let { dispatch } = this.props
         const { site_id } = this.state

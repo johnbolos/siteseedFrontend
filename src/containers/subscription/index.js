@@ -1,24 +1,136 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
+import _ from 'lodash'
 import Table from 'react-bootstrap/Table'
-import { connect, useDispatch } from "react-redux"
+import { useSelector, useDispatch, connect } from 'react-redux'
+import { showToast } from "../../components/utils"
 import Request from '../../request'
 import LoggedinHeader from '../../layout/loggedinLayouts/header'
-import './index.scss'
+import { setGeneralData } from "../../reducers/actions/userActions"
+import { hideLoader, showLoader } from "../../reducers/actions"
+import Modal from 'react-bootstrap/Modal'
+import { apiUrl } from "../../settings"
+import Icons from "../../assets/Icons"
 
-import { useSelector } from "react-redux";
+import SubscriptionFeature from './subscription_features'
+
+import './index.scss'
 
 const Subscription = () => {
     const dispatch = useDispatch();
     const [subscription, setSubscription] = useState([])
+    const [priceYearly, setPriceYearly] = useState(false)
+    const [refetch, setRefetch] = useState(false)
+    const [show, setShow] = useState(false)
+    const [selectedPlan, setSelectedPlan] = useState([])
+    const { currentUser, tokenInfo, generalData, loading } = useSelector(
+		(state) => ({
+            loading: state.global.loading,
+			currentUser: state.global.currentUser,
+			tokenInfo: state.global.tokenInfo,
+            generalData: state.global.generalData
+		})
+	)
+
+    async function apiRequestSubscription(){
+        dispatch(showLoader())
+        const apiRequest = await Request.getSubscriptionInfo()
+        dispatch(hideLoader())
+
+        if (apiRequest.messageType && apiRequest.messageType == 'error') {
+            showToast({ type: 'error', message: apiRequest.details || 'Unable to fetch subscription data, Try Relogging' })
+            return
+        }
+
+        setSubscription( apiRequest.data )
+    }
+
+    const yearToggle = () => {
+        setPriceYearly(!priceYearly)
+    }
+
+    async function updateSubscription( planData ){
+        dispatch(showLoader())
+
+        let planType = !priceYearly ? 'monthly' : 'yearly';
+
+        let data = {
+            subscription_plan_id: planData.plan_id,
+            plan_type: _.lowerCase( planType )
+        }
+        let formData = new FormData()
+        _.each(data, (val, key) => {
+            formData.append(key, val)
+        })
+        
+        const apiRequest = await Request.updateSubscriptionPlan(formData)
+
+        dispatch(hideLoader())
+        if (apiRequest.messageType && apiRequest.messageType == 'error') {
+            showToast({ type: 'error', message: apiRequest.message || 'Unable to update plan, Try again after some time' })
+            return
+        }
+        showToast({ type: 'success', message: apiRequest.message })
+
+        setRefetch(true)
+    }
+
+    useEffect(() => {
+        async function dataRefetch(){
+            const apiRequest = await Request.dashboard()
+            dispatch( setGeneralData( apiRequest.data ) )
+
+            apiRequestSubscription()
+
+            setRefetch(false)
+        }
+
+        if( refetch ){
+            dataRefetch()
+        }
+    }, [refetch])
+
+
+    useEffect(() => {
+        apiRequestSubscription()
+    }, [])
+
+    useEffect(() => {
+        
+    }, [priceYearly])
 
     return(
         <>
+            {
+                loading && <div className={'backdrop-loading'}>
+                    <Icons.Loading style={{ width: '70px', height: '70px' }} className={'searchLoading'} />
+                </div>
+            }
+
+            <Modal className="custom-modal changePlanConfirmation" show={show} onHide={() => setShow(false)} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Update Subscription</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="d-flex">
+                        <div className="col-12">
+                            <div className="icon-box">
+                                <i class="fa fa-question" aria-hidden="true"></i>
+                            </div>
+                            <h2>Are you sure?</h2>
+                        </div>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button type="button" className="delete-btn" onClick={() => { updateSubscription( selectedPlan ); setShow(false); }}>Change</button>
+                </Modal.Footer>
+            </Modal>
+
             <LoggedinHeader />
             <div className="loggedin-content-container">
                 <div className="container flex-column">
                     <h1>Subscriptions</h1>
 
-                    <div className="d-flex">
+                    <div className="d-flex flex-wrap">
                         <div className="col-12 subscription-settings">
                             <div className="d-flex flex-wrap">
                                 <div className="col-12">
@@ -36,7 +148,7 @@ const Subscription = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            { subscription.length === 0 &&
+                                            { subscription.length === 0 ?
                                             <tr>
                                                 <td colSpan="4" className="text-center no-subscription">
                                                     <svg viewBox="0 0 210 297" >
@@ -45,12 +157,59 @@ const Subscription = () => {
                                                     <span>No Subscription!</span>
                                                 </td>
                                             </tr>
+                                            :
+                                            <tr>
+                                                <td>{ subscription?.active_user_plan.name }</td>
+                                                <td>{ subscription?.active_user_plan.validity !== 'lifetime' ? subscription?.active_user_plan.end_date : '-' }</td>
+                                                <td>{ subscription?.active_user_plan.validity }</td>
+                                                <td>{ subscription?.active_user_plan.length !== 0 ? 'Active' : '-' }</td>
+                                            </tr>
                                             }
                                         </tbody>
                                     </Table>
                                 </div>
                             </div>
                         </div>
+
+                        { subscription?.other_plans?.length !== 0 &&
+                        <div className="col-12 subcription-other-plans">
+                            <div className="d-flex justify-space-between other-plan-header">
+                                <div className="col-6">
+                                    <h2>Account Plans</h2>
+                                </div>
+                                <div className="col-6">
+                                    <div className="d-flex justify-space-end  align-center">
+                                        <h3>Monthly</h3>
+                                        <div className={`pricing-toggle-wrapper ${ priceYearly ? 'annual' : '' }`} onClick={yearToggle}><span></span></div>
+                                        <h3>Yearly</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="d-flex flex-wrap other-plan-items">
+                                <div className="col-12 py-3">
+                                    <p>Downgrade to a lower-priced plan with less features. Pay only for what you need. You can always come back to upgrade later.</p>
+                                </div>
+                                <div className="col-12">
+                                    <div className="d-flex flex-wrap">
+                                    { subscription?.other_plans?.map((item, index) => (
+                                        <div className="col-4" key={index}>
+                                            <div className="other-plan-wrapper">
+                                                <h3>{ item.name }</h3>
+                                                <p>{ item.description }</p>
+                                                <h2 className={`${ item.name === 'Free' ? 'freePlan' : '' }`}>${ priceYearly ? item.price_yearly : item.price_monthly }<sub>/{ priceYearly ? 'Year' : 'Month' }</sub></h2>
+                                                {/* <p className="mb-1 price-per-label">Per { priceYearly ? 'Year' : 'Month' }</p> */}
+                                                <button className="btn-primary" onClick={() => { setSelectedPlan(item); setShow(true) }}>Change</button>
+                                                { item.features && 
+                                                    <SubscriptionFeature features={item.features} />
+                                                }
+                                            </div>
+                                        </div>
+                                    )) }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -64,7 +223,8 @@ const mapStateToProps = ({ global, layout, templates, }) => {
         theme: layout.theme,
         templates,
         currentUser: global.currentUser,
-        tokenInfo: global.tokenInfo
+        tokenInfo: global.tokenInfo,
+        generalData: global.generalData,
     }
 }
 
@@ -73,5 +233,6 @@ const mapDispatchToProps = (dispatch) => {
         dispatch,
     }
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Subscription);

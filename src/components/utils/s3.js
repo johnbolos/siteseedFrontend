@@ -57,7 +57,7 @@ const _s3 = {
                 cb({ error: false, data })
             }
             else {                                          // successful response
-                console.log(data, 'sss.p s3')
+                
                 cb({ error: false, data })
             }
         })
