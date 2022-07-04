@@ -124,7 +124,7 @@ const _grapesEditor = {
 			}
 			resp[(page.homePage ? 'index' : pageUrl) + '.html'] = pageFunc
 			resp.css[(page.homePage ? 'index' : pageUrl) + '.css'] = () => {
-				if (storeState.pageReducer.currentPage === pageNo) {
+				if (storeState.pageReducer.currentPage !== pageNo) {
 					let respString = ''
 					let style = page.style
 					let customStyles = page.customCss
@@ -159,10 +159,10 @@ const _grapesEditor = {
 				if (styleAssets) {
 					respString = styleAssets.innerHTML + '\n\n' + respString
 				}
-				if (style) {
+				if (style && style.innerHTML) {
 					respString += '\n\n' + style.innerHTML
 				}
-				if (customStyles) {
+				if (customStyles && customStyles.innerHTML) {
 					respString += '\n\n' + customStyles.innerHTML
 				}
 				let prefix = `/*\nTheme Name: ${templateName}\nTheme URI: http://159.65.145.117:8090/SiteSeed/ \nDescription: Our theme is basically designed for spa & wellness\nVersion: 1.0\nAuthor: SiteSeed\nAuthor URI: http://159.65.145.117:8090/SiteSeed/ \n*/\n\n\n\n\n\n`
